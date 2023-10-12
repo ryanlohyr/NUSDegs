@@ -29,7 +29,7 @@ public class ModulePlannerController {
                 break;
             }
             default:{
-                view.displayMessage("Invalid Input");
+                view.displayMessage("Hello " + userInput);
                 break;
             }
 
