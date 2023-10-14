@@ -78,10 +78,8 @@ class ModulePlannerControllerTest {
         String test = "hi";
         // Capture the printed output
         String printedOutput = outputStream.toString().trim();
-        String lineOne = "You currently have 60MCs for 5 semesters\n";
-        String lineTwo = "Recommended Pace: 12MCs per sem until graduation";
-        String expectedOutput = lineOne + lineTwo;
+        String line = "You have 60MCs for 5 semesters. Recommended Pace: 12MCs per sem until graduation";
         // Assert the printed output matches the expected value
-        assertEquals(printedOutput, expectedOutput);
+        assertEquals(printedOutput, line);
     }
 }

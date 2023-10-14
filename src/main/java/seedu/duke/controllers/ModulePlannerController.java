@@ -2,36 +2,39 @@ package seedu.duke.controllers;
 
 import seedu.duke.views.CommandLineView;
 import seedu.duke.utils.Parser;
+
 import java.util.Scanner;
 
 public class ModulePlannerController {
     private CommandLineView view;
-    private  Parser parser;
-    public ModulePlannerController(){
+    private Parser parser;
+
+    public ModulePlannerController() {
         this.view = new CommandLineView();
         this.parser = new Parser();
     }
-    public void start(){
+
+    public void start() {
         view.displayWelcome();
         Scanner in = new Scanner(System.in);
         String userInput = in.nextLine();
 
-        while(!userInput.equals("Bye")){
+        while (!userInput.equals("Bye")) {
 
             String[] words = userInput.split(" ");
 
             String initialWord = words[0];
 
-            switch(initialWord){
-            case "hi":{
+            switch (initialWord) {
+            case "hi": {
                 view.displayMessage("can put the commands here");
                 break;
             }
-            case "hello":{
+            case "hello": {
                 view.displayMessage("yup");
                 break;
             }
-            case "pace":{
+            case "pace": {
                 //assumed that everyone graduates at y4s2
                 //waiting for retrieving logic
                 int modulesCreditsCompleted = 100;
@@ -40,7 +43,7 @@ public class ModulePlannerController {
                 computePace(words, creditsLeft);
                 break;
             }
-            default:{
+            default: {
                 view.displayMessage("Hello " + userInput);
                 break;
             }
@@ -54,18 +57,18 @@ public class ModulePlannerController {
      * Computes the recommended pace for completing a degree based on the provided academic year
      * and credits left until graduation.
      *
-     * @param userInput An array of user input where userInput[0] is the command and userInput[1] is the academic year.
+     * @param userInput  An array of user input where userInput[0] is the command and userInput[1] is the academic year.
      * @param creditsLeft The number of credits left until graduation.
      * @throws IllegalArgumentException if the provided academic year is invalid.
      */
-    public void computePace(String[] userInput,int creditsLeft){
+    public void computePace(String[] userInput, int creditsLeft) {
         boolean argumentProvided = userInput.length != 1;
         //wait for text file logic
-        if(!argumentProvided){
+        if (!argumentProvided) {
             view.displayMessage("You currently have " + creditsLeft + " MCs till graduation");
             return;
         }
-        if(!parser.isValidAcademicYear(userInput[1])){
+        if (!parser.isValidAcademicYear(userInput[1])) {
             return;
         }
 
@@ -81,8 +84,8 @@ public class ModulePlannerController {
         int semesterIntValue = Character.getNumericValue(semester.charAt(1));
         //if we are at y2s1, we have 5 semesters left
         int semestersLeft = (lastYearOfDegree - yearIntValue) * 2 + (lastSemesterOfYear - semesterIntValue);
-        int creditsPerSem =  Math.round((float) creditsLeft /semestersLeft) ;
-        view.displayMessage("You currently have " + creditsLeft + "MCs for " + semestersLeft + " semesters");
-        view.displayMessage("Recommended Pace: " +creditsPerSem + "MCs per sem until graduation");
+        int creditsPerSem = Math.round((float) creditsLeft / semestersLeft);
+        view.displayMessage("You have " + creditsLeft + "MCs for " + semestersLeft + " semesters. "
+                + "Recommended Pace: "+ creditsPerSem + "MCs per sem until graduation");
     }
 }
