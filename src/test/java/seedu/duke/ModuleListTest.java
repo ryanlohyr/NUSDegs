@@ -86,4 +86,15 @@ class ModuleListTest {
         //test
         assertThrows(InvalidObjectException.class, () -> ml.exists(inputString));
     }
+
+    //success scenario 3: input string, 1 empty ModuleList --> false
+    @Test
+    void existsTest_nullMainModuleList_expectException() throws InvalidObjectException {
+        String inputString = "CS1231S";
+        ModuleList ml = new ModuleList();
+
+        //test
+        boolean result = ml.exists(inputString);
+        assertFalse(result);
+    }
 }

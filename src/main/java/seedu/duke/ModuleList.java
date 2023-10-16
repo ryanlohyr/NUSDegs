@@ -40,16 +40,15 @@ public class ModuleList {
             throw new InvalidObjectException("Null Inputs");
         }
         mainModuleList.clear();
-        if (!A.mainModuleList.isEmpty()) {
-            for (String moduleA : A.mainModuleList) {
-                try {
-                    if (!B.exists(moduleA)) {
-                        mainModuleList.add(moduleA);
-                        numberOfModules += 1;
-                    }
-                } catch (InvalidObjectException e) {
-                    System.out.println("Error: " + e.getMessage());
+
+        for (String moduleA : A.mainModuleList) {
+            try {
+                if (!B.exists(moduleA)) {
+                    mainModuleList.add(moduleA);
+                    numberOfModules += 1;
                 }
+            } catch (InvalidObjectException e) {
+                System.out.println("Error: " + e.getMessage());
             }
         }
     }
@@ -62,14 +61,12 @@ public class ModuleList {
      * @throws InvalidObjectException If moduleA is null.
      */
     public boolean exists(String moduleA) throws InvalidObjectException {
-        if (moduleA == null) {
-            throw new InvalidObjectException("Null Input");
+        if (moduleA == null || mainModuleList == null) {
+            throw new InvalidObjectException("Null Inputs");
         }
-        if (!mainModuleList.isEmpty()) {
-            for (String moduleB : mainModuleList) {
-                if (moduleA.equals(moduleB)) {
-                    return true;
-                }
+        for (String moduleB : mainModuleList) {
+            if (moduleA.equals(moduleB)) {
+                return true;
             }
         }
         return false;
