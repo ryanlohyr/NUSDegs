@@ -8,12 +8,16 @@ public class ModuleList {
     public int numberOfModules;
 
     public ModuleList(String modules) {
-        String[] moduleArray = modules.split(" ");
-        mainModuleList = new ArrayList<String>();
-        numberOfModules = 0;
-        for (String module: moduleArray) {
-            mainModuleList.add(module);
-            numberOfModules += 1;
+        try {
+            String[] moduleArray = modules.split(" ");
+            mainModuleList = new ArrayList<String>();
+            numberOfModules = 0;
+            for (String module : moduleArray) {
+                mainModuleList.add(module);
+                numberOfModules += 1;
+            }
+        } catch (NullPointerException e) {
+            new ModuleList();
         }
     }
 
@@ -24,19 +28,24 @@ public class ModuleList {
 
     public void getDifference (ModuleList A, ModuleList B) {
         //A - B
-        //mainModuleList should be empty
-        for (String moduleA: A.mainModuleList) {
-            if (!B.exists(moduleA)) {
-                mainModuleList.add(moduleA);
-                numberOfModules += 1;
+
+        mainModuleList.clear();
+        if (!A.mainModuleList.isEmpty()) {
+            for (String moduleA : A.mainModuleList) {
+                if (!B.exists(moduleA)) {
+                    mainModuleList.add(moduleA);
+                    numberOfModules += 1;
+                }
             }
         }
     }
 
     public boolean exists(String moduleA) {
-        for (String moduleB: mainModuleList) {
-            if (moduleA.equals(moduleB)) {
-                return true;
+        if (!mainModuleList.isEmpty()) {
+            for (String moduleB : mainModuleList) {
+                if (moduleA.equals(moduleB)) {
+                    return true;
+                }
             }
         }
         return false;
