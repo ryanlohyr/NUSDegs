@@ -1,17 +1,27 @@
 package seedu.duke.controllers;
 
+import seedu.duke.ModuleList;
 import seedu.duke.views.CommandLineView;
 import seedu.duke.utils.Parser;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ModulePlannerController {
     private CommandLineView view;
     private Parser parser;
 
+    private ModuleList modulesMajor;
+    private ModuleList modulesTaken;
+    private ModuleList modulesLeft;
+
     public ModulePlannerController() {
         this.view = new CommandLineView();
         this.parser = new Parser();
+
+        this.modulesMajor = new ModuleList("CS1231S CS2030S CS2040S CS2100 CS2101 CS2106 CS2109S CS3230");
+        this.modulesTaken = new ModuleList("CS1231S CS2030S CS2040S MA1511");
+        this.modulesLeft = new ModuleList();
     }
 
     public void start() {
@@ -19,34 +29,44 @@ public class ModulePlannerController {
         Scanner in = new Scanner(System.in);
         String userInput = in.nextLine();
 
-        while (!userInput.equals("Bye")) {
+        while (!userInput.equals("bye")) {
 
             String[] words = userInput.split(" ");
 
             String initialWord = words[0];
 
             switch (initialWord) {
-            case "hi": {
-                view.displayMessage("can put the commands here");
-                break;
-            }
-            case "hello": {
-                view.displayMessage("yup");
-                break;
-            }
-            case "pace": {
-                //assumed that everyone graduates at y4s2
-                //waiting for retrieving logic
-                int modulesCreditsCompleted = 100;
-                int totalCreditsToGraduate = 160;
-                int creditsLeft = totalCreditsToGraduate - modulesCreditsCompleted;
-                computePace(words, creditsLeft);
-                break;
-            }
-            default: {
-                view.displayMessage("Hello " + userInput);
-                break;
-            }
+                case "hi": {
+                    view.displayMessage("can put the commands here");
+                    break;
+                }
+                case "hello": {
+                    view.displayMessage("yup");
+                    break;
+                }
+                case "left": {
+                    ArrayList<String> modules = listModulesLeft();
+
+                    view.displayMessage("Modules left:");
+                    for (String module : modules) {
+                        view.displayMessage(module);
+                    }
+
+                    break;
+                }
+                case "pace": {
+                    //assumed that everyone graduates at y4s2
+                    //waiting for retrieving logic
+                    int modulesCreditsCompleted = 100;
+                    int totalCreditsToGraduate = 160;
+                    int creditsLeft = totalCreditsToGraduate - modulesCreditsCompleted;
+                    computePace(words, creditsLeft);
+                    break;
+                }
+                default: {
+                    view.displayMessage("Hello " + userInput);
+                    break;
+                }
 
             }
             userInput = in.nextLine();
@@ -87,5 +107,11 @@ public class ModulePlannerController {
         int creditsPerSem = Math.round((float) creditsLeft / semestersLeft);
         view.displayMessage("You have " + creditsLeft + "MCs for " + semestersLeft + " semesters. "
                 + "Recommended Pace: "+ creditsPerSem + "MCs per sem until graduation");
+    }
+
+    public ArrayList<String> listModulesLeft() {
+        //modulesMajor.txt - modulesTaken.txt
+        modulesLeft.getDifference(modulesMajor, modulesTaken);
+        return modulesLeft.getMainModuleList();
     }
 }
