@@ -2,13 +2,15 @@ package seedu.duke;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.InvalidObjectException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ModuleListTest {
 
-    //success scenario: 2 ModuleList --> difference
+    //success scenario 1: 2 ModuleList --> difference
     @Test
-    void getDifferenceTest_twoModuleList_expectDifference() {
+    void getDifferenceTest_twoModuleList_expectDifference() throws InvalidObjectException {
         ModuleList first = new ModuleList("CS1231S CS2030S CS2040S CS2100 CS2101 CS2106 CS2109S CS3230");
         ModuleList second = new ModuleList("CS1231S CS2030S CS2040S MA1511");
         ModuleList difference = new ModuleList();
@@ -26,7 +28,7 @@ class ModuleListTest {
 
     //success scenario 2: 2 ModuleList where the first is empty --> difference which is empty
     @Test
-    void getDifferenceTest_oneEmptyModuleListAnotherModuleList_expectEmptyDifference() {
+    void getDifferenceTest_oneEmptyModuleListAnotherModuleList_expectEmptyDifference() throws InvalidObjectException {
         ModuleList first = new ModuleList();
         ModuleList second = new ModuleList("CS1231S CS2030S CS2040S MA1511");
         ModuleList difference = new ModuleList();
@@ -42,9 +44,20 @@ class ModuleListTest {
         }
     }
 
-    //success scenario 1: 1 inputString, 1 ModuleList that contains inputString --> true
+    //failure scenario 1: null ModuleList input --> throw exception
     @Test
-    void existsTest_ModuleListContainsModule_expectTrue() {
+    void getDifferenceTest_nullModuleListInput_expectException() {
+        ModuleList first = null;
+        ModuleList second = new ModuleList("CS1231S CS2030S CS2040S MA1511");
+        ModuleList difference = new ModuleList();
+
+        //test
+        assertThrows(InvalidObjectException.class, () -> difference.getDifference(first, second));
+    }
+
+    //success scenario 1: 1 input String, 1 ModuleList that contains input String --> true
+    @Test
+    void existsTest_ModuleListContainsModule_expectTrue() throws InvalidObjectException {
         String inputString = "CS1231S";
         ModuleList ml = new ModuleList("CS1231S CS2030S CS2040S CS2100 CS2101 CS2106 CS2109S CS3230");
 
@@ -53,14 +66,24 @@ class ModuleListTest {
         assertTrue(result);
     }
 
-    //success scenario 2: 1 inputString, 1 ModuleList that does not contain inputString --> false
+    //success scenario 2: 1 input String, 1 ModuleList that does not contain input String --> false
     @Test
-    void existsTest_ModuleListDoesNotContainModule_expectFalse() {
+    void existsTest_ModuleListDoesNotContainModule_expectFalse() throws InvalidObjectException {
         String inputString = "CS1231S";
         ModuleList ml = new ModuleList("CS2030S CS2040S CS2100 CS2101 CS2106 CS2109S CS3230");
 
         //test
         boolean result = ml.exists(inputString);
         assertFalse(result);
+    }
+
+    //failure scenario 1: input null string, 1 ModuleList --> throw exception
+    @Test
+    void existsTest_nullInput_expectException() {
+        String inputString = null;
+        ModuleList ml = new ModuleList("CS2030S CS2040S CS2100 CS2101 CS2106 CS2109S CS3230");
+
+        //test
+        assertThrows(InvalidObjectException.class, () -> ml.exists(inputString));
     }
 }

@@ -4,6 +4,7 @@ import seedu.duke.ModuleList;
 import seedu.duke.views.CommandLineView;
 import seedu.duke.utils.Parser;
 
+import java.io.InvalidObjectException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -111,7 +112,12 @@ public class ModulePlannerController {
 
     public ArrayList<String> listModulesLeft() {
         //modulesMajor.txt - modulesTaken.txt
-        modulesLeft.getDifference(modulesMajor, modulesTaken);
-        return modulesLeft.getMainModuleList();
+        try {
+            modulesLeft.getDifference(modulesMajor, modulesTaken);
+            return modulesLeft.getMainModuleList();
+        } catch (InvalidObjectException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return null;
     }
 }

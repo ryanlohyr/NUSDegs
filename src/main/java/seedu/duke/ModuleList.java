@@ -1,5 +1,6 @@
 package seedu.duke;
 
+import java.io.InvalidObjectException;
 import java.util.ArrayList;
 
 public class ModuleList {
@@ -26,21 +27,30 @@ public class ModuleList {
         numberOfModules = 0;
     }
 
-    public void getDifference (ModuleList A, ModuleList B) {
+    public void getDifference (ModuleList A, ModuleList B) throws InvalidObjectException {
         //A - B
-
+        if (A == null || B == null) {
+            throw new InvalidObjectException("Null Inputs");
+        }
         mainModuleList.clear();
         if (!A.mainModuleList.isEmpty()) {
             for (String moduleA : A.mainModuleList) {
-                if (!B.exists(moduleA)) {
-                    mainModuleList.add(moduleA);
-                    numberOfModules += 1;
+                try {
+                    if (!B.exists(moduleA)) {
+                        mainModuleList.add(moduleA);
+                        numberOfModules += 1;
+                    }
+                } catch (InvalidObjectException e) {
+                    System.out.println("Error: " + e.getMessage());
                 }
             }
         }
     }
 
-    public boolean exists(String moduleA) {
+    public boolean exists(String moduleA) throws InvalidObjectException {
+        if (moduleA == null) {
+            throw new InvalidObjectException("Null Input");
+        }
         if (!mainModuleList.isEmpty()) {
             for (String moduleB : mainModuleList) {
                 if (moduleA.equals(moduleB)) {
