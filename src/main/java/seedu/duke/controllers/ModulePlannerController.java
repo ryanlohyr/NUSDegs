@@ -74,6 +74,26 @@ public class ModulePlannerController {
         }
     }
 
+
+
+    /**
+     * Computes and returns the list of modules that are left in the ModuleList modulesMajor
+     * after subtracting the modules in the ModuleList modulesTaken.
+     *
+     * @return An ArrayList of module codes representing the modules left after the subtraction.
+     * @throws InvalidObjectException If either modulesMajor or modulesTaken is null.
+     */
+    public ArrayList<String> listModulesLeft() {
+        //modulesMajor.txt - modulesTaken.txt
+        try {
+            modulesLeft.getDifference(modulesMajor, modulesTaken);
+            return modulesLeft.getMainModuleList();
+        } catch (InvalidObjectException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return null;
+    }
+
     /**
      * Computes the recommended pace for completing a degree based on the provided academic year
      * and credits left until graduation.
@@ -108,23 +128,5 @@ public class ModulePlannerController {
         int creditsPerSem = Math.round((float) creditsLeft / semestersLeft);
         view.displayMessage("You have " + creditsLeft + "MCs for " + semestersLeft + " semesters. "
                 + "Recommended Pace: "+ creditsPerSem + "MCs per sem until graduation");
-    }
-
-    /**
-     * Computes and returns the list of modules that are left in the ModuleList modulesMajor
-     * after subtracting the modules in the ModuleList modulesTaken.
-     *
-     * @return An ArrayList of module codes representing the modules left after the subtraction.
-     * @throws InvalidObjectException If either modulesMajor or modulesTaken is null.
-     */
-    public ArrayList<String> listModulesLeft() {
-        //modulesMajor.txt - modulesTaken.txt
-        try {
-            modulesLeft.getDifference(modulesMajor, modulesTaken);
-            return modulesLeft.getMainModuleList();
-        } catch (InvalidObjectException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-        return null;
     }
 }
