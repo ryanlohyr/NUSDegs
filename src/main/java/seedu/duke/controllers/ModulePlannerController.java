@@ -110,6 +110,13 @@ public class ModulePlannerController {
                 + "Recommended Pace: "+ creditsPerSem + "MCs per sem until graduation");
     }
 
+    /**
+     * Computes and returns the list of modules that are left in the ModuleList modulesMajor
+     * after subtracting the modules in the ModuleList modulesTaken.
+     *
+     * @return An ArrayList of module codes representing the modules left after the subtraction.
+     * @throws InvalidObjectException If either modulesMajor or modulesTaken is null.
+     */
     public ArrayList<String> listModulesLeft() {
         //modulesMajor.txt - modulesTaken.txt
         try {

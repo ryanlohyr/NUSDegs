@@ -27,6 +27,13 @@ public class ModuleList {
         numberOfModules = 0;
     }
 
+    /**
+     * Computes the difference between two ModuleList objects (A - B) and updates the current list.
+     *
+     * @param A The first ModuleList.
+     * @param B The second ModuleList.
+     * @throws InvalidObjectException If either A or B is null.
+     */
     public void getDifference (ModuleList A, ModuleList B) throws InvalidObjectException {
         //A - B
         if (A == null || B == null) {
@@ -47,6 +54,13 @@ public class ModuleList {
         }
     }
 
+    /**
+     * Checks if a module exists in the list.
+     *
+     * @param moduleA The module to check for existence.
+     * @return true if the module exists in the list; false otherwise.
+     * @throws InvalidObjectException If moduleA is null.
+     */
     public boolean exists(String moduleA) throws InvalidObjectException {
         if (moduleA == null) {
             throw new InvalidObjectException("Null Input");
@@ -61,6 +75,11 @@ public class ModuleList {
         return false;
     }
 
+    /**
+     * Retrieves the list of modules.
+     *
+     * @return The ArrayList containing the modules.
+     */
     public ArrayList<String> getMainModuleList() {
         return mainModuleList;
     }
