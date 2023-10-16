@@ -96,7 +96,7 @@ class ModulePlannerControllerTest {
         ArrayList<String> list = controller.listModulesLeft();
 
         //test
-        int numberOfModules = actualDifference.numberOfModules;
+        int numberOfModules = actualDifference.getNumberOfModules();
 
         for (int i = 0; i < numberOfModules; i += 1) {
             assertEquals(actualDifference.getMainModuleList().get(i), list.get(i));

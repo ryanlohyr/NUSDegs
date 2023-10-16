@@ -37,37 +37,37 @@ public class ModulePlannerController {
             String initialWord = words[0];
 
             switch (initialWord) {
-                case "hi": {
-                    view.displayMessage("can put the commands here");
-                    break;
-                }
-                case "hello": {
-                    view.displayMessage("yup");
-                    break;
-                }
-                case "left": {
-                    ArrayList<String> modules = listModulesLeft();
+            case "hi": {
+                view.displayMessage("can put the commands here");
+                break;
+            }
+            case "hello": {
+                view.displayMessage("yup");
+                break;
+            }
+            case "left": {
+                ArrayList<String> modules = listModulesLeft();
 
-                    view.displayMessage("Modules left:");
-                    for (String module : modules) {
-                        view.displayMessage(module);
-                    }
+                view.displayMessage("Modules left:");
+                for (String module : modules) {
+                    view.displayMessage(module);
+                }
 
-                    break;
-                }
-                case "pace": {
-                    //assumed that everyone graduates at y4s2
-                    //waiting for retrieving logic
-                    int modulesCreditsCompleted = 100;
-                    int totalCreditsToGraduate = 160;
-                    int creditsLeft = totalCreditsToGraduate - modulesCreditsCompleted;
-                    computePace(words, creditsLeft);
-                    break;
-                }
-                default: {
-                    view.displayMessage("Hello " + userInput);
-                    break;
-                }
+                break;
+            }
+            case "pace": {
+                //assumed that everyone graduates at y4s2
+                //waiting for retrieving logic
+                int modulesCreditsCompleted = 100;
+                int totalCreditsToGraduate = 160;
+                int creditsLeft = totalCreditsToGraduate - modulesCreditsCompleted;
+                computePace(words, creditsLeft);
+                break;
+            }
+            default: {
+                view.displayMessage("Hello " + userInput);
+                break;
+            }
 
             }
             userInput = in.nextLine();

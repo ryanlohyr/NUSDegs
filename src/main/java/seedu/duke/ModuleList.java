@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class ModuleList {
 
     private ArrayList<String> mainModuleList;
-    public int numberOfModules;
+    private int numberOfModules;
 
     public ModuleList(String modules) {
         try {
@@ -79,5 +79,14 @@ public class ModuleList {
      */
     public ArrayList<String> getMainModuleList() {
         return mainModuleList;
+    }
+
+    /**
+     * Retrieves the number of modules.
+     *
+     * @return The number of modules.
+     */
+    public int getNumberOfModules() {
+        return numberOfModules;
     }
 }

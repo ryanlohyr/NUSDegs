@@ -4,10 +4,12 @@ import org.junit.jupiter.api.Test;
 
 import java.io.InvalidObjectException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ModuleListTest {
-
     //success scenario 1: 2 ModuleList --> difference
     @Test
     void getDifferenceTest_twoModuleList_expectDifference() throws InvalidObjectException {
@@ -19,7 +21,7 @@ class ModuleListTest {
         difference.getDifference(first, second);
 
         //test
-        int numberOfModules = difference.numberOfModules;
+        int numberOfModules = difference.getNumberOfModules();
 
         for (int i = 0; i < numberOfModules; i += 1) {
             assertEquals(difference.getMainModuleList().get(i), actualDifference.getMainModuleList().get(i));
@@ -37,7 +39,7 @@ class ModuleListTest {
         difference.getDifference(first, second);
 
         //test
-        int numberOfModules = difference.numberOfModules;
+        int numberOfModules = difference.getNumberOfModules();
 
         for (int i = 0; i < numberOfModules; i += 1) {
             assertEquals(difference.getMainModuleList().get(i), actualDifference.getMainModuleList().get(i));
@@ -57,7 +59,7 @@ class ModuleListTest {
 
     //success scenario 1: 1 input String, 1 ModuleList that contains input String --> true
     @Test
-    void existsTest_ModuleListContainsModule_expectTrue() throws InvalidObjectException {
+    void existsTest_moduleListContainsModule_expectTrue() throws InvalidObjectException {
         String inputString = "CS1231S";
         ModuleList ml = new ModuleList("CS1231S CS2030S CS2040S CS2100 CS2101 CS2106 CS2109S CS3230");
 
@@ -68,7 +70,7 @@ class ModuleListTest {
 
     //success scenario 2: 1 input String, 1 ModuleList that does not contain input String --> false
     @Test
-    void existsTest_ModuleListDoesNotContainModule_expectFalse() throws InvalidObjectException {
+    void existsTest_moduleListDoesNotContainModule_expectFalse() throws InvalidObjectException {
         String inputString = "CS1231S";
         ModuleList ml = new ModuleList("CS2030S CS2040S CS2100 CS2101 CS2106 CS2109S CS3230");
 
