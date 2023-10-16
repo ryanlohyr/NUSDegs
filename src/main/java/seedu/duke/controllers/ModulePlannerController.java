@@ -1,17 +1,28 @@
 package seedu.duke.controllers;
 
+import seedu.duke.ModuleList;
 import seedu.duke.views.CommandLineView;
 import seedu.duke.utils.Parser;
 
+import java.io.InvalidObjectException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ModulePlannerController {
     private CommandLineView view;
     private Parser parser;
 
+    private ModuleList modulesMajor;
+    private ModuleList modulesTaken;
+    private ModuleList modulesLeft;
+
     public ModulePlannerController() {
         this.view = new CommandLineView();
         this.parser = new Parser();
+
+        this.modulesMajor = new ModuleList("CS1231S CS2030S CS2040S CS2100 CS2101 CS2106 CS2109S CS3230");
+        this.modulesTaken = new ModuleList("CS1231S CS2030S CS2040S MA1511");
+        this.modulesLeft = new ModuleList();
     }
 
     public void start() {
@@ -19,7 +30,7 @@ public class ModulePlannerController {
         Scanner in = new Scanner(System.in);
         String userInput = in.nextLine();
 
-        while (!userInput.equals("Bye")) {
+        while (!userInput.equals("bye")) {
 
             String[] words = userInput.split(" ");
 
@@ -32,6 +43,16 @@ public class ModulePlannerController {
             }
             case "hello": {
                 view.displayMessage("yup");
+                break;
+            }
+            case "left": {
+                ArrayList<String> modules = listModulesLeft();
+
+                view.displayMessage("Modules left:");
+                for (String module : modules) {
+                    view.displayMessage(module);
+                }
+
                 break;
             }
             case "pace": {
@@ -87,5 +108,23 @@ public class ModulePlannerController {
         int creditsPerSem = Math.round((float) creditsLeft / semestersLeft);
         view.displayMessage("You have " + creditsLeft + "MCs for " + semestersLeft + " semesters. "
                 + "Recommended Pace: "+ creditsPerSem + "MCs per sem until graduation");
+    }
+
+    /**
+     * Computes and returns the list of modules that are left in the ModuleList modulesMajor
+     * after subtracting the modules in the ModuleList modulesTaken.
+     *
+     * @return An ArrayList of module codes representing the modules left after the subtraction.
+     * @throws InvalidObjectException If either modulesMajor or modulesTaken is null.
+     */
+    public ArrayList<String> listModulesLeft() {
+        //modulesMajor.txt - modulesTaken.txt
+        try {
+            modulesLeft.getDifference(modulesMajor, modulesTaken);
+            return modulesLeft.getMainModuleList();
+        } catch (InvalidObjectException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return null;
     }
 }
