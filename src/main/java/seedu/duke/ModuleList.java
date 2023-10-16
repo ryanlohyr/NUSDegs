@@ -1,7 +1,6 @@
 package seedu.duke;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class ModuleList {
 
