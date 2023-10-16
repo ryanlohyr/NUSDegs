@@ -28,7 +28,7 @@ class ModuleListTest {
         }
     }
 
-    //success scenario 2: 2 ModuleList where the first is empty --> difference which is empty
+    //success scenario 2: 1 empty ModuleList, 1 ModuleList --> difference which is empty
     @Test
     void getDifferenceTest_oneEmptyModuleListAnotherModuleList_expectEmptyDifference() throws InvalidObjectException {
         ModuleList first = new ModuleList();
