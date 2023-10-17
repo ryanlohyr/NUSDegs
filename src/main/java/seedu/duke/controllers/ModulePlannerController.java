@@ -1,6 +1,7 @@
 package seedu.duke.controllers;
 
 import seedu.duke.ModuleList;
+import seedu.duke.models.Student;
 import seedu.duke.views.CommandLineView;
 import seedu.duke.utils.Parser;
 
@@ -12,6 +13,8 @@ public class ModulePlannerController {
     private CommandLineView view;
     private Parser parser;
 
+    private Student student;
+
     private ModuleList modulesMajor;
     private ModuleList modulesTaken;
     private ModuleList modulesLeft;
@@ -19,6 +22,7 @@ public class ModulePlannerController {
     public ModulePlannerController() {
         this.view = new CommandLineView();
         this.parser = new Parser();
+        this.student = new Student();
 
         this.modulesMajor = new ModuleList("CS1231S CS2030S CS2040S CS2100 CS2101 CS2106 CS2109S CS3230");
         this.modulesTaken = new ModuleList("CS1231S CS2030S CS2040S MA1511");
