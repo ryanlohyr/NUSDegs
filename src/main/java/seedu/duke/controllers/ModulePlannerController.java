@@ -1,16 +1,21 @@
 package seedu.duke.controllers;
 
 import seedu.duke.ModuleList;
+import seedu.duke.models.Major;
+import seedu.duke.models.Student;
 import seedu.duke.views.CommandLineView;
 import seedu.duke.utils.Parser;
 
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class ModulePlannerController {
     private CommandLineView view;
     private Parser parser;
+
+    private Student student;
 
     private ModuleList modulesMajor;
     private ModuleList modulesTaken;
@@ -19,6 +24,7 @@ public class ModulePlannerController {
     public ModulePlannerController() {
         this.view = new CommandLineView();
         this.parser = new Parser();
+        this.student = new Student();
 
         this.modulesMajor = new ModuleList("CS1231S CS2030S CS2040S CS2100 CS2101 CS2106 CS2109S CS3230");
         this.modulesTaken = new ModuleList("CS1231S CS2030S CS2040S MA1511");
@@ -62,6 +68,10 @@ public class ModulePlannerController {
                 int totalCreditsToGraduate = 160;
                 int creditsLeft = totalCreditsToGraduate - modulesCreditsCompleted;
                 computePace(words, creditsLeft);
+                break;
+            }
+            case "major": {
+                updateMajor(words[1]);
                 break;
             }
             default: {
@@ -128,5 +138,14 @@ public class ModulePlannerController {
         int creditsPerSem = Math.round((float) creditsLeft / semestersLeft);
         view.displayMessage("You have " + creditsLeft + "MCs for " + semestersLeft + " semesters. "
                 + "Recommended Pace: "+ creditsPerSem + "MCs per sem until graduation");
+    }
+
+    public void updateMajor(String major) {
+        try {
+            student.setMajor(Major.valueOf(major.toUpperCase()));
+            view.displayMessage("Major " + student.getMajor() + " selected!");
+        } catch (IllegalArgumentException e) {
+            view.displayMessage("Please select a major from this list: " + Arrays.toString(Major.values()));
+        }
     }
 }
