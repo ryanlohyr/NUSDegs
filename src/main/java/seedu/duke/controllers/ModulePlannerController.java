@@ -1,5 +1,6 @@
 package seedu.duke.controllers;
 
+import seedu.duke.CompletePreqs;
 import seedu.duke.ModuleList;
 import seedu.duke.views.CommandLineView;
 import seedu.duke.utils.Parser;
@@ -7,7 +8,8 @@ import seedu.duke.utils.Parser;
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
 import java.util.Scanner;
-
+import java.util.HashMap;
+import java.util.List;
 public class ModulePlannerController {
     private CommandLineView view;
     private Parser parser;
@@ -16,14 +18,29 @@ public class ModulePlannerController {
     private ModuleList modulesTaken;
     private ModuleList modulesLeft;
 
+    private HashMap<String, List<String>> modsWithPreqs;
+    private CompletePreqs addModulePreqs;
+
     public ModulePlannerController() {
         this.view = new CommandLineView();
         this.parser = new Parser();
 
+        //This modules list of taken and classes left can be in a storage class later on.
         this.modulesMajor = new ModuleList("CS1231S CS2030S CS2040S CS2100 CS2101 CS2106 CS2109S CS3230");
-        this.modulesTaken = new ModuleList("CS1231S CS2030S CS2040S MA1511");
+        this.modulesTaken = new ModuleList("CS1231S MA1511");
         this.modulesLeft = new ModuleList();
+
+        modsWithPreqs = new HashMap<>();
+
+        //Pass in Hashmap of mods with Preqs
+        this.addModulePreqs = new CompletePreqs(addModsWithPreqs(modsWithPreqs));
+        //Pass in the list of mods completed.
+        addModulePreqs.initializeCompletedMods(modulesTaken);
+
+
     }
+
+
 
     public void start() {
         view.displayWelcome();
@@ -34,7 +51,7 @@ public class ModulePlannerController {
 
             String[] words = userInput.split(" ");
 
-            String initialWord = words[0];
+            String initialWord = words[0].toLowerCase();
 
             switch (initialWord) {
             case "hi": {
@@ -62,6 +79,12 @@ public class ModulePlannerController {
                 int totalCreditsToGraduate = 160;
                 int creditsLeft = totalCreditsToGraduate - modulesCreditsCompleted;
                 computePace(words, creditsLeft);
+                break;
+            }
+            case "complete": {
+                String moduleCompleted = words[1];
+                //Get mods that are unlocked after a mod is marked complete
+                addModulePreqs.getUnlockedMods(moduleCompleted);
                 break;
             }
             default: {
@@ -129,4 +152,46 @@ public class ModulePlannerController {
         view.displayMessage("You have " + creditsLeft + "MCs for " + semestersLeft + " semesters. "
                 + "Recommended Pace: "+ creditsPerSem + "MCs per sem until graduation");
     }
+
+
+    /**
+     * Add all mods that require prerequisites to a map storing the mod and a set of preqs
+     * @param list
+     * @return HashMap of Mods with their corresponding preqs
+     */
+
+    private HashMap<String, List<String>> addModsWithPreqs(HashMap<String, List<String>> list) {
+        //Only two mods don't have preqs MA1511 and CS1231S.
+        // In the future this will be dealt
+        addValue(list, "CS3230", "CS2030S");
+        addValue(list, "CS3230", "CS1231S");
+
+        addValue(list, "CS2030S", "CS1231S");
+
+        addValue(list, "CS2040S", "CS1231S");
+
+        addValue(list, "CS2106", "CS1231S");
+
+        addValue(list, "CS2109S", "CS1231S");
+
+        return list;
+    }
+
+
+    /**
+     * Helper function to addModsWithPreqs to add Strings and sets together
+     * @param map
+     * @param key
+     * @param value
+     */
+    public static void addValue(HashMap<String, List<String>> map, String key, String value) {
+        // If the map does not contain the key, put an empty list for that key
+        if (!map.containsKey(key)) {
+            map.put(key, new ArrayList<>());
+        }
+        // Add the value to the list associated with the key
+        map.get(key).add(value);
+    }
+
+
 }
