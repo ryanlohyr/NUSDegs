@@ -3,9 +3,9 @@ package seedu.duke.models;
 public class Student {
 
     private String name;
-    private String major;
+    private Major major;
 
-    public Student(String name, String major) {
+    public Student(String name, Major major) {
         this.name = name;
         this.major = major;
     }
@@ -19,7 +19,7 @@ public class Student {
         return name;
     }
 
-    public String getMajor() {
+    public Major getMajor() {
         return major;
     }
 
@@ -27,7 +27,7 @@ public class Student {
         this.name = name;
     }
 
-    public void setMajor(String major) {
+    public void setMajor(Major major) {
         this.major = major;
     }
 }

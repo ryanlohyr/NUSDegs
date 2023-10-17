@@ -1,12 +1,14 @@
 package seedu.duke.controllers;
 
 import seedu.duke.ModuleList;
+import seedu.duke.models.Major;
 import seedu.duke.models.Student;
 import seedu.duke.views.CommandLineView;
 import seedu.duke.utils.Parser;
 
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class ModulePlannerController {
@@ -69,10 +71,8 @@ public class ModulePlannerController {
                 break;
             }
             case "major": {
-                student.setMajor(words[1]);
-                if (!student.getMajor().isEmpty()) {
-                    view.displayMessage("Major " + student.getMajor() + " selected!");
-                }
+                updateMajor(words[1]);
+                break;
             }
             default: {
                 view.displayMessage("Hello " + userInput);
@@ -138,5 +138,14 @@ public class ModulePlannerController {
         int creditsPerSem = Math.round((float) creditsLeft / semestersLeft);
         view.displayMessage("You have " + creditsLeft + "MCs for " + semestersLeft + " semesters. "
                 + "Recommended Pace: "+ creditsPerSem + "MCs per sem until graduation");
+    }
+
+    public void updateMajor(String major) {
+        try {
+            student.setMajor(Major.valueOf(major.toUpperCase()));
+            view.displayMessage("Major " + student.getMajor() + " selected!");
+        } catch (IllegalArgumentException e) {
+            view.displayMessage("Please select a major from this list: " + Arrays.toString(Major.values()));
+        }
     }
 }
