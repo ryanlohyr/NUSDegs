@@ -68,6 +68,12 @@ public class ModulePlannerController {
                 computePace(words, creditsLeft);
                 break;
             }
+            case "major": {
+                student.setMajor(words[1]);
+                if (!student.getMajor().isEmpty()) {
+                    view.displayMessage("Major " + student.getMajor() + " selected!");
+                }
+            }
             default: {
                 view.displayMessage("Hello " + userInput);
                 break;
