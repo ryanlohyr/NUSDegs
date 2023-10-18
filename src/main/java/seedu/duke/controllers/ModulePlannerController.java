@@ -2,7 +2,9 @@ package seedu.duke.controllers;
 
 import seedu.duke.views.CommandLineView;
 import seedu.duke.utils.Parser;
+import seedu.duke.models.*;
 
+import java.net.URISyntaxException;
 import java.util.Scanner;
 
 public class ModulePlannerController {
@@ -42,6 +44,14 @@ public class ModulePlannerController {
                 int creditsLeft = totalCreditsToGraduate - modulesCreditsCompleted;
                 computePace(words, creditsLeft);
                 break;
+            }
+            case "info": {
+                String moduleCode = words[1];
+                try {
+                    Api.getModuleInfo(moduleCode);
+                } catch (URISyntaxException e) {
+                    throw new RuntimeException(e);
+                }
             }
             default: {
                 view.displayMessage("Hello " + userInput);

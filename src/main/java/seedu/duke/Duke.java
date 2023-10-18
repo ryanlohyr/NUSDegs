@@ -8,7 +8,6 @@ public class Duke {
     public static void main(String[] args) {
         ModulePlannerController controller = new ModulePlannerController();
         controller.start();
-
     }
 
 }
