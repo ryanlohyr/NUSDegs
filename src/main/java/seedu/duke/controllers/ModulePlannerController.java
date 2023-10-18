@@ -1,31 +1,66 @@
 package seedu.duke.controllers;
 
+import seedu.duke.CompletePreqs;
+import seedu.duke.ModuleList;
+import seedu.duke.models.Major;
+import seedu.duke.models.Student;
 import seedu.duke.views.CommandLineView;
 import seedu.duke.utils.Parser;
 import seedu.duke.models.*;
 
 import java.net.URISyntaxException;
-import java.util.Scanner;
 
+import java.io.InvalidObjectException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Scanner;
+import java.util.HashMap;
+import java.util.List;
 public class ModulePlannerController {
     private CommandLineView view;
     private Parser parser;
 
+    private Student student;
+
+    private ModuleList modulesMajor;
+    private ModuleList modulesTaken;
+    private ModuleList modulesLeft;
+
+    private HashMap<String, List<String>> modsWithPreqs;
+    private CompletePreqs addModulePreqs;
+
     public ModulePlannerController() {
         this.view = new CommandLineView();
         this.parser = new Parser();
+        this.student = new Student();
+
+        //This modules list of taken and classes left can be in a storage class later on.
+        this.modulesMajor = new ModuleList("CS1231S CS2030S CS2040S CS2100 CS2101 CS2106 CS2109S CS3230");
+        this.modulesTaken = new ModuleList("CS1231S MA1511");
+        this.modulesLeft = new ModuleList();
+
+        modsWithPreqs = new HashMap<>();
+
+        //Pass in Hashmap of mods with Preqs
+        this.addModulePreqs = new CompletePreqs(addModsWithPreqs(modsWithPreqs));
+        //Pass in the list of mods completed.
+        addModulePreqs.initializeCompletedMods(modulesTaken);
+
+
     }
+
+
 
     public void start() {
         view.displayWelcome();
         Scanner in = new Scanner(System.in);
         String userInput = in.nextLine();
 
-        while (!userInput.equals("Bye")) {
+        while (!userInput.equals("bye")) {
 
             String[] words = userInput.split(" ");
 
-            String initialWord = words[0];
+            String initialWord = words[0].toLowerCase();
 
             switch (initialWord) {
             case "hi": {
@@ -34,6 +69,16 @@ public class ModulePlannerController {
             }
             case "hello": {
                 view.displayMessage("yup");
+                break;
+            }
+            case "left": {
+                ArrayList<String> modules = listModulesLeft();
+
+                view.displayMessage("Modules left:");
+                for (String module : modules) {
+                    view.displayMessage(module);
+                }
+
                 break;
             }
             case "pace": {
@@ -52,6 +97,15 @@ public class ModulePlannerController {
                 } catch (URISyntaxException e) {
                     throw new RuntimeException(e);
                 }
+            case "major": {
+                updateMajor(words[1]);
+                break;
+            }
+            case "complete": {
+                String moduleCompleted = words[1];
+                //Get mods that are unlocked after a mod is marked complete
+                addModulePreqs.getUnlockedMods(moduleCompleted);
+                break;
             }
             default: {
                 view.displayMessage("Hello " + userInput);
@@ -61,6 +115,26 @@ public class ModulePlannerController {
             }
             userInput = in.nextLine();
         }
+    }
+
+
+
+    /**
+     * Computes and returns the list of modules that are left in the ModuleList modulesMajor
+     * after subtracting the modules in the ModuleList modulesTaken.
+     *
+     * @return An ArrayList of module codes representing the modules left after the subtraction.
+     * @throws InvalidObjectException If either modulesMajor or modulesTaken is null.
+     */
+    public ArrayList<String> listModulesLeft() {
+        //modulesMajor.txt - modulesTaken.txt
+        try {
+            modulesLeft.getDifference(modulesMajor, modulesTaken);
+            return modulesLeft.getMainModuleList();
+        } catch (InvalidObjectException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return null;
     }
 
     /**
@@ -97,5 +171,56 @@ public class ModulePlannerController {
         int creditsPerSem = Math.round((float) creditsLeft / semestersLeft);
         view.displayMessage("You have " + creditsLeft + "MCs for " + semestersLeft + " semesters. "
                 + "Recommended Pace: "+ creditsPerSem + "MCs per sem until graduation");
+    }
+
+
+    /**
+     * Add all mods that require prerequisites to a map storing the mod and a set of preqs
+     * @param list
+     * @return HashMap of Mods with their corresponding preqs
+     */
+
+    private HashMap<String, List<String>> addModsWithPreqs(HashMap<String, List<String>> list) {
+        //Only two mods don't have preqs MA1511 and CS1231S.
+        // In the future this will be dealt
+        addValue(list, "CS3230", "CS2030S");
+        addValue(list, "CS3230", "CS1231S");
+
+        addValue(list, "CS2030S", "CS1231S");
+
+        addValue(list, "CS2040S", "CS1231S");
+
+        addValue(list, "CS2106", "CS1231S");
+
+        addValue(list, "CS2109S", "CS1231S");
+
+        return list;
+    }
+
+
+    /**
+     * Helper function to addModsWithPreqs to add Strings and sets together
+     * @param map
+     * @param key
+     * @param value
+     */
+    public static void addValue(HashMap<String, List<String>> map, String key, String value) {
+        // If the map does not contain the key, put an empty list for that key
+        if (!map.containsKey(key)) {
+            map.put(key, new ArrayList<>());
+        }
+        // Add the value to the list associated with the key
+        map.get(key).add(value);
+    }
+
+
+
+    public void updateMajor(String major) {
+        try {
+            student.setMajor(Major.valueOf(major.toUpperCase()));
+            view.displayMessage("Major " + student.getMajor() + " selected!");
+        } catch (IllegalArgumentException e) {
+            view.displayMessage("Please select a major from this list: " + Arrays.toString(Major.values()));
+        }
     }
 }
