@@ -1,5 +1,6 @@
 package seedu.duke.controllers;
 
+import org.json.simple.JSONObject;
 import seedu.duke.CompletePreqs;
 import seedu.duke.ModuleList;
 import seedu.duke.models.Major;
@@ -7,6 +8,7 @@ import seedu.duke.models.Student;
 import seedu.duke.views.CommandLineView;
 import seedu.duke.utils.Parser;
 import seedu.duke.models.*;
+import seedu.duke.views.ModuleInfo;
 
 import java.net.URISyntaxException;
 import java.io.InvalidObjectException;
@@ -90,7 +92,8 @@ public class ModulePlannerController {
             case "info": {
                 String moduleCode = words[1];
                 try {
-                    Api.getModuleInfo(moduleCode);
+                    JSONObject moduleInfo = Api.getModuleInfo(moduleCode);
+                    ModuleInfo.printModule(moduleInfo);
                 } catch (URISyntaxException e) {
                     throw new RuntimeException(e);
                 }
