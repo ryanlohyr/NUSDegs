@@ -11,17 +11,17 @@ import seedu.duke.models.*;
 import seedu.duke.views.ModuleInfo;
 
 import java.net.URISyntaxException;
-<<<<<<< HEAD
-import java.io.InvalidObjectException;
-import java.util.ArrayList;
-import java.util.Arrays;
-
-=======
 
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
 import java.util.Arrays;
->>>>>>> 3295f1687ef050ad59ed4739c2bbb84b0b40cbf1
+
+
+
+import java.io.InvalidObjectException;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import java.util.Scanner;
 import java.util.HashMap;
 import java.util.List;
