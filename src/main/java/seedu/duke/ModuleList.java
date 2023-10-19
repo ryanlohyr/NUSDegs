@@ -30,20 +30,20 @@ public class ModuleList {
     /**
      * Computes the difference between two ModuleList objects (A - B) and updates the current list.
      *
-     * @param A The first ModuleList.
-     * @param B The second ModuleList.
+     * @param a The first ModuleList.
+     * @param b The second ModuleList.
      * @throws InvalidObjectException If either A or B is null.
      */
-    public void getDifference (ModuleList A, ModuleList B) throws InvalidObjectException {
+    public void getDifference (ModuleList a, ModuleList b) throws InvalidObjectException {
         //A - B
-        if (A == null || B == null) {
+        if (a == null || b == null) {
             throw new InvalidObjectException("Null Inputs");
         }
         mainModuleList.clear();
 
-        for (String moduleA : A.mainModuleList) {
+        for (String moduleA : a.mainModuleList) {
             try {
-                if (!B.exists(moduleA)) {
+                if (!b.exists(moduleA)) {
                     mainModuleList.add(moduleA);
                     numberOfModules += 1;
                 }
