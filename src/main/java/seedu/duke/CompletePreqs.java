@@ -31,7 +31,7 @@ public class CompletePreqs {
     public void initializeCompletedMods(ModuleList list) {
         addToModulesCompleted.addAll(list.getMainModuleList());
         for (String mod : addToModulesCompleted) {
-            processModuleForUnlocking(mod);
+            processModuleForUnlockingWithoutPrint(mod);
         }
     }
 
@@ -62,7 +62,28 @@ public class CompletePreqs {
         //If its not marked as completed, properly add it to the list
         if (!addToModulesCompleted.contains(moduleCompleted)) {
             addToModulesCompleted.add(moduleCompleted);
-            processModuleForUnlocking(moduleCompleted);
+        }
+    }
+    private void processModuleForUnlockingWithoutPrint(String moduleCompleted) {
+        ArrayList<String> newlyUnlockedMods = new ArrayList<>();
+
+
+        for (String key : modulesWithPreqs.keySet()) {
+            //If new unlocked mod isn't marked as complete or unlocked already
+            if (!unlockedModulesSet.contains(key) && !addToModulesCompleted.contains(key)) {
+                boolean allPrerequisitesMet = true;
+                for (String preq : modulesWithPreqs.get(key)) {
+                    if (!addToModulesCompleted.contains(preq)) {
+                        //Make sure preq isn't already marked as done
+                        allPrerequisitesMet = false;
+                        break;
+                    }
+                }
+                if (allPrerequisitesMet) {
+                    newlyUnlockedMods.add(key);
+                    unlockedModulesSet.add(key);
+                }
+            }
         }
     }
 
