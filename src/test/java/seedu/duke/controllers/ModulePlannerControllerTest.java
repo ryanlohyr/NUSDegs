@@ -95,7 +95,7 @@ class ModulePlannerControllerTest {
     void listModulesLeftTest_expectArrayList() {
 
         ModulePlannerController controller = new ModulePlannerController();
-        ModuleList actualDifference = new ModuleList("CS2100 CS2101 CS2106 CS2109S CS3230");
+        ModuleList actualDifference = new ModuleList("CS2030S CS2040S CS2100 CS2101 CS2106 CS2109S CS3230");
         ArrayList<String> list = controller.listModulesLeft();
 
         //test
