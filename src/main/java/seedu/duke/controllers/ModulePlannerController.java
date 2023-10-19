@@ -1,28 +1,32 @@
 package seedu.duke.controllers;
 
+import org.json.simple.JSONObject;
 import seedu.duke.CompletePreqs;
 import seedu.duke.ModuleList;
 import seedu.duke.models.Major;
 import seedu.duke.models.Student;
 import seedu.duke.views.CommandLineView;
 import seedu.duke.utils.Parser;
+import seedu.duke.models.Api;
+import seedu.duke.views.ModuleInfo;
+
+import java.net.URISyntaxException;
 
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+
 import java.util.Scanner;
 import java.util.HashMap;
 import java.util.List;
 public class ModulePlannerController {
     private CommandLineView view;
     private Parser parser;
-
     private Student student;
-
     private ModuleList modulesMajor;
     private ModuleList modulesTaken;
     private ModuleList modulesLeft;
-
     private HashMap<String, List<String>> modsWithPreqs;
     private CompletePreqs addModulePreqs;
 
@@ -85,6 +89,16 @@ public class ModulePlannerController {
                 int totalCreditsToGraduate = 160;
                 int creditsLeft = totalCreditsToGraduate - modulesCreditsCompleted;
                 computePace(words, creditsLeft);
+                break;
+            }
+            case "info": {
+                String moduleCode = words[1];
+                try {
+                    JSONObject moduleInfo = Api.getModuleInfo(moduleCode);
+                    ModuleInfo.printModule(moduleInfo);
+                } catch (URISyntaxException e) {
+                    throw new RuntimeException(e);
+                }
                 break;
             }
             case "major": {
