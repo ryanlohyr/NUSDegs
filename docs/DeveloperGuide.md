@@ -7,7 +7,35 @@
 ## Design & implementation
 
 {Describe the design and implementation of the product. Use UML diagrams and short code snippets where applicable.}
+## Features
+- ### Pace Feature
+# Proposed Implementation - Pacing and MC Calculation
 
+The proposed "Pacing and MC Calculation" mechanism is implemented to help users track their academic progress and remaining Modular Credits (MCs) required for graduation. This feature is facilitated by the PacingManager, which stores user data and provides functions for calculating the recommended pacing and remaining MCs. The following operations are available:
+
+- PacingManager#calculateRemainingMCs() — Calculates the remaining MCs required for graduation.
+- PacingManager#calculateRecommendedPace() — Recommends the pacing for upcoming semesters.
+
+These operations are exposed in the Pacing interface as Pacing#calculateRemainingMCs() and Pacing#calculateRecommendedPace() respectively.
+
+## Usage Examples
+
+Here are a few examples of how the "Pacing and MC Calculation" feature behaves:
+
+### Example 1: Calculate Remaining MCs
+
+Command: `pace Y2/S1` (assuming that the user has completed 60 MCs from Y1S1 to Y2S1)
+
+Response:
+You currently have 100 MCs left until graduation.
+
+### Example 2: Calculate Remaining MCs (No Semester Specified)
+
+Command: `pace`
+
+Response:
+You currently have 100 MCs left until graduation.
+- ### Feature 2
 
 ## Product scope
 ### Target user profile

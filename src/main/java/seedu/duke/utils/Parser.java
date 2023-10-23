@@ -3,7 +3,7 @@ package seedu.duke.utils;
 public class Parser {
 
     //we need to consider if
-    public boolean isValidAcademicYear(String userInput ) {
+    public boolean isValidAcademicYear( String userInput ) {
         try {
             String[] parts = userInput.split("/");
             if(parts.length != 2){
