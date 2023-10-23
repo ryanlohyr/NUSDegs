@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import seedu.duke.ModuleList;
+import seedu.duke.models.ModuleList;
 import seedu.duke.models.Major;
 
 import java.io.ByteArrayOutputStream;
