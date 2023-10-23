@@ -1,5 +1,7 @@
 package seedu.duke;
 
+import seedu.duke.models.ModuleList;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
