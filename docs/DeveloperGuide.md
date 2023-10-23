@@ -8,8 +8,12 @@
 
 {Describe the design and implementation of the product. Use UML diagrams and short code snippets where applicable.}
 ## Features
-- ### Pace Feature
-# Proposed Implementation - Pacing and MC Calculation
+- Pace
+- Left
+
+# Implementation
+
+## [Proposed] Pacing and MC Calculation
 
 The proposed "Pacing and MC Calculation" mechanism is implemented to help users track their academic progress and remaining Modular Credits (MCs) required for graduation. This feature is facilitated by the PacingManager, which stores user data and provides functions for calculating the recommended pacing and remaining MCs. The following operations are available:
 
@@ -18,24 +22,46 @@ The proposed "Pacing and MC Calculation" mechanism is implemented to help users 
 
 These operations are exposed in the Pacing interface as Pacing#calculateRemainingMCs() and Pacing#calculateRecommendedPace() respectively.
 
-## Usage Examples
+### Usage Examples
 
 Here are a few examples of how the "Pacing and MC Calculation" feature behaves:
 
-### Example 1: Calculate Remaining MCs
+#### Example 1: Calculate Remaining MCs
 
 Command: `pace Y2/S1` (assuming that the user has completed 60 MCs from Y1S1 to Y2S1)
 
 Response:
-You currently have 100 MCs left until graduation.
+`You currently have 100 MCs left until graduation.`
 
-### Example 2: Calculate Remaining MCs (No Semester Specified)
+#### Example 2: Calculate Remaining MCs (No Semester Specified)
 
 Command: `pace`
 
 Response:
-You currently have 100 MCs left until graduation.
-- ### Feature 2
+`You currently have 100 MCs left until graduation.`
+
+## [Proposed] List Modules Left Feature
+
+The proposed left mechanism is implemented to help users keep tracks of modules left for their major. It is facilitated by `modulesLeft`, `modulesMajor` and `modulesTaken`. Additionally, it implements the following operations:
+
+- `modulesLeft#getDifference(modulesMajor, modulesTaken)` – Keeps the list of modules in `modulesMajor` but not in `modulesTaken` in `modulesLeft`.
+- `modulesLeft#getMainModuleList()` – Returns the list of modules in `modulesLeft`.
+
+This operation is exposed in the `ModulePlannerController` interface as `ModulePlannerController#listModulesLeft()`.
+
+### Usage Examples
+
+Here are a few examples of how the List Modules Left Feature behaves:
+
+#### Example 1: 
+`modulesMajor#getMainModuleList()` gives modules `CS1231S CS2030S CS2040S CS2100 CS2101 CS2106 CS2109S CS3230`.
+`modulesTaken#getMainModuleList()` gives modules `CS1231S MA1511`
+
+Command: `left`
+
+Response:
+`CS2030S CS2040S CS2100 CS2101 CS2106 CS2109S CS3230`
+
 
 ## Product scope
 ### Target user profile
