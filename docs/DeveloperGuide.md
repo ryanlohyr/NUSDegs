@@ -4,7 +4,7 @@
 
 {list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
 
-## Design & implementation
+## Design & implementation, Architecture
 
 {Describe the design and implementation of the product. Use UML diagrams and short code snippets where applicable.}
 ## Features
