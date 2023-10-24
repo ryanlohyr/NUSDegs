@@ -5,12 +5,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import seedu.duke.ModuleList;
-import seedu.duke.models.Major;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -104,27 +102,5 @@ class ModulePlannerControllerTest {
         for (int i = 0; i < numberOfModules; i += 1) {
             assertEquals(actualDifference.getMainModuleList().get(i), list.get(i));
         }
-    }
-
-    //success scenario: valid major -> major updated
-    @Test
-    void updateMajor_validMajor_expectSuccessMessage() {
-        ModulePlannerController controller = new ModulePlannerController();
-        String major = "cs";
-        controller.updateMajor(major);
-        String printedOutput = outputStream.toString().trim();
-        assertEquals(String.format("Major %s selected!",major.toUpperCase()), printedOutput);
-    }
-
-    //failure scenario invalid major -> throw exception
-    @Test
-    void updateMajor_invalidMajor_expectFailureMessage() {
-        ModulePlannerController controller = new ModulePlannerController();
-        String major = "abc";
-        controller.updateMajor(major);
-        String printedOutput = outputStream.toString().trim();
-        assertEquals("Please select a major from this list: " + Arrays.toString(Major.values()),
-                    printedOutput);
-
     }
 }

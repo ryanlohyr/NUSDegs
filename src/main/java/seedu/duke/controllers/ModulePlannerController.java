@@ -87,7 +87,18 @@ public class ModulePlannerController {
                 break;
             }
             case "major": {
-                updateMajor(words[1]);
+                String printMessageCommand = student.updateMajor(userInput);
+                switch (printMessageCommand) {
+                case "currentMajor":
+                    view.displayMessage("Current major is " + student.getMajor() + ".");
+                    break;
+                case "newMajor":
+                    view.displayMessage("Major " + student.getMajor() + " selected!");
+                    break;
+                case "invalidMajor":
+                    view.displayMessage("Please select a major from this list: " + Arrays.toString(Major.values()));
+                    break;
+                }
                 break;
             }
             case "complete": {
@@ -202,14 +213,4 @@ public class ModulePlannerController {
         map.get(key).add(value);
     }
 
-
-
-    public void updateMajor(String major) {
-        try {
-            student.setMajor(Major.valueOf(major.toUpperCase()));
-            view.displayMessage("Major " + student.getMajor() + " selected!");
-        } catch (IllegalArgumentException e) {
-            view.displayMessage("Please select a major from this list: " + Arrays.toString(Major.values()));
-        }
-    }
 }
