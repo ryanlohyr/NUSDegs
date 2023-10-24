@@ -1,4 +1,4 @@
-package seedu.duke;
+package seedu.duke.models;
 
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
@@ -30,6 +30,7 @@ public class ModuleList {
     /**
      * Computes the difference between two ModuleList objects (A - B) and updates the current list.
      *
+     * @author janelleenqi
      * @param a The first ModuleList.
      * @param b The second ModuleList.
      * @throws InvalidObjectException If either A or B is null.
@@ -56,6 +57,7 @@ public class ModuleList {
     /**
      * Checks if a module exists in the list.
      *
+     * @author janelleenqi
      * @param moduleA The module to check for existence.
      * @return true if the module exists in the list; false otherwise.
      * @throws InvalidObjectException If moduleA is null.
@@ -64,6 +66,7 @@ public class ModuleList {
         if (moduleA == null || mainModuleList == null) {
             throw new InvalidObjectException("Null Inputs");
         }
+
         for (String moduleB : mainModuleList) {
             if (moduleA.equals(moduleB)) {
                 return true;
@@ -75,9 +78,11 @@ public class ModuleList {
     /**
      * Retrieves the list of modules.
      *
+     * @author janelleenqi
      * @return The ArrayList containing the modules.
      */
     public ArrayList<String> getMainModuleList() {
+        assert mainModuleList != null: "null mainModuleList";
         return mainModuleList;
     }
 
@@ -87,6 +92,7 @@ public class ModuleList {
      * @return The number of modules.
      */
     public int getNumberOfModules() {
+        assert numberOfModules >= 0: "negative numberOfModules";
         return numberOfModules;
     }
 }

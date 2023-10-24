@@ -1,7 +1,7 @@
 package seedu.duke.controllers;
 
 import seedu.duke.CompletePreqs;
-import seedu.duke.ModuleList;
+import seedu.duke.models.ModuleList;
 import seedu.duke.models.Major;
 import seedu.duke.models.Student;
 import seedu.duke.views.CommandLineView;
@@ -123,6 +123,7 @@ public class ModulePlannerController {
      * Computes and returns the list of modules that are left in the ModuleList modulesMajor
      * after subtracting the modules in the ModuleList modulesTaken.
      *
+     * @author janelleenqi
      * @return An ArrayList of module codes representing the modules left after the subtraction.
      * @throws InvalidObjectException If either modulesMajor or modulesTaken is null.
      */
