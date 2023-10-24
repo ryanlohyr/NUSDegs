@@ -30,4 +30,17 @@ public class Student {
     public void setMajor(Major major) {
         this.major = major;
     }
+
+    public String updateMajor(String userInput) {
+        String[] words = userInput.split(" ");
+        if (words.length < 2) {
+            return "currentMajor";
+        }
+        try {
+            setMajor(Major.valueOf(words[1].toUpperCase()));
+            return "newMajor";
+        } catch (IllegalArgumentException e) {
+            return "invalidMajor";
+        }
+    }
 }
