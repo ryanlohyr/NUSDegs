@@ -98,6 +98,9 @@ public class ModulePlannerController {
                 case "invalidMajor":
                     view.displayMessage("Please select a major from this list: " + Arrays.toString(Major.values()));
                     break;
+                // Empty default branch as printMessageCommand cannot take any other value
+                default:
+                    break;
                 }
                 break;
             }
