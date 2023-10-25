@@ -43,7 +43,7 @@ public class CompletePreqs {
      * @param moduleCompleted
      */
     public void getUnlockedMods(String moduleCompleted) {
-        System.out.println("Mod completed: " + moduleCompleted);
+
 
         // Check prerequisites of the moduleCompleted
         if (modulesWithPreqs.containsKey(moduleCompleted)) {
@@ -65,9 +65,17 @@ public class CompletePreqs {
         if (!addToModulesCompleted.contains(moduleCompleted)) {
             addToModulesCompleted.add(moduleCompleted);
         }
+
+        System.out.println("Mod completed: " + moduleCompleted);
+        printUnlockedMods(moduleCompleted);
     }
+
+    /**
+     * This is only used for the first initalization of the mods.
+     * @param moduleCompleted
+     */
     private void processModuleForUnlockingWithoutPrint(String moduleCompleted) {
-        ArrayList<String> newlyUnlockedMods = new ArrayList<>();
+        ArrayList<String> newMods = new ArrayList<>();
 
 
         for (String key : modulesWithPreqs.keySet()) {
@@ -82,19 +90,20 @@ public class CompletePreqs {
                     }
                 }
                 if (allPrerequisitesMet) {
-                    newlyUnlockedMods.add(key);
+                    newMods.add(key);
                     unlockedModulesSet.add(key);
                 }
             }
         }
     }
+
+
 
     /**
      * @param moduleCompleted
      */
-    private void processModuleForUnlocking(String moduleCompleted) {
+    public void printUnlockedMods(String moduleCompleted) {
         ArrayList<String> newlyUnlockedMods = new ArrayList<>();
-
 
         for (String key : modulesWithPreqs.keySet()) {
             //If new unlocked mod isn't marked as complete or unlocked already
@@ -113,10 +122,30 @@ public class CompletePreqs {
                 }
             }
         }
-
         for (String mod : newlyUnlockedMods) {
             System.out.println(mod + " has been unlocked!");
         }
+
+    }
+
+    public void printModsCompleted(){
+        for (String mod: addToModulesCompleted){
+            System.out.println(mod + "has been completed");
+        }
+    }
+
+    public boolean checkModInput(String[] words, ModuleList list){
+        if (words.length == 2){
+            if (list.getMainModuleList().contains(words[1])){
+                return true;
+            }
+            System.out.println("Please enter a available mod: ");
+            list.printMainModuleList();
+            return false;
+        }
+        System.out.println("Please enter a available mod after the complete keyword");
+        list.printMainModuleList();
+        return false;
     }
 }
 

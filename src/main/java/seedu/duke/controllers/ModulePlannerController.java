@@ -105,10 +105,14 @@ public class ModulePlannerController {
                 break;
             }
             case "complete": {
-                String moduleCompleted = words[1];
-                //Get mods that are unlocked after a mod is marked complete
-                addModulePreqs.getUnlockedMods(moduleCompleted);
+                if (addModulePreqs.checkModInput(words, modulesMajor)){
+                    String moduleCompleted = words[1];
+                    addModulePreqs.getUnlockedMods(moduleCompleted);
+                    addModulePreqs.printUnlockedMods(moduleCompleted);
+                    break;
+                }
                 break;
+
             }
             default: {
                 view.displayMessage("Hello " + userInput);
