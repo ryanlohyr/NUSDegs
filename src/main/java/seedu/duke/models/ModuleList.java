@@ -81,6 +81,13 @@ public class ModuleList {
         return mainModuleList;
     }
 
+    public void printMainModuleList(){
+        for (String mod: mainModuleList){
+            System.out.print(mod + " ");
+        }
+        System.out.println();
+    }
+
     /**
      * Retrieves the number of modules.
      *
