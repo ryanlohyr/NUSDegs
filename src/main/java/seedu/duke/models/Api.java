@@ -1,10 +1,12 @@
 package seedu.duke.models;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -73,7 +75,7 @@ public class Api {
     }
 
     public static String getModuleName(JSONObject module) {
-            return (String) module.get("moduleName");
+        return (String) module.get("moduleName");
     }
 
 }
