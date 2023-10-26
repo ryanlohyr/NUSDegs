@@ -1,17 +1,13 @@
 package seedu.duke.controllers;
-
 import seedu.duke.CompletePreqs;
 import seedu.duke.models.ModuleList;
 import seedu.duke.models.Major;
 import seedu.duke.models.Student;
 import seedu.duke.views.CommandLineView;
 import seedu.duke.utils.Parser;
-
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
 import java.util.Arrays;
-
-
 import java.util.Scanner;
 import java.util.HashMap;
 import java.util.List;
@@ -74,7 +70,6 @@ public class ModulePlannerController {
                 for (String module : modules) {
                     view.displayMessage(module);
                 }
-
                 break;
             }
             case "pace": {
@@ -105,14 +100,13 @@ public class ModulePlannerController {
                 break;
             }
             case "complete": {
-                if (addModulePreqs.checkModInput(words, modulesMajor)){
+                if (addModulePreqs.checkModInput(words, modulesMajor)) {
                     String moduleCompleted = words[1];
                     addModulePreqs.getUnlockedMods(moduleCompleted);
                     addModulePreqs.printUnlockedMods(moduleCompleted);
                     break;
                 }
                 break;
-
             }
             default: {
                 view.displayMessage("Hello " + userInput);
