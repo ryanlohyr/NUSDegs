@@ -46,5 +46,4 @@ public class ApiTest {
         assertTrue(description.contains(correctDescription), "Module info should contain relevant info");
     }
 
-
 }
