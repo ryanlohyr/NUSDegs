@@ -9,6 +9,7 @@
 src/main/resources/docs/
 
 # MacOS custom attributes files created by Finder
+/htmlReport/
 .DS_Store
 *.iml
 bin/

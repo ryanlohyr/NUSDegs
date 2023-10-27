@@ -1,6 +1,6 @@
 package seedu.duke;
 
-import seedu.duke.models.Api;
+import seedu.duke.models.logic.Api;
 
 import java.net.URISyntaxException;
 

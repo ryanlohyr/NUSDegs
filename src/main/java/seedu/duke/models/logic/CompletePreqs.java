@@ -1,7 +1,4 @@
-package seedu.duke;
-
-import seedu.duke.models.ModuleList;
-
+package seedu.duke.models.logic;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;

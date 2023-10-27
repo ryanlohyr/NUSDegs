@@ -1,16 +1,19 @@
 package seedu.duke.controllers;
-import seedu.duke.CompletePreqs;
-import seedu.duke.models.ModuleList;
-import seedu.duke.models.Major;
-import seedu.duke.models.Student;
+import org.json.simple.JSONObject;
+import seedu.duke.models.logic.CompletePreqs;
+import seedu.duke.models.logic.ModuleList;
+import seedu.duke.models.schema.Major;
+import seedu.duke.models.schema.Student;
+import seedu.duke.models.logic.Api;
 import seedu.duke.views.CommandLineView;
 import seedu.duke.utils.Parser;
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Scanner;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Scanner;
+import java.util.Arrays;
+
 public class ModulePlannerController {
     private CommandLineView view;
     private Parser parser;
@@ -42,7 +45,12 @@ public class ModulePlannerController {
     }
 
 
-
+    /**
+     * Starts the interactive command-line interface for the academic module management system.
+     * This method displays a welcome message, reads user input, and processes various commands.
+     * While the user input is not "bye," the method processes the input and responds accordingly.
+     * The commands are case-insensitive, and the response is displayed in the view.
+     */
     public void start() {
         view.displayWelcome();
         Scanner in = new Scanner(System.in);
@@ -61,6 +69,14 @@ public class ModulePlannerController {
             }
             case "hello": {
                 view.displayMessage("yup");
+                break;
+            }
+            case "info": {
+                view.displayMessage("info");
+                JSONObject moduleInfoObject = Api.getModuleInfoJson("CS2113");
+                assert(moduleInfoObject != null);
+                String moduleInfo = (String) moduleInfoObject.get("description");
+                view.displayMessage(moduleInfo);
                 break;
             }
             case "left": {
@@ -143,9 +159,10 @@ public class ModulePlannerController {
      * Computes the recommended pace for completing a degree based on the provided academic year
      * and credits left until graduation.
      *
+     * @author ryanlohyr
      * @param userInput  An array of user input where userInput[0] is the command and userInput[1] is the academic year.
      * @param creditsLeft The number of credits left until graduation.
-     * @throws IllegalArgumentException if the provided academic year is invalid.
+     *
      */
     public void computePace(String[] userInput, int creditsLeft) {
         boolean argumentProvided = userInput.length != 1;

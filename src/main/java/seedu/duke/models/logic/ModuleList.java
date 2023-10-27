@@ -1,4 +1,4 @@
-package seedu.duke.models;
+package seedu.duke.models.logic;
 
 import java.io.InvalidObjectException;
 import java.util.ArrayList;

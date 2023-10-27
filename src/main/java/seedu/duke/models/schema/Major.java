@@ -1,4 +1,4 @@
-package seedu.duke.models;
+package seedu.duke.models.schema;
 
 public enum Major {
     CS, CEG
