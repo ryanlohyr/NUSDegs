@@ -2,7 +2,19 @@ package seedu.duke.utils;
 
 public class Parser {
 
-    //we need to consider if
+    /**
+     * Checks if the given academic year input is valid.
+     * The academic year should be in the format "Yn/Sx", where 'n' represents the year
+     * and 'x' represents the semester (e.g., Y1/S1, Y2/S2).
+     *
+     *
+     * @author @ryanlohyr
+     * @param userInput The academic year input to be validated.
+     * @return true if the input is a valid academic year, false otherwise.
+     *
+     * @throws IllegalArgumentException if the input format is incorrect or if the year or semester is invalid.
+     *
+     */
     public boolean isValidAcademicYear( String userInput ) {
         try {
             String[] parts = userInput.split("/");
@@ -31,7 +43,6 @@ public class Parser {
             System.out.println(e.getMessage());
             return false;
         }
-
     }
 
 

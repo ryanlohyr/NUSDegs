@@ -1,7 +1,7 @@
 package seedu.duke;
 
 import org.junit.jupiter.api.Test;
-import seedu.duke.models.ModuleList;
+import seedu.duke.models.logic.ModuleList;
 
 import java.io.InvalidObjectException;
 
