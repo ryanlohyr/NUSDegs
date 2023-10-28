@@ -6,7 +6,9 @@ import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -30,20 +32,18 @@ public class Api {
         }
     }
 
-    public static String getDescription(String moduleInfo) {
-        int indexOfDescriptionStart = moduleInfo.indexOf("description");
-        int indexOfDescriptionEnd = moduleInfo.indexOf("workload");
-        if (indexOfDescriptionEnd != -1 | (indexOfDescriptionEnd != -1)) {
-            System.out.println("Index of 'description': " + indexOfDescriptionStart);
-            System.out.println("Index of 'description' end: " + indexOfDescriptionEnd);
-        } else {
-            System.out.println("'description' not found in the string.");
-        }
-        //   assuming that workload is always the next object after description
-        String description = moduleInfo.substring(indexOfDescriptionStart + 8, indexOfDescriptionEnd - 2);
-        System.out.println(description);
-        return description;
+    public static String getDescription(String moduleCode) {
+        JSONObject moduleInfo = getModuleInfoJson(moduleCode);
+        assert moduleInfo != null;
+        return (String) moduleInfo.get("description");
     }
+
+    public static JSONArray getWorkload(String moduleCode) {
+        JSONObject moduleInfo = getModuleInfoJson(moduleCode);
+        assert moduleInfo != null;
+        return (JSONArray) moduleInfo.get("workload");
+    }
+
 
     public static JSONObject getModuleInfoJson(String moduleCode) {
         try {
@@ -58,7 +58,7 @@ public class Api {
             JSONParser parser = new JSONParser();
             // Will refactor the variable later on, left it for easier readability
             JSONObject moduleInfo = (JSONObject) parser.parse(responseBody);
-            ModuleInfo.printModule(moduleInfo);
+        //    ModuleInfo.printModule(moduleInfo);
             return moduleInfo;
         } catch (ParseException e) {
             //to be replaced with more robust error class in the future
@@ -71,11 +71,72 @@ public class Api {
             System.out.println("Sorry, there was an error with" +
                     " the provided URL: " + e.getMessage());
         }
+        System.out.println("oops! Your module code is invalid. Please try again.");
         return null;
     }
 
+    public static JSONArray listAllModules() {
+        try {
+            String url = "https://api.nusmods.com/v2/2023-2024/moduleList.json";
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI(url))
+                    .GET()
+                    .build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            String responseBody = response.body();
+            JSONParser parser = new JSONParser();
+            // Will refactor the variable later on, left it for easier readability
+            JSONArray moduleList = (JSONArray) parser.parse(responseBody);
+       //     System.out.println(moduleList);
+            return moduleList;
+        } catch (URISyntaxException e) {
+            System.out.println("Sorry, there was an error with" +
+                    " the provided URL: " + e.getMessage());
+            throw new RuntimeException(e);
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (ParseException e) {
+            //to be replaced with more robust error class in the future
+            System.out.println("Sorry, the JSON object could not be parsed");
+        }
+        return null;
+    }
+
+    // search keyword in module name, returns you module code(s) and module name (title)
+    public static JSONArray search(String keyword, JSONArray moduleList) {
+        JSONArray modulesContainingKeyword = new JSONArray();
+        for (Object moduleObject : moduleList) {
+            JSONObject module = (JSONObject) moduleObject; // Cast to JSONObject
+            String title = (String) module.get("title");
+            if (title.contains(keyword)) {
+                modulesContainingKeyword.add((Object) module);
+                //not sure how to resolve this yellow line
+            }
+        }
+        return modulesContainingKeyword;
+    }
     public static String getModuleName(JSONObject module) {
         return (String) module.get("moduleName");
+    }
+
+    public static void infoCommands(String command, String userInput) {
+        // checks if command is even equal to any of these words, if equal nothing then return go fk yourself
+        if (command.equals("description")) {
+            String moduleCode = userInput.substring(userInput.indexOf("description") + 11).trim();
+            // checks if moduleCode is moduleCode and not some random bs
+            if (!Api.getDescription(moduleCode).isEmpty()) {
+                Api.getDescription(moduleCode);
+                // should directly print from this function? - where should the print statements be, in
+            }
+        } else if (command.equals("workload")) {
+            String moduleCode = userInput.substring(userInput.indexOf("workload") + 8).trim();
+            // checks if moduleCode is moduleCode and not some random bs
+            if (!Api.getWorkload(moduleCode).isEmpty()) {Api.getWorkload(moduleCode);
+            }
+        } else {
+            System.out.println("Error");
+        }
     }
 
 }

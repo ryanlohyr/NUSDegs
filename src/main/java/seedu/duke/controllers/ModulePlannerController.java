@@ -1,5 +1,7 @@
 package seedu.duke.controllers;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 import seedu.duke.models.logic.CompletePreqs;
 import seedu.duke.models.logic.ModuleList;
 import seedu.duke.models.schema.Major;
@@ -7,7 +9,11 @@ import seedu.duke.models.schema.Student;
 import seedu.duke.models.logic.Api;
 import seedu.duke.views.CommandLineView;
 import seedu.duke.utils.Parser;
+import seedu.duke.views.ModuleInfo;
+
+import java.io.IOException;
 import java.io.InvalidObjectException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,7 +57,7 @@ public class ModulePlannerController {
      * While the user input is not "bye," the method processes the input and responds accordingly.
      * The commands are case-insensitive, and the response is displayed in the view.
      */
-    public void start() {
+    public void start() throws URISyntaxException, IOException, ParseException, InterruptedException {
         view.displayWelcome();
         Scanner in = new Scanner(System.in);
         String userInput = in.nextLine();
@@ -73,15 +79,33 @@ public class ModulePlannerController {
             }
             case "info": {
                 view.displayMessage("info");
-                JSONObject moduleInfoObject = Api.getModuleInfoJson("CS2113");
-                assert(moduleInfoObject != null);
-                String moduleInfo = (String) moduleInfoObject.get("description");
-                view.displayMessage(moduleInfo);
+                if (words.length < 2) {
+                    Api.listAllModules();
+                    break;
+                }
+                if (!words[1].equals("description") && !words[1].equals("workload")
+                        && !words[1].equals("prereqs") && !words[1].equals("requirements"))  {
+                    Api.getModuleInfoJson(words[1]);
+                    break;
+                }
+                Api.infoCommands(words[1], userInput);
+                break;
+            }
+            case "search": {
+                view.displayMessage("search");
+                String keywords = userInput.substring(userInput.indexOf("search") + 6);
+                // need to add a function to make search case-insensitive
+                if (keywords.isEmpty()) {
+                    System.out.println("cmon bro input smth after search");
+                    break;
+                }
+                JSONArray modulesToPrint = Api.search(keywords, Api.listAllModules());
+                ModuleInfo.searchHeader();
+                ModuleInfo.printJsonArray(modulesToPrint);
                 break;
             }
             case "left": {
                 ArrayList<String> modules = listModulesLeft();
-
                 view.displayMessage("Modules left:");
                 for (String module : modules) {
                     view.displayMessage(module);
