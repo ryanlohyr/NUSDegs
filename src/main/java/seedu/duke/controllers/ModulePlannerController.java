@@ -1,6 +1,7 @@
 package seedu.duke.controllers;
 import org.json.simple.JSONObject;
 import seedu.duke.models.logic.CompletePreqs;
+import seedu.duke.models.logic.DataRepository;
 import seedu.duke.models.logic.ModuleList;
 import seedu.duke.models.schema.Major;
 import seedu.duke.models.schema.Student;
@@ -9,6 +10,7 @@ import seedu.duke.views.CommandLineView;
 import seedu.duke.utils.Parser;
 import seedu.duke.views.ErrorHandler;
 
+import java.io.FileNotFoundException;
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -125,6 +127,16 @@ public class ModulePlannerController {
                 // Empty default branch as printMessageCommand cannot take any other value
                 default:
                     break;
+                }
+                break;
+            }
+            case "required": {
+                try {
+                    view.printTXTFile(DataRepository.getFullRequirements(student.getMajor()));
+                } catch (NullPointerException e) {
+                    System.out.println("\tAn error occurred." + e.getMessage());
+                } catch (FileNotFoundException e) {
+                    System.out.println("\t☹ An error occurred." + e.getMessage());
                 }
                 break;
             }

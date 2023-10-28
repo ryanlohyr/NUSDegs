@@ -19,7 +19,7 @@ public class Student {
         return name;
     }
 
-    public Major getMajor() {
+    public Major getMajor() throws NullPointerException {
         return major;
     }
 
