@@ -7,12 +7,16 @@ import seedu.duke.models.schema.Student;
 import seedu.duke.models.logic.Api;
 import seedu.duke.views.CommandLineView;
 import seedu.duke.utils.Parser;
+import seedu.duke.views.ErrorHandler;
+
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Arrays;
+
+import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
 
 public class ModulePlannerController {
     private CommandLineView view;
@@ -73,7 +77,7 @@ public class ModulePlannerController {
             }
             case "info": {
                 view.displayMessage("info");
-                JSONObject moduleInfoObject = Api.getModuleInfoJson("CS2113");
+                JSONObject moduleInfoObject = Api.getFullModuleInfo("CS2113");
                 assert(moduleInfoObject != null);
                 String moduleInfo = (String) moduleInfoObject.get("description");
                 view.displayMessage(moduleInfo);
@@ -95,6 +99,15 @@ public class ModulePlannerController {
                 int totalCreditsToGraduate = 160;
                 int creditsLeft = totalCreditsToGraduate - modulesCreditsCompleted;
                 computePace(words, creditsLeft);
+                break;
+            }
+            case "prereq": {
+                if(!Parser.isValidInput("prereq",words)){
+                    ErrorHandler.invalidInput();
+                    break;
+                }
+                String keyword = words[1];
+                System.out.println(getModulePrereqBasedOnCourse(keyword.toUpperCase(), "CEG"));
                 break;
             }
             case "major": {

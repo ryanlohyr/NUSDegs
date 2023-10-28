@@ -45,6 +45,34 @@ public class Parser {
         }
     }
 
+    public static boolean isValidInput(String command, String[] words) {
+        switch (command) {
+        case "prereq": {
+            if (words.length < 2) {
+                return false;
+            }
+            break;
+        }
+        case "test": {
+            if (words.length < 23) {
+                return false;
+            }
+            break;
+        }
+        case "test2": {
+            if (words.length < 21) {
+                return false;
+            }
+            break;
+        }
+        default: {
+            return true;
+        }
+
+        }
+        return true;
+    }
+
 
 
 }
