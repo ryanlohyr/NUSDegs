@@ -3,6 +3,7 @@ import org.json.simple.JSONObject;
 import seedu.duke.models.logic.CompletePreqs;
 import seedu.duke.models.logic.ModuleList;
 import seedu.duke.models.schema.Major;
+import seedu.duke.models.schema.Schedule;
 import seedu.duke.models.schema.Student;
 import seedu.duke.models.logic.Api;
 import seedu.duke.views.CommandLineView;
@@ -33,10 +34,15 @@ public class ModulePlannerController {
         this.parser = new Parser();
         this.student = new Student();
 
+
+
         //This modules list of taken and classes left can be in a storage class later on.
         this.modulesMajor = new ModuleList("CS1231S CS2030S CS2040S CS2100 CS2101 CS2106 CS2109S CS3230");
         this.modulesTaken = new ModuleList("CS1231S MA1511");
         this.modulesLeft = new ModuleList();
+
+        Schedule schedule = new Schedule("CS1231S MA1511", new int[]{2, 0, 0, 0, 0, 0, 0, 0});
+        student.setSchedule(schedule);
 
         modsWithPreqs = new HashMap<>();
 
@@ -135,6 +141,13 @@ public class ModulePlannerController {
                     addModulePreqs.printUnlockedMods(moduleCompleted);
                     break;
                 }
+                break;
+            }
+            case "add" : {
+                student.getSchedule().addModule(words[1], Integer.parseInt(words[2]), student.getMajor());
+            }
+            case "schedule": {
+                student.getSchedule().printMainModuleList();
                 break;
             }
             default: {

@@ -5,14 +5,26 @@ public class Student {
     private String name;
     private Major major;
 
-    public Student(String name, Major major) {
+    private Schedule schedule;
+
+    public Student(String name, Major major, Schedule schedule) {
         this.name = name;
         this.major = major;
+        this.schedule = schedule;
     }
 
     public Student() {
         this.name = null;
         this.major = null;
+        this.schedule = new Schedule();
+    }
+
+    public void setSchedule(Schedule schedule) {
+        this.schedule = schedule;
+    }
+
+    public Schedule getSchedule() {
+        return schedule;
     }
 
     public String getName() {
