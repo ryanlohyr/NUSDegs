@@ -45,7 +45,7 @@ public class CommandLineView {
      * Print a double top line for a formatted header.
      */
     private void printDoubleTopLine() {
-        displayMessage(String.format("+%-" + formatLineLength + "s+", "").replace(' ', '='));
+        displayMessage(String.format("╔%-" + formatLineLength + "s╗", "").replace(' ', '='));
     }
 
     /**
