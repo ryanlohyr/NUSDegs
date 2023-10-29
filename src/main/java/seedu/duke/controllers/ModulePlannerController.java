@@ -8,7 +8,6 @@ import seedu.duke.models.schema.Student;
 import seedu.duke.models.logic.Api;
 import seedu.duke.views.CommandLineView;
 import seedu.duke.utils.Parser;
-import seedu.duke.views.ErrorHandler;
 
 import java.io.FileNotFoundException;
 import java.io.InvalidObjectException;
@@ -19,6 +18,9 @@ import java.util.Scanner;
 import java.util.Arrays;
 
 import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
+import static seedu.duke.models.logic.DataRepository.getRequirements;
+import static seedu.duke.models.logic.ScheduleGenerator.generateRecommendedSchedule;
+//import static seedu.duke.models.logic.ScheduleGenerator.generateRecommendedSchedule;
 
 public class ModulePlannerController {
     private CommandLineView view;
@@ -68,103 +70,115 @@ public class ModulePlannerController {
 
             String initialWord = words[0].toLowerCase();
 
-            switch (initialWord) {
-            case "hi": {
-                view.displayMessage("can put the commands here");
-                break;
-            }
-            case "hello": {
-                view.displayMessage("yup");
-                break;
-            }
-            case "info": {
-                view.displayMessage("info");
-                JSONObject moduleInfoObject = Api.getFullModuleInfo("CS2113");
-                assert(moduleInfoObject != null);
-                String moduleInfo = (String) moduleInfoObject.get("description");
-                view.displayMessage(moduleInfo);
-                break;
-            }
-            case "left": {
-                ArrayList<String> modules = listModulesLeft();
+            boolean validInput;
 
-                view.displayMessage("Modules left:");
-                for (String module : modules) {
-                    view.displayMessage(module);
-                }
-                break;
-            }
-            case "pace": {
-                //assumed that everyone graduates at y4s2
-                //waiting for retrieving logic
-                int modulesCreditsCompleted = 100;
-                int totalCreditsToGraduate = 160;
-                int creditsLeft = totalCreditsToGraduate - modulesCreditsCompleted;
-                computePace(words, creditsLeft);
-                break;
-            }
-            case "prereq": {
-                if(!Parser.isValidInput("prereq",words)){
-                    ErrorHandler.invalidInput();
+            validInput = Parser.isValidInput(initialWord, words);
+            if (validInput) {
+                switch (initialWord) {
+                case "hi": {
+                    view.displayMessage("can put the commands here");
                     break;
                 }
-                String keyword = words[1];
-                view.displayMessage(getModulePrereqBasedOnCourse(keyword.toUpperCase(), "CEG"));
-                break;
-            }
-            case "major": {
-                String printMessageCommand = student.updateMajor(userInput);
-                switch (printMessageCommand) {
-                case "currentMajor":
-                    view.displayMessage("Current major is " + student.getMajor() + ".");
-                    break;
-                case "newMajor":
-                    view.displayMessage("Major " + student.getMajor() + " selected!");
-                    break;
-                case "invalidMajor":
-                    view.displayMessage("Please select a major from this list: " + Arrays.toString(Major.values()));
-                    break;
-                // Empty default branch as printMessageCommand cannot take any other value
-                default:
+                case "hello": {
+                    view.displayMessage("yup");
                     break;
                 }
-                break;
-            }
-            case "required": {
-                try {
-                    view.printTXTFile(DataRepository.getFullRequirements(student.getMajor()));
-                } catch (NullPointerException | FileNotFoundException e) {
-                    view.displayMessage("☹ An error occurred. " + e.getMessage());
-                }
-                break;
-            }
-            case "complete": {
-                if (addModulePreqs.checkModInput(words, modulesMajor)) {
-                    String moduleCompleted = words[1];
-                    addModulePreqs.getUnlockedMods(moduleCompleted);
-                    addModulePreqs.printUnlockedMods(moduleCompleted);
+                case "info": {
+                    view.displayMessage("info");
+                    JSONObject moduleInfoObject = Api.getFullModuleInfo("CS2113");
+                    assert (moduleInfoObject != null);
+                    String moduleInfo = (String) moduleInfoObject.get("description");
+                    view.displayMessage(moduleInfo);
                     break;
                 }
-                break;
-            }
-            default: {
-                view.displayMessage("Hello " + userInput);
-                break;
-            }
+                case "left": {
+                    ArrayList<String> modules = listModulesLeft();
+
+                    view.displayMessage("Modules left:");
+                    for (String module : modules) {
+                        view.displayMessage(module);
+                    }
+                    break;
+                }
+                case "pace": {
+                    //assumed that everyone graduates at y4s2
+                    //waiting for retrieving logic
+                    int modulesCreditsCompleted = 100;
+                    int totalCreditsToGraduate = 160;
+                    int creditsLeft = totalCreditsToGraduate - modulesCreditsCompleted;
+                    computePace(words, creditsLeft);
+                    break;
+                }
+                case "prereq": {
+                    String keyword = words[1];
+                    System.out.println(getModulePrereqBasedOnCourse(keyword.toUpperCase(), "CEG"));
+                    break;
+                }
+                case "test": {
+                    System.out.println(getRequirements("CEG"));
+                    break;
+                }
+                case "recommend": {
+                    String keyword = words[1];
+                    System.out.println((generateRecommendedSchedule(keyword.toUpperCase())));
+                    break;
+                }
+                case "major": {
+                    String printMessageCommand = student.updateMajor(userInput);
+                    switch (printMessageCommand) {
+                    case "currentMajor":
+                        view.displayMessage("Current major is " + student.getMajor() + ".");
+                        break;
+                    case "newMajor":
+                        view.displayMessage("Major " + student.getMajor() + " selected!");
+                        break;
+                    case "invalidMajor":
+                        view.displayMessage("Please select a major from this list: " + Arrays.toString(Major.values()));
+                        break;
+                    // Empty default branch as printMessageCommand cannot take any other value
+                    default:
+                        break;
+                    }
+                    break;
+                }
+                case "required": {
+                    try {
+                        view.printTXTFile(DataRepository.getFullRequirements(student.getMajor()));
+                    } catch (NullPointerException | FileNotFoundException e) {
+                        view.displayMessage("☹ An error occurred. " + e.getMessage());
+                    }
+                    break;
+                }
+                case "complete": {
+                    if (addModulePreqs.checkModInput(words, modulesMajor)) {
+                        String moduleCompleted = words[1];
+                        addModulePreqs.getUnlockedMods(moduleCompleted);
+                        addModulePreqs.printUnlockedMods(moduleCompleted);
+                        break;
+                    }
+                    break;
+                }
+                default: {
+                    view.displayMessage("Hello " + userInput);
+                    break;
+                }
+
+
+                }
+
 
             }
             userInput = in.nextLine();
         }
     }
 
-
-
     /**
      * Computes and returns the list of modules that are left in the ModuleList modulesMajor
      * after subtracting the modules in the ModuleList modulesTaken.
-     *
      * @author janelleenqi
      * @return An ArrayList of module codes representing the modules left after the subtraction.
+     * @throws InvalidObjectException If either modulesMajor or modulesTaken is null.
+     *
      */
     public ArrayList<String> listModulesLeft() {
         //modulesMajor.txt - modulesTaken.txt
@@ -177,12 +191,15 @@ public class ModulePlannerController {
         return null;
     }
 
+
+
     /**
      * Computes the recommended pace for completing a degree based on the provided academic year
      * and credits left until graduation.
      *
      * @author ryanlohyr
-     * @param userInput  An array of user input where userInput[0] is the command and userInput[1] is the academic year.
+     * @param userInput   An array of user input where userInput[0] is the command and userInput[1]
+     *                    is the academic year.
      * @param creditsLeft The number of credits left until graduation.
      *
      */
@@ -211,12 +228,13 @@ public class ModulePlannerController {
         int semestersLeft = (lastYearOfDegree - yearIntValue) * 2 + (lastSemesterOfYear - semesterIntValue);
         int creditsPerSem = Math.round((float) creditsLeft / semestersLeft);
         view.displayMessage("You have " + creditsLeft + "MCs for " + semestersLeft + " semesters. "
-                + "Recommended Pace: "+ creditsPerSem + "MCs per sem until graduation");
+                + "Recommended Pace: " + creditsPerSem + "MCs per sem until graduation");
     }
 
 
     /**
      * Add all mods that require prerequisites to a map storing the mod and a set of preqs
+     *
      * @param list
      * @return HashMap of Mods with their corresponding preqs
      */
@@ -241,6 +259,7 @@ public class ModulePlannerController {
 
     /**
      * Helper function to addModsWithPreqs to add Strings and sets together
+     *
      * @param map
      * @param key
      * @param value

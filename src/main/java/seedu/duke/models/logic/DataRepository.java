@@ -20,7 +20,7 @@ public class DataRepository {
     public static ArrayList<String> getRequirements(String major){
         try {
             //add validation if wrong major?
-            String fileName = String.format("src/main/java/seedu/duke/models/data/%sRequirements",major);
+            String fileName = String.format("src/main/java/seedu/duke/models/data/%sRequirementsModuleCodes",major);
             File f = new File(fileName);
             if (!f.exists()) {
                 System.out.println("File does not exist");
