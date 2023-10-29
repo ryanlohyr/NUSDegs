@@ -18,7 +18,7 @@ public class DataRepository {
      * @throws RuntimeException If the specified major requirements file is not found.
      */
     public static ArrayList<String> getRequirements(String major){
-        try{
+        try {
             //add validation if wrong major?
             String fileName = String.format("src/main/java/seedu/duke/models/data/%sRequirements",major);
             File f = new File(fileName);
