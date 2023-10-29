@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 public class CommandLineView {
     private int formatLineLength = 0;
+    private int accountForTabs = 15;
 
     public void displayWelcome(){
         String logo = " ____        _        \n"
@@ -46,29 +47,16 @@ public class CommandLineView {
     }
 
     public void printTXTFile(String filePath) throws FileNotFoundException {
-        //ArrayList<Task> tasks = new ArrayList<>();
-
         File f = new File(filePath); // create a File for the given file path
-        Scanner firstScanner = new Scanner(f); // create a Scanner using the File as the source
-        int longestStringLength = 0;
+        int longestStringLength = getLongestStringLength(f);
+        formatLineLength = longestStringLength + accountForTabs;
 
-        while (firstScanner.hasNext()) {
-            String currentLine = firstScanner.nextLine();
-            if (currentLine.indexOf(" - ") > longestStringLength) {
-                longestStringLength = currentLine.indexOf(" - ");
-            }
-        }
-        if (longestStringLength % 4 > 0) { // remainder
-            longestStringLength = (longestStringLength / 4) * 4;
-        }
-        formatLineLength = longestStringLength + 15;
-
-        Scanner secondScanner = new Scanner(f);
+        Scanner s = new Scanner(f);
         String moduleName;
         String moduleMCs;
 
-        while (secondScanner.hasNext()) {
-            String currentLine = secondScanner.nextLine();
+        while (s.hasNext()) {
+            String currentLine = s.nextLine();
             if (currentLine.indexOf(" - ") > 0) { //module exist
                 moduleName = currentLine.substring(0, currentLine.indexOf(" - "));
                 moduleMCs = currentLine.substring(currentLine.indexOf(" - ") + 3);
@@ -98,5 +86,21 @@ public class CommandLineView {
             }
 
         }
+    }
+
+    private static int getLongestStringLength(File f) throws FileNotFoundException {
+        Scanner s = new Scanner(f); // create a Scanner using the File as the source
+        int longestStringLength = 0;
+
+        while (s.hasNext()) {
+            String currentLine = s.nextLine();
+            if (currentLine.indexOf(" - ") > longestStringLength) {
+                longestStringLength = currentLine.indexOf(" - ");
+            }
+        }
+        if (longestStringLength % 4 > 0) { // remainder
+            longestStringLength = (longestStringLength / 4) * 4;
+        }
+        return longestStringLength;
     }
 }
