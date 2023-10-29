@@ -9,6 +9,14 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class DataRepository {
+
+    /**
+     * Retrieves a list of modules requirements for a specified major.
+     *
+     * @param major The major for which to retrieve requirements.
+     * @return An ArrayList of module codes.
+     * @throws RuntimeException If the specified major requirements file is not found.
+     */
     public static ArrayList<String> getRequirements(String major){
         try{
             //add validation if wrong major?
@@ -35,6 +43,12 @@ public class DataRepository {
         }
     }
 
+    /**
+     * Returns the file path for the requirements of a specified major.
+     *
+     * @param major The major for which to retrieve the requirements file path.
+     * @return The file path to the major's requirements file.
+     */
     public static String getFullRequirements(Major major){
         return String.format("src/main/java/seedu/duke/models/data/%sRequirements", major.toString());
     }
