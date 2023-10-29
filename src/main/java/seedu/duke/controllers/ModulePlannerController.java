@@ -1,6 +1,7 @@
 package seedu.duke.controllers;
 import org.json.simple.JSONObject;
 import seedu.duke.models.logic.CompletePreqs;
+import seedu.duke.models.logic.DataRepository;
 import seedu.duke.models.logic.ModuleList;
 import seedu.duke.models.schema.Major;
 import seedu.duke.models.schema.Student;
@@ -9,6 +10,7 @@ import seedu.duke.views.CommandLineView;
 import seedu.duke.utils.Parser;
 import seedu.duke.views.ErrorHandler;
 
+import java.io.FileNotFoundException;
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -107,7 +109,7 @@ public class ModulePlannerController {
                     break;
                 }
                 String keyword = words[1];
-                System.out.println(getModulePrereqBasedOnCourse(keyword.toUpperCase(), "CEG"));
+                view.displayMessage(getModulePrereqBasedOnCourse(keyword.toUpperCase(), "CEG"));
                 break;
             }
             case "major": {
@@ -125,6 +127,14 @@ public class ModulePlannerController {
                 // Empty default branch as printMessageCommand cannot take any other value
                 default:
                     break;
+                }
+                break;
+            }
+            case "required": {
+                try {
+                    view.printTXTFile(DataRepository.getFullRequirements(student.getMajor()));
+                } catch (NullPointerException | FileNotFoundException e) {
+                    view.displayMessage("☹ An error occurred. " + e.getMessage());
                 }
                 break;
             }
@@ -155,7 +165,6 @@ public class ModulePlannerController {
      *
      * @author janelleenqi
      * @return An ArrayList of module codes representing the modules left after the subtraction.
-     * @throws InvalidObjectException If either modulesMajor or modulesTaken is null.
      */
     public ArrayList<String> listModulesLeft() {
         //modulesMajor.txt - modulesTaken.txt
@@ -163,7 +172,7 @@ public class ModulePlannerController {
             modulesLeft.getDifference(modulesMajor, modulesTaken);
             return modulesLeft.getMainModuleList();
         } catch (InvalidObjectException e) {
-            System.out.println("Error: " + e.getMessage());
+            view.displayMessage("Error: " + e.getMessage());
         }
         return null;
     }
