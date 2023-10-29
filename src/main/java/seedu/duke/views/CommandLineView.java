@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class CommandLineView {
     private int formatLineLength = 0;
-    private int accountForTabs = 15;
+    private final int accountForTabs = 15;
 
     public void displayWelcome(){
         String logo = " ____        _        \n"
@@ -52,7 +52,7 @@ public class CommandLineView {
      * Print a bottom line for a formatted subheader.
      */
     private void printBottomLine() {
-        displayMessage(String.format("└%-" + formatLineLength + "s┘", "").replace(' ', '—'));
+        displayMessage(String.format("%c%-" + formatLineLength + "s%c", '└', "", '┘').replace(' ', '—'));
     }
 
     /**
