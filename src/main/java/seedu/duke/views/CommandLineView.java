@@ -38,7 +38,7 @@ public class CommandLineView {
      * Print a top line for a formatted subheader.
      */
     private void printTopLine() {
-        displayMessage(String.format("+%-" + formatLineLength + "s+", "").replace(' ', '-'));
+        displayMessage(String.format("┌%-" + formatLineLength + "s┐", "").replace(' ', '-'));
     }
 
     /**
@@ -52,14 +52,14 @@ public class CommandLineView {
      * Print a bottom line for a formatted subheader.
      */
     private void printBottomLine() {
-        displayMessage(String.format("+%-" + formatLineLength + "s+", "").replace(' ', '-'));
+        displayMessage(String.format("└%-" + formatLineLength + "s┘", "").replace(' ', '-'));
     }
 
     /**
      * Print a double bottom line for a formatted header.
      */
     private void printDoubleBottomLine() {
-        displayMessage(String.format("+%-" + formatLineLength + "s+", "").replace(' ', '='));
+        displayMessage(String.format("╚%-" + formatLineLength + "s╝", "").replace(' ', '='));
     }
 
     /**
