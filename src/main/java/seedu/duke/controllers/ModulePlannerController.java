@@ -2,7 +2,6 @@ package seedu.duke.controllers;
 import org.json.simple.JSONObject;
 import seedu.duke.models.logic.CompletePreqs;
 import seedu.duke.models.logic.DataRepository;
-import seedu.duke.models.logic.DataRepository;
 import seedu.duke.models.logic.ModuleList;
 import seedu.duke.models.schema.Major;
 import seedu.duke.models.schema.Student;
@@ -10,7 +9,6 @@ import seedu.duke.models.logic.Api;
 import seedu.duke.views.CommandLineView;
 import seedu.duke.utils.Parser;
 
-import java.io.FileNotFoundException;
 import java.io.FileNotFoundException;
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
@@ -164,77 +162,15 @@ public class ModulePlannerController {
                     view.displayMessage("Hello " + userInput);
                     break;
                 }
-                view.displayMessage("Modules left:");
-                for (String module : modules) {
-                    view.displayMessage(module);
-                }
-                break;
-            }
-            case "pace": {
-                //assumed that everyone graduates at y4s2
-                //waiting for retrieving logic
-                int modulesCreditsCompleted = 100;
-                int totalCreditsToGraduate = 160;
-                int creditsLeft = totalCreditsToGraduate - modulesCreditsCompleted;
-                computePace(words, creditsLeft);
-                break;
-            }
-            case "prereq": {
-                if(!Parser.isValidInput("prereq",words)){
-                    ErrorHandler.invalidInput();
-                    break;
-                }
-                String keyword = words[1];
-                view.displayMessage(getModulePrereqBasedOnCourse(keyword.toUpperCase(), "CEG"));
-                break;
-            }
-            case "major": {
-                String printMessageCommand = student.updateMajor(userInput);
-                switch (printMessageCommand) {
-                case "currentMajor":
-                    view.displayMessage("Current major is " + student.getMajor() + ".");
-                    break;
-                case "newMajor":
-                    view.displayMessage("Major " + student.getMajor() + " selected!");
-                    break;
-                case "invalidMajor":
-                    view.displayMessage("Please select a major from this list: " + Arrays.toString(Major.values()));
-                    break;
-                // Empty default branch as printMessageCommand cannot take any other value
-                default:
-                    break;
-                }
-                break;
-            }
-            case "required": {
-                try {
-                    view.printTXTFile(DataRepository.getFullRequirements(student.getMajor()));
-                } catch (NullPointerException | FileNotFoundException e) {
-                    view.displayMessage("☹ An error occurred. " + e.getMessage());
-                }
-                break;
-            }
-            case "complete": {
-                if (addModulePreqs.checkModInput(words, modulesMajor)) {
-                    String moduleCompleted = words[1];
-                    addModulePreqs.getUnlockedMods(moduleCompleted);
-                    addModulePreqs.printUnlockedMods(moduleCompleted);
-                    break;
-                }
-                break;
-            }
-            default: {
-                view.displayMessage("Hello " + userInput);
-                break;
-            }
+
 
                 }
-            }
 
+
+            }
             userInput = in.nextLine();
         }
     }
-
 
     /**
      * Computes and returns the list of modules that are left in the ModuleList modulesMajor
@@ -254,6 +190,8 @@ public class ModulePlannerController {
         }
         return null;
     }
+
+
 
     /**
      * Computes the recommended pace for completing a degree based on the provided academic year

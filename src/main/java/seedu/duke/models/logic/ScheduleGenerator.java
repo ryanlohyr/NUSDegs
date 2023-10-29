@@ -44,7 +44,6 @@ public class ScheduleGenerator {
             Integer value = degreeMap.get(key);
             if(value == 0){
                 q.offer(key);
-                System.out.println(key + " with zero" + " ");
             }
         }
 

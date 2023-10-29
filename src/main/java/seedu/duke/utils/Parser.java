@@ -63,7 +63,7 @@ public class Parser {
                 ErrorHandler.invalidInput();
                 return false;
             }
-            if (!Objects.equals(words[1], "CEG")){
+            if (!Objects.equals(words[1].toUpperCase(), "CEG")){
                 ErrorHandler.invalidInput();
                 return false;
             }
