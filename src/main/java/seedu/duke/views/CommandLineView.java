@@ -59,7 +59,7 @@ public class CommandLineView {
      * Print a double bottom line for a formatted header.
      */
     private void printDoubleBottomLine() {
-        displayMessage(String.format("╚%-" + formatLineLength + "s\u255D", "").replace(' ', '═'));
+        displayMessage(String.format("╚%-" + formatLineLength + "s╝", "").replace(' ', '═'));
     }
 
     /**
