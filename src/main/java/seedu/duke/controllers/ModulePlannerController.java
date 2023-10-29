@@ -109,7 +109,7 @@ public class ModulePlannerController {
                     break;
                 }
                 String keyword = words[1];
-                System.out.println(getModulePrereqBasedOnCourse(keyword.toUpperCase(), "CEG"));
+                view.displayMessage(getModulePrereqBasedOnCourse(keyword.toUpperCase(), "CEG"));
                 break;
             }
             case "major": {
@@ -133,10 +133,8 @@ public class ModulePlannerController {
             case "required": {
                 try {
                     view.printTXTFile(DataRepository.getFullRequirements(student.getMajor()));
-                } catch (NullPointerException e) {
-                    System.out.println("\tAn error occurred." + e.getMessage());
-                } catch (FileNotFoundException e) {
-                    System.out.println("\t☹ An error occurred." + e.getMessage());
+                } catch (NullPointerException | FileNotFoundException e) {
+                    view.displayMessage("☹ An error occurred. " + e.getMessage());
                 }
                 break;
             }
@@ -167,7 +165,6 @@ public class ModulePlannerController {
      *
      * @author janelleenqi
      * @return An ArrayList of module codes representing the modules left after the subtraction.
-     * @throws InvalidObjectException If either modulesMajor or modulesTaken is null.
      */
     public ArrayList<String> listModulesLeft() {
         //modulesMajor.txt - modulesTaken.txt
@@ -175,7 +172,7 @@ public class ModulePlannerController {
             modulesLeft.getDifference(modulesMajor, modulesTaken);
             return modulesLeft.getMainModuleList();
         } catch (InvalidObjectException e) {
-            System.out.println("Error: " + e.getMessage());
+            view.displayMessage("Error: " + e.getMessage());
         }
         return null;
     }

@@ -17,8 +17,8 @@ public class CommandLineView {
         System.out.println("What is your name?");
     }
 
-    public void displayMessage(String message) {
-        System.out.println(message);
+    public void displayMessage(Object o) {
+        System.out.println(o);
     }
 
     public void displayMessage() {
