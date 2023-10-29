@@ -58,6 +58,9 @@ public class CommandLineView {
                 longestStringLength = currentLine.indexOf(" - ");
             }
         }
+        if (longestStringLength % 4 > 0) { // remainder
+            longestStringLength = (longestStringLength / 4) * 4;
+        }
         formatLineLength = longestStringLength + 15;
 
         Scanner secondScanner = new Scanner(f);
