@@ -1,5 +1,4 @@
 package seedu.duke.controllers;
-
 import org.json.simple.JSONObject;
 import seedu.duke.models.logic.CompletePreqs;
 import seedu.duke.models.logic.ModuleList;
