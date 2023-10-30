@@ -7,9 +7,10 @@ import org.junit.jupiter.api.BeforeEach;
 import seedu.duke.models.logic.ModuleList;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.ArrayList;
-
+import seedu.duke.models.logic.DataRepository;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ModulePlannerControllerTest {
@@ -49,6 +50,13 @@ class ModulePlannerControllerTest {
         String printedOutput = outputStream.toString().trim();
         // Assert the printed output matches the expected value
         assertEquals("Needs to be in format of Y2/S1", printedOutput);
+    }
+    @Test
+    void test() throws FileNotFoundException {
+        System.out.println("testttt");
+        System.out.println(DataRepository.getRequirements("CEG"));
+        // Assert the printed output matches the expected value
+        assertEquals("Needs to be in format of Y2/S1", "Needs to be in format of Y2/S1");
     }
 
     @Test

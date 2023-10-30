@@ -1,7 +1,6 @@
 package seedu.duke;
 import org.json.simple.parser.ParseException;
 import seedu.duke.controllers.ModulePlannerController;
-import seedu.duke.views.UnknownCommandException;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -22,8 +21,6 @@ public class Duke {
         } catch (ParseException e) {
             throw new RuntimeException(e);
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (UnknownCommandException e) {
             throw new RuntimeException(e);
         }
     }

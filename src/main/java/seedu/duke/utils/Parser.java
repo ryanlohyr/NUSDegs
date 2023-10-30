@@ -1,5 +1,9 @@
 package seedu.duke.utils;
 
+import seedu.duke.views.ErrorHandler;
+
+import java.util.Objects;
+
 public class Parser {
 
     /**
@@ -45,6 +49,39 @@ public class Parser {
         }
     }
 
+    public static boolean isValidInput(String command, String[] words) {
+        switch (command) {
+        case "prereq": {
+            if (words.length < 2) {
+                ErrorHandler.invalidInput();
+                return false;
+            }
+            break;
+        }
+        case "recommend": {
+            if (words.length < 2) {
+                ErrorHandler.invalidInput();
+                return false;
+            }
+            if (!Objects.equals(words[1].toUpperCase(), "CEG")){
+                ErrorHandler.invalidInput();
+                return false;
+            }
+            break;
+        }
+        case "test2": {
+            if (words.length < 21) {
+                return false;
+            }
+            break;
+        }
+        default: {
+            return true;
+        }
+
+        }
+        return true;
+    }
 
 
 }

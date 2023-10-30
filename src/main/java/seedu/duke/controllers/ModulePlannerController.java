@@ -1,16 +1,18 @@
 package seedu.duke.controllers;
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import seedu.duke.models.logic.CompletePreqs;
+import seedu.duke.models.logic.DataRepository;
 import seedu.duke.models.logic.ModuleList;
 import seedu.duke.models.schema.Major;
 import seedu.duke.models.schema.Student;
 import seedu.duke.models.logic.Api;
+import seedu.duke.views.ModuleInfo;
 import seedu.duke.views.CommandLineView;
 import seedu.duke.utils.Parser;
-import seedu.duke.views.ModuleInfo;
+import seedu.duke.views.UnknownCommandException;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InvalidObjectException;
 import java.net.URISyntaxException;
@@ -19,6 +21,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Arrays;
+
+import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
+import static seedu.duke.models.logic.DataRepository.getRequirements;
+import static seedu.duke.models.logic.ScheduleGenerator.generateRecommendedSchedule;
 
 public class ModulePlannerController {
     private CommandLineView view;
@@ -50,7 +56,6 @@ public class ModulePlannerController {
 
     }
 
-
     /**
      * Starts the interactive command-line interface for the academic module management system.
      * This method displays a welcome message, reads user input, and processes various commands.
@@ -77,32 +82,9 @@ public class ModulePlannerController {
                 view.displayMessage("yup");
                 break;
             }
-            case "info": {
-                view.displayMessage("info");
-                if (!words[1].equals("description") && !words[1].equals("workload")
-                        && !words[1].equals("all") && !words[1].equals("requirements"))  {
-                    System.out.println("no valid command");
-                    break;
-                }
-                Api.infoCommands(words[1], userInput);
-                System.out.println("got to the end");
-                break;
-            }
-            case "search": {
-                view.displayMessage("search");
-                String keywords = userInput.substring(userInput.indexOf("search") + 6);
-                // need to add a function to make search case-insensitive
-                if (keywords.isEmpty()) {
-                    System.out.println("cmon bro input smth after search");
-                    break;
-                }
-                JSONArray modulesToPrint = Api.search(keywords, Api.listAllModules());
-                ModuleInfo.searchHeader();
-                ModuleInfo.printJsonArray(modulesToPrint);
-                break;
-            }
             case "left": {
                 ArrayList<String> modules = listModulesLeft();
+
                 view.displayMessage("Modules left:");
                 for (String module : modules) {
                     view.displayMessage(module);
@@ -116,6 +98,20 @@ public class ModulePlannerController {
                 int totalCreditsToGraduate = 160;
                 int creditsLeft = totalCreditsToGraduate - modulesCreditsCompleted;
                 computePace(words, creditsLeft);
+                break;
+            }
+            case "prereq": {
+                String keyword = words[1];
+                System.out.println(getModulePrereqBasedOnCourse(keyword.toUpperCase(), "CEG"));
+                break;
+            }
+            case "test": {
+                System.out.println(getRequirements("CEG"));
+                break;
+            }
+            case "recommend": {
+                String keyword = words[1];
+                System.out.println((generateRecommendedSchedule(keyword.toUpperCase())));
                 break;
             }
             case "major": {
@@ -145,6 +141,41 @@ public class ModulePlannerController {
                 }
                 break;
             }
+            case "required": {
+                try {
+                    view.printTXTFile(DataRepository.getFullRequirements(student.getMajor()));
+                } catch (NullPointerException | FileNotFoundException e) {
+                    view.displayMessage("☹ An error occurred. " + e.getMessage());
+                }
+                break;
+            }
+            case "info": {
+                view.displayMessage("info");
+                if (!words[1].equals("description") && !words[1].equals("workload")
+                        && !words[1].equals("all") && !words[1].equals("requirements")) {
+                    System.out.println("no valid command");
+                    break;
+                }
+                try {
+                    Api.infoCommands(words[1], userInput);
+                } catch (UnknownCommandException e) {
+                    System.out.println("error message");
+                }
+                break;
+            }
+            case "search": {
+                view.displayMessage("search");
+                String keywords = userInput.substring(userInput.indexOf("search") + 6);
+                // need to add a function to make search case-insensitive
+                if (keywords.isEmpty()) {
+                    System.out.println("empty input");
+                    break;
+                }
+                JSONArray modulesToPrint = Api.search(keywords, Api.listAllModules());
+                ModuleInfo.searchHeader();
+                ModuleInfo.printJsonArray(modulesToPrint);
+                break;
+            }
             default: {
                 view.displayMessage("Hello " + userInput);
                 break;
@@ -171,17 +202,20 @@ public class ModulePlannerController {
             modulesLeft.getDifference(modulesMajor, modulesTaken);
             return modulesLeft.getMainModuleList();
         } catch (InvalidObjectException e) {
-            System.out.println("Error: " + e.getMessage());
+            view.displayMessage("Error: " + e.getMessage());
         }
         return null;
     }
+
+
 
     /**
      * Computes the recommended pace for completing a degree based on the provided academic year
      * and credits left until graduation.
      *
      * @author ryanlohyr
-     * @param userInput  An array of user input where userInput[0] is the command and userInput[1] is the academic year.
+     * @param userInput   An array of user input where userInput[0] is the command and userInput[1]
+     *                    is the academic year.
      * @param creditsLeft The number of credits left until graduation.
      *
      */
@@ -210,12 +244,13 @@ public class ModulePlannerController {
         int semestersLeft = (lastYearOfDegree - yearIntValue) * 2 + (lastSemesterOfYear - semesterIntValue);
         int creditsPerSem = Math.round((float) creditsLeft / semestersLeft);
         view.displayMessage("You have " + creditsLeft + "MCs for " + semestersLeft + " semesters. "
-                + "Recommended Pace: "+ creditsPerSem + "MCs per sem until graduation");
+                + "Recommended Pace: " + creditsPerSem + "MCs per sem until graduation");
     }
 
 
     /**
      * Add all mods that require prerequisites to a map storing the mod and a set of preqs
+     *
      * @param list
      * @return HashMap of Mods with their corresponding preqs
      */
@@ -240,6 +275,7 @@ public class ModulePlannerController {
 
     /**
      * Helper function to addModsWithPreqs to add Strings and sets together
+     *
      * @param map
      * @param key
      * @param value
