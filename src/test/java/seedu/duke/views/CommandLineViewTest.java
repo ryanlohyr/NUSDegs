@@ -7,9 +7,11 @@ import org.junit.jupiter.api.Test;
 import seedu.duke.controllers.ModulePlannerController;
 import seedu.duke.models.schema.Major;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CommandLineViewTest {
     private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -82,8 +84,7 @@ class CommandLineViewTest {
                 "\n" +
                 "+-------------------------------------------------------------------------------------------+\n" +
                 "│\tUnrestricted Electives                                                      \t40\t\t│\n" +
-                "+-------------------------------------------------------------------------------------------+\n", printedOutput);
+                "+-------------------------------------------------------------------------------------------+\n",
+                printedOutput);
     }
-
-
 }
