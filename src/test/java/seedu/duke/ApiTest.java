@@ -4,32 +4,32 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import seedu.duke.models.logic.Api;
 
-import java.net.URISyntaxException;
+import java.util.Objects;
 
 import org.junit.jupiter.api.Test;
 import seedu.duke.views.ModuleInfo;
 import seedu.duke.views.UnknownCommandException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 
 public class ApiTest {
     @Test
-    void testGetModuleInfo_CS2113_expectTrue() {
+    void testGetModuleInfo_shouldReturnTrueForCS2113() {
         String correctModuleInfo = "\"description\":\"This course introduces the necessary skills for systematic " +
                 "and rigorous development of software systems. It covers";
         String moduleCode = "CS2113";
         String moduleInfo = null;
-        try {
-            moduleInfo = Api.getModuleInfo(moduleCode);
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
+        moduleInfo = Objects.requireNonNull(Api.getFullModuleInfo(moduleCode)).toJSONString();
         assertNotNull(moduleInfo, "Module info should not be null");
         assertTrue(moduleInfo.contains(correctModuleInfo), "Module info should contain relevant info");
     }
 
     @Test
-    void testGetDescription_CS2113description_expectEquals() {
+    void testGetDescription_shouldReturnEquals() {
         String correctDescription = "This course introduces the necessary skills for systematic and " +
                 "rigorous development of software systems. It covers requirements, design, implementation, " +
                 "quality assurance, and project management aspects of small-to-medium size multi-person software" +
@@ -42,7 +42,7 @@ public class ApiTest {
     }
 
     @Test
-    void testGetWorkload_() {
+    void testGetWorkload_shouldReturnCorrectValue() {
         // uses unchecked or unsafe operations, Note: Recompile with -Xlint:unchecked for details.
         JSONArray workload = Api.getWorkload("CS2113");
         JSONArray jsonArray = new JSONArray();
