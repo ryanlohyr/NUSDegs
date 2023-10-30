@@ -58,7 +58,7 @@ public class Api {
             JSONParser parser = new JSONParser();
             // Will refactor the variable later on, left it for easier readability
             JSONObject moduleInfo = (JSONObject) parser.parse(responseBody);
-        //    ModuleInfo.printModule(moduleInfo);
+         //   ModuleInfo.printModule(moduleInfo);
             return moduleInfo;
         } catch (ParseException e) {
             //to be replaced with more robust error class in the future
@@ -88,8 +88,9 @@ public class Api {
             JSONParser parser = new JSONParser();
             // Will refactor the variable later on, left it for easier readability
             JSONArray moduleList = (JSONArray) parser.parse(responseBody);
-       //     System.out.println(moduleList);
+           // System.out.println(moduleList);
             return moduleList;
+            // find a way to pretty print this
         } catch (URISyntaxException e) {
             System.out.println("Sorry, there was an error with" +
                     " the provided URL: " + e.getMessage());
@@ -106,6 +107,9 @@ public class Api {
     // search keyword in module name, returns you module code(s) and module name (title)
     public static JSONArray search(String keyword, JSONArray moduleList) {
         JSONArray modulesContainingKeyword = new JSONArray();
+        if (keyword.isEmpty()) {
+            return new JSONArray();
+        }
         for (Object moduleObject : moduleList) {
             JSONObject module = (JSONObject) moduleObject; // Cast to JSONObject
             String title = (String) module.get("title");
@@ -126,17 +130,26 @@ public class Api {
             String moduleCode = userInput.substring(userInput.indexOf("description") + 11).trim();
             // checks if moduleCode is moduleCode and not some random bs
             if (!Api.getDescription(moduleCode).isEmpty()) {
-                Api.getDescription(moduleCode);
-                // should directly print from this function? - where should the print statements be, in
+                String description = Api.getDescription(moduleCode);
+                System.out.println(description);
+                // it should be in this function because i might use the methods in other functions
+                // and it may cause unintentional printing to the system
             }
         } else if (command.equals("workload")) {
             String moduleCode = userInput.substring(userInput.indexOf("workload") + 8).trim();
             // checks if moduleCode is moduleCode and not some random bs
-            if (!Api.getWorkload(moduleCode).isEmpty()) {Api.getWorkload(moduleCode);
+            if (!Api.getWorkload(moduleCode).isEmpty()) {
+                JSONArray workload = Api.getWorkload(moduleCode);
+                System.out.println(workload);
             }
+        } else if (command.equals("all")) {
+            JSONArray allModules = listAllModules();
+            System.out.println(allModules);
         } else {
-            System.out.println("Error");
+            System.out.println("getting here shouldnt be possible");
         }
     }
+
+
 
 }

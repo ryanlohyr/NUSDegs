@@ -6,17 +6,16 @@ import seedu.duke.models.logic.Api;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import seedu.duke.views.ModuleInfo;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ApiTest {
     @Test
-    void testGetModuleInfo() {
+    void testGetModuleInfo_CS2113_expectTrue() {
         String correctModuleInfo = "\"description\":\"This course introduces the necessary skills for systematic " +
                 "and rigorous development of software systems. It covers";
         String moduleCode = "CS2113";
@@ -31,7 +30,7 @@ public class ApiTest {
     }
 
     @Test
-    void testGetDescription() {
+    void testGetDescription_CS2113description_expectEquals() {
         String correctDescription = "This course introduces the necessary skills for systematic and " +
                 "rigorous development of software systems. It covers requirements, design, implementation, " +
                 "quality assurance, and project management aspects of small-to-medium size multi-person software" +
@@ -44,9 +43,18 @@ public class ApiTest {
     }
 
     @Test
-    void testGetWorkload() {
+    void testGetWorkload_() {
+        // uses unchecked or unsafe operations, Note: Recompile with -Xlint:unchecked for details.
         JSONArray workload = Api.getWorkload("CS2113");
-        System.out.println(workload);
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.add(2);
+        jsonArray.add(1);
+        jsonArray.add(0);
+        jsonArray.add(3);
+        jsonArray.add(4);
+        String jsonString1 = jsonArray.toJSONString();
+        String jsonString2 = workload.toJSONString();
+        assertEquals(jsonString2, jsonString1);
     }
 
     @Test
@@ -54,16 +62,46 @@ public class ApiTest {
         Api.listAllModules();
     }
     @Test
-    void testSearchModules() {
-        JSONArray modulesToPrint = new JSONArray();
-        modulesToPrint = Api.search("Machine Learning", Api.listAllModules());
-        System.out.println(modulesToPrint);
+    void testSearchModules_emptyInput_expectedEmptyJsonArray() {
+        JSONArray modulesToPrint;
+        modulesToPrint = Api.search("     ", Api.listAllModules());
+        assertEquals(0, modulesToPrint.size(), "The JSON array should be empty.");
+   //     System.out.println(modulesToPrint);
+    }
+
+    @Test
+    void testSearchModules_invalidInput_expectedEmptyJsonArray() {
+        JSONArray modulesToPrint;
+        modulesToPrint = Api.search("bs#4%ggh", Api.listAllModules());
+        assertEquals(0, modulesToPrint.size(), "The JSON array should be empty.");
+        //     System.out.println(modulesToPrint);
+    }
+
+    @Test
+    void testSearchModules_validInput_expectedJsonArray() {
+        JSONArray modulesToPrint;
+        modulesToPrint = Api.search("Trustworthy Machine Learning", Api.listAllModules());
+        JSONArray expectedArray = new JSONArray();
+        JSONObject expectedObject = new JSONObject();
+        expectedObject.put("moduleCode", "CS5562");
+        JSONArray semester1 = new JSONArray();
+        semester1.add(1);
+        expectedObject.put("semesters", semester1);
+        expectedObject.put("title", "Trustworthy Machine Learning");
+        expectedArray.add(expectedObject);
+        String expectedOutput = expectedArray.toJSONString();
+        String output = modulesToPrint.toJSONString();
+        assertEquals(expectedOutput, output, "The string should be equal");
     }
 
     @Test
     void testPrintJsonArray() {
         JSONArray modulesToPrint = Api.search("Machine Learning", Api.listAllModules());
         ModuleInfo.printJsonArray(modulesToPrint);
+    }
+
+    void testInfoCommands_invalidCommand_expectError() {
+
     }
 
 

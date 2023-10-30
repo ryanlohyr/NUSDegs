@@ -79,16 +79,13 @@ public class ModulePlannerController {
             }
             case "info": {
                 view.displayMessage("info");
-                if (words.length < 2) {
-                    Api.listAllModules();
-                    break;
-                }
                 if (!words[1].equals("description") && !words[1].equals("workload")
-                        && !words[1].equals("prereqs") && !words[1].equals("requirements"))  {
-                    Api.getModuleInfoJson(words[1]);
+                        && !words[1].equals("all") && !words[1].equals("requirements"))  {
+                    System.out.println("no valid command");
                     break;
                 }
                 Api.infoCommands(words[1], userInput);
+                System.out.println("got to the end");
                 break;
             }
             case "search": {
