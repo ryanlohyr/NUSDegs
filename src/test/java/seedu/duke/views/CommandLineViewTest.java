@@ -33,10 +33,6 @@ class CommandLineViewTest {
         // Capture the printed output
         String printedOutput = outputStream.toString();
 
-        File file = new File("src/test/java/seedu/duke/inputfiles/inputForPrintTXTFileSuccess.txt");
-        FileInputStream fileInputStream = new FileInputStream(file);
-        System.setIn(fileInputStream);
-
         // Assert the printed output matches the expected value
         assertEquals("#===========================================================================================#\n" +
                 "║\tModular Requirements for CEG                                                \tUnits\t║\n" +
