@@ -15,7 +15,7 @@ public class Parser {
      * @throws IllegalArgumentException if the input format is incorrect or if the year or semester is invalid.
      *
      */
-    public boolean isValidAcademicYear( String userInput ) {
+    public static boolean isValidAcademicYear( String userInput ) {
         try {
             String[] parts = userInput.split("/");
             if(parts.length != 2){

@@ -1,6 +1,7 @@
 package seedu.duke.models.logic;
 
 import java.io.IOException;
+import java.io.InvalidObjectException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
@@ -12,6 +13,7 @@ import java.util.HashMap;
 import java.util.Objects;
 
 import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
@@ -196,5 +198,69 @@ public class Api {
 
     }
 
+    public static boolean satisfiesAllPrereq(String moduleCode, ModuleList completedModules)
+            throws InvalidObjectException {
 
+        JSONObject modulePrereqTree = getModulePrereqTree(moduleCode);
+
+        if(modulePrereqTree == null){
+            return true;
+        }
+        String key = (String) modulePrereqTree.keySet().toArray()[0];
+
+        ArrayList<Objects> initial = (ArrayList<Objects>) modulePrereqTree.get(key);
+        //Modules that has prerequisites incorrectly identified by NUSMods
+        /*if(isModuleException(moduleCode)){
+            initial = getExemptedPrerequisite(moduleCode);
+        }*/
+
+        return checkPrereq(initial, key, completedModules);
+
+    }
+
+    private static boolean checkPrereq(
+            ArrayList<Objects> modulePrereqArray,
+            String currRequisite,
+            ModuleList completedModules) throws InvalidObjectException {
+
+        if (currRequisite.equals("or")) {
+            for(Object module: modulePrereqArray) {
+                if (module instanceof String) {
+                    String formattedModule = ((String) module).replace(":D", "");
+                    formattedModule = formattedModule.replace("%", "");
+                    if (completedModules.exists(formattedModule)) {
+                        return true;
+                    }
+                } else {
+                    JSONObject prereqBranch = (JSONObject) module;
+                    String key = (String) prereqBranch.keySet().toArray()[0];
+
+
+                    JSONArray prereqBranchArray = (JSONArray) prereqBranch.get(key);
+                    return checkPrereq(prereqBranchArray, currRequisite, completedModules);
+                }
+            }
+            return false;
+        } else {
+            for(Object module: modulePrereqArray) {
+                if (module instanceof String) {
+                    String formattedModule = ((String) module).replace(":D", "");
+                    formattedModule = formattedModule.replace("%", "");
+                    if (!completedModules.exists(formattedModule)) {
+                        return false;
+                    }
+                } else {
+                    JSONObject prereqBranch = (JSONObject) module;
+                    String key = (String) prereqBranch.keySet().toArray()[0];
+
+
+                    JSONArray prereqBranchArray = (JSONArray) prereqBranch.get(key);
+                    if (!checkPrereq(prereqBranchArray, currRequisite, completedModules)) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+    }
 }

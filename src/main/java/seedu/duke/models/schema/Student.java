@@ -46,13 +46,13 @@ public class Student {
     public String updateMajor(String userInput) {
         String[] words = userInput.split(" ");
         if (words.length < 2) {
-            return "currentMajor";
+            return "CURRENT_MAJOR";
         }
         try {
             setMajor(Major.valueOf(words[1].toUpperCase()));
-            return "newMajor";
+            return "NEW_MAJOR";
         } catch (IllegalArgumentException e) {
-            return "invalidMajor";
+            return "INVALID_MAJOR";
         }
     }
 }

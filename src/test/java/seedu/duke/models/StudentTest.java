@@ -11,8 +11,8 @@ public class StudentTest {
     void updateMajorTest_validMajor_expectNewMajorMessage() {
         Student student = new Student();
         String userInput = "major cs";
-        String printedOutputCommand = student.updateMajor(userInput);
-        assertEquals("newMajor", printedOutputCommand);
+        String messageKey = student.updateMajor(userInput);
+        assertEquals("NEW_MAJOR", messageKey);
     }
 
     //success scenario: no major -> return current major
@@ -21,7 +21,7 @@ public class StudentTest {
         Student student = new Student();
         String userInput = "major";
         String printedOutputCommand = student.updateMajor(userInput);
-        assertEquals("currentMajor", printedOutputCommand);
+        assertEquals("CURRENT_MAJOR", printedOutputCommand);
     }
 
     //failure scenario invalid major -> throw exception
@@ -30,6 +30,6 @@ public class StudentTest {
         Student student = new Student();
         String userInput = "major abc";
         String printedOutputCommand = student.updateMajor(userInput);
-        assertEquals("invalidMajor", printedOutputCommand);
+        assertEquals("INVALID_MAJOR", printedOutputCommand);
     }
 }

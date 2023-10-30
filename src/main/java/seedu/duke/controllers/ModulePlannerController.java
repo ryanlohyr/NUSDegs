@@ -2,7 +2,6 @@ package seedu.duke.controllers;
 import org.json.simple.JSONObject;
 import seedu.duke.models.logic.CompletePreqs;
 import seedu.duke.models.logic.ModuleList;
-import seedu.duke.models.schema.Major;
 import seedu.duke.models.schema.Schedule;
 import seedu.duke.models.schema.Student;
 import seedu.duke.models.logic.Api;
@@ -15,7 +14,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Arrays;
 
 import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
 
@@ -117,21 +115,8 @@ public class ModulePlannerController {
                 break;
             }
             case "major": {
-                String printMessageCommand = student.updateMajor(userInput);
-                switch (printMessageCommand) {
-                case "currentMajor":
-                    view.displayMessage("Current major is " + student.getMajor() + ".");
-                    break;
-                case "newMajor":
-                    view.displayMessage("Major " + student.getMajor() + " selected!");
-                    break;
-                case "invalidMajor":
-                    view.displayMessage("Please select a major from this list: " + Arrays.toString(Major.values()));
-                    break;
-                // Empty default branch as printMessageCommand cannot take any other value
-                default:
-                    break;
-                }
+                String messageKey = student.updateMajor(userInput);
+                view.handleMajorMessage(messageKey, student.getMajor());
                 break;
             }
             case "complete": {
@@ -143,8 +128,10 @@ public class ModulePlannerController {
                 }
                 break;
             }
-            case "add" : {
-                student.getSchedule().addModule(words[1], Integer.parseInt(words[2]), student.getMajor());
+            case "add": {
+                String messageKey = student.getSchedule().addModule(words);
+                view.handleAddMessage(messageKey);
+                break;
             }
             case "schedule": {
                 student.getSchedule().printMainModuleList();
