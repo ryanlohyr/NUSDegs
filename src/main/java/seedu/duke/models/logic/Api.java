@@ -6,13 +6,12 @@ import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import seedu.duke.views.ModuleInfo;
+import seedu.duke.views.UnknownCommandException;
 
 
 public class Api {
@@ -58,7 +57,7 @@ public class Api {
             JSONParser parser = new JSONParser();
             // Will refactor the variable later on, left it for easier readability
             JSONObject moduleInfo = (JSONObject) parser.parse(responseBody);
-         //   ModuleInfo.printModule(moduleInfo);
+            //   ModuleInfo.printModule(moduleInfo);
             return moduleInfo;
         } catch (ParseException e) {
             //to be replaced with more robust error class in the future
@@ -88,7 +87,7 @@ public class Api {
             JSONParser parser = new JSONParser();
             // Will refactor the variable later on, left it for easier readability
             JSONArray moduleList = (JSONArray) parser.parse(responseBody);
-           // System.out.println(moduleList);
+            // System.out.println(moduleList);
             return moduleList;
             // find a way to pretty print this
         } catch (URISyntaxException e) {
@@ -114,17 +113,18 @@ public class Api {
             JSONObject module = (JSONObject) moduleObject; // Cast to JSONObject
             String title = (String) module.get("title");
             if (title.contains(keyword)) {
-                modulesContainingKeyword.add((Object) module);
+                modulesContainingKeyword.add(module);
                 //not sure how to resolve this yellow line
             }
         }
         return modulesContainingKeyword;
     }
+
     public static String getModuleName(JSONObject module) {
         return (String) module.get("moduleName");
     }
 
-    public static void infoCommands(String command, String userInput) {
+    public static void infoCommands(String command, String userInput) throws UnknownCommandException {
         // checks if command is even equal to any of these words, if equal nothing then return go fk yourself
         if (command.equals("description")) {
             String moduleCode = userInput.substring(userInput.indexOf("description") + 11).trim();
@@ -146,10 +146,9 @@ public class Api {
             JSONArray allModules = listAllModules();
             System.out.println(allModules);
         } else {
-            System.out.println("getting here shouldnt be possible");
+            throw new UnknownCommandException(command);
         }
     }
-
 
 
 }

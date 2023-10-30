@@ -5,11 +5,10 @@ import org.json.simple.JSONObject;
 import seedu.duke.models.logic.Api;
 
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import seedu.duke.views.ModuleInfo;
+import seedu.duke.views.UnknownCommandException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -61,12 +60,12 @@ public class ApiTest {
     void testListAllModules() {
         Api.listAllModules();
     }
+
     @Test
     void testSearchModules_emptyInput_expectedEmptyJsonArray() {
         JSONArray modulesToPrint;
         modulesToPrint = Api.search("     ", Api.listAllModules());
         assertEquals(0, modulesToPrint.size(), "The JSON array should be empty.");
-   //     System.out.println(modulesToPrint);
     }
 
     @Test
@@ -74,7 +73,6 @@ public class ApiTest {
         JSONArray modulesToPrint;
         modulesToPrint = Api.search("bs#4%ggh", Api.listAllModules());
         assertEquals(0, modulesToPrint.size(), "The JSON array should be empty.");
-        //     System.out.println(modulesToPrint);
     }
 
     @Test
@@ -100,8 +98,15 @@ public class ApiTest {
         ModuleInfo.printJsonArray(modulesToPrint);
     }
 
+    //invalid command, valid input
+    @Test
     void testInfoCommands_invalidCommand_expectError() {
+        assertThrows(UnknownCommandException.class, () -> Api.infoCommands("dbfjsdhf", "CS2113"));
+    }
 
+    @Test
+    void testInfoCommands_invalidModule_expectError() {
+        assertThrows(AssertionError.class, () -> Api.getDescription("CS2w3e113"));
     }
 
 
