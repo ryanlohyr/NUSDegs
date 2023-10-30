@@ -36,7 +36,7 @@ class CommandLineViewTest {
         String printedOutput = outputStream.toString().trim();
 
         // Assert the printed output matches the expected value
-        assertEquals(String.format(
+        assertEquals((
                 "#===========================================================================================#\n" +
                 "║\tModular Requirements for CEG                                                \tUnits\t║\n" +
                 "#===========================================================================================#\n" +
