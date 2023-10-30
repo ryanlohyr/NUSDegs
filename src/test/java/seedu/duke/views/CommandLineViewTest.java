@@ -33,10 +33,10 @@ class CommandLineViewTest {
         ModulePlannerController controller = new ModulePlannerController();
         controller.getRequiredModules(Major.valueOf("CEG"));
         // Capture the printed output
-        String printedOutput = outputStream.toString();
+        String printedOutput = outputStream.toString().trim();
 
         // Assert the printed output matches the expected value
-        assertEquals("#===========================================================================================#\n" +
+        assertEquals(String.format("#===========================================================================================#\n" +
                 "║\tModular Requirements for CEG                                                \tUnits\t║\n" +
                 "#===========================================================================================#\n" +
                 "+-------------------------------------------------------------------------------------------+\n" +
@@ -84,7 +84,7 @@ class CommandLineViewTest {
                 "\n" +
                 "+-------------------------------------------------------------------------------------------+\n" +
                 "│\tUnrestricted Electives                                                      \t40\t\t│\n" +
-                "+-------------------------------------------------------------------------------------------+\n",
+                "+-------------------------------------------------------------------------------------------+\n").trim(),
                 printedOutput);
     }
 }
