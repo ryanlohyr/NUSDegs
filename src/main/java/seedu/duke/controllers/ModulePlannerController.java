@@ -142,11 +142,7 @@ public class ModulePlannerController {
                     break;
                 }
                 case "required": {
-                    try {
-                        view.printTXTFile(DataRepository.getFullRequirements(student.getMajor()));
-                    } catch (NullPointerException | FileNotFoundException e) {
-                        view.displayMessage("☹ An error occurred. " + e.getMessage());
-                    }
+                    getRequiredModules(student.getMajor());
                     break;
                 }
                 case "complete": {
@@ -271,6 +267,14 @@ public class ModulePlannerController {
         }
         // Add the value to the list associated with the key
         map.get(key).add(value);
+    }
+
+    public void getRequiredModules(Major major) {
+        try {
+            view.printTXTFile(DataRepository.getFullRequirements(major));
+        } catch (NullPointerException | FileNotFoundException e) {
+            view.displayMessage("☹ An error occurred. " + e.getMessage());
+        }
     }
 
 }
