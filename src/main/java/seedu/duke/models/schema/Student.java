@@ -59,12 +59,15 @@ public class Student {
         return name;
     }
 
+
     /**
      * Retrieves the major of the student.
      *
      * @return The major of the student.
+     * @throws NullPointerException If the major has not been set (i.e., it is `null`).
      */
-    public Major getMajor() {
+
+    public Major getMajor() throws NullPointerException {
         return major;
     }
 
