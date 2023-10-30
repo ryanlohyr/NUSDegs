@@ -198,6 +198,14 @@ public class Api {
 
     }
 
+    /**
+     * Checks if a student satisfies all prerequisites for a given module.
+     *
+     * @param moduleCode       The code of the module for which prerequisites need to be checked.
+     * @param completedModules The list of completed modules by the student.
+     * @return `true` if the student satisfies all prerequisites for the module, `false` otherwise.
+     * @throws InvalidObjectException If the prerequisite information for the module is invalid.
+     */
     public static boolean satisfiesAllPrereq(String moduleCode, ModuleList completedModules)
             throws InvalidObjectException {
 
@@ -218,6 +226,15 @@ public class Api {
 
     }
 
+    /**
+     * Recursively checks if each branch of the prereq tree is satisfied by the student.
+     *
+     * @param modulePrereqArray  The array of prerequisite modules or conditions to be checked.
+     * @param currRequisite      The type of prerequisite condition ("or" or "and").
+     * @param completedModules   The list of completed modules by the student.
+     * @return `true` if the student satisfies all prerequisites, `false` otherwise.
+     * @throws InvalidObjectException If the prerequisite information is invalid.
+     */
     private static boolean checkPrereq(
             ArrayList<Objects> modulePrereqArray,
             String currRequisite,
