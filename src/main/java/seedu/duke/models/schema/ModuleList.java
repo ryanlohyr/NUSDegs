@@ -103,5 +103,15 @@ public class ModuleList {
         return numberOfModules;
     }
 
+    /**
+     * Changes the number of modules by the specified difference.
+     *
+     * @param difference The difference by which to change the number of modules.
+     *                   A positive value increases the number, while a negative value decreases it.
+     */
+    public void changeNumberOfModules(int difference) {
+        numberOfModules += difference;
+    }
+
 
 }

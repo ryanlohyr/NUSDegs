@@ -34,6 +34,10 @@ public class CommandLineView {
         displayMessage("Major " + major + " selected!");
     }
 
+    public void handleDeleteMessage(String deleteMessage) {
+        displayMessage(deleteMessage);
+    }
+
     public void handleAddMessage(boolean isSuccessful) {
         if (isSuccessful) {
             displayMessage("Module Successfully Added");
