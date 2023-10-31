@@ -50,12 +50,11 @@ class ModuleListTest {
     //failure scenario 1: null ModuleList input --> throw exception
     @Test
     void getDifferenceTest_nullModuleListInput_expectException() {
-        ModuleList first = null;
         ModuleList second = new ModuleList("CS1231S CS2030S CS2040S MA1511");
         ModuleList difference = new ModuleList();
 
         //test
-        assertThrows(InvalidObjectException.class, () -> difference.getDifference(first, second));
+        assertThrows(InvalidObjectException.class, () -> difference.getDifference(null, second));
     }
 
     //success scenario 1: 1 input String, 1 ModuleList that contains input String --> true
@@ -83,11 +82,10 @@ class ModuleListTest {
     //failure scenario 1: input null string, 1 ModuleList --> throw exception
     @Test
     void existsTest_nullInput_expectException() {
-        String inputString = null;
         ModuleList ml = new ModuleList("CS2030S CS2040S CS2100 CS2101 CS2106 CS2109S CS3230");
 
         //test
-        assertThrows(InvalidObjectException.class, () -> ml.exists(inputString));
+        assertThrows(InvalidObjectException.class, () -> ml.exists(null));
     }
 
     //success scenario 3: input string, 1 empty ModuleList --> false

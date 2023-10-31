@@ -11,6 +11,7 @@
 - Pace
 - Left
 - Major
+- Required
 
 # Implementation
 
@@ -99,6 +100,27 @@ If no major was specified: `Student#updateMajor("major")` returns a string `curr
 Command: `major`
 
 Response: `Current major is [current major in student object].`
+
+## [Proposed] Show Required Modules Feature
+
+The proposed required mechanism is implemented to give users an overview of the modules they need to complete for their major. It is facilitated by CEGRequirements.txt, CSRequirements.txt. Additionally, it implements the following operations:
+
+- `DataRepository#getFullRequirements(major)` – Returns the `filePath` for the requirements of a specified major.
+- `view#printTXTFile(filePath)` – Displays the overview of modules required.
+- `getLongestLineLength(f)` – Returns the `longestLineLength` of the file f.
+- `returnJustified(name, description, length)` – Returns a string with a justified name according to length, appended with its description.
+- `printTopLine()`, `printDoubleTopLine()`, `printBottomLine()`, `printDoubleBottomLine()` – Displays lines for formatting
+
+### Usage Examples
+
+Here are a few examples of how the Show Required Modules Feature behaves:
+
+#### Example 1:
+
+Command: `required`
+
+Response:
+Module requirements for major selected by user
 
 
 ## Product scope
