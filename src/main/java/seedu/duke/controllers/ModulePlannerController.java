@@ -147,6 +147,12 @@ public class ModulePlannerController {
                     view.handleAddMessage(isSuccessful);
                     break;
                 }
+                case "delete": {
+                    String module = words[1].toUpperCase();
+                    String deleteMessage = student.getSchedule().deleteModule(module);
+                    view.handleDeleteMessage(deleteMessage);
+                    break;
+                }
                 case "schedule": {
                     student.getSchedule().printMainModuleList();
                     break;

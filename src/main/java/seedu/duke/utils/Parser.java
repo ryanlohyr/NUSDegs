@@ -116,6 +116,17 @@ public class Parser {
             }
             break;
         }
+        case "delete": {
+            if (words.length != 2) {
+                ErrorHandler.invalidDeleteFormat();
+                return false;
+            }
+            if (!doesModuleExist(words[1].toUpperCase())) {
+                ErrorHandler.invalidModule();
+                return false;
+            }
+            break;
+        }
         case "test2": {
             if (words.length < 21) {
                 return false;

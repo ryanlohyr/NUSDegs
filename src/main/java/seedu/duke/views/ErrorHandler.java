@@ -25,4 +25,8 @@ public class ErrorHandler {
     public static void invalidModule() {
         System.out.println("Please select a valid module");
     }
+
+    public static void invalidDeleteFormat() {
+        System.out.println("Please delete a module using this format: delete [module code]");
+    }
 }
