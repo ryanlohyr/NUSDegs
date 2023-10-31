@@ -3,7 +3,7 @@ package seedu.duke.controllers;
 import org.json.simple.JSONObject;
 import seedu.duke.models.logic.CompletePreqs;
 import seedu.duke.models.logic.DataRepository;
-import seedu.duke.models.logic.ModuleList;
+import seedu.duke.models.schema.ModuleList;
 import seedu.duke.models.schema.Major;
 import seedu.duke.models.schema.Schedule;
 import seedu.duke.models.schema.Student;

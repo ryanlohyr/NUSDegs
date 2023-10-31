@@ -1,7 +1,5 @@
 package seedu.duke.models.schema;
 
-import seedu.duke.models.logic.ModuleList;
-
 import java.util.List;
 
 import static seedu.duke.models.logic.Api.satisfiesAllPrereq;

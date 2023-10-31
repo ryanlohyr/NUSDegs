@@ -16,6 +16,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import seedu.duke.models.schema.ModuleList;
 
 import static seedu.duke.models.logic.DataRepository.getRequirements;
 
