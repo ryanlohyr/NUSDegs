@@ -1,5 +1,6 @@
 package seedu.duke.models.schema;
 
+import java.io.InvalidObjectException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,10 +13,6 @@ import static seedu.duke.models.logic.Api.satisfiesAllPrereq;
 public class Schedule extends ModuleList {
 
     private static final int MAXIMUM_SEMESTERS = 8;
-    private static final String MISSING_MODULE = "Module is not in schedule.";
-    private static final String DEPENDENT_MODULE = "Unable to delete module. This module is a prerequisite for ";
-    private static final String INVALID_MODULE = "Please select a valid module";
-    private static final String DELETE_MODULE = "Module Successfully Deleted";
     protected int[] modulesPerSem;
 
     /**
@@ -56,6 +53,17 @@ public class Schedule extends ModuleList {
     public boolean addModule(String module, int targetSem)  {
 
         if (targetSem < 1 || targetSem > MAXIMUM_SEMESTERS) {
+            System.out.println("Please select an integer from 1 to 8 for semester selection");
+            return false;
+        }
+
+        try {
+            if (exists(module)) {
+                System.out.println("Module already exists in the schedule");
+                return false;
+            }
+        } catch (InvalidObjectException e) {
+            System.out.println("Module cannot be null");
             return false;
         }
 
@@ -72,13 +80,13 @@ public class Schedule extends ModuleList {
                 this.getMainModuleList().add(indexToAdd, module);
                 modulesPerSem[targetSem - 1] += 1;
                 changeNumberOfModules(1);
-                printMainModuleList();
                 return true;
             }
         } catch (IllegalArgumentException e) {
+            System.out.println("Please select a valid module");
             return false;
         }
-
+        System.out.println("Unable to add module as prerequisites are not satisfied");
         return false;
     }
 
@@ -86,19 +94,15 @@ public class Schedule extends ModuleList {
      * Deletes a module from the student's course schedule.
      *
      * @param module The module code to be deleted from the schedule.
-     * @return One of the following strings:
-     *     - If the module is successfully deleted: {@value #DELETE_MODULE}
-     *     - If the specified module does not exist in the schedule: {@value #MISSING_MODULE}
-     *     - If another module is dependent on the specified module:
-     *       {@value #DEPENDENT_MODULE} followed by the dependent module's code.
-     *     - If the specified module is invalid: {@value #INVALID_MODULE}
+     * @return `true` if the module is successfully deleted, `false` if deletion is not possible.
      */
-    public String deleteModule(String module) {
+    public boolean deleteModule(String module) {
 
         int targetIndex = getMainModuleList().indexOf(module);
 
         if (targetIndex == -1) {
-            return MISSING_MODULE;
+            System.out.println("Module is not in schedule.");
+            return false;
         }
 
         int targetSem = 1;
@@ -127,18 +131,20 @@ public class Schedule extends ModuleList {
         try {
             for (String moduleAhead : modulesAheadArray){
                 if (!satisfiesAllPrereq(moduleAhead, completedModules)) {
-                    return DEPENDENT_MODULE + moduleAhead;
+                    System.out.println("Unable to delete module. This module is a prerequisite for " + moduleAhead);
+                    return false;
                 }
             }
         } catch (IllegalArgumentException e) {
-            return INVALID_MODULE;
+            System.out.println("Invalid Module in Schedule");
+            return false;
         }
 
         getMainModuleList().remove(module);
         modulesPerSem[targetSem - 1] -= 1;
         changeNumberOfModules(-1);
 
-        return DELETE_MODULE;
+        return true;
     }
 
     /**

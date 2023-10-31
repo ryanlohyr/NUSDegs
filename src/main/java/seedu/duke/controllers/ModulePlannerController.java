@@ -45,7 +45,7 @@ public class ModulePlannerController {
         this.modulesTaken = new ModuleList("CS1231S MA1511");
         this.modulesLeft = new ModuleList();
 
-        Schedule schedule = new Schedule("CS1231S MA1511", new int[]{2, 0, 0, 0, 0, 0, 0, 0});
+        Schedule schedule = new Schedule("CS1231 MA1511 CS1010 CG1111A", new int[]{4, 0, 0, 0, 0, 0, 0, 0});
         student.setSchedule(schedule);
 
         modsWithPreqs = new HashMap<>();
@@ -142,12 +142,18 @@ public class ModulePlannerController {
                     int targetSem = Integer.parseInt(words[2]);
                     boolean isSuccessful = student.getSchedule().addModule(module, targetSem);
                     view.handleAddMessage(isSuccessful);
+                    if (isSuccessful) {
+                        student.getSchedule().printMainModuleList();
+                    }
                     break;
                 }
                 case "delete": {
                     String module = words[1].toUpperCase();
-                    String deleteMessage = student.getSchedule().deleteModule(module);
-                    view.handleDeleteMessage(deleteMessage);
+                    boolean isSuccessful = student.getSchedule().deleteModule(module);
+                    view.handleDeleteMessage(isSuccessful);
+                    if (isSuccessful) {
+                        student.getSchedule().printMainModuleList();
+                    }
                     break;
                 }
                 case "schedule": {

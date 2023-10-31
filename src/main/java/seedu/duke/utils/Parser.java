@@ -96,33 +96,16 @@ public class Parser {
                 ErrorHandler.invalidAddFormat();
                 return false;
             }
-
-            if (!doesModuleExist(words[1].toUpperCase())) {
-                ErrorHandler.invalidModule();
-                return false;
-            }
-
             try {
-                //For now using sem 1, 2, 3...
-                //Change to Y1/S1 format
-                int targetSem = Integer.parseInt(words[2]);
-                if (targetSem > Schedule.getMaximumSemesters() || targetSem < 1) {
-                    ErrorHandler.invalidSemester();
-                    return false;
-                }
+                Integer.parseInt(words[2]);
             } catch (NumberFormatException e) {
                 ErrorHandler.invalidSemester();
-                return false;
             }
             break;
         }
         case "delete": {
             if (words.length != 2) {
                 ErrorHandler.invalidDeleteFormat();
-                return false;
-            }
-            if (!doesModuleExist(words[1].toUpperCase())) {
-                ErrorHandler.invalidModule();
                 return false;
             }
             break;
