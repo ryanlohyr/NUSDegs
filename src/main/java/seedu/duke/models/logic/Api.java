@@ -207,6 +207,12 @@ public class Api {
 
     }
 
+    /**
+     * Checks if a module with the given module code exists in the NUSMods database.
+     *
+     * @param moduleCode The module code to check for existence.
+     * @return `true` if the module exists, `false` if the module does not exist.
+     */
     public static boolean doesModuleExist(String moduleCode) {
         JSONObject moduleInfo = getFullModuleInfo(moduleCode);
         return (!(moduleInfo == null));
