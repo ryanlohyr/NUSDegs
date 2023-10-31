@@ -51,12 +51,6 @@ public class CommandLineView {
         System.out.println(o);
     }
 
-    /**
-     * Display an empty line to the command line view.
-     */
-    public void displayMessage() {
-        System.out.println();
-    }
 
     /**
      * Print a top line for a formatted subheader.
@@ -84,6 +78,10 @@ public class CommandLineView {
      */
     private void printDoubleBottomLine() {
         displayMessage(String.format("#%-" + formatLineLength + "s#", "").replace(' ', '='));
+    }
+
+    private void printNewline(){
+        System.out.println();
     }
 
     /**
@@ -126,7 +124,7 @@ public class CommandLineView {
             if (currentLine.startsWith("***")) { //subsubheader
                 String actualModuleName = moduleName.substring(3);
                 displayMessage(" ~~\t" + returnJustified(actualModuleName, moduleMCs, longestLineLength) + "\t ~~");
-                displayMessage();
+                printNewline();
             } else if (currentLine.startsWith("**")) { //subheader has box
                 printTopLine();
                 String actualModuleName = moduleName.substring(2);
@@ -140,7 +138,7 @@ public class CommandLineView {
             } else if (!currentLine.isEmpty()) {
                 displayMessage("\t" + returnJustified(moduleName, moduleMCs, longestLineLength));
             } else {
-                displayMessage();
+                printNewline();
             }
 
         }

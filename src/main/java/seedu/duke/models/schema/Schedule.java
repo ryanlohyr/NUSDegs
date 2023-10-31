@@ -1,7 +1,9 @@
 package seedu.duke.models.schema;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
 import static seedu.duke.models.logic.Api.satisfiesAllPrereq;
 
 public class Schedule extends ModuleList {
@@ -23,6 +25,33 @@ public class Schedule extends ModuleList {
         return MAXIMUM_SEMESTERS;
     }
 
+    public void addRecommendedScheduleListToSchedule(ArrayList<String> scheduleToAdd){
+        final int modsToAddPerSem = 5;
+        int currentIndexOfMod = 0;
+        int currentSem = 1;
+
+        for (String module : scheduleToAdd) {
+            //check if the module fulfill pre req, if not we move it to next sem
+            ModuleList completedModules = new ModuleList(String.join(" ", getMainModuleList()));
+            if(!satisfiesAllPrereq(module,completedModules)){
+                System.out.println("completed modules");
+                System.out.println(completedModules.getMainModuleList());
+                System.out.println("this modules prereqs are "
+                        + getModulePrereqBasedOnCourse(module.toUpperCase(),"CEG"));
+                System.out.println(module + " module prereq was not satisfied current sem is " + currentSem);
+                currentSem += 1;
+                currentIndexOfMod = 0;
+            }
+            addModule(module, currentSem);
+            currentIndexOfMod += 1;
+            if(currentIndexOfMod >= modsToAddPerSem){
+                currentIndexOfMod = 0;
+                currentSem += 1;
+            }
+        }
+
+    }
+
     public boolean addModule(String module, int targetSem)  {
 
         if (targetSem < 1 || targetSem > MAXIMUM_SEMESTERS) {
@@ -41,15 +70,16 @@ public class Schedule extends ModuleList {
             if (satisfiesAllPrereq(module, completedModules)) {
                 this.getMainModuleList().add(indexToAdd, module);
                 modulesPerSem[targetSem - 1] += 1;
-                printMainModuleList();
                 return true;
             }
+            System.out.println("pre req not satisfied for: " + module);
         } catch (IllegalArgumentException e) {
             return false;
         }
 
         return false;
     }
+
 
     @Override
     public void printMainModuleList() {
