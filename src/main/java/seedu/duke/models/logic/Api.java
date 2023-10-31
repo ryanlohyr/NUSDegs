@@ -59,6 +59,8 @@ public class Api {
         exemptedModules.add("CS1231");
         exemptedModules.add("MA1508E");
         exemptedModules.add("EE4204");
+        exemptedModules.add("MA1511");
+        exemptedModules.add("MA1512");
         return exemptedModules.contains(moduleCode);
     }
 
@@ -77,6 +79,12 @@ public class Api {
         ArrayList<String> list3 = new ArrayList<>();
         list3.add("ST2334");
         map.put("EE4204", list3);
+
+        ArrayList<String> list4 = new ArrayList<>();
+        map.put("MA1511", list4);
+
+        ArrayList<String> list5 = new ArrayList<>();
+        map.put("MA1512", list5);
 
         return map.get(moduleCode);
     }
@@ -198,29 +206,44 @@ public class Api {
 
     }
 
+    public static boolean doesModuleExist(String moduleCode) {
+        JSONObject moduleInfo = getFullModuleInfo(moduleCode);
+        return (!(moduleInfo == null));
+    }
+
     /**
      * Checks if a student satisfies all prerequisites for a given module.
      *
      * @param moduleCode       The code of the module for which prerequisites need to be checked.
      * @param completedModules The list of completed modules by the student.
      * @return `true` if the student satisfies all prerequisites for the module, `false` otherwise.
-     * @throws InvalidObjectException If the prerequisite information for the module is invalid.
+     * @throws IllegalArgumentException If the module code is invalid.
      */
     public static boolean satisfiesAllPrereq(String moduleCode, ModuleList completedModules)
-            throws InvalidObjectException {
+            throws IllegalArgumentException {
+
+        if (!doesModuleExist(moduleCode)) {
+            throw new IllegalArgumentException("Invalid module code");
+        }
 
         JSONObject modulePrereqTree = getModulePrereqTree(moduleCode);
 
         if(modulePrereqTree == null){
             return true;
         }
-        String key = (String) modulePrereqTree.keySet().toArray()[0];
 
+        String key = (String) modulePrereqTree.keySet().toArray()[0];
         ArrayList<Objects> initial = (ArrayList<Objects>) modulePrereqTree.get(key);
+
         //Modules that has prerequisites incorrectly identified by NUSMods
-        /*if(isModuleException(moduleCode)){
-            initial = getExemptedPrerequisite(moduleCode);
-        }*/
+        if(isModuleException(moduleCode)){
+            JSONObject exceptionPrereqTree = new JSONObject();
+            ArrayList<String> requirementList = getExemptedPrerequisite(moduleCode);
+            exceptionPrereqTree.put("and", requirementList);
+
+            key = (String) exceptionPrereqTree.keySet().toArray()[0];
+            initial = (ArrayList<Objects>) exceptionPrereqTree.get(key);
+        }
 
         return checkPrereq(initial, key, completedModules);
 
@@ -238,15 +261,19 @@ public class Api {
     private static boolean checkPrereq(
             ArrayList<Objects> modulePrereqArray,
             String currRequisite,
-            ModuleList completedModules) throws InvalidObjectException {
+            ModuleList completedModules) {
 
         if (currRequisite.equals("or")) {
             for(Object module: modulePrereqArray) {
                 if (module instanceof String) {
                     String formattedModule = ((String) module).replace(":D", "");
                     formattedModule = formattedModule.replace("%", "");
-                    if (completedModules.exists(formattedModule)) {
-                        return true;
+                    try {
+                        if (completedModules.exists(formattedModule)) {
+                            return true;
+                        }
+                    } catch (InvalidObjectException e) {
+                        throw new RuntimeException(e);
                     }
                 } else {
                     JSONObject prereqBranch = (JSONObject) module;
@@ -263,8 +290,12 @@ public class Api {
                 if (module instanceof String) {
                     String formattedModule = ((String) module).replace(":D", "");
                     formattedModule = formattedModule.replace("%", "");
-                    if (!completedModules.exists(formattedModule)) {
-                        return false;
+                    try {
+                        if (!completedModules.exists(formattedModule)) {
+                            return false;
+                        }
+                    } catch (InvalidObjectException e) {
+                        throw new RuntimeException(e);
                     }
                 } else {
                     JSONObject prereqBranch = (JSONObject) module;

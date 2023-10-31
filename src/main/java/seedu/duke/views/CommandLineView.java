@@ -2,7 +2,6 @@ package seedu.duke.views;
 
 
 import seedu.duke.models.schema.Major;
-import java.util.Arrays;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -21,6 +20,28 @@ public class CommandLineView {
         System.out.println("What is your name?");
     }
 
+
+    public void handleMajorMessage(int userInputLength, Major major) {
+        assert (userInputLength == 1 || userInputLength == 2);
+        if (userInputLength == 1) {
+            if (major == null) {
+                displayMessage("No major selected!");
+                return;
+            }
+            displayMessage("Current major is " + major + ".");
+            return;
+        }
+        displayMessage("Major " + major + " selected!");
+    }
+
+    public void handleAddMessage(boolean isSuccessful) {
+        if (isSuccessful) {
+            displayMessage("Module Successfully Added");
+            return;
+        }
+        displayMessage("Unable to add module as prerequisites are not satisfied");
+    }
+
     /**
      * Display a message to the command line view.
      *
@@ -28,50 +49,6 @@ public class CommandLineView {
      */
     public void displayMessage(Object o) {
         System.out.println(o);
-    }
-
-    public void handleMajorMessage(String messageKey, Major major) {
-        switch (messageKey) {
-        case "CURRENT_MAJOR":
-            if (major == null) {
-                displayMessage("No major selected!");
-                break;
-            }
-            displayMessage("Current major is " + major + ".");
-            break;
-        case "NEW_MAJOR":
-            displayMessage("Major " + major + " selected!");
-            break;
-        case "INVALID_MAJOR":
-            displayMessage("Please select a major from this list: " + Arrays.toString(Major.values()));
-            break;
-        // Empty default branch as outcome cannot take any other value
-        default:
-            break;
-        }
-    }
-
-    public void handleAddMessage(String messageKey) {
-        switch (messageKey) {
-        case "NO_MAJOR":
-            displayMessage("Please select a major.");
-            break;
-        case "INVALID_FORMAT":
-            displayMessage("Please add a module using this format: add [module code] [semester]");
-            break;
-        case "INVALID_ACADEMIC_YEAR":
-            displayMessage("Please enter a valid academic year");
-            break;
-        case "FAIL_PREREQ":
-            displayMessage("Unable to add module as prerequisites are not satisfied");
-            break;
-        case "ADD_MODULE":
-            displayMessage("Module Successfully Added");
-            break;
-        // Empty default branch as outcome cannot take any other value
-        default:
-            break;
-        }
     }
 
     /**

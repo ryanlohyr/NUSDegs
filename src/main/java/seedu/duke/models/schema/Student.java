@@ -88,26 +88,4 @@ public class Student {
     public void setMajor(Major major) {
         this.major = major;
     }
-
-    /**
-     * Sets the major of the student based on user input.
-     *
-     * @param userInput The user input containing the new major.
-     * @return A status message indicating the result of the operation:
-     *         - "NEW_MAJOR" if the major was successfully updated.
-     *         - "INVALID_MAJOR" if the user input contained an invalid major.
-     *         - "CURRENT_MAJOR" if the user input did not specify a major.
-     */
-    public String updateMajor(String userInput) {
-        String[] words = userInput.split(" ");
-        if (words.length < 2) {
-            return "CURRENT_MAJOR";
-        }
-        try {
-            setMajor(Major.valueOf(words[1].toUpperCase()));
-            return "NEW_MAJOR";
-        } catch (IllegalArgumentException e) {
-            return "INVALID_MAJOR";
-        }
-    }
 }

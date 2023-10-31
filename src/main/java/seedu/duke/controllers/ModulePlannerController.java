@@ -4,6 +4,7 @@ import org.json.simple.JSONObject;
 import seedu.duke.models.logic.CompletePreqs;
 import seedu.duke.models.logic.DataRepository;
 import seedu.duke.models.logic.ModuleList;
+import seedu.duke.models.schema.Major;
 import seedu.duke.models.schema.Schedule;
 import seedu.duke.models.schema.Student;
 import seedu.duke.models.logic.Api;
@@ -129,13 +130,18 @@ public class ModulePlannerController {
                     break;
                 }
                 case "major": {
-                    String messageKey = student.updateMajor(userInput);
-                    view.handleMajorMessage(messageKey, student.getMajor());
+                    if (words.length == 2) {
+                        Major major = Major.valueOf(words[1].toUpperCase());
+                        student.setMajor(major);
+                    }
+                    view.handleMajorMessage(words.length, student.getMajor());
                     break;
                 }
                 case "add": {
-                    String messageKey = student.getSchedule().addModule(words);
-                    view.handleAddMessage(messageKey);
+                    String module = words[1].toUpperCase();
+                    int targetSem = Integer.parseInt(words[2]);
+                    boolean isSuccessful = student.getSchedule().addModule(module, targetSem);
+                    view.handleAddMessage(isSuccessful);
                     break;
                 }
                 case "schedule": {
@@ -164,8 +170,8 @@ public class ModulePlannerController {
                     break;
                 }
                 }
-                userInput = in.nextLine();
             }
+            userInput = in.nextLine();
         }
     }
 
