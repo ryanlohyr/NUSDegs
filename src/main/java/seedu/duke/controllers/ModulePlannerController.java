@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
-
+import java.util.Objects;
 import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
 import static seedu.duke.models.logic.DataRepository.getRequirements;
 import static seedu.duke.models.logic.ScheduleGenerator.generateRecommendedSchedule;
@@ -45,7 +45,7 @@ public class ModulePlannerController {
         this.modulesTaken = new ModuleList("CS1231S MA1511");
         this.modulesLeft = new ModuleList();
 
-        Schedule schedule = new Schedule("CS1231S MA1511", new int[]{2, 0, 0, 0, 0, 0, 0, 0});
+        Schedule schedule = new Schedule();
         student.setSchedule(schedule);
 
         modsWithPreqs = new HashMap<>();
@@ -116,8 +116,11 @@ public class ModulePlannerController {
                     break;
                 }
                 case "prereq": {
-                    String keyword = words[1];
-                    System.out.println(getModulePrereqBasedOnCourse(keyword.toUpperCase(), "CEG"));
+                    String module = words[1];
+                    ArrayList<String> prereq = getModulePrereqBasedOnCourse(module.toUpperCase(), "CEG");
+                    view.displayMessage(Objects.requireNonNullElseGet(prereq, () -> "Module " + module +
+                            " has no prerequisites."));
+
                     break;
                 }
                 case "test": {
@@ -126,7 +129,7 @@ public class ModulePlannerController {
                 }
                 case "recommend": {
                     String keyword = words[1];
-                    System.out.println((generateRecommendedSchedule(keyword.toUpperCase())));
+                    chooseToAddToSchedule(generateRecommendedSchedule(keyword.toUpperCase()),in);
                     break;
                 }
                 case "major": {
@@ -175,6 +178,29 @@ public class ModulePlannerController {
             }
             userInput = in.nextLine();
         }
+    }
+
+    public void chooseToAddToSchedule(ArrayList<String> scheduleToAdd, Scanner in){
+
+        view.displayMessage(scheduleToAdd);
+        view.displayMessage("Do you want to add this to your draft schedule?, please input 'Y' or 'N'");
+
+        String userInput = in.nextLine();
+
+        while (!userInput.equals("N") && !userInput.equals(("Y"))){
+            view.displayMessage("Invalid input, please choose Y/N");
+            userInput = in.nextLine();
+        }
+
+        if(userInput.equals("Y")){
+            view.displayMessage("yes was chosen");
+            student.getSchedule().addRecommendedScheduleListToSchedule(scheduleToAdd);
+            student.getSchedule().printMainModuleList();
+
+        }else {
+            view.displayMessage("No was chosen");
+        }
+
     }
 
     /**
