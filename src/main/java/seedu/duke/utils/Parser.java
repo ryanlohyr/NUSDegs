@@ -1,8 +1,13 @@
 package seedu.duke.utils;
 
+import seedu.duke.models.schema.Major;
+import seedu.duke.models.schema.Schedule;
 import seedu.duke.views.ErrorHandler;
 
+import java.util.Arrays;
 import java.util.Objects;
+
+import static seedu.duke.models.logic.Api.doesModuleExist;
 
 public class Parser {
 
@@ -19,7 +24,7 @@ public class Parser {
      * @throws IllegalArgumentException if the input format is incorrect or if the year or semester is invalid.
      *
      */
-    public boolean isValidAcademicYear( String userInput ) {
+    public static boolean isValidAcademicYear( String userInput ) {
         try {
             String[] parts = userInput.split("/");
             if(parts.length != 2){
@@ -65,6 +70,48 @@ public class Parser {
             }
             if (!Objects.equals(words[1].toUpperCase(), "CEG")){
                 ErrorHandler.invalidInput();
+                return false;
+            }
+            break;
+        }
+        case "major": {
+            if (words.length == 1) {
+                return true;
+            }
+            if (words.length > 2) {
+                ErrorHandler.invalidMajorFormat();
+                return false;
+            }
+            try {
+                Major.valueOf(words[1].toUpperCase());
+            } catch (IllegalArgumentException e) {
+                String availableMajors = Arrays.toString(Major.values());
+                ErrorHandler.invalidMajor(availableMajors);
+                return false;
+            }
+            break;
+        }
+        case "add": {
+            if (words.length != 3) {
+                ErrorHandler.invalidAddFormat();
+                return false;
+            }
+
+            if (!doesModuleExist(words[1].toUpperCase())) {
+                ErrorHandler.invalidModule();
+                return false;
+            }
+
+            try {
+                //For now using sem 1, 2, 3...
+                //Change to Y1/S1 format
+                int targetSem = Integer.parseInt(words[2]);
+                if (targetSem > Schedule.getMaximumSemesters() || targetSem < 1) {
+                    ErrorHandler.invalidSemester();
+                    return false;
+                }
+            } catch (NumberFormatException e) {
+                ErrorHandler.invalidSemester();
                 return false;
             }
             break;

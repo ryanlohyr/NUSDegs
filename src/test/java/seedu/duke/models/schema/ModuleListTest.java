@@ -1,7 +1,6 @@
-package seedu.duke;
+package seedu.duke.models.schema;
 
 import org.junit.jupiter.api.Test;
-import seedu.duke.models.logic.ModuleList;
 
 import java.io.InvalidObjectException;
 

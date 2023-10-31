@@ -1,9 +1,11 @@
 package seedu.duke.controllers;
+
 import org.json.simple.JSONObject;
 import seedu.duke.models.logic.CompletePreqs;
 import seedu.duke.models.logic.DataRepository;
-import seedu.duke.models.logic.ModuleList;
+import seedu.duke.models.schema.ModuleList;
 import seedu.duke.models.schema.Major;
+import seedu.duke.models.schema.Schedule;
 import seedu.duke.models.schema.Student;
 import seedu.duke.models.logic.Api;
 import seedu.duke.views.CommandLineView;
@@ -15,7 +17,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Arrays;
 
 import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
 import static seedu.duke.models.logic.DataRepository.getRequirements;
@@ -37,10 +38,15 @@ public class ModulePlannerController {
         this.parser = new Parser();
         this.student = new Student();
 
+
+
         //This modules list of taken and classes left can be in a storage class later on.
         this.modulesMajor = new ModuleList("CS1231S CS2030S CS2040S CS2100 CS2101 CS2106 CS2109S CS3230");
         this.modulesTaken = new ModuleList("CS1231S MA1511");
         this.modulesLeft = new ModuleList();
+
+        Schedule schedule = new Schedule("CS1231S MA1511", new int[]{2, 0, 0, 0, 0, 0, 0, 0});
+        student.setSchedule(schedule);
 
         modsWithPreqs = new HashMap<>();
 
@@ -124,21 +130,22 @@ public class ModulePlannerController {
                     break;
                 }
                 case "major": {
-                    String printMessageCommand = student.updateMajor(userInput);
-                    switch (printMessageCommand) {
-                    case "currentMajor":
-                        view.displayMessage("Current major is " + student.getMajor() + ".");
-                        break;
-                    case "newMajor":
-                        view.displayMessage("Major " + student.getMajor() + " selected!");
-                        break;
-                    case "invalidMajor":
-                        view.displayMessage("Please select a major from this list: " + Arrays.toString(Major.values()));
-                        break;
-                    // Empty default branch as printMessageCommand cannot take any other value
-                    default:
-                        break;
+                    if (words.length == 2) {
+                        Major major = Major.valueOf(words[1].toUpperCase());
+                        student.setMajor(major);
                     }
+                    view.handleMajorMessage(words.length, student.getMajor());
+                    break;
+                }
+                case "add": {
+                    String module = words[1].toUpperCase();
+                    int targetSem = Integer.parseInt(words[2]);
+                    boolean isSuccessful = student.getSchedule().addModule(module, targetSem);
+                    view.handleAddMessage(isSuccessful);
+                    break;
+                }
+                case "schedule": {
+                    student.getSchedule().printMainModuleList();
                     break;
                 }
                 case "required": {
@@ -158,11 +165,7 @@ public class ModulePlannerController {
                     view.displayMessage("Hello " + userInput);
                     break;
                 }
-
-
                 }
-
-
             }
             userInput = in.nextLine();
         }
