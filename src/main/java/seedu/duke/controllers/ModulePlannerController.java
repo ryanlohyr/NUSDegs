@@ -46,6 +46,7 @@ public class ModulePlannerController {
         this.modulesLeft = new ModuleList();
 
         Schedule schedule = new Schedule();
+
         student.setSchedule(schedule);
 
         modsWithPreqs = new HashMap<>();
@@ -145,12 +146,18 @@ public class ModulePlannerController {
                     int targetSem = Integer.parseInt(words[2]);
                     boolean isSuccessful = student.getSchedule().addModule(module, targetSem);
                     view.handleAddMessage(isSuccessful);
+                    if (isSuccessful) {
+                        student.getSchedule().printMainModuleList();
+                    }
                     break;
                 }
                 case "delete": {
                     String module = words[1].toUpperCase();
-                    String deleteMessage = student.getSchedule().deleteModule(module);
-                    view.handleDeleteMessage(deleteMessage);
+                    boolean isSuccessful = student.getSchedule().deleteModule(module);
+                    view.handleDeleteMessage(isSuccessful);
+                    if (isSuccessful) {
+                        student.getSchedule().printMainModuleList();
+                    }
                     break;
                 }
                 case "schedule": {
@@ -208,7 +215,6 @@ public class ModulePlannerController {
      * after subtracting the modules in the ModuleList modulesTaken.
      * @author janelleenqi
      * @return An ArrayList of module codes representing the modules left after the subtraction.
-     * @throws InvalidObjectException If either modulesMajor or modulesTaken is null.
      *
      */
     public ArrayList<String> listModulesLeft() {

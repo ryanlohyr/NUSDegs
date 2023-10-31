@@ -1,13 +1,10 @@
 package seedu.duke.utils;
 
 import seedu.duke.models.schema.Major;
-import seedu.duke.models.schema.Schedule;
 import seedu.duke.views.ErrorHandler;
 
 import java.util.Arrays;
 import java.util.Objects;
-
-import static seedu.duke.models.logic.Api.doesModuleExist;
 
 public class Parser {
 
@@ -96,33 +93,16 @@ public class Parser {
                 ErrorHandler.invalidAddFormat();
                 return false;
             }
-
-            if (!doesModuleExist(words[1].toUpperCase())) {
-                ErrorHandler.invalidModule();
-                return false;
-            }
-
             try {
-                //For now using sem 1, 2, 3...
-                //Change to Y1/S1 format
-                int targetSem = Integer.parseInt(words[2]);
-                if (targetSem > Schedule.getMaximumSemesters() || targetSem < 1) {
-                    ErrorHandler.invalidSemester();
-                    return false;
-                }
+                Integer.parseInt(words[2]);
             } catch (NumberFormatException e) {
                 ErrorHandler.invalidSemester();
-                return false;
             }
             break;
         }
         case "delete": {
             if (words.length != 2) {
                 ErrorHandler.invalidDeleteFormat();
-                return false;
-            }
-            if (!doesModuleExist(words[1].toUpperCase())) {
-                ErrorHandler.invalidModule();
                 return false;
             }
             break;

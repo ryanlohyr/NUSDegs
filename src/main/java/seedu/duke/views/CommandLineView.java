@@ -34,16 +34,16 @@ public class CommandLineView {
         displayMessage("Major " + major + " selected!");
     }
 
-    public void handleDeleteMessage(String deleteMessage) {
-        displayMessage(deleteMessage);
-    }
-
     public void handleAddMessage(boolean isSuccessful) {
         if (isSuccessful) {
             displayMessage("Module Successfully Added");
-            return;
         }
-        displayMessage("Unable to add module as prerequisites are not satisfied");
+    }
+
+    public void handleDeleteMessage(boolean isSuccessful) {
+        if (isSuccessful) {
+            displayMessage("Module Successfully Deleted");
+        }
     }
 
     /**

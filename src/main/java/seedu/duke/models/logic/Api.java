@@ -288,7 +288,7 @@ public class Api {
 
 
                     JSONArray prereqBranchArray = (JSONArray) prereqBranch.get(key);
-                    return checkPrereq(prereqBranchArray, currRequisite, completedModules);
+                    return checkPrereq(prereqBranchArray, key, completedModules);
                 }
             }
             return false;
@@ -310,7 +310,7 @@ public class Api {
 
 
                     JSONArray prereqBranchArray = (JSONArray) prereqBranch.get(key);
-                    if (!checkPrereq(prereqBranchArray, currRequisite, completedModules)) {
+                    if (!checkPrereq(prereqBranchArray, key, completedModules)) {
                         return false;
                     }
                 }
