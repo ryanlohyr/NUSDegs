@@ -4,7 +4,9 @@ import java.io.InvalidObjectException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static seedu.duke.models.logic.Api.doesModuleExist;
 import static seedu.duke.models.logic.Api.satisfiesAllPrereq;
+import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
 
 /**
  * The `Schedule` class represents a student's course schedule and extends the `ModuleList` class.
@@ -41,6 +43,33 @@ public class Schedule extends ModuleList {
      */
     public static int getMaximumSemesters() {
         return MAXIMUM_SEMESTERS;
+    }
+
+    public void addRecommendedScheduleListToSchedule(ArrayList<String> scheduleToAdd){
+        final int modsToAddPerSem = 5;
+        int currentIndexOfMod = 0;
+        int currentSem = 1;
+
+        for (String module : scheduleToAdd) {
+            //check if the module fulfill pre req, if not we move it to next sem
+            ModuleList completedModules = new ModuleList(String.join(" ", getMainModuleList()));
+            if(!satisfiesAllPrereq(module,completedModules)){
+                System.out.println("completed modules");
+                System.out.println(completedModules.getMainModuleList());
+                System.out.println("this modules prereqs are "
+                        + getModulePrereqBasedOnCourse(module.toUpperCase(),"CEG"));
+                System.out.println(module + " module prereq was not satisfied current sem is " + currentSem);
+                currentSem += 1;
+                currentIndexOfMod = 0;
+            }
+            addModule(module, currentSem);
+            currentIndexOfMod += 1;
+            if(currentIndexOfMod >= modsToAddPerSem){
+                currentIndexOfMod = 0;
+                currentSem += 1;
+            }
+        }
+
     }
 
     /**
@@ -82,6 +111,7 @@ public class Schedule extends ModuleList {
                 changeNumberOfModules(1);
                 return true;
             }
+            System.out.println("pre req not satisfied for: " + module);
         } catch (IllegalArgumentException e) {
             System.out.println("Please select a valid module");
             return false;
@@ -100,8 +130,12 @@ public class Schedule extends ModuleList {
 
         int targetIndex = getMainModuleList().indexOf(module);
 
+        if (!doesModuleExist(module)) {
+            System.out.println("Please select a valid module");
+        }
+
         if (targetIndex == -1) {
-            System.out.println("Module is not in schedule.");
+            System.out.println("Module is not in schedule");
             return false;
         }
 
@@ -150,6 +184,7 @@ public class Schedule extends ModuleList {
     /**
      * Prints the student's course schedule, displaying modules organized by semesters.
      */
+
     @Override
     public void printMainModuleList() {
         int moduleCounter = 0;

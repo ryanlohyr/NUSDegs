@@ -1,13 +1,10 @@
 package seedu.duke.utils;
 
 import seedu.duke.models.schema.Major;
-import seedu.duke.models.schema.Schedule;
 import seedu.duke.views.ErrorHandler;
 
 import java.util.Arrays;
 import java.util.Objects;
-
-import static seedu.duke.models.logic.Api.doesModuleExist;
 
 public class Parser {
 
