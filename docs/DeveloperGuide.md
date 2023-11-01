@@ -12,6 +12,8 @@
 - Left
 - Major
 - Required
+- info (description, workload, command)
+- search 
 
 # Implementation
 
@@ -103,13 +105,41 @@ Response: `Current major is [current major in student object].`
 
 ## [Proposed] Show Required Modules Feature
 
-The proposed required mechanism is implemented to give users an overview of the modules they need to complete for their major. It is facilitated by CEGRequirements.txt, CSRequirements.txt. Additionally, it implements the following operations:
+The proposed required mechanism is implemented to give users an overview of the modules they need to complete for 
+their major. It is facilitated by CEGRequirements.txt, CSRequirements.txt. Additionally, it implements the following 
+operations:
 
 - `DataRepository#getFullRequirements(major)` – Returns the `filePath` for the requirements of a specified major.
 - `view#printTXTFile(filePath)` – Displays the overview of modules required.
 - `getLongestLineLength(f)` – Returns the `longestLineLength` of the file f.
 - `returnJustified(name, description, length)` – Returns a string with a justified name according to length, appended with its description.
 - `printTopLine()`, `printDoubleTopLine()`, `printBottomLine()`, `printDoubleBottomLine()` – Displays lines for formatting
+
+### Usage Examples
+
+Here are a few examples of how the Show Required Modules Feature behaves:
+
+#### Example 1:
+
+Command: `required`
+
+Response:
+Module requirements for major selected by user
+
+## [Proposed] Get information about modules (from the NUSMods API)
+
+
+The proposed information feature returns information about the module at the user's request. It accepts 3 commands, 
+'description', 'workload' and 'all'. The 'description' command returns a string description of the module, the workload
+command returns an array, and all displays the module title and module code for all modules present in the NUSMods 
+directory.
+
+- `getFullModuleInfo(major)` – Returns the `filePath` for the requirements of a specified major.
+- `sendHttpRequestAndGetResponseBody(String url)` – Displays the overview of modules required.
+- `getDescription(String moduleCode)` – Returns the `longestLineLength` of the file f.
+- `getWorkload(String moduleCode)` – Returns a string with a justified name according to length, appended with its description.
+- `listAllModules(), `printDoubleTopLine()`, `printBottomLine()`, `printDoubleBottomLine()` – Displays lines for formatting
+- `infoCommands(String command, String userInput), `printDoubleTopLine()`, `printBottomLine()`, `printDoubleBottomLine()` – Displays lines for formatting
 
 ### Usage Examples
 
