@@ -22,4 +22,18 @@ public class ErrorHandler {
     public static void invalidDeleteFormat() {
         System.out.println("Please delete a module using this format: delete [module code]");
     }
+
+    public static void EmptyInputforInfoCommand() {
+        System.out.println("Empty input detected. Please enter a valid input after the info command." +
+                " (E.g description, workload, all)");
+    }
+
+    public static void invalidCommandforInfoCommand() {
+        System.out.println("Please enter a valid command after the info command. (E.g description, workload, all)");
+    }
+
+    public static void emptyKeywordforSearchCommand() {
+        System.out.println("Empty input detected. Please enter a valid keyword after the search command.");
+    }
+
 }

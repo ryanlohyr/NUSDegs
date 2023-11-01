@@ -8,6 +8,7 @@ import seedu.duke.models.schema.Major;
 import seedu.duke.models.schema.Schedule;
 import seedu.duke.models.schema.Student;
 import seedu.duke.models.logic.Api;
+import seedu.duke.views.ErrorHandler;
 import seedu.duke.views.ModuleInfo;
 import seedu.duke.views.CommandLineView;
 import seedu.duke.utils.Parser;
@@ -172,15 +173,6 @@ public class ModulePlannerController {
                 case "info": {
                     view.displayMessage("info");
                     try {
-                        if (!words[1].equals("description") && !words[1].equals("workload")
-                                && !words[1].equals("all") && !words[1].equals("requirements")) {
-                            System.out.println("no valid command");
-                            break;
-                        }
-                    } catch (NullPointerException e) {
-                        System.out.println("error message");
-                    }
-                    try {
                         Api.infoCommands(words[1], userInput);
                     } catch (UnknownCommandException e) {
                         System.out.println("error message");
@@ -189,13 +181,12 @@ public class ModulePlannerController {
                 }
                 case "search": {
                     view.displayMessage("search");
-                    String keywords = userInput.substring(userInput.indexOf("search") + 6);
-                    // need to add a function to make search case-insensitive
-                    if (keywords.isEmpty()) {
-                        System.out.println("empty input");
+                    if (!Parser.isValidKeywordInput(userInput)) {
                         break;
                     }
+                    String keywords = userInput.substring(userInput.indexOf("search") + 6);
                     JSONArray modulesToPrint = Api.search(keywords, Api.listAllModules());
+            //        ModuleInfo.moduleArrayNullCheck();
                     ModuleInfo.searchHeader();
                     ModuleInfo.printJsonArray(modulesToPrint);
                     break;

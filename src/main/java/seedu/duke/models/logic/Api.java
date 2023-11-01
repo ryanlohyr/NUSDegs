@@ -20,6 +20,8 @@ import org.json.simple.parser.ParseException;
 import seedu.duke.models.schema.ModuleList;
 
 import static seedu.duke.models.logic.DataRepository.getRequirements;
+
+import seedu.duke.views.ModuleInfo;
 import seedu.duke.views.UnknownCommandException;
 
 
@@ -397,7 +399,8 @@ public class Api {
             }
         } else if (command.equals("all")) {
             JSONArray allModules = listAllModules();
-            System.out.println(allModules);
+            assert allModules != null;
+            ModuleInfo.printJsonArray(allModules);
         } else {
             throw new UnknownCommandException(command);
         }

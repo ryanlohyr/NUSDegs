@@ -115,6 +115,12 @@ public class Parser {
         }
         case "info": {
             if (words.length < 2) {
+                ErrorHandler.EmptyInputforInfoCommand();
+                return false;
+            }
+            if (!words[1].equals("description") && !words[1].equals("workload")
+                    && !words[1].equals("all") && !words[1].equals("requirements")) {
+                ErrorHandler.invalidCommandforInfoCommand();
                 return false;
             }
             break;
@@ -123,6 +129,17 @@ public class Parser {
             return true;
         }
 
+        }
+        return true;
+    }
+
+    public static boolean isValidKeywordInput(String userInput) {
+        String keywords = userInput.substring(userInput.indexOf("search") + 6);
+        System.out.println(keywords);
+        // need to add a function to make search case-insensitive
+        if (keywords.isEmpty()) {
+            ErrorHandler.emptyKeywordforSearchCommand();
+            return false;
         }
         return true;
     }
