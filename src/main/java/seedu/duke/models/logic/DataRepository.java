@@ -46,7 +46,6 @@ public class DataRepository {
                     currentArray.add(words[0]);
                 }
             }
-            System.out.println(currentArray);
             return currentArray;
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
