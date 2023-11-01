@@ -27,6 +27,7 @@ public class ApiTest {
         assertTrue(moduleInfo.contains(correctModuleInfo), "Module info should contain relevant info");
     }
 
+
     @Test
     void testGetDescription_shouldReturnEquals() {
         String correctDescription = "This course introduces the necessary skills for systematic and " +
