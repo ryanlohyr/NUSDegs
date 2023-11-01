@@ -3,15 +3,25 @@ package seedu.duke.models.schema;
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
 
+import static seedu.duke.models.logic.DataRepository.getRequirements;
+
 public class ModuleList {
 
     private ArrayList<String> mainModuleList;
     private int numberOfModules;
 
+    public ModuleList(Major major) {
+        mainModuleList = getRequirements(major.toString());
+        for (String ignored : mainModuleList) {
+            numberOfModules += 1;
+        }
+    }
+
     public ModuleList(String modules) {
         try {
             String[] moduleArray = modules.split(" ");
             mainModuleList = new ArrayList<String>();
+
             numberOfModules = 0;
             for (String module : moduleArray) {
                 mainModuleList.add(module);
