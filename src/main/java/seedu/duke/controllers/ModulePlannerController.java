@@ -1,6 +1,4 @@
 package seedu.duke.controllers;
-import org.json.simple.JSONArray;
-import org.json.simple.parser.ParseException;
 import seedu.duke.models.logic.CompletePreqs;
 import seedu.duke.models.logic.DataRepository;
 import seedu.duke.models.schema.ModuleList;
@@ -8,16 +6,11 @@ import seedu.duke.models.schema.Major;
 import seedu.duke.models.schema.Schedule;
 import seedu.duke.models.schema.Student;
 import seedu.duke.models.logic.Api;
-import seedu.duke.views.ErrorHandler;
-import seedu.duke.views.ModuleInfo;
 import seedu.duke.views.CommandLineView;
 import seedu.duke.utils.Parser;
-import seedu.duke.views.UnknownCommandException;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InvalidObjectException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -69,7 +62,7 @@ public class ModulePlannerController {
      * While the user input is not "bye," the method processes the input and responds accordingly.
      * The commands are case-insensitive, and the response is displayed in the view.
      */
-    public void start() throws URISyntaxException, IOException, ParseException, InterruptedException {
+    public void start() {
         view.displayWelcome();
         Scanner in = new Scanner(System.in);
         String userInput = in.nextLine();
@@ -171,27 +164,11 @@ public class ModulePlannerController {
                     break;
                 }
                 case "info": {
-                    view.displayMessage("info");
-                    try {
-                        Api.infoCommands(words[1], userInput);
-                    } catch (UnknownCommandException e) {
-                        ErrorHandler.invalidCommandforInfoCommand();
-                    }
+                    Api.infoCommands(words[1], userInput);
                     break;
                 }
                 case "search": {
-                    view.displayMessage("search");
-                    if (!Parser.isValidKeywordInput(userInput)) {
-                        break;
-                    }
-                    String keywords = userInput.substring(userInput.indexOf("search") + 6);
-                    JSONArray modulesToPrint = Api.search(keywords, Api.listAllModules());
-                    if (modulesToPrint.isEmpty()) {
-                        ErrorHandler.emptyArrayforSearchCommand();
-                        break;
-                    }
-                    ModuleInfo.searchHeader();
-                    ModuleInfo.printJsonArray(modulesToPrint);
+                    Api.searchCommand(userInput);
                     break;
                 }
                 default: {

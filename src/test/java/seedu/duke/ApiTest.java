@@ -8,7 +8,6 @@ import java.util.Objects;
 
 import org.junit.jupiter.api.Test;
 import seedu.duke.views.ModuleInfo;
-import seedu.duke.views.UnknownCommandException;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -98,11 +97,6 @@ public class ApiTest {
         ModuleInfo.printJsonArray(modulesToPrint);
     }
 
-    //invalid command, valid input
-    @Test
-    void testInfoCommands_invalidCommand_expectError() {
-        assertThrows(UnknownCommandException.class, () -> Api.infoCommands("dbfjsdhf", "CS2113"));
-    }
 
     @Test
     void testInfoCommands_invalidModule_expectError() {
