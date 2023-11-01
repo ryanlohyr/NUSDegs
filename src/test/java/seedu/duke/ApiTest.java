@@ -8,7 +8,6 @@ import java.util.Objects;
 
 import org.junit.jupiter.api.Test;
 import seedu.duke.views.ModuleInfo;
-import seedu.duke.views.UnknownCommandException;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
