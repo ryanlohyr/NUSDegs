@@ -7,7 +7,6 @@ import seedu.duke.controllers.ModulePlannerController;
 import seedu.duke.models.schema.Major;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
 import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -27,9 +26,9 @@ class MajorRequirementsTest {
         System.setOut(originalOut);
     }
 
-    //success scenario (CEG)
+
     @Test
-    void printTXTFile_validFilePath_expectRequiredModulesShown() throws FileNotFoundException {
+    void printRequiredModules_validMajor_expectRequiredModulesShown() {
         ModulePlannerController controller = new ModulePlannerController();
         controller.getRequiredModules(Major.valueOf("CEG"));
         // Capture the printed output

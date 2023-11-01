@@ -3,13 +3,10 @@ package seedu.duke.models.logic;
 import seedu.duke.models.schema.Major;
 import seedu.duke.views.CommandLineView;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
 
 public class MajorRequirements {
     private CommandLineView view;
-    Major major;
+    private Major major;
 
 
     public MajorRequirements(Major major) {
