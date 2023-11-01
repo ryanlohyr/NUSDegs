@@ -1,7 +1,9 @@
 package seedu.duke.utils;
 
+import seedu.duke.models.schema.Major;
 import seedu.duke.views.ErrorHandler;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 public class Parser {
@@ -19,7 +21,7 @@ public class Parser {
      * @throws IllegalArgumentException if the input format is incorrect or if the year or semester is invalid.
      *
      */
-    public boolean isValidAcademicYear( String userInput ) {
+    public static boolean isValidAcademicYear( String userInput ) {
         try {
             String[] parts = userInput.split("/");
             if(parts.length != 2){
@@ -65,6 +67,42 @@ public class Parser {
             }
             if (!Objects.equals(words[1].toUpperCase(), "CEG")){
                 ErrorHandler.invalidInput();
+                return false;
+            }
+            break;
+        }
+        case "major": {
+            if (words.length == 1) {
+                return true;
+            }
+            if (words.length > 2) {
+                ErrorHandler.invalidMajorFormat();
+                return false;
+            }
+            try {
+                Major.valueOf(words[1].toUpperCase());
+            } catch (IllegalArgumentException e) {
+                String availableMajors = Arrays.toString(Major.values());
+                ErrorHandler.invalidMajor(availableMajors);
+                return false;
+            }
+            break;
+        }
+        case "add": {
+            if (words.length != 3) {
+                ErrorHandler.invalidAddFormat();
+                return false;
+            }
+            try {
+                Integer.parseInt(words[2]);
+            } catch (NumberFormatException e) {
+                ErrorHandler.invalidSemester();
+            }
+            break;
+        }
+        case "delete": {
+            if (words.length != 2) {
+                ErrorHandler.invalidDeleteFormat();
                 return false;
             }
             break;

@@ -1,4 +1,4 @@
-package seedu.duke.models.logic;
+package seedu.duke.models.schema;
 
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
@@ -101,6 +101,16 @@ public class ModuleList {
     public int getNumberOfModules() {
         assert numberOfModules >= 0: "negative numberOfModules";
         return numberOfModules;
+    }
+
+    /**
+     * Changes the number of modules by the specified difference.
+     *
+     * @param difference The difference by which to change the number of modules.
+     *                   A positive value increases the number, while a negative value decreases it.
+     */
+    public void changeNumberOfModules(int difference) {
+        numberOfModules += difference;
     }
 
 

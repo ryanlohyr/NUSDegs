@@ -1,6 +1,7 @@
 package seedu.duke.models.logic;
 
 import java.io.IOException;
+import java.io.InvalidObjectException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
@@ -13,8 +14,10 @@ import java.util.Objects;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import seedu.duke.models.schema.ModuleList;
 
 import static seedu.duke.models.logic.DataRepository.getRequirements;
 import seedu.duke.views.UnknownCommandException;
@@ -59,6 +62,8 @@ public class Api {
         exemptedModules.add("CS1231");
         exemptedModules.add("MA1508E");
         exemptedModules.add("EE4204");
+        exemptedModules.add("MA1511");
+        exemptedModules.add("MA1512");
         return exemptedModules.contains(moduleCode);
     }
 
@@ -77,6 +82,12 @@ public class Api {
         ArrayList<String> list3 = new ArrayList<>();
         list3.add("ST2334");
         map.put("EE4204", list3);
+
+        ArrayList<String> list4 = new ArrayList<>();
+        map.put("MA1511", list4);
+
+        ArrayList<String> list5 = new ArrayList<>();
+        map.put("MA1512", list5);
 
         return map.get(moduleCode);
     }
@@ -210,6 +221,118 @@ public class Api {
 
     }
 
+    /**
+     * Checks if a module with the given module code exists in the NUSMods database.
+     *
+     * @param moduleCode The module code to check for existence.
+     * @return `true` if the module exists, `false` if the module does not exist.
+     */
+    public static boolean doesModuleExist(String moduleCode) {
+        JSONObject moduleInfo = getFullModuleInfo(moduleCode);
+        return (!(moduleInfo == null));
+    }
+
+    /**
+     * Checks if a student satisfies all prerequisites for a given module.
+     *
+     * @param moduleCode       The code of the module for which prerequisites need to be checked.
+     * @param completedModules The list of completed modules by the student.
+     * @return `true` if the student satisfies all prerequisites for the module, `false` otherwise.
+     * @throws IllegalArgumentException If the module code is invalid.
+     */
+    public static boolean satisfiesAllPrereq(String moduleCode, ModuleList completedModules)
+            throws IllegalArgumentException {
+
+        if (!doesModuleExist(moduleCode)) {
+            throw new IllegalArgumentException("Invalid module code");
+        }
+
+        JSONObject modulePrereqTree = getModulePrereqTree(moduleCode);
+
+        if(modulePrereqTree == null){
+            return true;
+        }
+
+        String key = (String) modulePrereqTree.keySet().toArray()[0];
+        ArrayList<Objects> initial = (ArrayList<Objects>) modulePrereqTree.get(key);
+
+        //Modules that has prerequisites incorrectly identified by NUSMods
+        if(isModuleException(moduleCode)){
+            JSONObject exceptionPrereqTree = new JSONObject();
+            ArrayList<String> requirementList = getExemptedPrerequisite(moduleCode);
+            exceptionPrereqTree.put("and", requirementList);
+
+            key = (String) exceptionPrereqTree.keySet().toArray()[0];
+            initial = (ArrayList<Objects>) exceptionPrereqTree.get(key);
+        }
+
+        return checkPrereq(initial, key, completedModules);
+
+    }
+
+    /**
+     * Recursively checks if each branch of the prereq tree is satisfied by the student.
+     *
+     * @param modulePrereqArray  The array of prerequisite modules or conditions to be checked.
+     * @param currRequisite      The type of prerequisite condition ("or" or "and").
+     * @param completedModules   The list of completed modules by the student.
+     * @return `true` if the student satisfies all prerequisites, `false` otherwise.
+     * @throws InvalidObjectException If the prerequisite information is invalid.
+     */
+    private static boolean checkPrereq(
+            ArrayList<Objects> modulePrereqArray,
+            String currRequisite,
+            ModuleList completedModules) {
+
+        if (currRequisite.equals("or")) {
+            for(Object module: modulePrereqArray) {
+                if (module instanceof String) {
+                    String formattedModule = ((String) module).replace(":D", "");
+                    formattedModule = formattedModule.replace("%", "");
+                    try {
+                        if (completedModules.exists(formattedModule)) {
+                            return true;
+                        }
+                    } catch (InvalidObjectException e) {
+                        throw new RuntimeException(e);
+                    }
+                } else {
+                    JSONObject prereqBranch = (JSONObject) module;
+                    String key = (String) prereqBranch.keySet().toArray()[0];
+
+
+                    JSONArray prereqBranchArray = (JSONArray) prereqBranch.get(key);
+                    return checkPrereq(prereqBranchArray, key, completedModules);
+                }
+            }
+            return false;
+        } else {
+            for(Object module: modulePrereqArray) {
+                if (module instanceof String) {
+                    String formattedModule = ((String) module).replace(":D", "");
+                    formattedModule = formattedModule.replace("%", "");
+                    try {
+                        if (!completedModules.exists(formattedModule)) {
+                            return false;
+                        }
+                    } catch (InvalidObjectException e) {
+                        throw new RuntimeException(e);
+                    }
+                } else {
+                    JSONObject prereqBranch = (JSONObject) module;
+                    String key = (String) prereqBranch.keySet().toArray()[0];
+
+
+                    JSONArray prereqBranchArray = (JSONArray) prereqBranch.get(key);
+                    if (!checkPrereq(prereqBranchArray, key, completedModules)) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+    }
+
     public static JSONArray listAllModules() {
         try {
             String url = "https://api.nusmods.com/v2/2023-2024/moduleList.json";
@@ -279,6 +402,7 @@ public class Api {
             throw new UnknownCommandException(command);
         }
     }
+
 
 
 }
