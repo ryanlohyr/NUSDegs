@@ -12,7 +12,6 @@ import seedu.duke.views.CommandLineView;
 import seedu.duke.utils.Parser;
 import seedu.duke.views.ErrorHandler;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -326,11 +325,7 @@ public class ModulePlannerController {
             throw new NullPointerException();
         }
         MajorRequirements modulesRequired = new MajorRequirements(major);
-        try {
-            modulesRequired.printTXTFile(modulesRequired.getFilePath());
-        } catch (FileNotFoundException e) {
-            view.displayMessage("Error: " + e.getMessage());
-        }
+        modulesRequired.printRequiredModules(major);
     }
 
 }
