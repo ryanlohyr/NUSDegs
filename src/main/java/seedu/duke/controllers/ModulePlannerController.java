@@ -81,14 +81,6 @@ public class ModulePlannerController {
             validInput = Parser.isValidInput(initialWord, words);
             if (validInput) {
                 switch (initialWord) {
-                case "hi": {
-                    view.displayMessage("can put the commands here");
-                    break;
-                }
-                case "hello": {
-                    view.displayMessage("yup");
-                    break;
-                }
                 case "left": {
                     if (modulesMajor != null && modulesTaken != null) {
                         ModulesLeft modulesLeft = new ModulesLeft(modulesMajor, modulesTaken);
@@ -184,7 +176,7 @@ public class ModulePlannerController {
                     break;
                 }
                 default: {
-                    view.displayMessage("Hello " + userInput);
+                    view.displayMessage("Invalid Input");
                     break;
                 }
                 }

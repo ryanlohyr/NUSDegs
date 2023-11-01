@@ -62,11 +62,6 @@ public class Schedule extends ModuleList {
             List<String> completedModulesArray = getMainModuleList().subList(0, (indexToAdd));
             ModuleList completedModules = new ModuleList(String.join(" ", completedModulesArray));
             if(!satisfiesAllPrereq(module,completedModules)){
-                System.out.println("completed modules");
-                System.out.println(completedModules);
-                System.out.println("this modules prereqs are "
-                        + getModulePrereqBasedOnCourse(module.toUpperCase(),"CEG"));
-                System.out.println(module + " module prereq was not satisfied current sem is " + currentSem);
                 currentSem += 1;
                 currentIndexOfMod = 0;
             }
