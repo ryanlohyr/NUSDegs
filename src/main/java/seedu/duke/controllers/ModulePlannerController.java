@@ -258,7 +258,6 @@ public class ModulePlannerController {
                 + "Recommended Pace: " + creditsPerSem + "MCs per sem until graduation");
     }
 
-
     /**
      * Add all mods that require prerequisites to a map storing the mod and a set of preqs
      *
