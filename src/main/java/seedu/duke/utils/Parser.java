@@ -75,6 +75,12 @@ public class Parser {
             }
             break;
         }
+        case "info": {
+            if (words.length < 2) {
+                return false;
+            }
+            break;
+        }
         default: {
             return true;
         }

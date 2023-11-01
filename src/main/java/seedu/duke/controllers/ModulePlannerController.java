@@ -72,113 +72,120 @@ public class ModulePlannerController {
             String[] words = userInput.split(" ");
 
             String initialWord = words[0].toLowerCase();
+            boolean validInput;
 
+            validInput = Parser.isValidInput(initialWord, words);
+            if (validInput) {
             switch (initialWord) {
-            case "hi": {
-                view.displayMessage("can put the commands here");
-                break;
-            }
-            case "hello": {
-                view.displayMessage("yup");
-                break;
-            }
-            case "left": {
-                ArrayList<String> modules = listModulesLeft();
-
-                view.displayMessage("Modules left:");
-                for (String module : modules) {
-                    view.displayMessage(module);
-                }
-                break;
-            }
-            case "pace": {
-                //assumed that everyone graduates at y4s2
-                //waiting for retrieving logic
-                int modulesCreditsCompleted = 100;
-                int totalCreditsToGraduate = 160;
-                int creditsLeft = totalCreditsToGraduate - modulesCreditsCompleted;
-                computePace(words, creditsLeft);
-                break;
-            }
-            case "prereq": {
-                String keyword = words[1];
-                System.out.println(getModulePrereqBasedOnCourse(keyword.toUpperCase(), "CEG"));
-                break;
-            }
-            case "test": {
-                System.out.println(getRequirements("CEG"));
-                break;
-            }
-            case "recommend": {
-                String keyword = words[1];
-                System.out.println((generateRecommendedSchedule(keyword.toUpperCase())));
-                break;
-            }
-            case "major": {
-                String printMessageCommand = student.updateMajor(userInput);
-                switch (printMessageCommand) {
-                case "currentMajor":
-                    view.displayMessage("Current major is " + student.getMajor() + ".");
-                    break;
-                case "newMajor":
-                    view.displayMessage("Major " + student.getMajor() + " selected!");
-                    break;
-                case "invalidMajor":
-                    view.displayMessage("Please select a major from this list: " + Arrays.toString(Major.values()));
-                    break;
-                // Empty default branch as printMessageCommand cannot take any other value
-                default:
+                case "hi": {
+                    view.displayMessage("can put the commands here");
                     break;
                 }
-                break;
-            }
-            case "complete": {
-                if (addModulePreqs.checkModInput(words, modulesMajor)) {
-                    String moduleCompleted = words[1];
-                    addModulePreqs.getUnlockedMods(moduleCompleted);
-                    addModulePreqs.printUnlockedMods(moduleCompleted);
+                case "hello": {
+                    view.displayMessage("yup");
                     break;
                 }
-                break;
-            }
-            case "required": {
-                try {
-                    view.printTXTFile(DataRepository.getFullRequirements(student.getMajor()));
-                } catch (NullPointerException | FileNotFoundException e) {
-                    view.displayMessage("☹ An error occurred. " + e.getMessage());
-                }
-                break;
-            }
-            case "info": {
-                view.displayMessage("info");
-                if (!words[1].equals("description") && !words[1].equals("workload")
-                        && !words[1].equals("all") && !words[1].equals("requirements")) {
-                    System.out.println("no valid command");
+                case "left": {
+                    ArrayList<String> modules = listModulesLeft();
+                    view.displayMessage("Modules left:");
+                    for (String module : modules) {
+                        view.displayMessage(module);
+                    }
                     break;
                 }
-                try {
-                    Api.infoCommands(words[1], userInput);
-                } catch (UnknownCommandException e) {
-                    System.out.println("error message");
-                }
-                break;
-            }
-            case "search": {
-                view.displayMessage("search");
-                String keywords = userInput.substring(userInput.indexOf("search") + 6);
-                // need to add a function to make search case-insensitive
-                if (keywords.isEmpty()) {
-                    System.out.println("empty input");
+                case "pace": {
+                    //assumed that everyone graduates at y4s2
+                    //waiting for retrieving logic
+                    int modulesCreditsCompleted = 100;
+                    int totalCreditsToGraduate = 160;
+                    int creditsLeft = totalCreditsToGraduate - modulesCreditsCompleted;
+                    computePace(words, creditsLeft);
                     break;
                 }
-                JSONArray modulesToPrint = Api.search(keywords, Api.listAllModules());
-                ModuleInfo.searchHeader();
-                ModuleInfo.printJsonArray(modulesToPrint);
-                break;
-            }
-            default: {
-                view.displayMessage("Hello " + userInput);
-                break;
+                case "prereq": {
+                    String keyword = words[1];
+                    System.out.println(getModulePrereqBasedOnCourse(keyword.toUpperCase(), "CEG"));
+                    break;
+                }
+                case "test": {
+                    System.out.println(getRequirements("CEG"));
+                    break;
+                }
+                case "recommend": {
+                    String keyword = words[1];
+                    System.out.println((generateRecommendedSchedule(keyword.toUpperCase())));
+                    break;
+                }
+                case "major": {
+                    String printMessageCommand = student.updateMajor(userInput);
+                    switch (printMessageCommand) {
+                        case "currentMajor":
+                            view.displayMessage("Current major is " + student.getMajor() + ".");
+                            break;
+                        case "newMajor":
+                            view.displayMessage("Major " + student.getMajor() + " selected!");
+                            break;
+                        case "invalidMajor":
+                            view.displayMessage("Please select a major from this list: " + Arrays.toString(Major.values()));
+                            break;
+                        // Empty default branch as printMessageCommand cannot take any other value
+                        default:
+                            break;
+                    }
+                    break;
+                }
+                case "complete": {
+                    if (addModulePreqs.checkModInput(words, modulesMajor)) {
+                        String moduleCompleted = words[1];
+                        addModulePreqs.getUnlockedMods(moduleCompleted);
+                        addModulePreqs.printUnlockedMods(moduleCompleted);
+                        break;
+                    }
+                    break;
+                }
+                case "required": {
+                    try {
+                        view.printTXTFile(DataRepository.getFullRequirements(student.getMajor()));
+                    } catch (NullPointerException | FileNotFoundException e) {
+                        view.displayMessage("☹ An error occurred. " + e.getMessage());
+                    }
+                    break;
+                }
+                case "info": {
+                    view.displayMessage("info");
+                    try {
+                        if (!words[1].equals("description") && !words[1].equals("workload")
+                                && !words[1].equals("all") && !words[1].equals("requirements")) {
+                            System.out.println("no valid command");
+                            break;
+                        }
+                    } catch (NullPointerException e) {
+                        System.out.println("error message");
+                    }
+                    try {
+                        Api.infoCommands(words[1], userInput);
+                    } catch (UnknownCommandException e) {
+                        System.out.println("error message");
+                    }
+                    break;
+                }
+                case "search": {
+                    view.displayMessage("search");
+                    String keywords = userInput.substring(userInput.indexOf("search") + 6);
+                    // need to add a function to make search case-insensitive
+                    if (keywords.isEmpty()) {
+                        System.out.println("empty input");
+                        break;
+                    }
+                    JSONArray modulesToPrint = Api.search(keywords, Api.listAllModules());
+                    ModuleInfo.searchHeader();
+                    ModuleInfo.printJsonArray(modulesToPrint);
+                    break;
+                }
+                default: {
+                    view.displayMessage("Hello " + userInput);
+                    break;
+                }
             }
 
             }

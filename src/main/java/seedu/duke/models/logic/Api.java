@@ -263,7 +263,7 @@ public class Api {
                 String description = Api.getDescription(moduleCode);
                 System.out.println(description);
                 // it should be in this function because i might use the methods in other functions
-                // and it may cause unintentional printing to the system
+                // it may cause unintentional printing to the system
             }
         } else if (command.equals("workload")) {
             String moduleCode = userInput.substring(userInput.indexOf("workload") + 8).trim();
