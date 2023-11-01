@@ -326,11 +326,7 @@ public class ModulePlannerController {
             throw new NullPointerException();
         }
         MajorRequirements modulesRequired = new MajorRequirements(major);
-        try {
-            modulesRequired.printTXTFile(modulesRequired.getFilePath());
-        } catch (FileNotFoundException e) {
-            view.displayMessage("Error: " + e.getMessage());
-        }
+        modulesRequired.printRequiredModules(major);
     }
 
 }
