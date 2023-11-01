@@ -103,6 +103,17 @@ public class Api {
         return map.get(moduleCode);
     }
 
+    private static String sendHttpRequestAndGetResponseBody(String url) throws ParseException,
+            IOException, InterruptedException, URISyntaxException {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(new URI(url))
+                .GET()
+                .build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        return response.body();
+
+    }
     /**
      * Retrieves detailed module information from an external API based on the module code.
      *
@@ -113,15 +124,8 @@ public class Api {
     public static JSONObject getFullModuleInfo(String moduleCode) {
         try {
             String url = "https://api.nusmods.com/v2/2023-2024/modules/" + moduleCode + ".json";
-            HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI(url))
-                    .GET()
-                    .build();
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            String responseBody = response.body();
+            String responseBody = sendHttpRequestAndGetResponseBody(url);
             JSONParser parser = new JSONParser();
-            // Will refactor the variable later on, left it for easier readability
             return (JSONObject) parser.parse(responseBody);
         } catch (ParseException e) {
             //to be replaced with more robust error class in the future
@@ -376,19 +380,9 @@ public class Api {
     public static JSONArray listAllModules() {
         try {
             String url = "https://api.nusmods.com/v2/2023-2024/moduleList.json";
-            HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI(url))
-                    .GET()
-                    .build();
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            String responseBody = response.body();
+            String responseBody = sendHttpRequestAndGetResponseBody(url);
             JSONParser parser = new JSONParser();
-            // Will refactor the variable later on, left it for easier readability
-            JSONArray moduleList = (JSONArray) parser.parse(responseBody);
-            // System.out.println(moduleList);
-            return moduleList;
-            // find a way to pretty print this
+            return (JSONArray) parser.parse(responseBody);
         } catch (URISyntaxException e) {
             System.out.println("Sorry, there was an error with" +
                     " the provided URL: " + e.getMessage());
@@ -436,18 +430,14 @@ public class Api {
      * @throws UnknownCommandException If an unknown command is provided.
      */
     public static void infoCommands(String command, String userInput) {
-        // checks if command is even equal to any of these words, if equal nothing then return go fk yourself
         if (command.equals("description")) {
             String moduleCode = userInput.substring(userInput.indexOf("description") + 11).trim();
             if (!Api.getDescription(moduleCode).isEmpty()) {
                 String description = Api.getDescription(moduleCode);
                 System.out.println(description);
-                // it should be in this function because i might use the methods in other functions
-                // it may cause unintentional printing to the system
             }
         } else if (command.equals("workload")) {
             String moduleCode = userInput.substring(userInput.indexOf("workload") + 8).trim();
-            // checks if moduleCode is moduleCode and not some random bs
             if (!Api.getWorkload(moduleCode).isEmpty()) {
                 JSONArray workload = Api.getWorkload(moduleCode);
                 System.out.println(workload);
