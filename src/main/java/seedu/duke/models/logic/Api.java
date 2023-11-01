@@ -142,7 +142,7 @@ public class Api {
             System.out.println("Sorry, there was an error with" +
                     " the provided URL: " + e.getMessage());
         } catch (NullPointerException e) {
-            System.out.println("Invalid Module Name");
+            //System.out.println("Invalid Module Name");
         }
         return null;
     }
@@ -167,10 +167,15 @@ public class Api {
      */
     public static String getDescription(String moduleCode) {
         JSONObject moduleInfo = getFullModuleInfo(moduleCode);
-        assert moduleInfo != null;
-        return (String) moduleInfo.get("description");
+        String error = " ";
+        try {
+            String descr = (String) moduleInfo.get("description");
+            return descr;
+        } catch (NullPointerException e) {
+            System.out.println(" ");
+        }
+        return error;
     }
-
 
     /**
      * Retrieves the workload information for a module based on its module code.
@@ -181,8 +186,14 @@ public class Api {
      */
     public static JSONArray getWorkload(String moduleCode) {
         JSONObject moduleInfo = getFullModuleInfo(moduleCode);
+        JSONArray emptyArray = new JSONArray();
         assert moduleInfo != null;
-        return (JSONArray) moduleInfo.get("workload");
+        try {
+            return (JSONArray) moduleInfo.get("workload");
+        } catch (NullPointerException e) {
+            System.out.println(" ");
+        }
+        return emptyArray;
     }
 
     /**
@@ -453,6 +464,7 @@ public class Api {
             assert allModules != null;
             ModuleInfo.printJsonArray(allModules);
         } else {
+            System.out.println("man");
             ErrorHandler.invalidCommandforInfoCommand();
         }
     }

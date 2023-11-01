@@ -1,6 +1,5 @@
 package seedu.duke.utils;
 
-import seedu.duke.models.logic.Api;
 import seedu.duke.models.schema.Major;
 import seedu.duke.views.ErrorHandler;
 
@@ -132,10 +131,7 @@ public class Parser {
                 ErrorHandler.invalidCommandforInfoCommand();
                 return false;
             }
-            if (!Api.doesModuleExist(words[1].trim().toUpperCase())) {
-                ErrorHandler.invalidCommandforInfoCommand();
-                return false;
-            }
+
             break;
         }
         default: {
