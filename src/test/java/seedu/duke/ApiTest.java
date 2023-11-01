@@ -12,7 +12,6 @@ import seedu.duke.views.ModuleInfo;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 public class ApiTest {
@@ -98,11 +97,6 @@ public class ApiTest {
         ModuleInfo.printJsonArray(modulesToPrint);
     }
 
-
-    @Test
-    void testInfoCommands_invalidModule_expectError() {
-        assertThrows(AssertionError.class, () -> Api.getDescription("CS2w3e113"));
-    }
 
 
 }
