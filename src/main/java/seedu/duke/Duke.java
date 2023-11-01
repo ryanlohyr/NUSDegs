@@ -1,5 +1,7 @@
 package seedu.duke;
+
 import seedu.duke.controllers.ModulePlannerController;
+
 public class Duke {
     /**
      * Main entry-point for the java.duke.Duke application.
@@ -9,5 +11,4 @@ public class Duke {
         ModulePlannerController controller = new ModulePlannerController();
         controller.start();
     }
-
 }

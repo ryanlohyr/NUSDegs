@@ -51,6 +51,13 @@ public class Parser {
         }
     }
 
+    /**
+     * Checks the validity of user input based on the provided command and words array.
+     *
+     * @param command The command provided by the user.
+     * @param words   An array of words parsed from the user input.
+     * @return        True if the input is valid, false otherwise.
+     */
     public static boolean isValidInput(String command, String[] words) {
         switch (command) {
         case "prereq": {
@@ -113,6 +120,18 @@ public class Parser {
             }
             break;
         }
+        case "info": {
+            if (words.length < 2) {
+                ErrorHandler.emptyInputforInfoCommand();
+                return false;
+            }
+            if (!words[1].equals("description") && !words[1].equals("workload")
+                    && !words[1].equals("all") && !words[1].equals("requirements")) {
+                ErrorHandler.invalidCommandforInfoCommand();
+                return false;
+            }
+            break;
+        }
         default: {
             return true;
         }
@@ -121,6 +140,18 @@ public class Parser {
         return true;
     }
 
+    /**
+     * Checks the validity of keyword input for a search command.
+     *
+     * @author rohitcube
+     * @param userInput The user input string containing the search command and keywords.
+     * @return          True if the keyword input is valid, false otherwise.
+     */
+    public static boolean isValidKeywordInput(String userInput) {
+        String keywords = userInput.substring(userInput.indexOf("search") + 6);
+        // need to add a function to make search case-insensitive
+        return !keywords.trim().isEmpty();
+    }
 
 
 }
