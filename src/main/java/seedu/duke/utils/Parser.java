@@ -1,5 +1,6 @@
 package seedu.duke.utils;
 
+import seedu.duke.models.logic.Api;
 import seedu.duke.models.schema.Major;
 import seedu.duke.views.ErrorHandler;
 
@@ -104,6 +105,7 @@ public class Parser {
                 Integer.parseInt(words[2]);
             } catch (NumberFormatException e) {
                 ErrorHandler.invalidSemester();
+                return false;
             }
             break;
         }
@@ -127,6 +129,10 @@ public class Parser {
             }
             if (!words[1].equals("description") && !words[1].equals("workload")
                     && !words[1].equals("all") && !words[1].equals("requirements")) {
+                ErrorHandler.invalidCommandforInfoCommand();
+                return false;
+            }
+            if (!Api.doesModuleExist(words[1].trim().toUpperCase())) {
                 ErrorHandler.invalidCommandforInfoCommand();
                 return false;
             }
