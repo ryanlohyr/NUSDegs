@@ -68,6 +68,9 @@ public class Student {
      */
 
     public Major getMajor() throws NullPointerException {
+        if (major == null) {
+            throw new NullPointerException();
+        }
         return major;
     }
 

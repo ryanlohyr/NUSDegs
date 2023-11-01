@@ -164,7 +164,11 @@ public class ModulePlannerController {
                     break;
                 }
                 case "required": {
-                    getRequiredModules(student.getMajor());
+                    if (modulesMajor != null) {
+                        getRequiredModules(student.getMajor());
+                    } else {
+                        ErrorHandler.emptyMajor();;
+                    }
                     break;
                 }
                 case "info": {
@@ -307,11 +311,24 @@ public class ModulePlannerController {
         map.get(key).add(value);
     }
 
-    public void getRequiredModules(Major major) {
+    /**
+     * Retrieves and prints the required modules for a specified major.
+     *
+     * This method initializes a `MajorRequirements` object based on the provided `major`.
+     * It then attempts to print the required modules from a corresponding TXT file.
+     * If the TXT file is not found, an error message is displayed.
+     *
+     * @param major The major for which to retrieve required modules.
+     * @throws NullPointerException If `major` is null.
+     */
+    public void getRequiredModules(Major major) throws NullPointerException {
+        if (major == null) {
+            throw new NullPointerException();
+        }
         MajorRequirements modulesRequired = new MajorRequirements(major);
         try {
             modulesRequired.printTXTFile(modulesRequired.getFilePath());
-        } catch (NullPointerException | FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             view.displayMessage("Error: " + e.getMessage());
         }
     }
