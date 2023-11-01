@@ -17,10 +17,9 @@ public class MajorRequirements {
     public MajorRequirements(Major major) {
         try {
             filePath = DataRepository.getFullRequirements(major);
-            //view.displayMessage(filePath);
 
         } catch (NullPointerException e) {
-            view.displayMessage("☹ An error occurred 2. " + e.getMessage());
+            view.displayMessage("Cannot get filePath. " + e.getMessage());
         }
     }
 
@@ -36,7 +35,7 @@ public class MajorRequirements {
     }
 
     /**
-     * Print a double  line for a formatted header.
+     * Print a double line for a formatted header.
      */
     private void printDoubleLine() {
         view.displayMessage(String.format("#%-" + formatLineLength + "s#", "").replace(' ', '='));
