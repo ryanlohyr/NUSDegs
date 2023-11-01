@@ -83,7 +83,7 @@ public class ModulePlannerController {
 
             validInput = Parser.isValidInput(initialWord, words);
             if (validInput) {
-            switch (initialWord) {
+                switch (initialWord) {
                 case "hi": {
                     view.displayMessage("can put the commands here");
                     break;

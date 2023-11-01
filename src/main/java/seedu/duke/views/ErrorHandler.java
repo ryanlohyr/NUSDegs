@@ -23,7 +23,7 @@ public class ErrorHandler {
         System.out.println("Please delete a module using this format: delete [module code]");
     }
 
-    public static void EmptyInputforInfoCommand() {
+    public static void emptyInputforInfoCommand() {
         System.out.println("Empty input detected. Please enter a valid input after the info command." +
                 " (E.g description, workload, all)");
     }

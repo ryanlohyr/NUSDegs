@@ -122,7 +122,7 @@ public class Parser {
         }
         case "info": {
             if (words.length < 2) {
-                ErrorHandler.EmptyInputforInfoCommand();
+                ErrorHandler.emptyInputforInfoCommand();
                 return false;
             }
             if (!words[1].equals("description") && !words[1].equals("workload")
