@@ -131,7 +131,7 @@ public class Parser {
                 ErrorHandler.invalidCommandforInfoCommand();
                 return false;
             }
-            if (!Api.doesModuleExist(words[1].trim().toUpperCase())) {
+            if (!Api.doesModuleExist(words[2].trim().toUpperCase())) {
                 ErrorHandler.invalidCommandforInfoCommand();
                 return false;
             }

@@ -142,7 +142,7 @@ public class Api {
             System.out.println("Sorry, there was an error with" +
                     " the provided URL: " + e.getMessage());
         } catch (NullPointerException e) {
-            System.out.println("Invalid Module Name");
+            //System.out.println("Invalid Module Name");
         }
         return null;
     }
@@ -454,6 +454,7 @@ public class Api {
             assert allModules != null;
             ModuleInfo.printJsonArray(allModules);
         } else {
+            System.out.println("man");
             ErrorHandler.invalidCommandforInfoCommand();
         }
     }
