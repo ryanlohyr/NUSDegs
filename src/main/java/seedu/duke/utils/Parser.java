@@ -1,6 +1,5 @@
 package seedu.duke.utils;
 
-import seedu.duke.models.logic.Api;
 import seedu.duke.models.schema.Major;
 import seedu.duke.views.ErrorHandler;
 
