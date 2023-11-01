@@ -143,6 +143,7 @@ public class Parser {
     /**
      * Checks the validity of keyword input for a search command.
      *
+     * @author rohitcube
      * @param userInput The user input string containing the search command and keywords.
      * @return          True if the keyword input is valid, false otherwise.
      */

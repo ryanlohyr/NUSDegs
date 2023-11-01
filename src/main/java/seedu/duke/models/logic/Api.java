@@ -104,6 +104,7 @@ public class Api {
     /**
      * Retrieves detailed module information from an external API based on the module code.
      *
+     * @author rohitcube
      * @param moduleCode The module code to retrieve information for.
      * @return A JSONObject containing module information.
      */
@@ -148,7 +149,7 @@ public class Api {
 
     /**
      * Retrieves the description of a module based on its module code.
-     *
+     * @author rohitcube
      * @param moduleCode The module code to retrieve the description for.
      * @return The description of the module.
      */
@@ -162,6 +163,7 @@ public class Api {
     /**
      * Retrieves the workload information for a module based on its module code.
      *
+     * @author rohitcube
      * @param moduleCode The module code to retrieve workload information for.
      * @return A JSONArray containing workload details.
      */
@@ -365,6 +367,7 @@ public class Api {
     /**
      * Retrieves a list of modules from an external API and returns it as a JSONArray.
      *
+     * @author rohitcube
      * @return A JSONArray containing module information.
      * @throws RuntimeException If there is an issue with the HTTP request or JSON parsing.
      */
@@ -400,6 +403,7 @@ public class Api {
     /**
      * Searches for modules containing a specified keyword in their title within a given module list.
      *
+     * @author rohitcube
      * @param keyword    The keyword to search for.
      * @param moduleList The list of modules to search within.
      * @return A JSONArray containing modules matching the keyword.
@@ -424,6 +428,7 @@ public class Api {
      * Executes commands based on user input for module information retrieval.
      * Supports commands: "description", "workload", "all".
      *
+     * @author rohitcube
      * @param command   The command provided by the user.
      * @param userInput The user input string containing the command and module code (if applicable).
      * @throws UnknownCommandException If an unknown command is provided.
