@@ -437,7 +437,6 @@ public class Api {
         // checks if command is even equal to any of these words, if equal nothing then return go fk yourself
         if (command.equals("description")) {
             String moduleCode = userInput.substring(userInput.indexOf("description") + 11).trim();
-            // checks if moduleCode is moduleCode and not some random bs
             if (!Api.getDescription(moduleCode).isEmpty()) {
                 String description = Api.getDescription(moduleCode);
                 System.out.println(description);
