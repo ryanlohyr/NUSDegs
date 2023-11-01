@@ -40,4 +40,8 @@ public class ErrorHandler {
         System.out.println("Oops! Your search results came up empty. Please try searching with different keywords.");
     }
 
+    public static void emptyMajor() {
+        System.out.println("Major has not been provided yet.");
+    }
+
 }

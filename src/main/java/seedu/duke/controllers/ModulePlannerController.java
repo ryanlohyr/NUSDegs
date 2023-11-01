@@ -1,7 +1,8 @@
 package seedu.duke.controllers;
 import org.json.simple.JSONObject;
 import seedu.duke.models.logic.CompletePreqs;
-import seedu.duke.models.logic.DataRepository;
+import seedu.duke.models.logic.MajorRequirements;
+import seedu.duke.models.logic.ModulesLeft;
 import seedu.duke.models.schema.ModuleList;
 import seedu.duke.models.schema.Major;
 import seedu.duke.models.schema.Schedule;
@@ -9,9 +10,9 @@ import seedu.duke.models.schema.Student;
 import seedu.duke.models.logic.Api;
 import seedu.duke.views.CommandLineView;
 import seedu.duke.utils.Parser;
+import seedu.duke.views.ErrorHandler;
 
 import java.io.FileNotFoundException;
-import java.io.InvalidObjectException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,7 +42,7 @@ public class ModulePlannerController {
 
 
         //This modules list of taken and classes left can be in a storage class later on.
-        this.modulesMajor = new ModuleList("CS1231S CS2030S CS2040S CS2100 CS2101 CS2106 CS2109S CS3230");
+        this.modulesMajor = null;
         this.modulesTaken = new ModuleList("CS1231S MA1511");
         this.modulesLeft = new ModuleList();
 
@@ -89,10 +90,15 @@ public class ModulePlannerController {
                     break;
                 }
                 case "left": {
-                    ArrayList<String> modules = listModulesLeft();
-                    view.displayMessage("Modules left:");
-                    for (String module : modules) {
-                        view.displayMessage(module);
+                    if (modulesMajor != null && modulesTaken != null) {
+                        ModulesLeft modulesLeft = new ModulesLeft(modulesMajor, modulesTaken);
+                        ArrayList<String> modules = modulesLeft.listModulesLeft();
+                        view.displayMessage("Modules left:");
+                        for (String module : modules) {
+                            view.displayMessage(module);
+                        }
+                    } else {
+                        ErrorHandler.emptyMajor();;
                     }
                     break;
                 }
@@ -123,6 +129,7 @@ public class ModulePlannerController {
                     if (words.length == 2) {
                         Major major = Major.valueOf(words[1].toUpperCase());
                         student.setMajor(major);
+                        modulesMajor = new ModuleList(student.getMajor());
                     }
                     view.handleMajorMessage(words.length, student.getMajor());
                     break;
@@ -225,27 +232,6 @@ public class ModulePlannerController {
 
 
     /**
-     * Computes and returns the list of modules that are left in the ModuleList modulesMajor
-     * after subtracting the modules in the ModuleList modulesTaken.
-     *
-     * @author janelleenqi
-     * @return An ArrayList of module codes representing the modules left after the subtraction.
-     *
-     */
-    public ArrayList<String> listModulesLeft() {
-        //modulesMajor.txt - modulesTaken.txt
-        try {
-            modulesLeft.getDifference(modulesMajor, modulesTaken);
-            return modulesLeft.getMainModuleList();
-        } catch (InvalidObjectException e) {
-            view.displayMessage("Error: " + e.getMessage());
-        }
-        return null;
-    }
-
-
-
-    /**
      * Computes the recommended pace for completing a degree based on the provided academic year
      * and credits left until graduation.
      *
@@ -282,7 +268,6 @@ public class ModulePlannerController {
         view.displayMessage("You have " + creditsLeft + "MCs for " + semestersLeft + " semesters. "
                 + "Recommended Pace: " + creditsPerSem + "MCs per sem until graduation");
     }
-
 
     /**
      * Add all mods that require prerequisites to a map storing the mod and a set of preqs
@@ -326,10 +311,11 @@ public class ModulePlannerController {
     }
 
     public void getRequiredModules(Major major) {
+        MajorRequirements modulesRequired = new MajorRequirements(major);
         try {
-            view.printTXTFile(DataRepository.getFullRequirements(major));
+            modulesRequired.printTXTFile(modulesRequired.getFilePath());
         } catch (NullPointerException | FileNotFoundException e) {
-            view.displayMessage("☹ An error occurred. " + e.getMessage());
+            view.displayMessage("Error: " + e.getMessage());
         }
     }
 
