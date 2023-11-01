@@ -53,6 +53,10 @@ public class ModuleList {
         numberOfModules = 0;
     }
 
+    public void addModule (String module) {
+        mainModuleList.add(module);
+    }
+
     /**
      * Computes the difference between two ModuleList objects (A - B) and updates the current list.
      *

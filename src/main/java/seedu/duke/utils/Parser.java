@@ -105,6 +105,7 @@ public class Parser {
                 Integer.parseInt(words[2]);
             } catch (NumberFormatException e) {
                 ErrorHandler.invalidSemester();
+                return false;
             }
             break;
         }

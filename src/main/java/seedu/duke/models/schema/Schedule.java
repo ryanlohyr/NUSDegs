@@ -51,11 +51,19 @@ public class Schedule extends ModuleList {
         int currentSem = 1;
 
         for (String module : scheduleToAdd) {
-            //check if the module fulfill pre req, if not we move it to next sem
-            ModuleList completedModules = new ModuleList(String.join(" ", getMainModuleList()));
+            // Check if the module fulfill pre req, if not we move it to next sem
+            // ModuleList completedModules = new ModuleList(String.join(" ", getMainModuleList()));
+            int indexToAdd = 0;
+            for (int i = 1; i < currentSem; i++) {
+                indexToAdd += this.modulesPerSem[i - 1];
+            }
+
+            //Sub list as we only want modules before the current target semester
+            List<String> completedModulesArray = getMainModuleList().subList(0, (indexToAdd));
+            ModuleList completedModules = new ModuleList(String.join(" ", completedModulesArray));
             if(!satisfiesAllPrereq(module,completedModules)){
                 System.out.println("completed modules");
-                System.out.println(completedModules.getMainModuleList());
+                System.out.println(completedModules);
                 System.out.println("this modules prereqs are "
                         + getModulePrereqBasedOnCourse(module.toUpperCase(),"CEG"));
                 System.out.println(module + " module prereq was not satisfied current sem is " + currentSem);
@@ -101,6 +109,7 @@ public class Schedule extends ModuleList {
             indexToAdd += this.modulesPerSem[i - 1];
         }
 
+        //Sub list as we only want modules before the current target semester
         List<String> completedModulesArray = getMainModuleList().subList(0, (indexToAdd));
         ModuleList completedModules = new ModuleList(String.join(" ", completedModulesArray));
 
@@ -111,6 +120,10 @@ public class Schedule extends ModuleList {
                 changeNumberOfModules(1);
                 return true;
             }
+            System.out.println("completed modules");
+            System.out.println(completedModules.getMainModuleList());
+            System.out.println("this modules prereqs are "
+                    + getModulePrereqBasedOnCourse(module.toUpperCase(),"CEG"));
             System.out.println("pre req not satisfied for: " + module);
         } catch (IllegalArgumentException e) {
             System.out.println("Please select a valid module");

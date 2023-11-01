@@ -320,7 +320,6 @@ public class Api {
      * @param currRequisite     The type of prerequisite condition ("or" or "and").
      * @param completedModules  The list of completed modules by the student.
      * @return `true` if the student satisfies all prerequisites, `false` otherwise.
-     * @throws InvalidObjectException If the prerequisite information is invalid.
      */
     private static boolean checkPrereq(
             ArrayList<Objects> modulePrereqArray,

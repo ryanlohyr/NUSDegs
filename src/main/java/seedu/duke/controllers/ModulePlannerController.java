@@ -1,4 +1,5 @@
 package seedu.duke.controllers;
+import org.json.simple.JSONObject;
 import seedu.duke.models.logic.CompletePreqs;
 import seedu.duke.models.logic.MajorRequirements;
 import seedu.duke.models.logic.ModulesLeft;
@@ -17,6 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Objects;
+
+import static seedu.duke.models.logic.Api.getFullModuleInfo;
 import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
 import static seedu.duke.models.logic.DataRepository.getRequirements;
 import static seedu.duke.models.logic.ScheduleGenerator.generateRecommendedSchedule;
@@ -40,7 +43,7 @@ public class ModulePlannerController {
 
         //This modules list of taken and classes left can be in a storage class later on.
         this.modulesMajor = null;
-        this.modulesTaken = new ModuleList("CS1231S MA1511");
+        this.modulesTaken = new ModuleList();
         this.modulesLeft = new ModuleList();
 
         Schedule schedule = new Schedule();
@@ -110,10 +113,7 @@ public class ModulePlannerController {
                 }
                 case "prereq": {
                     String module = words[1];
-                    ArrayList<String> prereq = getModulePrereqBasedOnCourse(module.toUpperCase(), "CEG");
-                    view.displayMessage(Objects.requireNonNullElseGet(prereq, () -> "Module " + module +
-                            " has no prerequisites."));
-
+                    determinePrereq(module.toUpperCase(),"CEG"); //to convert "CEG" to dynamic course
                     break;
                 }
                 case "test": {
@@ -158,11 +158,16 @@ public class ModulePlannerController {
                     break;
                 }
                 case "complete": {
-                    if (addModulePreqs.checkModInput(words, modulesMajor)) {
-                        String moduleCompleted = words[1];
-                        addModulePreqs.getUnlockedMods(moduleCompleted);
-                        addModulePreqs.printUnlockedMods(moduleCompleted);
-                        break;
+                    if (modulesMajor != null) {
+                        if (addModulePreqs.checkModInput(words, modulesMajor)) {
+                            String moduleCompleted = words[1].toUpperCase();
+                            addModulePreqs.getUnlockedMods(moduleCompleted);
+                            addModulePreqs.printUnlockedMods(moduleCompleted);
+                            modulesTaken.addModule(moduleCompleted);
+                            break;
+                        }
+                    } else {
+                        ErrorHandler.emptyMajor();;
                     }
                     break;
                 }
@@ -186,6 +191,17 @@ public class ModulePlannerController {
             }
             userInput = in.nextLine();
         }
+    }
+
+    public void determinePrereq(String module, String major){
+        JSONObject moduleInfo =  getFullModuleInfo(module);
+        if(moduleInfo == null){
+            return;
+        }
+
+        ArrayList<String> prereq = getModulePrereqBasedOnCourse(module, major);
+        view.displayMessage(Objects.requireNonNullElseGet(prereq, () -> "Module " + module +
+                " has no prerequisites."));
     }
 
     /**

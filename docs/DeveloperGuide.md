@@ -110,10 +110,10 @@ their major. It is facilitated by CEGRequirements.txt, CSRequirements.txt. Addit
 operations:
 
 - `DataRepository#getFullRequirements(major)` – Returns the `filePath` for the requirements of a specified major.
-- `view#printTXTFile(filePath)` – Displays the overview of modules required.
+- `MajorRequirements#printTXTFile(filePath)` – Displays the overview of modules required.
 - `getLongestLineLength(f)` – Returns the `longestLineLength` of the file f.
 - `returnJustified(name, description, length)` – Returns a string with a justified name according to length, appended with its description.
-- `printTopLine()`, `printDoubleTopLine()`, `printBottomLine()`, `printDoubleBottomLine()` – Displays lines for formatting
+- `printSingleLine()`, `printDoubleLine()` – Displays lines for formatting
 
 ### Usage Examples
 
