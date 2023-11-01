@@ -10,6 +10,7 @@ import java.net.http.HttpResponse;
 //import java.util.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Objects;
 
 import org.json.simple.JSONArray;
@@ -124,7 +125,11 @@ public class Api {
     public static JSONObject getFullModuleInfo(String moduleCode) {
         try {
             String url = "https://api.nusmods.com/v2/2023-2024/modules/" + moduleCode + ".json";
+
             String responseBody = sendHttpRequestAndGetResponseBody(url);
+            if (responseBody.isEmpty()) {
+                return new JSONObject();
+            }
             JSONParser parser = new JSONParser();
             return (JSONObject) parser.parse(responseBody);
         } catch (ParseException e) {
@@ -137,6 +142,8 @@ public class Api {
             //to be replaced with more robust error class in the future
             System.out.println("Sorry, there was an error with" +
                     " the provided URL: " + e.getMessage());
+        } catch (NullPointerException e) {
+            System.out.println("Invalid Module Name");
         }
         return null;
     }
@@ -431,13 +438,14 @@ public class Api {
      */
     public static void infoCommands(String command, String userInput) {
         if (command.equals("description")) {
-            String moduleCode = userInput.substring(userInput.indexOf("description") + 11).trim();
+            String moduleCode =
+                    userInput.substring(userInput.indexOf("description") + 11).trim().toUpperCase();
             if (!Api.getDescription(moduleCode).isEmpty()) {
                 String description = Api.getDescription(moduleCode);
                 System.out.println(description);
             }
         } else if (command.equals("workload")) {
-            String moduleCode = userInput.substring(userInput.indexOf("workload") + 8).trim();
+            String moduleCode = userInput.substring(userInput.indexOf("workload") + 8).trim().toUpperCase();
             if (!Api.getWorkload(moduleCode).isEmpty()) {
                 JSONArray workload = Api.getWorkload(moduleCode);
                 System.out.println(workload);
