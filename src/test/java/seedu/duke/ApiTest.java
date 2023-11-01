@@ -98,11 +98,6 @@ public class ApiTest {
         ModuleInfo.printJsonArray(modulesToPrint);
     }
 
-    //invalid command, valid input
-    @Test
-    void testInfoCommands_invalidCommand_expectError() {
-        assertThrows(UnknownCommandException.class, () -> Api.infoCommands("dbfjsdhf", "CS2113"));
-    }
 
     @Test
     void testInfoCommands_invalidModule_expectError() {

@@ -1,6 +1,4 @@
 package seedu.duke.controllers;
-import org.json.simple.JSONArray;
-import org.json.simple.parser.ParseException;
 import seedu.duke.models.logic.CompletePreqs;
 import seedu.duke.models.logic.DataRepository;
 import seedu.duke.models.schema.ModuleList;
@@ -8,16 +6,11 @@ import seedu.duke.models.schema.Major;
 import seedu.duke.models.schema.Schedule;
 import seedu.duke.models.schema.Student;
 import seedu.duke.models.logic.Api;
-import seedu.duke.views.ErrorHandler;
-import seedu.duke.views.ModuleInfo;
 import seedu.duke.views.CommandLineView;
 import seedu.duke.utils.Parser;
-import seedu.duke.views.UnknownCommandException;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InvalidObjectException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

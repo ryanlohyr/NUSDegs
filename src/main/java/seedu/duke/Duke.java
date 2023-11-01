@@ -1,9 +1,6 @@
 package seedu.duke;
-import org.json.simple.parser.ParseException;
-import seedu.duke.controllers.ModulePlannerController;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
+import seedu.duke.controllers.ModulePlannerController;
 
 public class Duke {
     /**
