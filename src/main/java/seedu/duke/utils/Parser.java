@@ -150,11 +150,7 @@ public class Parser {
     public static boolean isValidKeywordInput(String userInput) {
         String keywords = userInput.substring(userInput.indexOf("search") + 6);
         // need to add a function to make search case-insensitive
-        if (keywords.isEmpty()) {
-            ErrorHandler.emptyKeywordforSearchCommand();
-            return false;
-        }
-        return true;
+        return !keywords.trim().isEmpty();
     }
 
 

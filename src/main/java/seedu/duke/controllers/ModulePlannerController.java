@@ -69,7 +69,7 @@ public class ModulePlannerController {
      * While the user input is not "bye," the method processes the input and responds accordingly.
      * The commands are case-insensitive, and the response is displayed in the view.
      */
-    public void start() throws URISyntaxException, IOException, ParseException, InterruptedException {
+    public void start() {
         view.displayWelcome();
         Scanner in = new Scanner(System.in);
         String userInput = in.nextLine();
@@ -171,27 +171,11 @@ public class ModulePlannerController {
                     break;
                 }
                 case "info": {
-                    view.displayMessage("info");
-                    try {
-                        Api.infoCommands(words[1], userInput);
-                    } catch (UnknownCommandException e) {
-                        ErrorHandler.invalidCommandforInfoCommand();
-                    }
+                    Api.infoCommands(words[1], userInput);
                     break;
                 }
                 case "search": {
-                    view.displayMessage("search");
-                    if (!Parser.isValidKeywordInput(userInput)) {
-                        break;
-                    }
-                    String keywords = userInput.substring(userInput.indexOf("search") + 6);
-                    JSONArray modulesToPrint = Api.search(keywords, Api.listAllModules());
-                    if (modulesToPrint.isEmpty()) {
-                        ErrorHandler.emptyArrayforSearchCommand();
-                        break;
-                    }
-                    ModuleInfo.searchHeader();
-                    ModuleInfo.printJsonArray(modulesToPrint);
+                    Api.searchCommand(userInput);
                     break;
                 }
                 default: {

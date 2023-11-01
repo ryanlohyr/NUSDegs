@@ -20,6 +20,8 @@ import seedu.duke.models.schema.ModuleList;
 
 import static seedu.duke.models.logic.DataRepository.getRequirements;
 
+import seedu.duke.utils.Parser;
+import seedu.duke.views.ErrorHandler;
 import seedu.duke.views.ModuleInfo;
 import seedu.duke.views.UnknownCommandException;
 
@@ -433,7 +435,7 @@ public class Api {
      * @param userInput The user input string containing the command and module code (if applicable).
      * @throws UnknownCommandException If an unknown command is provided.
      */
-    public static void infoCommands(String command, String userInput) throws UnknownCommandException {
+    public static void infoCommands(String command, String userInput) {
         // checks if command is even equal to any of these words, if equal nothing then return go fk yourself
         if (command.equals("description")) {
             String moduleCode = userInput.substring(userInput.indexOf("description") + 11).trim();
@@ -455,9 +457,22 @@ public class Api {
             assert allModules != null;
             ModuleInfo.printJsonArray(allModules);
         } else {
-            throw new UnknownCommandException(command);
+            ErrorHandler.invalidCommandforInfoCommand();
         }
     }
 
-
+    public static void searchCommand(String userInput) {
+        if (!Parser.isValidKeywordInput(userInput)) {
+            ErrorHandler.emptyKeywordforSearchCommand();
+            return;
+        }
+        String keywords = userInput.substring(userInput.indexOf("search") + 6);
+        JSONArray modulesToPrint = Api.search(keywords, Api.listAllModules());
+        if (modulesToPrint.isEmpty()) {
+            ErrorHandler.emptyArrayforSearchCommand();
+            return;
+        }
+        ModuleInfo.searchHeader();
+        ModuleInfo.printJsonArray(modulesToPrint);
+    }
 }
