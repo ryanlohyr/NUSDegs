@@ -43,7 +43,7 @@ public class ModulePlannerController {
 
         //This modules list of taken and classes left can be in a storage class later on.
         this.modulesMajor = null;
-        this.modulesTaken = new ModuleList("CS1231S MA1511");
+        this.modulesTaken = new ModuleList();
         this.modulesLeft = new ModuleList();
 
         Schedule schedule = new Schedule();
@@ -158,11 +158,16 @@ public class ModulePlannerController {
                     break;
                 }
                 case "complete": {
-                    if (addModulePreqs.checkModInput(words, modulesMajor)) {
-                        String moduleCompleted = words[1];
-                        addModulePreqs.getUnlockedMods(moduleCompleted);
-                        addModulePreqs.printUnlockedMods(moduleCompleted);
-                        break;
+                    if (modulesMajor != null) {
+                        if (addModulePreqs.checkModInput(words, modulesMajor)) {
+                            String moduleCompleted = words[1].toUpperCase();
+                            addModulePreqs.getUnlockedMods(moduleCompleted);
+                            addModulePreqs.printUnlockedMods(moduleCompleted);
+                            modulesTaken.addModule(moduleCompleted);
+                            break;
+                        }
+                    } else {
+                        ErrorHandler.emptyMajor();;
                     }
                     break;
                 }
