@@ -1,5 +1,10 @@
 package seedu.duke;
+import org.json.simple.parser.ParseException;
 import seedu.duke.controllers.ModulePlannerController;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+
 public class Duke {
     /**
      * Main entry-point for the java.duke.Duke application.
@@ -7,7 +12,16 @@ public class Duke {
     //main should have basically no code except start
     public static void main(String[] args) {
         ModulePlannerController controller = new ModulePlannerController();
-        controller.start();
+        try {
+            controller.start();
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
-
 }

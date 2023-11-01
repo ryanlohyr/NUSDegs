@@ -1,6 +1,6 @@
 package seedu.duke.controllers;
-
-import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
+import org.json.simple.parser.ParseException;
 import seedu.duke.models.logic.CompletePreqs;
 import seedu.duke.models.logic.DataRepository;
 import seedu.duke.models.schema.ModuleList;
@@ -8,11 +8,16 @@ import seedu.duke.models.schema.Major;
 import seedu.duke.models.schema.Schedule;
 import seedu.duke.models.schema.Student;
 import seedu.duke.models.logic.Api;
+import seedu.duke.views.ErrorHandler;
+import seedu.duke.views.ModuleInfo;
 import seedu.duke.views.CommandLineView;
 import seedu.duke.utils.Parser;
+import seedu.duke.views.UnknownCommandException;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InvalidObjectException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +26,6 @@ import java.util.Objects;
 import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
 import static seedu.duke.models.logic.DataRepository.getRequirements;
 import static seedu.duke.models.logic.ScheduleGenerator.generateRecommendedSchedule;
-//import static seedu.duke.models.logic.ScheduleGenerator.generateRecommendedSchedule;
 
 public class ModulePlannerController {
     private CommandLineView view;
@@ -59,14 +63,13 @@ public class ModulePlannerController {
 
     }
 
-
     /**
      * Starts the interactive command-line interface for the academic module management system.
      * This method displays a welcome message, reads user input, and processes various commands.
      * While the user input is not "bye," the method processes the input and responds accordingly.
      * The commands are case-insensitive, and the response is displayed in the view.
      */
-    public void start() {
+    public void start() throws URISyntaxException, IOException, ParseException, InterruptedException {
         view.displayWelcome();
         Scanner in = new Scanner(System.in);
         String userInput = in.nextLine();
@@ -76,7 +79,6 @@ public class ModulePlannerController {
             String[] words = userInput.split(" ");
 
             String initialWord = words[0].toLowerCase();
-
             boolean validInput;
 
             validInput = Parser.isValidInput(initialWord, words);
@@ -90,17 +92,8 @@ public class ModulePlannerController {
                     view.displayMessage("yup");
                     break;
                 }
-                case "info": {
-                    view.displayMessage("info");
-                    JSONObject moduleInfoObject = Api.getFullModuleInfo("CS2113");
-                    assert (moduleInfoObject != null);
-                    String moduleInfo = (String) moduleInfoObject.get("description");
-                    view.displayMessage(moduleInfo);
-                    break;
-                }
                 case "left": {
                     ArrayList<String> modules = listModulesLeft();
-
                     view.displayMessage("Modules left:");
                     for (String module : modules) {
                         view.displayMessage(module);
@@ -164,10 +157,6 @@ public class ModulePlannerController {
                     student.getSchedule().printMainModuleList();
                     break;
                 }
-                case "required": {
-                    getRequiredModules(student.getMajor());
-                    break;
-                }
                 case "complete": {
                     if (addModulePreqs.checkModInput(words, modulesMajor)) {
                         String moduleCompleted = words[1];
@@ -175,6 +164,34 @@ public class ModulePlannerController {
                         addModulePreqs.printUnlockedMods(moduleCompleted);
                         break;
                     }
+                    break;
+                }
+                case "required": {
+                    getRequiredModules(student.getMajor());
+                    break;
+                }
+                case "info": {
+                    view.displayMessage("info");
+                    try {
+                        Api.infoCommands(words[1], userInput);
+                    } catch (UnknownCommandException e) {
+                        ErrorHandler.invalidCommandforInfoCommand();
+                    }
+                    break;
+                }
+                case "search": {
+                    view.displayMessage("search");
+                    if (!Parser.isValidKeywordInput(userInput)) {
+                        break;
+                    }
+                    String keywords = userInput.substring(userInput.indexOf("search") + 6);
+                    JSONArray modulesToPrint = Api.search(keywords, Api.listAllModules());
+                    if (modulesToPrint.isEmpty()) {
+                        ErrorHandler.emptyArrayforSearchCommand();
+                        break;
+                    }
+                    ModuleInfo.searchHeader();
+                    ModuleInfo.printJsonArray(modulesToPrint);
                     break;
                 }
                 default: {
@@ -187,6 +204,13 @@ public class ModulePlannerController {
         }
     }
 
+    /**
+     * Prompts the user to choose whether to add a list of modules to their draft schedule.
+     * Displays the list of modules and asks for user input. Handles user input validation.
+     *
+     * @param scheduleToAdd A list of modules to be added to the schedule.
+     * @param in            A Scanner object for user input.
+     */
     public void chooseToAddToSchedule(ArrayList<String> scheduleToAdd, Scanner in){
 
         view.displayMessage(scheduleToAdd);
@@ -210,9 +234,12 @@ public class ModulePlannerController {
 
     }
 
+
+
     /**
      * Computes and returns the list of modules that are left in the ModuleList modulesMajor
      * after subtracting the modules in the ModuleList modulesTaken.
+     *
      * @author janelleenqi
      * @return An ArrayList of module codes representing the modules left after the subtraction.
      *
