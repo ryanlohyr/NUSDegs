@@ -59,6 +59,12 @@ public class Api {
         return (JSONObject) fullModuleInfo.get("prereqTree");
     }
 
+    /**
+     * Checks if a given module code is exempted from certain requirements.
+     *
+     * @param moduleCode The module code to check.
+     * @return           True if the module is exempted, false otherwise.
+     */
     private static boolean isModuleException(String moduleCode){
         ArrayList<String> exemptedModules = new ArrayList<>();
         exemptedModules.add("CS1231");
@@ -69,6 +75,12 @@ public class Api {
         return exemptedModules.contains(moduleCode);
     }
 
+    /**
+     * Retrieves a list of exempted prerequisites for a given module code.
+     *
+     * @param moduleCode The module code to retrieve exempted prerequisites for.
+     * @return           An ArrayList of exempted prerequisite module codes.
+     */
     private static ArrayList<String> getExemptedPrerequisite(String moduleCode){
         HashMap<String, ArrayList<String>> map = new HashMap<>();
         ArrayList<String> list1 = new ArrayList<>();
@@ -94,6 +106,12 @@ public class Api {
         return map.get(moduleCode);
     }
 
+    /**
+     * Retrieves detailed module information from an external API based on the module code.
+     *
+     * @param moduleCode The module code to retrieve information for.
+     * @return           A JSONObject containing module information.
+     */
     public static JSONObject getFullModuleInfo(String moduleCode) {
         try {
             String url = "https://api.nusmods.com/v2/2023-2024/modules/" + moduleCode + ".json";
@@ -121,24 +139,37 @@ public class Api {
         return null;
     }
 
-    public static String getModuleInfoDescription(String moduleCode) {
-        JSONObject fullModuleInfo = getFullModuleInfo(moduleCode);
-        assert fullModuleInfo != null;
-        return (String) fullModuleInfo.get("description");
-    }
-
+    /**
+     * Retrieves the name of a module based on its module code.
+     *
+     * @param moduleCode The module code to retrieve the name for.
+     * @return           The name of the module.
+     */
     public static String getModuleName(String moduleCode) {
         JSONObject fullModuleInfo = getFullModuleInfo(moduleCode);
         assert fullModuleInfo != null;
         return (String) fullModuleInfo.get("title");
     }
 
+    /**
+     * Retrieves the description of a module based on its module code.
+     *
+     * @param moduleCode The module code to retrieve the description for.
+     * @return           The description of the module.
+     */
     public static String getDescription(String moduleCode) {
         JSONObject moduleInfo = getFullModuleInfo(moduleCode);
         assert moduleInfo != null;
         return (String) moduleInfo.get("description");
     }
 
+
+    /**
+     * Retrieves the workload information for a module based on its module code.
+     *
+     * @param moduleCode The module code to retrieve workload information for.
+     * @return           A JSONArray containing workload details.
+     */
     public static JSONArray getWorkload(String moduleCode) {
         JSONObject moduleInfo = getFullModuleInfo(moduleCode);
         assert moduleInfo != null;
@@ -335,76 +366,98 @@ public class Api {
         }
     }
 
-    public static JSONArray listAllModules() {
-        try {
-            String url = "https://api.nusmods.com/v2/2023-2024/moduleList.json";
-            HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI(url))
-                    .GET()
-                    .build();
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            String responseBody = response.body();
-            JSONParser parser = new JSONParser();
-            // Will refactor the variable later on, left it for easier readability
-            JSONArray moduleList = (JSONArray) parser.parse(responseBody);
-            // System.out.println(moduleList);
-            return moduleList;
-            // find a way to pretty print this
-        } catch (URISyntaxException e) {
-            System.out.println("Sorry, there was an error with" +
-                    " the provided URL: " + e.getMessage());
-            throw new RuntimeException(e);
-        } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (ParseException e) {
-            //to be replaced with more robust error class in the future
-            System.out.println("Sorry, the JSON object could not be parsed");
-        }
-        return null;
-    }
-    public static JSONArray search(String keyword, JSONArray moduleList) {
-        JSONArray modulesContainingKeyword = new JSONArray();
-        if (keyword.isEmpty()) {
-            return new JSONArray();
-        }
-        for (Object moduleObject : moduleList) {
-            JSONObject module = (JSONObject) moduleObject; // Cast to JSONObject
-            String title = (String) module.get("title");
-            if (title.contains(keyword)) {
-                modulesContainingKeyword.add(module);
-                //not sure how to resolve this yellow line
+    /**
+     * Retrieves a list of modules from an external API and returns it as a JSONArray.
+     *
+     * @return A JSONArray containing module information.
+     * @throws RuntimeException If there is an issue with the HTTP request or JSON parsing.
+     */
+        public static JSONArray listAllModules() {
+            try {
+                String url = "https://api.nusmods.com/v2/2023-2024/moduleList.json";
+                HttpClient client = HttpClient.newHttpClient();
+                HttpRequest request = HttpRequest.newBuilder()
+                        .uri(new URI(url))
+                        .GET()
+                        .build();
+                HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                String responseBody = response.body();
+                JSONParser parser = new JSONParser();
+                // Will refactor the variable later on, left it for easier readability
+                JSONArray moduleList = (JSONArray) parser.parse(responseBody);
+                // System.out.println(moduleList);
+                return moduleList;
+                // find a way to pretty print this
+            } catch (URISyntaxException e) {
+                System.out.println("Sorry, there was an error with" +
+                        " the provided URL: " + e.getMessage());
+                throw new RuntimeException(e);
+            } catch (IOException | InterruptedException e) {
+                throw new RuntimeException(e);
+            } catch (ParseException e) {
+                //to be replaced with more robust error class in the future
+                System.out.println("Sorry, the JSON object could not be parsed");
             }
+            return null;
         }
-        return modulesContainingKeyword;
-    }
 
-    public static void infoCommands(String command, String userInput) throws UnknownCommandException {
-        // checks if command is even equal to any of these words, if equal nothing then return go fk yourself
-        if (command.equals("description")) {
-            String moduleCode = userInput.substring(userInput.indexOf("description") + 11).trim();
-            // checks if moduleCode is moduleCode and not some random bs
-            if (!Api.getDescription(moduleCode).isEmpty()) {
-                String description = Api.getDescription(moduleCode);
-                System.out.println(description);
-                // it should be in this function because i might use the methods in other functions
-                // it may cause unintentional printing to the system
+    /**
+     * Searches for modules containing a specified keyword in their title within a given module list.
+     *
+     * @param keyword     The keyword to search for.
+     * @param moduleList  The list of modules to search within.
+     * @return            A JSONArray containing modules matching the keyword.
+     */
+        public static JSONArray search(String keyword, JSONArray moduleList) {
+            JSONArray modulesContainingKeyword = new JSONArray();
+            if (keyword.isEmpty()) {
+                return new JSONArray();
             }
-        } else if (command.equals("workload")) {
-            String moduleCode = userInput.substring(userInput.indexOf("workload") + 8).trim();
-            // checks if moduleCode is moduleCode and not some random bs
-            if (!Api.getWorkload(moduleCode).isEmpty()) {
-                JSONArray workload = Api.getWorkload(moduleCode);
-                System.out.println(workload);
+            for (Object moduleObject : moduleList) {
+                JSONObject module = (JSONObject) moduleObject; // Cast to JSONObject
+                String title = (String) module.get("title");
+                if (title.contains(keyword)) {
+                    modulesContainingKeyword.add(module);
+                    //not sure how to resolve this yellow line
+                }
             }
-        } else if (command.equals("all")) {
-            JSONArray allModules = listAllModules();
-            assert allModules != null;
-            ModuleInfo.printJsonArray(allModules);
-        } else {
-            throw new UnknownCommandException(command);
+            return modulesContainingKeyword;
         }
-    }
+
+    /**
+     * Executes commands based on user input for module information retrieval.
+     * Supports commands: "description", "workload", "all".
+     *
+     * @param command   The command provided by the user.
+     * @param userInput The user input string containing the command and module code (if applicable).
+     * @throws UnknownCommandException If an unknown command is provided.
+     */
+        public static void infoCommands(String command, String userInput) throws UnknownCommandException {
+            // checks if command is even equal to any of these words, if equal nothing then return go fk yourself
+            if (command.equals("description")) {
+                String moduleCode = userInput.substring(userInput.indexOf("description") + 11).trim();
+                // checks if moduleCode is moduleCode and not some random bs
+                if (!Api.getDescription(moduleCode).isEmpty()) {
+                    String description = Api.getDescription(moduleCode);
+                    System.out.println(description);
+                    // it should be in this function because i might use the methods in other functions
+                    // it may cause unintentional printing to the system
+                }
+            } else if (command.equals("workload")) {
+                String moduleCode = userInput.substring(userInput.indexOf("workload") + 8).trim();
+                // checks if moduleCode is moduleCode and not some random bs
+                if (!Api.getWorkload(moduleCode).isEmpty()) {
+                    JSONArray workload = Api.getWorkload(moduleCode);
+                    System.out.println(workload);
+                }
+            } else if (command.equals("all")) {
+                JSONArray allModules = listAllModules();
+                assert allModules != null;
+                ModuleInfo.printJsonArray(allModules);
+            } else {
+                throw new UnknownCommandException(command);
+            }
+        }
 
 
 

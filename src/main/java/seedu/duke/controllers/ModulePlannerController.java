@@ -175,7 +175,7 @@ public class ModulePlannerController {
                     try {
                         Api.infoCommands(words[1], userInput);
                     } catch (UnknownCommandException e) {
-                        System.out.println("error message");
+                        ErrorHandler.invalidCommandforInfoCommand();
                     }
                     break;
                 }
@@ -186,7 +186,10 @@ public class ModulePlannerController {
                     }
                     String keywords = userInput.substring(userInput.indexOf("search") + 6);
                     JSONArray modulesToPrint = Api.search(keywords, Api.listAllModules());
-            //        ModuleInfo.moduleArrayNullCheck();
+                    if (modulesToPrint.isEmpty()) {
+                        ErrorHandler.emptyArrayforSearchCommand();
+                        break;
+                    }
                     ModuleInfo.searchHeader();
                     ModuleInfo.printJsonArray(modulesToPrint);
                     break;
@@ -201,6 +204,13 @@ public class ModulePlannerController {
         }
     }
 
+    /**
+     * Prompts the user to choose whether to add a list of modules to their draft schedule.
+     * Displays the list of modules and asks for user input. Handles user input validation.
+     *
+     * @param scheduleToAdd A list of modules to be added to the schedule.
+     * @param in            A Scanner object for user input.
+     */
     public void chooseToAddToSchedule(ArrayList<String> scheduleToAdd, Scanner in){
 
         view.displayMessage(scheduleToAdd);

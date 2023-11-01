@@ -36,4 +36,8 @@ public class ErrorHandler {
         System.out.println("Empty input detected. Please enter a valid keyword after the search command.");
     }
 
+    public static void emptyArrayforSearchCommand() {
+        System.out.println("Oops! Your search results came up empty. Please try searching with different keywords.");
+    }
+
 }

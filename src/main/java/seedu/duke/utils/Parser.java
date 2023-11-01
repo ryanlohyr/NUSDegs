@@ -51,6 +51,13 @@ public class Parser {
         }
     }
 
+    /**
+     * Checks the validity of user input based on the provided command and words array.
+     *
+     * @param command The command provided by the user.
+     * @param words   An array of words parsed from the user input.
+     * @return        True if the input is valid, false otherwise.
+     */
     public static boolean isValidInput(String command, String[] words) {
         switch (command) {
         case "prereq": {
@@ -133,9 +140,14 @@ public class Parser {
         return true;
     }
 
+    /**
+     * Checks the validity of keyword input for a search command.
+     *
+     * @param userInput The user input string containing the search command and keywords.
+     * @return          True if the keyword input is valid, false otherwise.
+     */
     public static boolean isValidKeywordInput(String userInput) {
         String keywords = userInput.substring(userInput.indexOf("search") + 6);
-        System.out.println(keywords);
         // need to add a function to make search case-insensitive
         if (keywords.isEmpty()) {
             ErrorHandler.emptyKeywordforSearchCommand();
