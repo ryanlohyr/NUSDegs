@@ -78,19 +78,43 @@ User input:
 Expected outcome:
 Module requirements for CEG
 
-### Adding a todo: `todo`
-Adds a new item to the list of todo items.
+### Get information about a module: `info`
+Get information about a module using the info command, followed by one of the commands 'description', 'workload' 
+and 'all'.
 
-Format: `todo n/TODO_NAME d/DEADLINE`
+Format: `info n/command n/moduleCode`
 
-* The `DEADLINE` can be in a natural language format.
-* The `TODO_NAME` cannot contain punctuation.  
+
+* The `KEYWORD` cannot be empty.
 
 Example of usage: 
 
-`todo n/Write the rest of the User Guide d/next week`
+`info description CS2113`
 
-`todo n/Refactor the User Guide to remove passive voice d/13/04/2020`
+Expected outcome: This course introduces the necessary skills for systematic and rigorous development of software systems. It covers requirements, design, implementation, quality assurance, and project management aspects of small-to-medium size multi-person software projects. The course uses the Object Oriented Programming paradigm. Students of this course will receive hands-on practice of tools commonly used in the industry, such as test automation tools, build automation tools, and code revisioning tools will be covered.
+
+`info workload CS2113`
+
+Expected outcome: "[2,1,0,3,4]"
+
+`info workload CS2113`
+
+Expected outcome: "returns module title and module code of all available modules"
+
+
+### Searching for a module by title: `search`
+Search for module title using a keyword.
+
+Format: `search n/KEYWORD`
+
+* The `KEYWORD` cannot be empty.
+
+Example of usage:
+
+`search n/Darwinian`
+
+Expected outcome:
+These are the modules that contain your keyword in the title:
 
 ## FAQ
 
