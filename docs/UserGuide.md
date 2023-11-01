@@ -85,7 +85,8 @@ and 'all'.
 Format: `info n/command n/moduleCode`
 
 
-* The `KEYWORD` cannot be empty.
+* The `command` cannot be empty.
+* The `moduleCode` cannot be empty.
 
 Example of usage: 
 
