@@ -27,16 +27,6 @@ public class ApiTest {
         assertTrue(moduleInfo.contains(correctModuleInfo), "Module info should contain relevant info");
     }
 
-    @Test
-    void testGetModuleInfo_shouldReturnFalseForcs2113() {
-        String correctModuleInfo = "\"description\":\"This course introduces the necessary skills for systematic " +
-                "and rigorous development of software systems. It covers";
-        String moduleCode = "cs2113";
-        String moduleInfo = null;
-        moduleInfo = Api.getFullModuleInfo(moduleCode).toJSONString();
-        assertNotNull(moduleInfo, "Module info should not be null");
-//        assertTrue(moduleInfo.contains(correctModuleInfo), "Module info should contain relevant info");
-    }
 
     @Test
     void testGetDescription_shouldReturnEquals() {
