@@ -6,6 +6,7 @@ import seedu.duke.models.schema.Major;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class DataRepository {
@@ -23,8 +24,15 @@ public class DataRepository {
             String fileName = String.format("src/main/java/seedu/duke/models/data/%sRequirementsModuleCodes",major);
             File f = new File(fileName);
             if (!f.exists()) {
-                System.out.println("File does not exist");
-                return new ArrayList<>();
+                String[] courseArray = {
+                        "CG1111A", "MA1511", "MA1512", "CS1010", "GESS1000",
+                        "GEC1000", "GEN2000", "ES2631", "GEA1000", "DTK1234",
+                        "EG1311", "IE2141", "EE2211", "EG2501", "CDE2000",
+                        "PF1101", "CG4002", "MA1508E", "EG2401A", "CP3880",
+                        "CG2111A", "CS1231", "CG2023", "CG2027", "CG2028",
+                        "CG2271", "ST2334", "CS2040C", "CS2113", "EE2026", "EE4204"
+                };
+                return new ArrayList<>(Arrays.asList(courseArray));
             }
             ArrayList<String> currentArray = new ArrayList<>();
             Scanner s = new Scanner(f);
@@ -37,6 +45,7 @@ public class DataRepository {
                     currentArray.add(words[0]);
                 }
             }
+            System.out.println(currentArray);
             return currentArray;
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
