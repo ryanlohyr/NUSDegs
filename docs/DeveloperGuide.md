@@ -12,8 +12,10 @@
 - Left
 - Major
 - Required
-- info (description, workload, command)
-- search 
+- Info (description, workload, command)
+- Search 
+- Add
+- Delete
 
 # Implementation
 

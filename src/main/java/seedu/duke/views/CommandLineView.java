@@ -3,6 +3,8 @@ package seedu.duke.views;
 
 import seedu.duke.models.schema.Major;
 
+import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
+
 public class CommandLineView {
 
     public void displayWelcome(){
@@ -29,16 +31,17 @@ public class CommandLineView {
         displayMessage("Major " + major + " selected!");
     }
 
-    public void handleAddMessage(boolean isSuccessful) {
-        if (isSuccessful) {
-            displayMessage("Module Successfully Added");
-        }
+    public void showPrereqCEG(String module) {
+        System.out.println("This module's prerequisites are "
+                + getModulePrereqBasedOnCourse(module.toUpperCase(),"CEG"));
+    }
+    public void displaySuccessfulAddMessage() {
+        displayMessage("Module Successfully Added");
     }
 
-    public void handleDeleteMessage(boolean isSuccessful) {
-        if (isSuccessful) {
-            displayMessage("Module Successfully Deleted");
-        }
+    public void displaySuccessfulDeleteMessage() {
+        displayMessage("Module Successfully Deleted");
+
     }
 
     /**

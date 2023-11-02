@@ -1,5 +1,6 @@
 package seedu.duke.controllers;
 import org.json.simple.JSONObject;
+import seedu.duke.exceptions.FailPrereqException;
 import seedu.duke.models.logic.CompletePreqs;
 import seedu.duke.models.logic.MajorRequirements;
 import seedu.duke.models.logic.ModulesLeft;
@@ -12,6 +13,7 @@ import seedu.duke.views.CommandLineView;
 import seedu.duke.utils.Parser;
 import seedu.duke.views.ErrorHandler;
 
+import java.io.InvalidObjectException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -128,19 +130,26 @@ public class ModulePlannerController {
                 case "add": {
                     String module = words[1].toUpperCase();
                     int targetSem = Integer.parseInt(words[2]);
-                    boolean isSuccessful = student.getSchedule().addModule(module, targetSem);
-                    view.handleAddMessage(isSuccessful);
-                    if (isSuccessful) {
+                    try {
+                        student.getSchedule().addModule(module, targetSem);
+                        view.displaySuccessfulAddMessage();
                         student.getSchedule().printMainModuleList();
+                    } catch (InvalidObjectException | IllegalArgumentException e) {
+                        view.displayMessage(e.getMessage());
+                    } catch (FailPrereqException f) {
+                        view.showPrereqCEG(module);
+                        view.displayMessage(f.getMessage());
                     }
                     break;
                 }
                 case "delete": {
                     String module = words[1].toUpperCase();
-                    boolean isSuccessful = student.getSchedule().deleteModule(module);
-                    view.handleDeleteMessage(isSuccessful);
-                    if (isSuccessful) {
+                    try {
+                        student.getSchedule().deleteModule(module);
+                        view.displaySuccessfulDeleteMessage();
                         student.getSchedule().printMainModuleList();
+                    } catch (IllegalArgumentException | FailPrereqException e) {
+                        view.displayMessage(e.getMessage());
                     }
                     break;
                 }

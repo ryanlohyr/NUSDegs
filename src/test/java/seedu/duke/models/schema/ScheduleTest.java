@@ -1,45 +1,51 @@
 package seedu.duke.models.schema;
 
 import org.junit.jupiter.api.Test;
+import seedu.duke.exceptions.FailPrereqException;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ScheduleTest {
 
 
-    //success scenario 1: String containing valid module, int containing valid targetSem
-    //module satisfies prereqs --> true
+    //success scenario: String containing valid module, int containing valid targetSem
+    //module satisfies prereqs --> module added
     @Test
-    void addModuleTest_correctInputsSatisfyPrereqs_expectTrue() {
-        Schedule schedule = new Schedule("CS1231S MA1511", new int[]{2, 0, 0, 0, 0, 0, 0, 0});
-        assertTrue(schedule.addModule("CS1010", 1));
+    void addModuleTest_correctInputsSatisfyPrereqs_expectModuleAdded() throws Exception {
+        Schedule schedule = new Schedule();
+        schedule.addModule("CS1010", 1);
+        ArrayList<String> testArray= new ArrayList<>();
+        testArray.add("CS1010");
+        assertEquals(testArray, schedule.getMainModuleList());
 
     }
 
-    //success scenario 2: String containing valid module, int containing valid targetSem
-    //module does not satisfy prereqs --> false
+    //failure scenario 1: String containing valid module, int containing valid targetSem
+    //module does not satisfy prereqs --> throw FailPrereqException
     @Test
-    void addModuleTest_correctInputsDoesNotSatisfyPrereqs_expectFalse() {
+    void addModuleTest_correctInputsDoesNotSatisfyPrereqs_expectException() {
         Schedule schedule = new Schedule("CS1231S MA1511", new int[]{2, 0, 0, 0, 0, 0, 0, 0});
-        assertFalse(schedule.addModule("CS2040C", 2));
+        assertThrows(FailPrereqException.class, () -> schedule.addModule("CS2040C", 1));
 
     }
 
-    //failure scenario 1: String containing invalid module, int containing valid targetSem
-    //--> false
+    //failure scenario 2: String containing invalid module, int containing valid targetSem
+    //--> throws IllegalArgumentException
     @Test
-    void addModuleTest_invalidModule_expectFalse() {
+    void addModuleTest_invalidModule_expectException() {
         Schedule schedule = new Schedule("CS1231S MA1511", new int[]{2, 0, 0, 0, 0, 0, 0, 0});
-        assertFalse(schedule.addModule("wrong", 1));
+        assertThrows(IllegalArgumentException.class, () -> schedule.addModule("wrong", 1));
     }
 
-    //failure scenario 2: String containing valid module, int containing invalid targetSem
-    //--> false
+    //failure scenario 3: String containing valid module, int containing invalid targetSem
+    //--> throws IllegalArgumentException
     @Test
-    void addModuleTest_invalidTargetSem_expectFalse() {
+    void addModuleTest_invalidTargetSem_expectException() {
         Schedule schedule = new Schedule("CS1231S MA1511", new int[]{2, 0, 0, 0, 0, 0, 0, 0});
-        assertFalse(schedule.addModule("CS1010", 100));
+        assertThrows(IllegalArgumentException.class, () -> schedule.addModule("CS2040C", 1000));
     }
 
 }

@@ -1,12 +1,13 @@
 package seedu.duke.models.schema;
 
+import seedu.duke.exceptions.FailPrereqException;
+
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
 import java.util.List;
 
 import static seedu.duke.models.logic.Api.doesModuleExist;
 import static seedu.duke.models.logic.Api.satisfiesAllPrereq;
-import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
 
 /**
  * The `Schedule` class represents a student's course schedule and extends the `ModuleList` class.
@@ -65,7 +66,12 @@ public class Schedule extends ModuleList {
                 currentSem += 1;
                 currentIndexOfMod = 0;
             }
-            addModule(module, currentSem);
+            try {
+                addModule(module, currentSem);
+            } catch (InvalidObjectException | IllegalArgumentException | FailPrereqException e) {
+                throw new RuntimeException(e);
+            }
+
             currentIndexOfMod += 1;
             if(currentIndexOfMod >= modsToAddPerSem){
                 currentIndexOfMod = 0;
@@ -76,27 +82,28 @@ public class Schedule extends ModuleList {
     }
 
     /**
-     * Adds a module to the student's course schedule at the specified target semester.
+     * Adds a module to the schedule for a specified semester.
      *
-     * @param module     The module code to be added.
-     * @param targetSem  The target semester for adding the module.
-     * @return `true` if the module is successfully added, `false` if the addition is not possible.
+     * @param module The module code to be added.
+     * @param targetSem The target semester (an integer from 1 to 8) in which to add the module.
+     * @throws IllegalArgumentException If the provided semester is out of the valid range (1 to 8),
+     *     or if the module already exists in the schedule, or if the module is not valid.
+     * @throws InvalidObjectException If the module is null.
+     * @throws FailPrereqException If the prerequisites for the module are not satisfied
      */
-    public boolean addModule(String module, int targetSem)  {
+    public void addModule(String module, int targetSem) throws IllegalArgumentException, InvalidObjectException,
+            FailPrereqException {
 
         if (targetSem < 1 || targetSem > MAXIMUM_SEMESTERS) {
-            System.out.println("Please select an integer from 1 to 8 for semester selection");
-            return false;
+            throw new IllegalArgumentException("Please select an integer from 1 to 8 for semester selection");
         }
 
         try {
             if (exists(module)) {
-                System.out.println("Module already exists in the schedule");
-                return false;
+                throw new IllegalArgumentException("Module already exists in the schedule");
             }
         } catch (InvalidObjectException e) {
-            System.out.println("Module cannot be null");
-            return false;
+            throw new InvalidObjectException("Module cannot be null");
         }
 
         int indexToAdd = 0;
@@ -113,38 +120,31 @@ public class Schedule extends ModuleList {
                 this.getMainModuleList().add(indexToAdd, module);
                 modulesPerSem[targetSem - 1] += 1;
                 changeNumberOfModules(1);
-                return true;
+                return;
             }
-            System.out.println("completed modules");
-            System.out.println(completedModules.getMainModuleList());
-            System.out.println("this modules prereqs are "
-                    + getModulePrereqBasedOnCourse(module.toUpperCase(),"CEG"));
-            System.out.println("pre req not satisfied for: " + module);
         } catch (IllegalArgumentException e) {
-            System.out.println("Please select a valid module");
-            return false;
+            throw new IllegalArgumentException("Please select a valid module");
         }
-        System.out.println("Unable to add module as prerequisites are not satisfied");
-        return false;
+        throw new FailPrereqException("Unable to add module as prerequisites not satisfied for: " + module);
     }
 
     /**
-     * Deletes a module from the student's course schedule.
+     * Deletes a module from the schedule by its module code.
      *
      * @param module The module code to be deleted from the schedule.
-     * @return `true` if the module is successfully deleted, `false` if deletion is not possible.
+     * @throws FailPrereqException If the module to be deleted is a prerequisite for other modules in the schedule.
+     * @throws IllegalArgumentException If the provided module code is not valid, the module is not in the schedule
      */
-    public boolean deleteModule(String module) {
+    public void deleteModule(String module) throws FailPrereqException, IllegalArgumentException {
 
         int targetIndex = getMainModuleList().indexOf(module);
 
         if (!doesModuleExist(module)) {
-            System.out.println("Please select a valid module");
+            throw new IllegalArgumentException("Please select a valid module");
         }
 
         if (targetIndex == -1) {
-            System.out.println("Module is not in schedule");
-            return false;
+            throw new IllegalArgumentException("Module is not in schedule");
         }
 
         int targetSem = 1;
@@ -173,20 +173,19 @@ public class Schedule extends ModuleList {
         try {
             for (String moduleAhead : modulesAheadArray){
                 if (!satisfiesAllPrereq(moduleAhead, completedModules)) {
-                    System.out.println("Unable to delete module. This module is a prerequisite for " + moduleAhead);
-                    return false;
+                    throw new FailPrereqException("Unable to delete module. This module is a prerequisite for "
+                            + moduleAhead);
                 }
             }
         } catch (IllegalArgumentException e) {
-            System.out.println("Invalid Module in Schedule");
-            return false;
+            // This catch should never occur as it should not be possible to add an invalid module
+            assert false;
+            throw new IllegalArgumentException("Invalid Module in Schedule");
         }
 
         getMainModuleList().remove(module);
         modulesPerSem[targetSem - 1] -= 1;
         changeNumberOfModules(-1);
-
-        return true;
     }
 
     /**
