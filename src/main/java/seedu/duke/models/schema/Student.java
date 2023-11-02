@@ -15,7 +15,7 @@ public class Student {
     private Schedule schedule;
     private String year;
     private int completedModuleCredits;
-    private ArrayList<Module> ModulesTaken;
+    private ArrayList<Module> modulesPlanned;
 
     /**
      * Constructs a student with a name, major, and module schedule.
@@ -98,19 +98,51 @@ public class Student {
         }
     }
 
-    public void addModule(String module, int targetSem) throws InvalidObjectException, FailPrereqException {
-        this.completedModuleCredits += 4;
-        this.schedule.addModule(module,targetSem);
+    public void addModule(String moduleCode, int targetSem) throws InvalidObjectException, FailPrereqException {
+        this.schedule.addModule(moduleCode,targetSem);
+        this.modulesPlanned.add(new Module(moduleCode));
     }
+
+    /**
+     * Completes a module with the specified module code.
+     *
+     * @author ryanlohyr
+     * @param moduleCode The code of the module to be completed.
+     */
+    public void completeModule(String moduleCode) {
+        for (Module module : modulesPlanned) {
+            if (module.getModuleCode().equals(moduleCode)) {
+                this.completedModuleCredits += module.getModuleCredits();
+                module.markModuleAsCompleted();
+                return;
+            }
+        }
+    }
+
 
     public void printSchedule(){
         this.schedule.printMainModuleList();
     }
 
-    public void deleteModule(String module) throws FailPrereqException {
-        this.completedModuleCredits -= 4;
-        this.schedule.deleteModule(module);
+    /**
+     * Deletes a module with the specified module code. This method also updates the completed
+     * module credits and removes the module from the planned modules list.
+     *
+     * @author ryanlohyr
+     * @param moduleCode The code of the module to be deleted.
+     * @throws FailPrereqException If deleting the module fails due to prerequisite dependencies.
+     */
+    public void deleteModule(String moduleCode) throws FailPrereqException {
+        this.schedule.deleteModule(moduleCode);
+        for (Module moduleObject : modulesPlanned) {
+            if (moduleObject.getModuleCode().equals(moduleCode)) {
+                this.completedModuleCredits -= moduleObject.getModuleCredits();
+                modulesPlanned.remove(moduleObject);
+                return;
+            }
+        }
     }
+
 
     public String getYear() {
         return year;
