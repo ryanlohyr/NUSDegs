@@ -211,6 +211,7 @@ public class ModulePlannerController {
             break;
         }
         case UserCommands.COMPLETE_MODULE_COMMAND: {
+            //to add to user completed module
             if (modulesMajor != null) {
                 if (addModulePreqs.checkModInput(arguments, modulesMajor)) {
                     String moduleCompleted = arguments[0].toUpperCase();

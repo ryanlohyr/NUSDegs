@@ -3,6 +3,7 @@ package seedu.duke.models.schema;
 import seedu.duke.exceptions.FailPrereqException;
 
 import java.io.InvalidObjectException;
+import java.util.ArrayList;
 
 /**
  * The Student class represents a student with a name, major, and module schedule.
@@ -14,7 +15,7 @@ public class Student {
     private Schedule schedule;
     private String year;
     private int completedModuleCredits;
-    // private ArrayList<Module> ModulesTaken;
+    private ArrayList<Module> ModulesTaken;
 
     /**
      * Constructs a student with a name, major, and module schedule.
@@ -98,6 +99,7 @@ public class Student {
     }
 
     public void addModule(String module, int targetSem) throws InvalidObjectException, FailPrereqException {
+        this.completedModuleCredits += 4;
         this.schedule.addModule(module,targetSem);
     }
 
@@ -106,6 +108,7 @@ public class Student {
     }
 
     public void deleteModule(String module) throws FailPrereqException {
+        this.completedModuleCredits -= 4;
         this.schedule.deleteModule(module);
     }
 
