@@ -16,6 +16,7 @@
 - Search 
 - Add
 - Delete
+- Recommend
 
 # Implementation
 
@@ -45,6 +46,43 @@ Command: `pace`
 
 Response:
 `You currently have 100 MCs left until graduation.`
+
+## [Proposed] Recommend Schedule Based on Course
+
+Based on the course, we will provide an recommended schedules that is sorted based on prerequisites. This feature is facilitated by the scheudle manager which stores information about the schedule and performs actions like add and remove from schedule.
+
+- PacingManager#recommend() — recommends a scheudle that is sorted based on pre requisites. 
+- PacingManager#addRecommendedScheduleToSchedule() — adds the recommended schedue to the user's timetable.
+
+These operations are exposed in the Scheulde interface as Schedule#addRecommendedScheduleListToSchedule() and ScheduleGenerator#generateRecommendedSchedule() respectively.
+
+### Usage Examples
+
+Here are a few examples of how the "Recommend schedule" feature behaves:
+
+#### Step 1: Recommend schedule for computer engineering(CEG)
+
+Command: `recommend ceg` 
+
+Response:
+`[GEA1000, MA1511, MA1512, DTK1234, GESS1000, CS1010, GEN2000, EG2501, EG1311, GEC1000, PF1101, CDE2000, IE2141, CG1111A, EG2401A, ES2631, ST2334, MA1508E, CS1231, CG2023, CG2111A, CS2040C, CG2027, EE2026, EE4204, EE2211, CG2271, CS2113, CG2028, CP3880, CG4002]
+Do you want to add this to your draft schedule?, please input 'Y' or 'N'
+`
+
+#### Step 2 (Only to be done after step 1): 
+
+Command: `Y`
+
+Response:
+`
+Sem 1: GESS1000 DTK1234 MA1512 MA1511 GEA1000 
+Sem 2: GEC1000 EG1311 EG2501 GEN2000 CS1010 
+Sem 3: EG2401A CG1111A IE2141 CDE2000 PF1101 
+Sem 4: CG2023 CS1231 MA1508E ST2334 ES2631 
+Sem 5: EE4204 EE2026 CG2027 CS2040C CG2111A 
+Sem 6: CG2028 CS2113 CG2271 EE2211 
+Sem 7: CG4002 CP3880 
+Sem 8: `
 
 ## [Proposed] List Modules Left Feature
 
