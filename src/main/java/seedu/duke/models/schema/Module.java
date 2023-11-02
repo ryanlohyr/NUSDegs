@@ -2,8 +2,6 @@ package seedu.duke.models.schema;
 
 import org.json.simple.JSONObject;
 
-import java.util.ArrayList;
-
 import static seedu.duke.models.logic.Api.getFullModuleInfo;
 
 public class Module {
