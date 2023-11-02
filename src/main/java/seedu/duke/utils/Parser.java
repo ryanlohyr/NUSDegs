@@ -9,6 +9,28 @@ import java.util.Objects;
 public class Parser {
 
     /**
+     * Parses a user input string to extract and return the main command.
+     * @author ryanlohyr
+     * @param userInput The user input string.
+     * @return The main command from the input string.
+     */
+    public static String parseCommand(String userInput){
+        String[] keywords = userInput.split(" ");
+        return keywords[0];
+    }
+
+    /**
+     * Excludes the command and extracts and returns an array of arguments from a user input string.
+     * @author ryanlohyr
+     * @param userInput The user input string.
+     * @return An array of arguments from the input string.
+     */
+    public static String[] parseArguments(String userInput){
+        String[] keywords = userInput.split(" ");
+        return Arrays.copyOfRange(keywords, 1, keywords.length);
+    }
+
+    /**
      * Checks if the given academic year input is valid.
      * The academic year should be in the format "Yn/Sx", where 'n' represents the year
      * and 'x' represents the semester (e.g., Y1/S1, Y2/S2).

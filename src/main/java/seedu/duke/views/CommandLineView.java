@@ -17,6 +17,18 @@ public class CommandLineView {
         System.out.println("What is your name?");
     }
 
+    public void displayGoodbye(){
+        System.out.println("Goodbye.");
+    }
+
+    public void displayInvalidInputCommand(){
+        System.out.println("Invalid command. Type help to see the available commands");
+    }
+
+    public void displayHelp(){
+        System.out.println("To be added");
+    }
+
 
     public void handleMajorMessage(int userInputLength, Major major) {
         assert (userInputLength == 1 || userInputLength == 2);

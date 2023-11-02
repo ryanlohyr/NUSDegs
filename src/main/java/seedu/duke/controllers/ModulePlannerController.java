@@ -8,6 +8,7 @@ import seedu.duke.models.schema.ModuleList;
 import seedu.duke.models.schema.Major;
 import seedu.duke.models.schema.Schedule;
 import seedu.duke.models.schema.Student;
+import seedu.duke.models.schema.Command;
 import seedu.duke.models.logic.Api;
 import seedu.duke.views.CommandLineView;
 import seedu.duke.utils.Parser;
@@ -22,8 +23,8 @@ import java.util.Objects;
 
 import static seedu.duke.models.logic.Api.getFullModuleInfo;
 import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
-import static seedu.duke.models.logic.DataRepository.getRequirements;
 import static seedu.duke.models.logic.ScheduleGenerator.generateRecommendedSchedule;
+import static seedu.duke.utils.Parser.parseCommand;
 
 public class ModulePlannerController {
     private CommandLineView view;
@@ -35,12 +36,13 @@ public class ModulePlannerController {
     private HashMap<String, List<String>> modsWithPreqs;
     private CompletePreqs addModulePreqs;
 
+    private Command commands;
+
     public ModulePlannerController() {
+        this.commands = new Command();
         this.view = new CommandLineView();
         this.parser = new Parser();
         this.student = new Student();
-
-
 
         //This modules list of taken and classes left can be in a storage class later on.
         this.modulesMajor = null;
@@ -69,20 +71,28 @@ public class ModulePlannerController {
      */
     public void start() {
         view.displayWelcome();
+        handleUserInputTillExistCommand();
+        view.displayGoodbye();
+    }
+
+    public void handleUserInputTillExistCommand(){
+
         Scanner in = new Scanner(System.in);
         String userInput = in.nextLine();
 
-        while (!userInput.equals("bye")) {
+        String command = parseCommand(userInput);
+        // String[] Arguments = parseArguments(command);
 
+        while (!command.equals(Commands.EXIT_COMMAND)) {
+            command = parseCommand(userInput);
             String[] words = userInput.split(" ");
 
-            String initialWord = words[0].toLowerCase();
-            boolean validInput;
 
-            validInput = Parser.isValidInput(initialWord, words);
+            boolean validInput = Parser.isValidInput(command, words);
+
             if (validInput) {
-                switch (initialWord) {
-                case "left": {
+                switch (command) {
+                case Commands.LEFT_COMMAND: {
                     if (modulesMajor != null && modulesTaken != null) {
                         ModulesLeft modulesLeft = new ModulesLeft(modulesMajor, modulesTaken);
                         ArrayList<String> modules = modulesLeft.listModulesLeft();
@@ -95,7 +105,7 @@ public class ModulePlannerController {
                     }
                     break;
                 }
-                case "pace": {
+                case Commands.PACE_COMMAND: {
                     //assumed that everyone graduates at y4s2
                     //waiting for retrieving logic
                     int modulesCreditsCompleted = 100;
@@ -104,21 +114,17 @@ public class ModulePlannerController {
                     computePace(words, creditsLeft);
                     break;
                 }
-                case "prereq": {
+                case Commands.PREREQUISITE_COMMAND: {
                     String module = words[1];
                     determinePrereq(module.toUpperCase(),"CEG"); //to convert "CEG" to dynamic course
                     break;
                 }
-                case "test": {
-                    System.out.println(getRequirements("CEG"));
-                    break;
-                }
-                case "recommend": {
+                case Commands.RECOMMEND_COMMAND: {
                     String keyword = words[1];
                     chooseToAddToSchedule(generateRecommendedSchedule(keyword.toUpperCase()),in);
                     break;
                 }
-                case "major": {
+                case Commands.SET_MAJOR_COMMAND: {
                     if (words.length == 2) {
                         Major major = Major.valueOf(words[1].toUpperCase());
                         student.setMajor(major);
@@ -127,7 +133,7 @@ public class ModulePlannerController {
                     view.handleMajorMessage(words.length, student.getMajor());
                     break;
                 }
-                case "add": {
+                case Commands.ADD_MODULE_COMMAND: {
                     String module = words[1].toUpperCase();
                     int targetSem = Integer.parseInt(words[2]);
                     try {
@@ -142,7 +148,7 @@ public class ModulePlannerController {
                     }
                     break;
                 }
-                case "delete": {
+                case Commands.DELETE_MODULE_COMMAND: {
                     String module = words[1].toUpperCase();
                     try {
                         student.getSchedule().deleteModule(module);
@@ -153,11 +159,11 @@ public class ModulePlannerController {
                     }
                     break;
                 }
-                case "schedule": {
+                case Commands.VIEW_SCHEDULE_COMMAND: {
                     student.getSchedule().printMainModuleList();
                     break;
                 }
-                case "complete": {
+                case Commands.COMPLETE_MODULE_COMMAND: {
                     if (modulesMajor != null) {
                         if (addModulePreqs.checkModInput(words, modulesMajor)) {
                             String moduleCompleted = words[1].toUpperCase();
@@ -171,7 +177,7 @@ public class ModulePlannerController {
                     }
                     break;
                 }
-                case "required": {
+                case Commands.REQUIRED_MODULES_COMMAND: {
                     if (modulesMajor != null) {
                         getRequiredModules(student.getMajor());
                     } else {
@@ -179,21 +185,32 @@ public class ModulePlannerController {
                     }
                     break;
                 }
-                case "info": {
+                case Commands.INFO_COMMAND: {
                     Api.infoCommands(words[1], userInput);
                     break;
                 }
-                case "search": {
+                case Commands.SEARCH_MODULE_COMMAND: {
                     Api.searchCommand(userInput);
                     break;
                 }
+                case Commands.HELP_COMMAND: {
+                    printListOfCommands();
+                    break;
+                }
                 default: {
-                    view.displayMessage("Invalid Input");
+                    view.displayInvalidInputCommand();
                     break;
                 }
                 }
             }
+
             userInput = in.nextLine();
+        }
+    }
+
+    private void printListOfCommands() {
+        for (String command : commands.printListOfCommands()) {
+            System.out.println(command);
         }
     }
 
