@@ -134,8 +134,8 @@ public class CompletePreqs {
     }
 
     public boolean checkModInput(String[] words, ModuleList list){
-        if (words.length == 2){
-            if (list.getMainModuleList().contains(words[1].toUpperCase())){
+        if (words.length == 1){
+            if (list.getMainModuleList().contains(words[0].toUpperCase())){
                 return true;
             }
             System.out.println("Please enter a available mod: ");

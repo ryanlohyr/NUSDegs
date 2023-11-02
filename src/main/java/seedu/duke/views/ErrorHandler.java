@@ -12,6 +12,17 @@ public class ErrorHandler {
     public static void invalidMajor(String availableMajors) {
         System.out.println("Please select a major from this list: " + availableMajors);
     }
+
+    public static void displayInvalidInputCommand(String command){
+        String response = String.format("Invalid command %s. Type help to see the available commands",command);
+        System.out.println(response);
+    }
+
+    public static void displayInvalidMethodCommand(String command){
+        String response = String.format("Invalid argument for command %s", command);
+        System.out.println(response);
+    }
+
     public static void invalidAddFormat() {
         System.out.println("Please add a module using this format: add [module code] [semester]");
     }

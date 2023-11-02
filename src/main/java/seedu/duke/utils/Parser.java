@@ -3,6 +3,7 @@ package seedu.duke.utils;
 import seedu.duke.models.schema.Major;
 import seedu.duke.views.ErrorHandler;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -73,43 +74,77 @@ public class Parser {
         }
     }
 
+    public boolean checkNameInput(String userInput, ArrayList<String> forbiddenCommands) {
+        // Check for non-empty string
+        if (userInput.trim().isEmpty()) {
+            System.out.println("Name cannot be empty. Please enter a valid name.");
+            return false;
+        }
+
+        // Check for length constraints
+        int minLength = 2;  // Minimum length for a valid name
+        int maxLength = 50; // Maximum length for a valid name
+        if (userInput.length() < minLength || userInput.length() > maxLength) {
+            System.out.println("Name must be between " + minLength + " and " + maxLength + " characters.");
+            return false;
+        }
+
+        // Check for valid characters
+        if (!userInput.matches("[a-zA-Z- ']+")) {
+            System.out.println("Name can only contain letters, spaces, hyphens, and apostrophes.");
+            return false;
+        }
+
+        // Check for no leading or trailing spaces
+        if (!userInput.equals(userInput.trim())) {
+            System.out.println("Name cannot start or end with a space.");
+            return false;
+        }
+
+
+        if (forbiddenCommands.contains(userInput.trim().toLowerCase())) {
+            System.out.println("Invalid name. This name is reserved for commands. Please enter a different name.");
+            return false;
+        }
+
+        return true;
+    }
+
     /**
      * Checks the validity of user input based on the provided command and words array.
      *
      * @param command The command provided by the user.
-     * @param words   An array of words parsed from the user input.
+     * @param arguments   An array of words parsed from the user input.
      * @return        True if the input is valid, false otherwise.
      */
-    public static boolean isValidInput(String command, String[] words) {
+    public static boolean isValidInputForCommand(String command, String[] arguments) {
         switch (command) {
         case "prereq": {
-            if (words.length < 2) {
-                ErrorHandler.invalidInput();
+            if (arguments.length < 1) {
                 return false;
             }
             break;
         }
         case "recommend": {
-            if (words.length < 2) {
-                ErrorHandler.invalidInput();
+            if (arguments.length < 1) {
                 return false;
             }
-            if (!Objects.equals(words[1].toUpperCase(), "CEG")){
+            if (!Objects.equals(arguments[0].toUpperCase(), "CEG")){
                 ErrorHandler.invalidInput();
                 return false;
             }
             break;
         }
         case "major": {
-            if (words.length == 1) {
+            if (arguments.length == 0) {
                 return true;
             }
-            if (words.length > 2) {
+            if (arguments.length > 1) {
                 ErrorHandler.invalidMajorFormat();
                 return false;
             }
             try {
-                Major.valueOf(words[1].toUpperCase());
+                Major.valueOf(arguments[0].toUpperCase());
             } catch (IllegalArgumentException e) {
                 String availableMajors = Arrays.toString(Major.values());
                 ErrorHandler.invalidMajor(availableMajors);
@@ -118,12 +153,12 @@ public class Parser {
             break;
         }
         case "add": {
-            if (words.length != 3) {
+            if (arguments.length != 2) {
                 ErrorHandler.invalidAddFormat();
                 return false;
             }
             try {
-                Integer.parseInt(words[2]);
+                Integer.parseInt(arguments[1]);
             } catch (NumberFormatException e) {
                 ErrorHandler.invalidSemester();
                 return false;
@@ -131,25 +166,25 @@ public class Parser {
             break;
         }
         case "delete": {
-            if (words.length != 2) {
+            if (arguments.length != 1) {
                 ErrorHandler.invalidDeleteFormat();
                 return false;
             }
             break;
         }
         case "test2": {
-            if (words.length < 21) {
+            if (arguments.length < 20) {
                 return false;
             }
             break;
         }
         case "info": {
-            if (words.length < 2) {
+            if (arguments.length < 1) {
                 ErrorHandler.emptyInputforInfoCommand();
                 return false;
             }
-            if (!words[1].equals("description") && !words[1].equals("workload")
-                    && !words[1].equals("all") && !words[1].equals("requirements")) {
+            if (!arguments[0].equals("description") && !arguments[0].equals("workload")
+                    && !arguments[0].equals("all") && !arguments[0].equals("requirements")) {
                 ErrorHandler.invalidCommandforInfoCommand();
                 return false;
             }

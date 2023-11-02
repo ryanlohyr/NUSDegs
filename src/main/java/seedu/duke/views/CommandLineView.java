@@ -1,38 +1,44 @@
 package seedu.duke.views;
 
 
+import seedu.duke.models.schema.CommandManager;
 import seedu.duke.models.schema.Major;
 
 import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
 
 public class CommandLineView {
 
-    public void displayWelcome(){
+    public static void displayWelcome(){
         String logo = " ____        _        \n"
                 + "|  _ \\ _   _| | _____ \n"
                 + "| | | | | | | |/ / _ \\\n"
                 + "| |_| | |_| |   <  __/\n"
                 + "|____/ \\__,_|_|\\_\\___|\n";
         System.out.println("Hello from\n" + logo);
-        System.out.println("What is your name?");
     }
 
-    public void displayGoodbye(){
+    public static void displayGoodbye(){
         System.out.println("Goodbye.");
     }
 
-    public void displayInvalidInputCommand(){
-        System.out.println("Invalid command. Type help to see the available commands");
+    public static void displayReady(){
+        System.out.println("Now you're all set to use NUSDegs to kick start your degree planning!");
+        System.out.println("Type 'help' to see the available commands");
     }
 
-    public void displayHelp(){
-        System.out.println("To be added");
+    public static void displayGetMajor(String name){
+        System.out.println("Welcome " + name + "! What major are you? (Only two available: CEG or CS)");
+    }
+
+    public static void displayGetYear(){
+        System.out.println("What Year and Semester are you? Ex: Y1/S2 for year 1 semester 2");
     }
 
 
-    public void handleMajorMessage(int userInputLength, Major major) {
-        assert (userInputLength == 1 || userInputLength == 2);
-        if (userInputLength == 1) {
+
+    public static void handleMajorMessage(int userInputLength, Major major) {
+        assert (userInputLength == 0 || userInputLength == 1);
+        if (userInputLength == 0) {
             if (major == null) {
                 displayMessage("No major selected!");
                 return;
@@ -43,15 +49,21 @@ public class CommandLineView {
         displayMessage("Major " + major + " selected!");
     }
 
-    public void showPrereqCEG(String module) {
+    public static void printListOfCommands(CommandManager commandManager) {
+        for (String command : commandManager.printListOfCommands()) {
+            displayMessage(command);
+        }
+    }
+
+    public static void showPrereqCEG(String module) {
         System.out.println("This module's prerequisites are "
                 + getModulePrereqBasedOnCourse(module.toUpperCase(),"CEG"));
     }
-    public void displaySuccessfulAddMessage() {
+    public static void displaySuccessfulAddMessage() {
         displayMessage("Module Successfully Added");
     }
 
-    public void displaySuccessfulDeleteMessage() {
+    public static void displaySuccessfulDeleteMessage() {
         displayMessage("Module Successfully Deleted");
 
     }
@@ -61,12 +73,12 @@ public class CommandLineView {
      *
      * @param o The object to be displayed.
      */
-    public void displayMessage(Object o) {
+    public static void displayMessage(Object o) {
         System.out.println(o);
     }
 
 
-    public void printNewline(){
+    public static void printNewline(){
         System.out.println();
     }
 

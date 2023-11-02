@@ -1,6 +1,6 @@
 package seedu.duke.controllers;
 
-public interface Commands {
+public interface UserCommands {
     String EXIT_COMMAND = "Bye";
     String LEFT_COMMAND = "left";
     String PACE_COMMAND = "pace";

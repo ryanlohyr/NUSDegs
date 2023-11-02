@@ -4,9 +4,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 public class ModuleInfo {
-    public static void printModule(JSONObject module) {
-        System.out.println(module);
-    }
 
     public static void print(String output) {
         System.out.println(output);

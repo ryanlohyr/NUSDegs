@@ -7,10 +7,10 @@ import java.util.HashMap;
  * This class represents the command system for the application.
  * It stores and provides descriptions for each available command.
  */
-public class Command {
+public class CommandManager {
     private HashMap<String, String> commandsAndDescription;
 
-    public Command() {
+    public CommandManager() {
         commandsAndDescription = new HashMap<>();
         addCurrentCommands();
     }
@@ -23,13 +23,16 @@ public class Command {
         commandsAndDescription.put("left", "Displays a list of remaining modules.");
         commandsAndDescription.put("pace", "Computes and displays your graduation pace.");
         commandsAndDescription.put("prereq", "Displays the prerequisites for a specific module.");
-        commandsAndDescription.put("test", "Displays requirements for a specific major.");
         commandsAndDescription.put("recommend", "Displays a recommended schedule based on a keyword.");
-        commandsAndDescription.put("major", "Updates and displays your current major.");
+        commandsAndDescription.put("major", "Updates or displays your current major.");
         commandsAndDescription.put("required", "Displays the full requirements for your major.");
-        commandsAndDescription.put("complete", "Marks a module as complete and displays any unlocked modules.");
-        commandsAndDescription.put("bye", "Exits the program");
-        commandsAndDescription.put("help", "Shows the list of commands");
+        commandsAndDescription.put("complete", "Marks a module as complete on schedule planner.");
+        commandsAndDescription.put("Bye", "Exits the program.");
+        commandsAndDescription.put("help", "Shows the list of commands.");
+        commandsAndDescription.put("add", "Adds module to the recommended schedule planner.");
+        commandsAndDescription.put("delete", "Deletes module from the schedule planner.");
+        commandsAndDescription.put("schedule", "Shows schedule planner");
+        commandsAndDescription.put("search", "search for modules to take based on keyword");
     }
 
     /**
