@@ -14,6 +14,7 @@ public class DataRepository {
     /**
      * Retrieves a list of modules requirements for a specified major.
      *
+     * @author ryanlohyr
      * @param major The major for which to retrieve requirements.
      * @return An ArrayList of module codes.
      * @throws RuntimeException If the specified major requirements file is not found.

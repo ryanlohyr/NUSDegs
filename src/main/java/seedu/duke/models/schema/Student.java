@@ -1,5 +1,10 @@
 package seedu.duke.models.schema;
 
+import seedu.duke.exceptions.FailPrereqException;
+
+import java.io.InvalidObjectException;
+import java.util.ArrayList;
+
 /**
  * The Student class represents a student with a name, major, and module schedule.
  */
@@ -7,8 +12,10 @@ public class Student {
 
     private String name;
     private Major major;
-
     private Schedule schedule;
+    private String year;
+    private int completedModuleCredits;
+    private ArrayList<Module> modulesPlanned;
 
     /**
      * Constructs a student with a name, major, and module schedule.
@@ -30,6 +37,7 @@ public class Student {
         this.name = null;
         this.major = null;
         this.schedule = new Schedule();
+        this.year = null;
     }
 
     /**
@@ -50,6 +58,10 @@ public class Student {
         return schedule;
     }
 
+    public int getCurrentModuleCredits(){
+        return completedModuleCredits;
+    }
+
     /**
      * Retrieves the name of the student.
      *
@@ -58,7 +70,6 @@ public class Student {
     public String getName() {
         return name;
     }
-
 
     /**
      * Retrieves the major of the student.
@@ -73,6 +84,74 @@ public class Student {
         }
         return major;
     }
+
+    /**
+     * Sets the first major without the major command
+     * @author Isaiah Cerven
+     * @param userInput must be validated in parser as CS or CEG
+     */
+    public void setFirstMajor(String userInput){
+        try {
+            setMajor(Major.valueOf(userInput.toUpperCase()));
+        } catch (IllegalArgumentException e) {
+            System.out.println(e);
+        }
+    }
+
+    public void addModule(String moduleCode, int targetSem) throws InvalidObjectException, FailPrereqException {
+        this.schedule.addModule(moduleCode,targetSem);
+        this.modulesPlanned.add(new Module(moduleCode));
+    }
+
+    /**
+     * Completes a module with the specified module code.
+     *
+     * @author ryanlohyr
+     * @param moduleCode The code of the module to be completed.
+     */
+    public void completeModule(String moduleCode) {
+        for (Module module : modulesPlanned) {
+            if (module.getModuleCode().equals(moduleCode)) {
+                this.completedModuleCredits += module.getModuleCredits();
+                module.markModuleAsCompleted();
+                return;
+            }
+        }
+    }
+
+
+    public void printSchedule(){
+        this.schedule.printMainModuleList();
+    }
+
+    /**
+     * Deletes a module with the specified module code. This method also updates the completed
+     * module credits and removes the module from the planned modules list.
+     *
+     * @author ryanlohyr
+     * @param moduleCode The code of the module to be deleted.
+     * @throws FailPrereqException If deleting the module fails due to prerequisite dependencies.
+     */
+    public void deleteModule(String moduleCode) throws FailPrereqException {
+        this.schedule.deleteModule(moduleCode);
+        for (Module moduleObject : modulesPlanned) {
+            if (moduleObject.getModuleCode().equals(moduleCode)) {
+                this.completedModuleCredits -= moduleObject.getModuleCredits();
+                modulesPlanned.remove(moduleObject);
+                return;
+            }
+        }
+    }
+
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
 
     /**
      * Sets the name of the student.

@@ -117,6 +117,8 @@ public class Schedule extends ModuleList {
 
         try {
             if (satisfiesAllPrereq(module, completedModules)) {
+                //module initialisaiton will be here
+
                 this.getMainModuleList().add(indexToAdd, module);
                 modulesPerSem[targetSem - 1] += 1;
                 changeNumberOfModules(1);

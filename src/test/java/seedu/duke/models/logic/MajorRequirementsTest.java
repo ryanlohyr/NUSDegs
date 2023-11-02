@@ -10,6 +10,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.duke.controllers.ModuleServiceController.getRequiredModules;
 
 class MajorRequirementsTest {
 
@@ -30,7 +31,7 @@ class MajorRequirementsTest {
     @Test
     void printRequiredModules_validMajor_expectRequiredModulesShown() {
         ModulePlannerController controller = new ModulePlannerController();
-        controller.getRequiredModules(Major.valueOf("CEG"));
+        getRequiredModules(Major.valueOf("CEG"));
         // Capture the printed output
         String printedOutput = outputStream.toString();
 
