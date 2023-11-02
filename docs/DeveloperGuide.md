@@ -134,12 +134,14 @@ The proposed information feature returns information about the module at the use
 command returns an array, and all displays the module title and module code for all modules present in the NUSMods 
 directory.
 
-- `getFullModuleInfo(major)` – Returns the `filePath` for the requirements of a specified major.
-- `sendHttpRequestAndGetResponseBody(String url)` – Displays the overview of modules required.
-- `getDescription(String moduleCode)` – Returns the `longestLineLength` of the file f.
-- `getWorkload(String moduleCode)` – Returns a string with a justified name according to length, appended with its description.
-- `listAllModules(), `printDoubleTopLine()`, `printBottomLine()`, `printDoubleBottomLine()` – Displays lines for formatting
-- `infoCommands(String command, String userInput), `printDoubleTopLine()`, `printBottomLine()`, `printDoubleBottomLine()` – Displays lines for formatting
+- `getFullModuleInfo(major)` – Returns: A JSONObject containing module information..
+- `sendHttpRequestAndGetResponseBody(String url)` – Returns: The response body as a String.
+- `getDescription(String moduleCode)` – Returns: The description of the module..
+- `getWorkload(String moduleCode)` – Returns: A JSONArray containing workload details.
+- `listAllModules(), `Retrieves a list of modules from an external API and returns it as a JSONArray.
+- `infoCommands(String command, String userInput)`- This method executes commands based on user input for module 
+- information retrieval. It supports commands like "description", "workload", and "all".
+- Depending on the command, it retrieves and displays information about modules.
 
 ### Usage Examples
 
