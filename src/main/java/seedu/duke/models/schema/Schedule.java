@@ -52,7 +52,7 @@ public class Schedule extends ModuleList {
         int currentSem = 1;
 
         for (String module : scheduleToAdd) {
-            // Check if the module fulfill pre req, if not we move it to next sem
+            // Check if the module fulfill pre req, else we move it to next sem
             // ModuleList completedModules = new ModuleList(String.join(" ", getMainModuleList()));
             int indexToAdd = 0;
             for (int i = 1; i < currentSem; i++) {
