@@ -2,9 +2,9 @@ package seedu.duke.utils;
 
 import seedu.duke.models.schema.Major;
 import seedu.duke.views.ErrorHandler;
-
 import java.util.Arrays;
 import java.util.Objects;
+import me.xdrop.fuzzywuzzy.FuzzySearch;
 
 public class Parser {
 
@@ -155,5 +155,10 @@ public class Parser {
         return !keywords.trim().isEmpty();
     }
 
+    public static void searchFuzzy(String userInput) {
+        String hey = "hey im rohit";
+        String hi = "HI IM ROHIT";
+        FuzzySearch.ratio(hey, hi);
+    }
 
 }

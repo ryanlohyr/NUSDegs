@@ -103,7 +103,7 @@ Command: `major`
 
 Response: `Current major is [current major in student object].`
 
-## [Proposed] Show Required Modules Feature
+## [Proposed] Get information about modules (from the NUSMods API)
 
 The proposed required mechanism is implemented to give users an overview of the modules they need to complete for 
 their major. It is facilitated by CEGRequirements.txt, CSRequirements.txt. Additionally, it implements the following 
@@ -126,7 +126,7 @@ Command: `required`
 Response:
 Module requirements for major selected by user
 
-## [Proposed] Get information about modules (from the NUSMods API)
+## Get information about modules (from the NUSMods API)
 
 
 The proposed information feature returns information about the module at the user's request. It accepts 3 commands, 
@@ -143,17 +143,50 @@ directory.
 - information retrieval. It supports commands like "description", "workload", and "all".
 - Depending on the command, it retrieves and displays information about modules.
 
-### Usage Examples
+## Get information about modules (from the NUSMods API)
 
-Here are a few examples of how the Show Required Modules Feature behaves:
 
-#### Example 1:
+The proposed information feature returns information about the module at the user's request. It accepts 3 commands,
+'description', 'workload' and 'all'. The 'description' command returns a string description of the module, the workload
+command returns an array, and all displays the module title and module code for all modules present in the NUSMods
+directory.
 
-Command: `required`
+- `getFullModuleInfo(major)` – Returns: A JSONObject containing module information..
+- `sendHttpRequestAndGetResponseBody(String url)` – Returns: The response body as a String.
+- `getDescription(String moduleCode)` – Returns: The description of the module..
+- `getWorkload(String moduleCode)` – Returns: A JSONArray containing workload details.
+- `listAllModules(), `Retrieves a list of modules from an external API and returns it as a JSONArray.
+- `infoCommands(String command, String userInput)`- This method executes commands based on user input for module
+- information retrieval. It supports commands like "description", "workload", and "all".
+- Depending on the command, it retrieves and displays information about modules.
 
-Response:
-Module requirements for major selected by user
 
+## `searchCommand(String userInput)`
+
+This method executes a search command based on user input, aiming to find modules containing specific keywords in their titles.
+
+- `search(String keyword, JSONArray moduleList)` - This method performs a search for modules containing a specific
+- keyword in their titles.
+- 
+
+### Parameters:
+
+- `userInput` (String): The user input string containing the search command and keywords.
+
+### Implementation Details:
+
+- It first checks if the keyword input is valid using the `Parser.isValidKeywordInput()` method. If not, it triggers an error and returns.
+- It then extracts the keywords from `userInput`.
+- The `Api.search()` method is called with the keywords and the list of all modules to find modules containing those keywords.
+- If no matching modules are found, an error is triggered and the process returns.
+- If matching modules are found, the method prints a header and the JSON array of modules to the console using `ModuleInfo.searchHeader()` and `ModuleInfo.printJsonArray()`.
+
+### Example Usage:
+
+```java
+searchCommand("search Machine Learning");
+searchCommand("search Darwin");
+```
 
 ## Product scope
 ### Target user profile
