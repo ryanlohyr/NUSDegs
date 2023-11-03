@@ -16,6 +16,7 @@ It's a comprehensive tool for efficient and successful degree completion.
 ## Features
 - Left
 - Required
+- Complete
 - Info
 - Search
 - Major
@@ -27,63 +28,50 @@ It's a comprehensive tool for efficient and successful degree completion.
 ### Checking modules left: `left`
 Displays the modules left, which are the modules required for the user's major that have not been completed.
 
-Format: `left n/MAJOR`
+Format: `left`
 
-* The `MAJOR` is an optional argument and can be CS or CEG.
-
-Example of usage 1: (scenario where user's selected major is CS)
+Example of usage 1: (scenario where user's selected major is CEG)
 
 User input: 
 `left`
 
 - Expected outcome:
-`Modules Left: CS2030S CS2040S CS2100 CS2101 CS2106 CS2109S CS3230"`
-
-Example of usage 2: 
-
-User input:
-`left CEG`
-
-- Expected outcome:
-`Modules Left: 
-CG4002
-MA1508E
-EG2401A
-CP3880
-CG2111A
-CS1231
-CG2023
-CG2027
-CG2028
-CG2271
-ST2334
-CS2040C
-CS2113
-EE2026
-EE4204"`
+![ss_left_ceg.png](screenshots%2Fss_left_ceg.png)
 
 ### Getting a list of required modules: `required`
 Get an overview of required modules for the user's major
 
-Format: `required n/MAJOR`
+Format: `required`
 
-* The `MAJOR` is an optional argument and can be CS or CEG.
-
-Example of usage 1: (scenario where user's selected major is CS)
+Example of usage 1: (scenario where user's selected major is CEG)
 
 User input:
 `required`
 
 - Expected outcome:
-Module requirements for CS
+![ss_required_ceg.png](screenshots%2Fss_required_ceg.png)
+![ss_required_ceg2.png](screenshots%2Fss_required_ceg2.png)
 
-Example of usage 2:
+### Complete a module: `complete`
+Completes a module (not displayed when the feature `left` is used).
+
+Format: `complete`
+
+Example of usage 1: (scenario where user's selected major is CEG)
 
 User input:
-`required CEG`
+`complete ma1511`
 
-- Expected outcome:
-Module requirements for CEG
+Expected outcome:
+`Mod completed: MA1511`
+
+Changes to modules left are shown when
+
+User input:
+`left`
+
+Expected outcome:
+![ss_complete_ceg.png](screenshots%2Fss_complete_ceg.png)
 
 ### Get information about a module: `info`
 Get information about a module using the info command, followed by one of the commands 'description', 'workload' 
@@ -107,7 +95,7 @@ Example of usage:
 
 `info all`
 
-- Expected outcome: "returns module title and module code of all available modules"
+- Expected outcome: Displays module title and module code of all available modules
 
 
 ### Searching for a module by title: `search`
@@ -130,13 +118,9 @@ Returns the current saved major if no major is specified.
 
 Format: `major n/MAJOR`
 
-* The `MAJOR` is an optional argument and can be CS or CEG.
+* The `MAJOR` is an optional argument to update current major and can be CEG (upcoming feature includes CS).
 
 Examples of usage:
-
-`major` (Assume no major has been selected)
-
-- Expected outcome: "No major selected!"
 
 `major CEG`
 
@@ -182,7 +166,7 @@ Examples of usage:
 
 **Q**: How do I transfer my data to another computer? 
 
-**A**: {your answer here}
+**A**: Currently, this feature is not included in NUSDegs.
 
 ## Command Summary
 
