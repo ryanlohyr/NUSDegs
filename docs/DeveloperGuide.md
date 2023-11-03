@@ -6,8 +6,32 @@
 
 ## Design & implementation, Architecture
 
-{Describe the design and implementation of the product. Use UML diagrams and short code snippets where applicable.}
-## Features
+![img.png](diagrams/architectureDiagram.png)
+
+The Architecture Diagram given above explains the high-level design of the application.
+
+The main logic of the application is handled by these four components
+- **Controller**: 
+  - Handles Commands coming from the User 
+  - Combines data from the **Model** and UI Components from **View**
+  - Never handles data logic
+- **View**:
+  - Responsible for printing onto the Command Line Application
+- **Model**: 
+  - Response for retrieving data from the **Data Repository** 
+  - Performs REST API calls to the NUSMODS API
+- **Data Repository**: 
+  - Reads data from, and writes data to file
+
+### How the architecture components interact with each other
+
+![img.png](diagrams/addModule.png)
+
+The Sequence Diagram above shows how the components interact with each other when the user inserts a module 
+into his schedule
+
+
+## Features: 
 - Pace
 - Left
 - Major
