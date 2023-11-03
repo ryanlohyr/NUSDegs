@@ -137,7 +137,7 @@ class ModuleMethodsControllerTest {
         int targetSem = 1;
         boolean doesModuleExist = false;
         try {
-            student.addModule(moduleCode, targetSem);
+            student.addModuleSchedule(moduleCode, targetSem);
             displaySuccessfulAddMessage();
             student.printSchedule();
             Schedule currentSchedule = student.getSchedule();
@@ -177,7 +177,7 @@ class ModuleMethodsControllerTest {
         int targetSem = 1;
         boolean doesModuleExist = false;
         try {
-            student.addModule(moduleCode, targetSem);
+            student.addModuleSchedule(moduleCode, targetSem);
             displaySuccessfulAddMessage();
             student.printSchedule();
             Schedule currentSchedule = student.getSchedule();
@@ -210,7 +210,7 @@ class ModuleMethodsControllerTest {
         int targetSem = 1;
         boolean doesModuleExist = false;
         try {
-            student.addModule(moduleCode, targetSem);
+            student.addModuleSchedule(moduleCode, targetSem);
             displaySuccessfulAddMessage();
             student.printSchedule();
             Schedule currentSchedule = student.getSchedule();

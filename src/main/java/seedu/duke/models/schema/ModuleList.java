@@ -1,7 +1,5 @@
 package seedu.duke.models.schema;
 
-import seedu.duke.utils.errors.ClassError;
-
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
 
@@ -11,26 +9,40 @@ import java.util.ArrayList;
  */
 public class ModuleList {
 
-    private ArrayList<String> mainModuleList;
+    private ArrayList<Module> mainModuleList;
     private int numberOfModules;
+
+
 
     /**
      * Constructs a ModuleList from a space-separated string of modules.
      *
      * @param modules A space-separated string of module codes.
      */
+
     public ModuleList(String modules) {
+        mainModuleList = new ArrayList<Module>();
+        if (modules == null || modules.isEmpty()) {
+            System.out.println("empty modules");
+            return;
+        }
         try {
             String[] moduleArray = modules.split(" ");
-            mainModuleList = new ArrayList<String>();
+            //ArrayList<String> moduleCodes = new ArrayList<String>();
 
-            numberOfModules = 0;
+            //numberOfModules = 0;
             for (String module : moduleArray) {
-                mainModuleList.add(module);
-                numberOfModules += 1;
+                try {
+                    mainModuleList.add(new Module(module));
+                    numberOfModules += 1;
+
+                } catch (NullPointerException e) {
+                    System.out.println("null pointer");
+                    //fail
+                }
+
             }
         } catch (NullPointerException e) {
-            ClassError.defaultClassError("ModuleList could not be created");
             new ModuleList();
         }
     }
@@ -39,65 +51,37 @@ public class ModuleList {
      * Constructs an empty ModuleList.
      */
     public ModuleList() {
-        mainModuleList = new ArrayList<String>();
+        mainModuleList = new ArrayList<Module>();
         numberOfModules = 0;
     }
 
-    public ModuleList(ArrayList<String> array){
-        this.mainModuleList = array;
-    }
 
-    public void addModule (String module) {
+    public void addModule (Module module) {
         mainModuleList.add(module);
     }
 
-    /**
-     * Computes the difference between two ModuleList objects (A - B) and updates the current list.
-     *
-     * @author janelleenqi
-     * @param a The first ModuleList.
-     * @param b The second ModuleList.
-     * @throws InvalidObjectException If either A or B is null.
-     */
-    public void getDifference (ModuleList a, ModuleList b) throws InvalidObjectException {
-        //A - B
-        if (a == null || b == null) {
-            throw new InvalidObjectException("Null Inputs");
-        }
-        mainModuleList.clear();
-
-        for (String moduleA : a.mainModuleList) {
-            try {
-                if (!b.exists(moduleA)) {
-                    mainModuleList.add(moduleA);
-                    numberOfModules += 1;
-                }
-            } catch (InvalidObjectException e) {
-                System.out.println("Error: " + e.getMessage());
-            }
-        }
+    public void deleteModule (Module module) {
+        mainModuleList.remove(module);
     }
 
-    /**
-     * Checks if a module exists in the list.
-     *
-     * @author janelleenqi
-     * @param moduleA The module to check for existence.
-     * @return true if the module exists in the list; false otherwise.
-     * @throws InvalidObjectException If moduleA is null.
-     */
-    public boolean exists(String moduleA) throws InvalidObjectException {
-        if (moduleA == null || mainModuleList == null) {
-            throw new InvalidObjectException("Null Inputs");
+
+    public boolean exists(String moduleCodeA) throws InvalidObjectException {
+        if (mainModuleList == null) {
+            throw new InvalidObjectException("Null Module List");
         }
 
-        for (String moduleB : mainModuleList) {
-            if (moduleA.equals(moduleB)) {
+        if (moduleCodeA == null) {
+            throw new InvalidObjectException("Null Module Code");
+        }
+
+        for (Module moduleB : mainModuleList) {
+            if (moduleCodeA.equals(moduleB.getModuleCode())) {
                 return true;
             }
         }
         return false;
     }
+
 
     /**
      * Retrieves the list of modules.
@@ -105,14 +89,34 @@ public class ModuleList {
      * @author janelleenqi
      * @return The ArrayList containing the modules.
      */
-    public ArrayList<String> getMainModuleList() {
+    public ArrayList<Module> getMainModuleList() {
         assert mainModuleList != null: "null mainModuleList";
         return mainModuleList;
     }
 
+    public Module getModule(String moduleCode) throws InvalidObjectException {
+        for (Module module: mainModuleList) {
+            if (moduleCode.equals(module.getModuleCode())) {
+                return module;
+            }
+        }
+        throw new InvalidObjectException("Module does not exist.");
+    }
+
+
+    public ArrayList<String> getModulesCompleted(){
+        ArrayList<String> completedModuleCodes = new ArrayList<>();
+        for (Module module: mainModuleList){
+            if (module.getCompletionStatus()) {
+                completedModuleCodes.add(module.getModuleCode());
+            }
+        }
+        return completedModuleCodes;
+    }
+
     public void printMainModuleList(){
-        for (String mod: mainModuleList){
-            System.out.print(mod + " ");
+        for (Module module: mainModuleList){
+            System.out.print(module + " ");
         }
         System.out.println();
     }
@@ -138,4 +142,22 @@ public class ModuleList {
     }
 
 
+    public ArrayList<String> getModuleCodes() {
+        ArrayList<String> moduleCodes = new ArrayList<>();
+        for (Module module: mainModuleList){
+            moduleCodes.add(module.getModuleCode());
+        }
+        return moduleCodes;
+    }
+
+    public int getIndex(String moduleCode) {
+        int i = 0;
+        for (Module module: mainModuleList){
+            if (moduleCode.equals(module.getModuleCode())) {
+                return i;
+            }
+            i++;
+        }
+        return -1;
+    }
 }

@@ -29,12 +29,15 @@ public class CompletePreqs {
      *
      * @param list
      */
+
     public void initializeCompletedMods(ModuleList list) {
-        addToModulesCompleted.addAll(list.getMainModuleList());
+        addToModulesCompleted.addAll(list.getModuleCodes());
         for (String mod : addToModulesCompleted) {
             processModuleForUnlockingWithoutPrint(mod);
         }
     }
+
+
 
     /**
      * Prints what mods have been unlocked after input
@@ -133,17 +136,17 @@ public class CompletePreqs {
         }
     }
 
-    public boolean checkModInput(String[] words, ModuleList list){
+    public boolean checkModInput(String[] words, ArrayList<String> majorModuleCodes){
         if (words.length == 1){
-            if (list.getMainModuleList().contains(words[0].toUpperCase())){
+            if (majorModuleCodes.contains(words[0].toUpperCase())){
                 return true;
             }
             System.out.println("Please enter a available mod: ");
-            list.printMainModuleList();
+            System.out.println(majorModuleCodes);
             return false;
         }
         System.out.println("Please enter a available mod after the complete keyword");
-        list.printMainModuleList();
+        System.out.println(majorModuleCodes);
         return false;
     }
 }

@@ -1,9 +1,12 @@
 package seedu.duke.models.schema;
 
 import seedu.duke.exceptions.FailPrereqException;
+import seedu.duke.exceptions.MissingModuleException;
 
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
+
+import static seedu.duke.models.logic.DataRepository.getRequirements;
 
 /**
  * The Student class represents a student with a name, major, and module schedule.
@@ -15,7 +18,8 @@ public class Student {
     private Schedule schedule;
     private String year;
     private int completedModuleCredits;
-    private ArrayList<Module> modulesPlanned;
+    private ModuleList modulesPlanned;
+    private ArrayList<String> majorModuleCodes;
 
     /**
      * Constructs a student with a name, major, and module schedule.
@@ -29,7 +33,7 @@ public class Student {
         this.major = major;
         this.schedule = schedule;
         this.year = null;
-        this.modulesPlanned = new ArrayList<>();
+        this.modulesPlanned = new ModuleList();
     }
 
     /**
@@ -40,7 +44,7 @@ public class Student {
         this.major = null;
         this.schedule = new Schedule();
         this.year = null;
-        this.modulesPlanned = new ArrayList<>();
+        this.modulesPlanned = new ModuleList();
     }
 
     /**
@@ -98,9 +102,9 @@ public class Student {
         }
     }
 
-    public void addModule(String moduleCode, int targetSem) throws InvalidObjectException, FailPrereqException {
+    public void addModuleSchedule(String moduleCode, int targetSem) throws InvalidObjectException, FailPrereqException {
         this.schedule.addModule(moduleCode,targetSem);
-        this.modulesPlanned.add(new Module(moduleCode));
+        this.modulesPlanned.addModule(new Module(moduleCode));
     }
 
     /**
@@ -109,7 +113,8 @@ public class Student {
      * @author ryanlohyr
      * @param moduleCode The code of the module to be completed.
      */
-    public void completeModule(String moduleCode) {
+    public void completeModuleSchedule(String moduleCode) {
+        ArrayList<Module> modulesPlanned = this.modulesPlanned.getMainModuleList();
         for (Module module : modulesPlanned) {
             if (module.getModuleCode().equals(moduleCode)) {
                 this.completedModuleCredits += module.getModuleCredits();
@@ -132,15 +137,16 @@ public class Student {
      * @param moduleCode The code of the module to be deleted.
      * @throws FailPrereqException If deleting the module fails due to prerequisite dependencies.
      */
-    public void deleteModule(String moduleCode) throws FailPrereqException {
+    public void deleteModuleSchedule(String moduleCode) throws FailPrereqException, MissingModuleException {
         this.schedule.deleteModule(moduleCode);
-        for (Module moduleObject : modulesPlanned) {
-            if (moduleObject.getModuleCode().equals(moduleCode)) {
-                this.completedModuleCredits -= moduleObject.getModuleCredits();
-                modulesPlanned.remove(moduleObject);
-                return;
-            }
+        Module module;
+        try {
+            module = modulesPlanned.getModule(moduleCode);
+        } catch (InvalidObjectException e) {
+            throw new MissingModuleException(moduleCode + " is not in Modules Planner.");
         }
+        this.completedModuleCredits -= module.getModuleCredits();
+        modulesPlanned.deleteModule(module);
     }
 
 
@@ -169,5 +175,26 @@ public class Student {
      */
     public void setMajor(String major) {
         this.major = major;
+        majorModuleCodes = getRequirements(major.toString());
+    }
+
+    public ArrayList<String> getModuleCodesLeft () {
+        ArrayList<String> moduleCodesLeft = new ArrayList<String>();
+        ArrayList<String> completedModuleCodes = modulesPlanned.getModulesCompleted();
+
+        for (String moduleCode: majorModuleCodes) {
+            if (!completedModuleCodes.contains(moduleCode)) {
+                moduleCodesLeft.add(moduleCode);
+            }
+        }
+        return moduleCodesLeft;
+    }
+
+    public ArrayList<String> getMajorModuleCodes() {
+        return majorModuleCodes;
+    }
+
+    public ModuleList getModulesPlanned() {
+        return modulesPlanned;
     }
 }

@@ -18,19 +18,27 @@ public class Module {
      *
      * @param moduleCode The code of the module.
      */
-    public Module(String moduleCode){
+    public Module(String moduleCode) throws NullPointerException, RuntimeException{
         //add wtv info u want...
-        JSONObject response = getFullModuleInfo(moduleCode);
-        assert response != null: "Response from NUSMods API is null";
-        assert !response.isEmpty(): "Response Object is empty";
-        this.moduleCode = moduleCode;
-        this.isCompleted = false;
-        this.moduleDescription = (String) response.get("description");
-        this.moduleName = (String) response.get("title");
-        try{
-            this.moduleCredits = (Integer) response.get("moduleCredit");
-        }catch (ClassCastException e){
-            this.moduleCredits = 4;
+        if (moduleCode.isEmpty()) {
+            throw new NullPointerException();
+        }
+        try {
+            JSONObject response = getFullModuleInfo(moduleCode);
+
+            assert response != null: "Response from NUSMods API is null";
+            assert !response.isEmpty(): "Response Object is empty";
+            this.moduleCode = moduleCode;
+            this.isCompleted = false;
+            this.moduleDescription = (String) response.get("description");
+            this.moduleName = (String) response.get("title");
+            try{
+                this.moduleCredits = (Integer) response.get("moduleCredit");
+            }catch (ClassCastException e){
+                this.moduleCredits = 4;
+            }
+        } catch (RuntimeException e) {
+            throw e;
         }
     }
 
@@ -39,6 +47,10 @@ public class Module {
      */
     public void markModuleAsCompleted() {
         this.isCompleted = true;
+    }
+
+    public boolean getCompletionStatus() {
+        return isCompleted;
     }
 
     /**
