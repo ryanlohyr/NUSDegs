@@ -1,7 +1,5 @@
 package seedu.duke.models.schema;
 
-import seedu.duke.utils.errors.ClassError;
-
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
 
@@ -65,21 +63,7 @@ public class ModuleList {
     public void deleteModule (Module module) {
         mainModuleList.remove(module);
     }
-/*
 
-    public boolean exists(Module moduleA) throws InvalidObjectException {
-        if (moduleA == null || mainModuleList == null) {
-            throw new InvalidObjectException("Null Inputs");
-        }
-
-        for (Module moduleB : mainModuleList) {
-            if (moduleA.equals(moduleB)) {
-                return true;
-            }
-        }
-        return false;
-    }
-     */
 
     public boolean exists(String moduleCodeA) throws InvalidObjectException {
         if (mainModuleList == null) {
