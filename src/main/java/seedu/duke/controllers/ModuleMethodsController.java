@@ -3,7 +3,7 @@ package seedu.duke.controllers;
 import seedu.duke.models.logic.ModulesLeft;
 import seedu.duke.models.schema.ModuleList;
 import seedu.duke.utils.Parser;
-import seedu.duke.views.ErrorHandler;
+import seedu.duke.utils.errors.UserError;
 
 import java.util.ArrayList;
 
@@ -54,7 +54,7 @@ public class ModuleMethodsController {
                 displayMessage(module);
             }
         } else {
-            ErrorHandler.emptyMajor();
+            UserError.emptyMajor();
         }
     }
 

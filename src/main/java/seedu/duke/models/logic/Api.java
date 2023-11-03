@@ -21,9 +21,9 @@ import seedu.duke.models.schema.ModuleList;
 import static seedu.duke.models.logic.DataRepository.getRequirements;
 
 import seedu.duke.utils.Parser;
-import seedu.duke.views.ErrorHandler;
+import seedu.duke.utils.errors.UserError;
 import seedu.duke.views.ModuleInfo;
-import seedu.duke.views.UnknownCommandException;
+import seedu.duke.utils.UnknownCommandException;
 
 
 public class Api {
@@ -257,8 +257,6 @@ public class Api {
             return getExemptedPrerequisite(moduleCode);
         }
 
-        ArrayList<String> prerequisites = new ArrayList<>();
-
         JSONObject modulePrereqTree = getModulePrereqTree(moduleCode);
 
         if (modulePrereqTree == null) {
@@ -266,7 +264,8 @@ public class Api {
         }
         String key = (String) modulePrereqTree.keySet().toArray()[0];
 
-        //settle this warning
+        ArrayList<String> prerequisites = new ArrayList<>();
+
         ArrayList<Objects> initial = (ArrayList<Objects>) modulePrereqTree.get(key);
 
         flattenPrereq(major, prerequisites, initial, getRequirements(major), key);
@@ -465,19 +464,19 @@ public class Api {
             ModuleInfo.printJsonArray(allModules);
         } else {
             System.out.println("man");
-            ErrorHandler.invalidCommandforInfoCommand();
+            UserError.invalidCommandforInfoCommand();
         }
     }
 
     public static void searchCommand(String userInput) {
         if (!Parser.isValidKeywordInput(userInput)) {
-            ErrorHandler.emptyKeywordforSearchCommand();
+            UserError.emptyKeywordforSearchCommand();
             return;
         }
         String keywords = userInput.substring(userInput.indexOf("search") + 6);
         JSONArray modulesToPrint = Api.search(keywords, Api.listAllModules());
         if (modulesToPrint.isEmpty()) {
-            ErrorHandler.emptyArrayforSearchCommand();
+            UserError.emptyArrayforSearchCommand();
             return;
         }
         ModuleInfo.searchHeader();

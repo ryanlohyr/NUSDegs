@@ -7,10 +7,11 @@ import seedu.duke.models.schema.Major;
 import seedu.duke.models.schema.Schedule;
 import seedu.duke.models.schema.Student;
 import seedu.duke.models.schema.CommandManager;
+import seedu.duke.models.schema.UserCommands;
 import seedu.duke.models.logic.Api;
 import seedu.duke.views.CommandLineView;
 import seedu.duke.utils.Parser;
-import seedu.duke.views.ErrorHandler;
+import seedu.duke.utils.errors.UserError;
 
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
@@ -85,6 +86,7 @@ public class ModulePlannerController {
      * 4. Handle user input until an exit command is given.
      * 5. Display a goodbye message when the application is finished.\
      * @author ryanlohyr
+     *
      */
     public void start() {
         displayWelcome();
@@ -127,12 +129,10 @@ public class ModulePlannerController {
 
         while (!command.equals(UserCommands.EXIT_COMMAND)) {
             command = parseCommand(userInput);
-
             String[] arguments = parseArguments(userInput);
-            String[] words = userInput.split(" ");
 
             if(!commandManager.getListOfCommands().contains(command)){
-                ErrorHandler.displayInvalidInputCommand(command);
+                UserError.displayInvalidInputCommand(command);
                 userInput = in.nextLine();
                 continue;
             }
@@ -140,7 +140,7 @@ public class ModulePlannerController {
             boolean validInput = Parser.isValidInputForCommand(command, arguments);
 
             if (!validInput) {
-                ErrorHandler.displayInvalidMethodCommand(command);
+                UserError.displayInvalidMethodCommand(command);
                 userInput = in.nextLine();
                 continue;
             }
@@ -221,7 +221,7 @@ public class ModulePlannerController {
                     break;
                 }
             } else {
-                ErrorHandler.emptyMajor();
+                UserError.emptyMajor();
             }
             break;
         }
@@ -229,7 +229,7 @@ public class ModulePlannerController {
             if (modulesMajor != null) {
                 getRequiredModules(student.getMajor());
             } else {
-                ErrorHandler.emptyMajor();
+                UserError.emptyMajor();
                 ;
             }
             break;

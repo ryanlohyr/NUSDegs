@@ -1,6 +1,6 @@
-package seedu.duke.views;
+package seedu.duke.utils.errors;
 
-public class ErrorHandler {
+public class UserError {
     public static void invalidInput(){
         System.out.println("Invalid Input provided");
     }
