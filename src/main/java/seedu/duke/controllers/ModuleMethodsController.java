@@ -16,6 +16,13 @@ import static seedu.duke.views.CommandLineView.displaySuccessfulAddMessage;
 import static seedu.duke.views.CommandLineView.showPrereqCEG;
 import static seedu.duke.views.CommandLineView.displaySuccessfulDeleteMessage;
 
+/**
+ * This class houses all the methods for the Module Planner controller.
+ * It provides functionality for computing the recommended pace, showing modules left, adding, deleting, completing modules,
+ * and getting required modules for a student.
+ *
+ * @author ryanlohyr
+ */
 public class ModuleMethodsController {
     /**
      * Computes and displays the recommended pace for completing remaining module credits until graduation.

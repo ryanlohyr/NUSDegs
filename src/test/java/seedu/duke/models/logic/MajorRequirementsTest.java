@@ -3,8 +3,6 @@ package seedu.duke.models.logic;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import seedu.duke.controllers.ModulePlannerController;
-import seedu.duke.models.schema.Major;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
