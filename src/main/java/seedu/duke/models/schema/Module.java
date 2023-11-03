@@ -27,7 +27,11 @@ public class Module {
         this.isCompleted = false;
         this.moduleDescription = (String) response.get("description");
         this.moduleName = (String) response.get("title");
-        this.moduleCredits = (int) response.get("moduleCredit");
+        try{
+            this.moduleCredits = (Integer) response.get("moduleCredit");
+        }catch (ClassCastException e){
+            this.moduleCredits = 4;
+        }
     }
 
     /**
