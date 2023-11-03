@@ -1,9 +1,10 @@
 package seedu.duke.models.schema;
 
+import seedu.duke.utils.errors.ClassError;
+
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
 
-import static seedu.duke.models.logic.DataRepository.getRequirements;
 
 /**
  * A class representing a list of modules and providing operations to manage them.
@@ -12,18 +13,6 @@ public class ModuleList {
 
     private ArrayList<String> mainModuleList;
     private int numberOfModules;
-
-    /**
-     * Constructs a ModuleList based on the module requirements for a specific major.
-     *
-     * @param major The major for which module requirements are needed.
-     */
-    public ModuleList(Major major) {
-        mainModuleList = getRequirements(major.toString());
-        for (String ignored : mainModuleList) {
-            numberOfModules += 1;
-        }
-    }
 
     /**
      * Constructs a ModuleList from a space-separated string of modules.
@@ -41,6 +30,7 @@ public class ModuleList {
                 numberOfModules += 1;
             }
         } catch (NullPointerException e) {
+            ClassError.defaultClassError("ModuleList could not be created");
             new ModuleList();
         }
     }
@@ -51,6 +41,10 @@ public class ModuleList {
     public ModuleList() {
         mainModuleList = new ArrayList<String>();
         numberOfModules = 0;
+    }
+
+    public ModuleList(ArrayList<String> array){
+        this.mainModuleList = array;
     }
 
     public void addModule (String module) {

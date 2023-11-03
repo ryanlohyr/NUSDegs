@@ -2,7 +2,6 @@ package seedu.duke.views;
 
 
 import seedu.duke.models.schema.CommandManager;
-import seedu.duke.models.schema.Major;
 
 import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
 
@@ -36,7 +35,7 @@ public class CommandLineView {
 
 
 
-    public static void handleMajorMessage(int userInputLength, Major major) {
+    public static void handleMajorMessage(int userInputLength, String major) {
         assert (userInputLength == 0 || userInputLength == 1);
         if (userInputLength == 0) {
             if (major == null) {
