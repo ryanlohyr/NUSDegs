@@ -1,9 +1,7 @@
 package seedu.duke.controllers;
 
-import seedu.duke.exceptions.FailPrereqException;
 import seedu.duke.models.logic.CompletePreqs;
 import seedu.duke.models.schema.ModuleList;
-import seedu.duke.models.schema.Major;
 import seedu.duke.models.schema.Schedule;
 import seedu.duke.models.schema.Student;
 import seedu.duke.models.schema.CommandManager;
@@ -13,31 +11,28 @@ import seedu.duke.views.CommandLineView;
 import seedu.duke.utils.Parser;
 import seedu.duke.utils.errors.UserError;
 
-import java.io.InvalidObjectException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
-
-import static seedu.duke.controllers.ModuleMethodsController.computePace;
 import static seedu.duke.controllers.ModuleMethodsController.showModulesLeft;
+import static seedu.duke.controllers.ModuleMethodsController.computePace;
+import static seedu.duke.controllers.ModuleMethodsController.getRequiredModulesForStudent;
+import static seedu.duke.controllers.ModuleMethodsController.completeModule;
+import static seedu.duke.controllers.ModuleMethodsController.deleteModule;
+import static seedu.duke.controllers.ModuleMethodsController.addModule;
 import static seedu.duke.controllers.ModuleServiceController.determinePrereq;
 import static seedu.duke.models.logic.ScheduleGenerator.generateRecommendedSchedule;
 import static seedu.duke.utils.Parser.parseArguments;
 import static seedu.duke.utils.Parser.parseCommand;
 import static seedu.duke.controllers.ModuleServiceController.checkMajorInput;
 import static seedu.duke.controllers.ModuleServiceController.chooseToAddToSchedule;
-import static seedu.duke.controllers.ModuleServiceController.getRequiredModules;
-import static seedu.duke.views.CommandLineView.displayMessage;
 import static seedu.duke.views.CommandLineView.displayWelcome;
 import static seedu.duke.views.CommandLineView.displayReady;
 import static seedu.duke.views.CommandLineView.displayGoodbye;
 import static seedu.duke.views.CommandLineView.displayGetMajor;
 import static seedu.duke.views.CommandLineView.displayGetYear;
 import static seedu.duke.views.CommandLineView.handleMajorMessage;
-import static seedu.duke.views.CommandLineView.displaySuccessfulAddMessage;
-import static seedu.duke.views.CommandLineView.showPrereqCEG;
-import static seedu.duke.views.CommandLineView.displaySuccessfulDeleteMessage;
 import static seedu.duke.views.CommandLineView.printListOfCommands;
 
 
@@ -173,7 +168,7 @@ public class ModulePlannerController {
         }
         case UserCommands.SET_MAJOR_COMMAND: {
             if (arguments.length == 1) {
-                Major major = Major.valueOf(arguments[0].toUpperCase());
+                String major = arguments[0].toUpperCase();
                 student.setMajor(major);
                 modulesMajor = new ModuleList(student.getMajor());
             }
@@ -183,27 +178,12 @@ public class ModulePlannerController {
         case UserCommands.ADD_MODULE_COMMAND: {
             String module = arguments[0].toUpperCase();
             int targetSem = Integer.parseInt(arguments[1]);
-            try {
-                student.addModule(module, targetSem);
-                displaySuccessfulAddMessage();
-                student.printSchedule();
-            } catch (InvalidObjectException | IllegalArgumentException e) {
-                displayMessage(e.getMessage());
-            } catch (FailPrereqException f) {
-                showPrereqCEG(module);
-                displayMessage(f.getMessage());
-            }
+            addModule(module, targetSem, student);
             break;
         }
         case UserCommands.DELETE_MODULE_COMMAND: {
             String module = arguments[0].toUpperCase();
-            try {
-                student.deleteModule(module);
-                displaySuccessfulDeleteMessage();
-                student.printSchedule();
-            } catch (IllegalArgumentException | FailPrereqException e) {
-                displayMessage(e.getMessage());
-            }
+            deleteModule(module,student);
             break;
         }
         case UserCommands.VIEW_SCHEDULE_COMMAND: {
@@ -212,26 +192,11 @@ public class ModulePlannerController {
         }
         case UserCommands.COMPLETE_MODULE_COMMAND: {
             //to add to user completed module
-            if (modulesMajor != null) {
-                if (addModulePreqs.checkModInput(arguments, modulesMajor)) {
-                    String moduleCompleted = arguments[0].toUpperCase();
-                    addModulePreqs.getUnlockedMods(moduleCompleted);
-                    addModulePreqs.printUnlockedMods(moduleCompleted);
-                    modulesTaken.addModule(moduleCompleted);
-                    break;
-                }
-            } else {
-                UserError.emptyMajor();
-            }
+            completeModule(arguments, modulesMajor, modulesTaken, addModulePreqs);
             break;
         }
         case UserCommands.REQUIRED_MODULES_COMMAND: {
-            if (modulesMajor != null) {
-                getRequiredModules(student.getMajor());
-            } else {
-                UserError.emptyMajor();
-                ;
-            }
+            getRequiredModulesForStudent(student.getMajor());
             break;
         }
         case UserCommands.INFO_COMMAND: {

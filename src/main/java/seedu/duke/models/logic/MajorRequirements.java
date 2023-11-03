@@ -1,26 +1,16 @@
 package seedu.duke.models.logic;
 
-import seedu.duke.models.schema.Major;
 import seedu.duke.views.CommandLineView;
 
 
 public class MajorRequirements {
-    private CommandLineView view;
-    private Major major;
 
-
-    public MajorRequirements(Major major) {
-        this.major = major;
-        view = new CommandLineView();
-    }
-
-
-    public void printRequiredModules(Major major) {
-        if (major != Major.valueOf("CEG")) {
-            view.displayMessage("Sorry this major has not be included in our app yet.");
+    public static void printRequiredModules(String major) {
+        if (!major.equals("CEG")) {
+            CommandLineView.displayMessage("Sorry this major has not be included in our app yet.");
             return;
         }
-        view.displayMessage(
+        CommandLineView.displayMessage(
                 "#===========================================================================================#\n" +
                 "║\tModular Requirements for CEG                                                \tUnits\t║\n" +
                 "#===========================================================================================#\n" +

@@ -30,8 +30,7 @@ class MajorRequirementsTest {
 
     @Test
     void printRequiredModules_validMajor_expectRequiredModulesShown() {
-        ModulePlannerController controller = new ModulePlannerController();
-        getRequiredModules(Major.valueOf("CEG"));
+        getRequiredModules("CEG");
         // Capture the printed output
         String printedOutput = outputStream.toString();
 
