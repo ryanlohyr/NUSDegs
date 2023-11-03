@@ -25,7 +25,7 @@ public class Schedule extends ModuleList {
      * @param modulesPerSem An array indicating the distribution of modules across semesters.
      */
     public Schedule(String modules, int[] modulesPerSem) {
-        super(modules);
+        //super(modules);
         this.modulesPerSem = modulesPerSem;
     }
 
