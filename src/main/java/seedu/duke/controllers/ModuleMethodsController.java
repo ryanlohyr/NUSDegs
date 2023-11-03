@@ -18,7 +18,8 @@ import static seedu.duke.views.CommandLineView.displaySuccessfulDeleteMessage;
 
 /**
  * This class houses all the methods for the Module Planner controller.
- * It provides functionality for computing the recommended pace, showing modules left, adding, deleting, completing modules,
+ * It provides functionality for computing the recommended pace, 
+ * showing modules left, adding, deleting, completing modules,
  * and getting required modules for a student.
  *
  * @author ryanlohyr
