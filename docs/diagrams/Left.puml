@@ -1,0 +1,49 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor Student
+
+participant "controller:ModulePlannerController" as A #white
+participant "student:Student" as S #white
+participant "modulesMajor:ModuleList" as M #white
+participant "modulesTaken:ModuleList" as T #white
+participant "modulesLeft:ModuleList" as L #white
+
+
+Student -> A: Execute 'Left' Command
+
+A -> S: getModulesMajor()
+activate S
+S --> A: Return modulesMajor:ModuleList
+deactivate S
+
+A -> S: getModulesTaken()
+activate S
+S --> A: Return modulesTaken:ModuleList
+deactivate S
+
+A -> M: modulesMajor.showModulesDiff(modulesTaken)
+activate M
+
+M -> T: getMainModuleList()
+activate T
+T --> M: Return Modules Taken
+deactivate T
+
+
+create L
+M -> L: ModuleList()
+activate L
+L --> M: Return Modules Left
+destroy L
+
+'M -> A: Execute 'Left' Command
+'Bob --> controller: Authentication Response
+A <-- M: Display Modules Left
+deactivate M
+
+
+Student <-- A: Display Modules Left
+@enduml
