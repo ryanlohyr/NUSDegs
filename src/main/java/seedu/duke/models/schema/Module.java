@@ -22,6 +22,7 @@ public class Module {
         //add wtv info u want...
         JSONObject response = getFullModuleInfo(moduleCode);
         assert response != null: "Response from NUSMods API is null";
+        assert !response.isEmpty(): "Response Object is empty";
         this.moduleCode = moduleCode;
         this.isCompleted = false;
         this.moduleDescription = (String) response.get("description");
