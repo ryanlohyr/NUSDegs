@@ -15,13 +15,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
+
+import static seedu.duke.controllers.ModuleMethodsController.determinePrereq;
 import static seedu.duke.controllers.ModuleMethodsController.showModulesLeft;
 import static seedu.duke.controllers.ModuleMethodsController.computePace;
 import static seedu.duke.controllers.ModuleMethodsController.getRequiredModulesForStudent;
 import static seedu.duke.controllers.ModuleMethodsController.completeModule;
 import static seedu.duke.controllers.ModuleMethodsController.deleteModule;
 import static seedu.duke.controllers.ModuleMethodsController.addModule;
-import static seedu.duke.controllers.ModuleServiceController.determinePrereq;
 import static seedu.duke.models.logic.ScheduleGenerator.generateRecommendedSchedule;
 import static seedu.duke.utils.Parser.parseArguments;
 import static seedu.duke.utils.Parser.parseCommand;
@@ -159,7 +160,7 @@ public class ModulePlannerController {
         }
         case UserCommands.PREREQUISITE_COMMAND: {
             String module = arguments[0];
-            determinePrereq(module.toUpperCase(), student.getMajor().toString()); //to convert "CEG" to dynamic course
+            determinePrereq(module.toUpperCase(), student.getMajor()); //to convert "CEG" to dynamic course
             break;
         }
         case UserCommands.RECOMMEND_COMMAND: {

@@ -10,6 +10,10 @@ import seedu.duke.utils.errors.UserError;
 
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
+import java.util.Objects;
+
+import static seedu.duke.models.logic.Api.doesModuleExist;
+import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
 import static seedu.duke.models.logic.MajorRequirements.printRequiredModules;
 import static seedu.duke.views.CommandLineView.displayMessage;
 import static seedu.duke.views.CommandLineView.displaySuccessfulAddMessage;
@@ -18,10 +22,12 @@ import static seedu.duke.views.CommandLineView.displaySuccessfulDeleteMessage;
 
 /**
  * This class houses all the methods for the Module Planner controller.
- * It provides functionality for computing the recommended pace, showing modules left, adding, deleting, completing modules,
+ * It provides functionality for computing the recommended pace, showing modules left,
+ * adding, deleting, completing modules,
  * and getting required modules for a student.
  *
  * @author ryanlohyr
+ *
  */
 public class ModuleMethodsController {
     /**
@@ -117,5 +123,19 @@ public class ModuleMethodsController {
     public static void getRequiredModulesForStudent(String major) {
         printRequiredModules(major);
     }
+
+    public static void determinePrereq(String moduleCode, String major) {
+        boolean exist = doesModuleExist(moduleCode);
+
+        if (!exist) {
+            return;
+        }
+
+        ArrayList<String> prereq = getModulePrereqBasedOnCourse(moduleCode, major);
+        displayMessage(Objects.requireNonNullElseGet(prereq, () -> "Module " + moduleCode +
+                " has no prerequisites."));
+    }
+
+
 
 }
