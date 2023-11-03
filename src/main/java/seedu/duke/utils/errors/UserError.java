@@ -13,6 +13,11 @@ public class UserError {
         System.out.println("Please select a major from this list: " + availableMajors);
     }
 
+    public static void invalidModule(String moduleCode){
+        String response = String.format("Sorry, Module %s does not exist",moduleCode);
+        System.out.println(response);
+    }
+
     public static void displayInvalidInputCommand(String command){
         String response = String.format("Invalid command %s. Type help to see the available commands",command);
         System.out.println(response);

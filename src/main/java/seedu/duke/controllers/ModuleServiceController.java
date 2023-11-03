@@ -1,16 +1,12 @@
 package seedu.duke.controllers;
 
-import org.json.simple.JSONObject;
 import seedu.duke.models.logic.MajorRequirements;
 import seedu.duke.models.schema.Major;
 import seedu.duke.models.schema.Student;
 
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Scanner;
 
-import static seedu.duke.models.logic.Api.getFullModuleInfo;
-import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
 import static seedu.duke.views.CommandLineView.displayMessage;
 
 public class ModuleServiceController {
@@ -32,16 +28,7 @@ public class ModuleServiceController {
         }
     }
 
-    public static void determinePrereq(String module, String major) {
-        JSONObject moduleInfo = getFullModuleInfo(module);
-        if (moduleInfo == null) {
-            return;
-        }
 
-        ArrayList<String> prereq = getModulePrereqBasedOnCourse(module, major);
-        displayMessage(Objects.requireNonNullElseGet(prereq, () -> "Module " + module +
-                " has no prerequisites."));
-    }
     /**
      * Prompts the user to choose whether to add a list of modules to their draft schedule.
      * Displays the list of modules and asks for user input. Handles user input validation.

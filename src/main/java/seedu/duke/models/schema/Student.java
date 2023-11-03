@@ -32,6 +32,8 @@ public class Student {
         this.name = name;
         this.major = major;
         this.schedule = schedule;
+        this.year = null;
+        this.modulesPlanned = new ArrayList<>();
     }
 
     /**
@@ -42,6 +44,7 @@ public class Student {
         this.major = null;
         this.schedule = new Schedule();
         this.year = null;
+        this.modulesPlanned = new ArrayList<>();
     }
 
     /**
