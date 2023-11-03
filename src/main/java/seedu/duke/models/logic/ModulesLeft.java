@@ -26,6 +26,7 @@ public class ModulesLeft {
      * @return An ArrayList of module codes representing the modules left after the subtraction.
      *
      */
+    /*
     public ArrayList<String> listModulesLeft() {
         ModuleList modulesLeft = new ModuleList();
         try {
@@ -36,4 +37,6 @@ public class ModulesLeft {
         }
         return null;
     }
+
+     */
 }

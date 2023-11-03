@@ -37,6 +37,10 @@ public class Module {
         this.isCompleted = true;
     }
 
+    public boolean getCompletionStatus() {
+        return isCompleted;
+    }
+
     /**
      * Gets the credits of this module.
      *

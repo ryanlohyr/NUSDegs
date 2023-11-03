@@ -29,12 +29,15 @@ public class CompletePreqs {
      *
      * @param list
      */
+    /*
     public void initializeCompletedMods(ModuleList list) {
         addToModulesCompleted.addAll(list.getMainModuleList());
         for (String mod : addToModulesCompleted) {
             processModuleForUnlockingWithoutPrint(mod);
         }
     }
+
+     */
 
     /**
      * Prints what mods have been unlocked after input

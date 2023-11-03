@@ -55,4 +55,8 @@ public class ErrorHandler {
         System.out.println("Major has not been provided yet.");
     }
 
+    public static void moduleDoesNotExist(String moduleCode) {
+        System.out.println(moduleCode + "does not exist in your schedule.");
+    }
+
 }

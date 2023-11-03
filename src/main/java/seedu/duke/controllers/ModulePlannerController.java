@@ -155,7 +155,11 @@ public class ModulePlannerController {
     private void processCommand(String command, String[] arguments, String userInput) {
         switch (command) {
         case UserCommands.LEFT_COMMAND: {
+            displayMessage(student.getModuleCodesLeft());
+            /*
             showModulesLeft(modulesMajor,modulesTaken);
+
+             */
             break;
         }
         case UserCommands.PACE_COMMAND: {
@@ -175,7 +179,7 @@ public class ModulePlannerController {
             if (arguments.length == 1) {
                 Major major = Major.valueOf(arguments[0].toUpperCase());
                 student.setMajor(major);
-                modulesMajor = new ModuleList(student.getMajor());
+                modulesMajor = new ModuleList(student.getMajor().toString());
             }
             handleMajorMessage(arguments.length, student.getMajor());
             break;
@@ -184,7 +188,7 @@ public class ModulePlannerController {
             String module = arguments[0].toUpperCase();
             int targetSem = Integer.parseInt(arguments[1]);
             try {
-                student.addModule(module, targetSem);
+                student.addModuleSchedule(module, targetSem);
                 displaySuccessfulAddMessage();
                 student.printSchedule();
             } catch (InvalidObjectException | IllegalArgumentException e) {
@@ -198,7 +202,7 @@ public class ModulePlannerController {
         case UserCommands.DELETE_MODULE_COMMAND: {
             String module = arguments[0].toUpperCase();
             try {
-                student.deleteModule(module);
+                student.deleteModuleSchedule(module);
                 displaySuccessfulDeleteMessage();
                 student.printSchedule();
             } catch (IllegalArgumentException | FailPrereqException e) {
@@ -211,7 +215,10 @@ public class ModulePlannerController {
             break;
         }
         case UserCommands.COMPLETE_MODULE_COMMAND: {
+            String module = arguments[0].toUpperCase();
             //to add to user completed module
+            student.completeModuleSchedule(module);
+            /*
             if (modulesMajor != null) {
                 if (addModulePreqs.checkModInput(arguments, modulesMajor)) {
                     String moduleCompleted = arguments[0].toUpperCase();
@@ -223,6 +230,8 @@ public class ModulePlannerController {
             } else {
                 ErrorHandler.emptyMajor();
             }
+            */
+
             break;
         }
         case UserCommands.REQUIRED_MODULES_COMMAND: {
