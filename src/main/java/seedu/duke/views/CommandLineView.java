@@ -33,8 +33,6 @@ public class CommandLineView {
         System.out.println("What Year and Semester are you? Ex: Y1/S2 for year 1 semester 2");
     }
 
-
-
     public static void handleMajorMessage(int userInputLength, String major) {
         assert (userInputLength == 0 || userInputLength == 1);
         if (userInputLength == 0) {
@@ -76,10 +74,8 @@ public class CommandLineView {
         System.out.println(o);
     }
 
-
     public static void printNewline(){
         System.out.println();
     }
-
 
 }
