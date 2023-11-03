@@ -158,6 +158,13 @@ class ModuleMethodsControllerTest {
                 "Sem 6: \n" +
                 "Sem 7: \n" +
                 "Sem 8:";
+        printedOutput = printedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
+        expectedOutput = expectedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
+
         assertEquals(printedOutput, expectedOutput);
 
         assertTrue(doesModuleExist);
@@ -209,6 +216,12 @@ class ModuleMethodsControllerTest {
         String printedOutput = outputStream.toString().trim();
         String expectedOutput = "This module's prerequisites are [CS2040C]\n" +
                 "Unable to add module as prerequisites not satisfied for: CS2113";
+        printedOutput = printedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
+        expectedOutput = expectedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
         assertFalse(doesModuleExist);
         assertEquals(printedOutput, expectedOutput);
 
