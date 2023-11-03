@@ -191,6 +191,14 @@ class ModuleMethodsControllerTest {
         String printedOutput = outputStream.toString().trim();
         String expectedOutput = "Invalid Module Name\n" +
                 "Please select a valid module";
+
+        printedOutput = printedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
+        expectedOutput = expectedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
+
         assertEquals(printedOutput, expectedOutput);
         assertFalse(doesModuleExist);
 
