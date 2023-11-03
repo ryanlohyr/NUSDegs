@@ -23,14 +23,26 @@ public class ModuleList {
      */
 
     public ModuleList(String modules) {
+        mainModuleList = new ArrayList<Module>();
+        if (modules == null || modules.isEmpty()) {
+            System.out.println("empty modules");
+            return;
+        }
         try {
             String[] moduleArray = modules.split(" ");
             //ArrayList<String> moduleCodes = new ArrayList<String>();
 
             //numberOfModules = 0;
             for (String module : moduleArray) {
-                mainModuleList.add(module);
-                numberOfModules += 1;
+                try {
+                    mainModuleList.add(new Module(module));
+                    numberOfModules += 1;
+
+                } catch (NullPointerException e) {
+                    System.out.println("null pointer");
+                    //fail
+                }
+
             }
         } catch (NullPointerException e) {
             new ModuleList();
@@ -45,9 +57,6 @@ public class ModuleList {
         numberOfModules = 0;
     }
 
-    public ModuleList(ArrayList<String> array){
-        this.mainModuleList = array;
-    }
 
     public void addModule (Module module) {
         mainModuleList.add(module);
@@ -56,16 +65,8 @@ public class ModuleList {
     public void deleteModule (Module module) {
         mainModuleList.remove(module);
     }
+/*
 
-    /**
-     * Checks if a module exists in the list.
-     *
-     * @author janelleenqi
-     * @param moduleA The module to check for existence.
-     * @return true if the module exists in the list; false otherwise.
-     * @throws InvalidObjectException If moduleA is null.
-     */
-    /*
     public boolean exists(Module moduleA) throws InvalidObjectException {
         if (moduleA == null || mainModuleList == null) {
             throw new InvalidObjectException("Null Inputs");
@@ -157,4 +158,22 @@ public class ModuleList {
     }
 
 
+    public ArrayList<String> getModuleCodes() {
+        ArrayList<String> moduleCodes = new ArrayList<>();
+        for (Module module: mainModuleList){
+            moduleCodes.add(module.getModuleCode());
+        }
+        return moduleCodes;
+    }
+
+    public int getIndex(String moduleCode) {
+        int i = 0;
+        for (Module module: mainModuleList){
+            if (moduleCode.equals(module.getModuleCode())) {
+                return i;
+            }
+            i++;
+        }
+        return -1;
+    }
 }

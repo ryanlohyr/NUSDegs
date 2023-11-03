@@ -60,7 +60,7 @@ public class Schedule extends ModuleList {
             }
 
             //Sub list as we only want modules before the current target semester
-            List<String> completedModulesArray = getMainModuleList().subList(0, (indexToAdd));
+            List<String> completedModulesArray = getModuleCodes().subList(0, (indexToAdd));
             ModuleList completedModules = new ModuleList(String.join(" ", completedModulesArray));
             if(!satisfiesAllPrereq(module,completedModules)){
                 currentSem += 1;
@@ -112,14 +112,14 @@ public class Schedule extends ModuleList {
         }
 
         //Sub list as we only want modules before the current target semester
-        List<String> completedModulesArray = getMainModuleList().subList(0, (indexToAdd));
+        List<String> completedModulesArray = getModulesCompleted().subList(0, (indexToAdd));
         ModuleList completedModules = new ModuleList(String.join(" ", completedModulesArray));
 
         try {
             if (satisfiesAllPrereq(module, completedModules)) {
                 //module initialisaiton will be here
 
-                this.getMainModuleList().add(indexToAdd, module);
+                this.getMainModuleList().add(indexToAdd, new Module(module));
                 modulesPerSem[targetSem - 1] += 1;
                 changeNumberOfModules(1);
                 return;
@@ -139,7 +139,10 @@ public class Schedule extends ModuleList {
      */
     public void deleteModule(String module) throws FailPrereqException, IllegalArgumentException {
 
-        int targetIndex = getMainModuleList().indexOf(module);
+        //int targetIndex = getMainModuleList().indexOf(module);
+        int targetIndex = getIndex(module);
+
+
 
         if (!doesModuleExist(module)) {
             throw new IllegalArgumentException("Please select a valid module");
@@ -161,13 +164,13 @@ public class Schedule extends ModuleList {
 
         int lastModuleIndex = getNumberOfModules() - 1;
 
-        List<String> completedModulesArray = getMainModuleList().subList(0, nextSemStartingIndex);
+        List<String> completedModulesArray = getModuleCodes().subList(0, nextSemStartingIndex);
         ModuleList completedModules = new ModuleList(String.join(" ", completedModulesArray));
         completedModules.getMainModuleList().remove(module);
 
         List<String> modulesAheadArray;
         try {
-            modulesAheadArray = getMainModuleList().subList(nextSemStartingIndex, lastModuleIndex + 1);
+            modulesAheadArray = getModuleCodes().subList(nextSemStartingIndex, lastModuleIndex + 1);
         } catch (IndexOutOfBoundsException | IllegalArgumentException e) {
             modulesAheadArray = new ArrayList<>();
         }
@@ -200,7 +203,7 @@ public class Schedule extends ModuleList {
         for (int i = 0; i < modulesPerSem.length; i++) {
             System.out.print("Sem " + (i + 1) + ": ");
             for (int j = 0; j < modulesPerSem[i]; j++) {
-                System.out.print(getMainModuleList().get(moduleCounter) + " ");
+                System.out.print(getMainModuleList().get(moduleCounter).getModuleCode() + " ");
                 moduleCounter++;
             }
             System.out.println();

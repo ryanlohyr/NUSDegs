@@ -1,7 +1,7 @@
 package seedu.duke.models.schema;
 
 import seedu.duke.exceptions.FailPrereqException;
-import seedu.duke.views.ErrorHandler;
+import seedu.duke.exceptions.MissingModuleException;
 
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public class Student {
         this.major = major;
         this.schedule = schedule;
         this.year = null;
-        this.modulesPlanned = new ArrayList<>();
+        this.modulesPlanned = new ModuleList();
     }
 
     /**
@@ -44,7 +44,7 @@ public class Student {
         this.major = null;
         this.schedule = new Schedule();
         this.year = null;
-        this.modulesPlanned = new ArrayList<>();
+        this.modulesPlanned = new ModuleList();
     }
 
     /**
@@ -137,14 +137,13 @@ public class Student {
      * @param moduleCode The code of the module to be deleted.
      * @throws FailPrereqException If deleting the module fails due to prerequisite dependencies.
      */
-    public void deleteModuleSchedule(String moduleCode) throws FailPrereqException {
+    public void deleteModuleSchedule(String moduleCode) throws FailPrereqException, MissingModuleException {
         this.schedule.deleteModule(moduleCode);
         Module module;
         try {
             module = modulesPlanned.getModule(moduleCode);
         } catch (InvalidObjectException e) {
-            ErrorHandler.moduleDoesNotExist(moduleCode);
-            return;
+            throw new MissingModuleException(moduleCode + " is not in Modules Planner.");
         }
         this.completedModuleCredits -= module.getModuleCredits();
         modulesPlanned.deleteModule(module);
@@ -189,5 +188,9 @@ public class Student {
             }
         }
         return moduleCodesLeft;
+    }
+
+    public ArrayList<String> getMajorModuleCodes() {
+        return majorModuleCodes;
     }
 }

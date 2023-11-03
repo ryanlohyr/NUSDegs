@@ -121,7 +121,7 @@ public class Api {
      * @param moduleCode The module code to retrieve information for.
      * @return A JSONObject containing module information.
      */
-    public static JSONObject getFullModuleInfo(String moduleCode) {
+    public static JSONObject getFullModuleInfo(String moduleCode) throws RuntimeException{
         try {
             String url = "https://api.nusmods.com/v2/2023-2024/modules/" + moduleCode + ".json";
 
@@ -136,7 +136,7 @@ public class Api {
             System.out.println("Invalid Module Name");
         } catch (IOException | InterruptedException e) {
             System.out.println("Invalid Module Name");
-            throw new RuntimeException(e);
+            throw new RuntimeException("java.net.ConnectException", e);
         } catch (URISyntaxException e) {
             //to be replaced with more robust error class in the future
             System.out.println("Sorry, there was an error with" +

@@ -1,6 +1,7 @@
 package seedu.duke.controllers;
 
 import seedu.duke.exceptions.FailPrereqException;
+import seedu.duke.exceptions.MissingModuleException;
 import seedu.duke.models.logic.CompletePreqs;
 import seedu.duke.models.logic.ModulesLeft;
 import seedu.duke.models.schema.ModuleList;
@@ -67,22 +68,14 @@ public class ModuleMethodsController {
                 + "Recommended Pace: " + creditsPerSem + "MCs per sem until graduation");
     }
 
-    public static void showModulesLeft(ModuleList modulesMajor, ModuleList modulesTaken) {
-        if (modulesMajor == null || modulesTaken == null) {
-            UserError.emptyMajor();
-            return;
-        }
-        ModulesLeft modulesLeft = new ModulesLeft(modulesMajor, modulesTaken);
-        ArrayList<String> modules = modulesLeft.listModulesLeft();
-        displayMessage("Modules left:");
-        for (String module : modules) {
-            displayMessage(module);
-        }
+    public static void showModulesLeft(ArrayList<String> moduleCodes) {
+        displayMessage(moduleCodes);
     }
+
 
     public static void addModule(String module, int targetSem, Student student) {
         try {
-            student.addModule(module, targetSem);
+            student.addModuleSchedule(module, targetSem);
             displaySuccessfulAddMessage();
             student.printSchedule();
         } catch (InvalidObjectException | IllegalArgumentException e) {
@@ -95,31 +88,32 @@ public class ModuleMethodsController {
 
     public static void deleteModule(String module, Student student) {
         try {
-            student.deleteModule(module);
+            student.deleteModuleSchedule(module);
             displaySuccessfulDeleteMessage();
             student.printSchedule();
-        } catch (IllegalArgumentException | FailPrereqException e) {
+        } catch (MissingModuleException | FailPrereqException e) {
             displayMessage(e.getMessage());
         }
     }
 
-    public static void completeModule(
+
+    public static boolean canCompleteModule(
             String[] arguments,
-            ModuleList modulesMajor,
-            ModuleList modulesTaken,
+            ArrayList<String> majorModuleCodes,
+            //ModuleList modulesTaken,
             CompletePreqs addModulePreqs) {
-        if(modulesMajor == null){
-            UserError.emptyMajor();
-            return;
-        }
-        if (addModulePreqs.checkModInput(arguments, modulesMajor)) {
+        if (addModulePreqs.checkModInput(arguments, majorModuleCodes)) {
             String moduleCompleted = arguments[0].toUpperCase();
             addModulePreqs.getUnlockedMods(moduleCompleted);
             addModulePreqs.printUnlockedMods(moduleCompleted);
-            modulesTaken.addModule(moduleCompleted);
+            //modulesTaken.addModule(moduleCompleted);
+            return true;
 
         }
+        return false;
     }
+
+
 
     public static void getRequiredModulesForStudent(String major) {
         printRequiredModules(major);

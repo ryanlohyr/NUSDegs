@@ -20,7 +20,7 @@ import static seedu.duke.controllers.ModuleMethodsController.determinePrereq;
 import static seedu.duke.controllers.ModuleMethodsController.showModulesLeft;
 import static seedu.duke.controllers.ModuleMethodsController.computePace;
 import static seedu.duke.controllers.ModuleMethodsController.getRequiredModulesForStudent;
-import static seedu.duke.controllers.ModuleMethodsController.completeModule;
+import static seedu.duke.controllers.ModuleMethodsController.canCompleteModule;
 import static seedu.duke.controllers.ModuleMethodsController.deleteModule;
 import static seedu.duke.controllers.ModuleMethodsController.addModule;
 import static seedu.duke.models.logic.ScheduleGenerator.generateRecommendedSchedule;
@@ -151,11 +151,7 @@ public class ModulePlannerController {
     private void processCommand(String command, String[] arguments, String userInput) {
         switch (command) {
         case UserCommands.LEFT_COMMAND: {
-            displayMessage(student.getModuleCodesLeft());
-            /*
-            showModulesLeft(modulesMajor,modulesTaken);
-
-             */
+            showModulesLeft(student.getModuleCodesLeft());
             break;
         }
         case UserCommands.PACE_COMMAND: {
@@ -183,29 +179,14 @@ public class ModulePlannerController {
         case UserCommands.ADD_MODULE_COMMAND: {
             String module = arguments[0].toUpperCase();
             int targetSem = Integer.parseInt(arguments[1]);
-            try {
-                student.addModuleSchedule(module, targetSem);
-                displaySuccessfulAddMessage();
-                student.printSchedule();
-            } catch (InvalidObjectException | IllegalArgumentException e) {
-                displayMessage(e.getMessage());
-            } catch (FailPrereqException f) {
-                showPrereqCEG(module);
-                displayMessage(f.getMessage());
-            }
-            //ryan's addModule(module, targetSem, student);
+
+            addModule(module, targetSem, student);
             break;
         }
         case UserCommands.DELETE_MODULE_COMMAND: {
             String module = arguments[0].toUpperCase();
-            try {
-                student.deleteModuleSchedule(module);
-                displaySuccessfulDeleteMessage();
-                student.printSchedule();
-            } catch (IllegalArgumentException | FailPrereqException e) {
-                displayMessage(e.getMessage());
-            }
-            //ryan's deleteModule(module,student);
+
+            deleteModule(module,student);
             break;
         }
         case UserCommands.VIEW_SCHEDULE_COMMAND: {
@@ -215,7 +196,7 @@ public class ModulePlannerController {
         case UserCommands.COMPLETE_MODULE_COMMAND: {
             String module = arguments[0].toUpperCase();
             //to add to user completed module
-            student.completeModuleSchedule(module);
+
             /*
             if (modulesMajor != null) {
                 if (addModulePreqs.checkModInput(arguments, modulesMajor)) {
@@ -230,7 +211,9 @@ public class ModulePlannerController {
             }
             */
 
-            //ryan's completeModule(arguments, modulesMajor, modulesTaken, addModulePreqs);
+            if (canCompleteModule(arguments, student.getMajorModuleCodes(), addModulePreqs)) {
+                student.completeModuleSchedule(module);
+            }
             break;
         }
         case UserCommands.REQUIRED_MODULES_COMMAND: {
