@@ -22,6 +22,8 @@ It's a comprehensive tool for efficient and successful degree completion.
 - Major
 - Add
 - Delete
+- recommend
+- prereq
 
 {Give detailed description of each feature}
 
