@@ -1,4 +1,4 @@
-package seedu.duke.controllers;
+package seedu.duke.models.schema;
 
 public interface UserCommands {
     String EXIT_COMMAND = "Bye";

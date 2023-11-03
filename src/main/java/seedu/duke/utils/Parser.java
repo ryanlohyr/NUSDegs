@@ -1,7 +1,7 @@
 package seedu.duke.utils;
 
 import seedu.duke.models.schema.Major;
-import seedu.duke.views.ErrorHandler;
+import seedu.duke.utils.errors.UserError;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -130,7 +130,7 @@ public class Parser {
                 return false;
             }
             if (!Objects.equals(arguments[0].toUpperCase(), "CEG")){
-                ErrorHandler.invalidInput();
+                UserError.invalidInput();
                 return false;
             }
             break;
@@ -140,34 +140,34 @@ public class Parser {
                 return true;
             }
             if (arguments.length > 1) {
-                ErrorHandler.invalidMajorFormat();
+                UserError.invalidMajorFormat();
                 return false;
             }
             try {
                 Major.valueOf(arguments[0].toUpperCase());
             } catch (IllegalArgumentException e) {
                 String availableMajors = Arrays.toString(Major.values());
-                ErrorHandler.invalidMajor(availableMajors);
+                UserError.invalidMajor(availableMajors);
                 return false;
             }
             break;
         }
         case "add": {
             if (arguments.length != 2) {
-                ErrorHandler.invalidAddFormat();
+                UserError.invalidAddFormat();
                 return false;
             }
             try {
                 Integer.parseInt(arguments[1]);
             } catch (NumberFormatException e) {
-                ErrorHandler.invalidSemester();
+                UserError.invalidSemester();
                 return false;
             }
             break;
         }
         case "delete": {
             if (arguments.length != 1) {
-                ErrorHandler.invalidDeleteFormat();
+                UserError.invalidDeleteFormat();
                 return false;
             }
             break;
@@ -180,12 +180,12 @@ public class Parser {
         }
         case "info": {
             if (arguments.length < 1) {
-                ErrorHandler.emptyInputforInfoCommand();
+                UserError.emptyInputforInfoCommand();
                 return false;
             }
             if (!arguments[0].equals("description") && !arguments[0].equals("workload")
                     && !arguments[0].equals("all") && !arguments[0].equals("requirements")) {
-                ErrorHandler.invalidCommandforInfoCommand();
+                UserError.invalidCommandforInfoCommand();
                 return false;
             }
 
