@@ -11,7 +11,6 @@ participant "modulesMajor:ModuleList" as M #white
 participant "modulesTaken:ModuleList" as T #white
 participant "modulesLeft:ModuleList" as L #white
 
-
 Student -> A: Execute 'Left' Command
 
 A -> S: getModulesMajor()
@@ -39,11 +38,8 @@ activate L
 L --> M: Return Modules Left
 destroy L
 
-'M -> A: Execute 'Left' Command
-'Bob --> controller: Authentication Response
 A <-- M: Display Modules Left
 deactivate M
-
 
 Student <-- A: Display Modules Left
 @enduml
