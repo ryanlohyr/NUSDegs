@@ -20,9 +20,9 @@
 
 # Implementation
 
-## [Proposed] Pacing and MC Calculation
+## Pacing and MC Calculation
 
-The proposed "Pacing and MC Calculation" mechanism is implemented to help users track their academic progress and remaining Modular Credits (MCs) required for graduation. This feature is facilitated by the PacingManager, which stores user data and provides functions for calculating the recommended pacing and remaining MCs. The following operations are available:
+The "Pacing and MC Calculation" mechanism is implemented to help users track their academic progress and remaining Modular Credits (MCs) required for graduation. This feature is facilitated by the PacingManager, which stores user data and provides functions for calculating the recommended pacing and remaining MCs. The following operations are available:
 
 - PacingManager#calculateRemainingMCs() — Calculates the remaining MCs required for graduation.
 - PacingManager#calculateRecommendedPace() — Recommends the pacing for upcoming semesters.
@@ -47,7 +47,7 @@ Command: `pace`
 Response:
 `You currently have 100 MCs left until graduation.`
 
-## [Proposed] Recommend Schedule Based on Course
+## Recommend Schedule Based on Course
 
 Based on the course, we will provide an recommended schedules that is sorted based on prerequisites. This feature is facilitated by the scheudle manager which stores information about the schedule and performs actions like add and remove from schedule.
 
@@ -84,12 +84,17 @@ Sem 6: CG2028 CS2113 CG2271 EE2211
 Sem 7: CG4002 CP3880 
 Sem 8: `
 
-## [Proposed] List Modules Left Feature
+## List Modules Left Feature
 
-The proposed left mechanism is implemented to help users keep tracks of modules left for their major. It is facilitated by `modulesLeft`, `modulesMajor` and `modulesTaken`. Additionally, it implements the following operations:
+The following sequence diagram shows how the Left Command function works.
+![img.png](diagrams/left_seq_diag.png)
 
-- `modulesLeft#getDifference(modulesMajor, modulesTaken)` – Keeps the list of modules in `modulesMajor` but not in `modulesTaken` in `modulesLeft`.
-- `modulesLeft#getMainModuleList()` – Returns the list of modules in `modulesLeft`.
+The left mechanism is implemented to help users keep tracks of modules left for their major. It is facilitated by `modulesLeft`, `modulesMajor` and `modulesTaken`. Additionally, it implements the following operations:
+
+- `student#getModulesMajor()` and `student#getModulesTaken()` – Returns moduleList modulesMajor and modulesTaken respectively.
+- `modulesMajor#showModulesDiff(modulesTaken)` – Display modules left.
+- `modulesTaken#getMainModuleList()` - Returns ArrayList<Module> of modulesTaken which is the ArrayList of modules taken.
+- `new ModuleList()` - Instantiate modulesLeft.
 
 This operation is exposed in the `ModulePlannerController` interface as `ModulePlannerController#listModulesLeft()`.
 
@@ -106,9 +111,9 @@ Command: `left`
 Response:
 `CS2030S CS2040S CS2100 CS2101 CS2106 CS2109S CS3230`
 
-## [Proposed] Input Major Feature
+## Input Major Feature
 
-The proposed input major feature is facilitated by `Student`. It tries to store the major specified in userInput txt 
+The input major feature is facilitated by `Student`. It tries to store the major specified in userInput txt 
 file such that it can be used across sessions. It will print different responses based on whether the storing of the 
 Major was successful. Additionally, it implements the following operation:
 
@@ -143,17 +148,17 @@ Command: `major`
 
 Response: `Current major is [current major in student object].`
 
-## [Proposed] Show Required Modules Feature
+## Required Command
 
-The proposed required mechanism is implemented to give users an overview of the modules they need to complete for 
-their major. It is facilitated by CEGRequirements.txt, CSRequirements.txt. Additionally, it implements the following 
-operations:
+The following sequence diagram shows how the Required Command function works.
+![img.png](diagrams/required_seq_diag.png)
 
-- `DataRepository#getFullRequirements(major)` – Returns the `filePath` for the requirements of a specified major.
-- `MajorRequirements#printTXTFile(filePath)` – Displays the overview of modules required.
-- `getLongestLineLength(f)` – Returns the `longestLineLength` of the file f.
-- `returnJustified(name, description, length)` – Returns a string with a justified name according to length, appended with its description.
-- `printSingleLine()`, `printDoubleLine()` – Displays lines for formatting
+The required command is implemented to give users an overview of the modules they need to complete for 
+their major. It is facilitated by major. Additionally, it implements the following operations:
+
+- `Student#getMajor()` – Returns the `major` of the student.
+- `ModuleServiceController#getRequiredModules(major)` and `ModuleServiceController#printRequiredModules(major)` – 
+Displays the modules required.
 
 ### Usage Examples
 
@@ -166,10 +171,10 @@ Command: `required`
 Response:
 Module requirements for major selected by user
 
-## [Proposed] Get information about modules (from the NUSMods API)
+## Get information about modules (from the NUSMods API)
 
 
-The proposed information feature returns information about the module at the user's request. It accepts 3 commands, 
+The information feature returns information about the module at the user's request. It accepts 3 commands, 
 'description', 'workload' and 'all'. The 'description' command returns a string description of the module, the workload
 command returns an array, and all displays the module title and module code for all modules present in the NUSMods 
 directory.
