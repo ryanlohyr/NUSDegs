@@ -3,11 +3,8 @@ package seedu.duke.controllers;
 import seedu.duke.exceptions.FailPrereqException;
 import seedu.duke.exceptions.MissingModuleException;
 import seedu.duke.models.logic.CompletePreqs;
-import seedu.duke.models.logic.ModulesLeft;
-import seedu.duke.models.schema.ModuleList;
 import seedu.duke.models.schema.Student;
 import seedu.duke.utils.Parser;
-import seedu.duke.utils.errors.UserError;
 
 import java.io.InvalidObjectException;
 import java.util.ArrayList;

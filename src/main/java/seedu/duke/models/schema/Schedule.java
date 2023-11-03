@@ -113,7 +113,12 @@ public class Schedule extends ModuleList {
 
         //Sub list as we only want modules before the current target semester
         List<String> completedModulesArray = getModulesCompleted().subList(0, (indexToAdd));
-        ModuleList completedModules = new ModuleList(String.join(" ", completedModulesArray));
+        ModuleList completedModules;
+        if (!completedModulesArray.isEmpty()) {
+            completedModules = new ModuleList(String.join(" ", completedModulesArray));
+        } else {
+            completedModules = new ModuleList();
+        }
 
         try {
             if (satisfiesAllPrereq(module, completedModules)) {

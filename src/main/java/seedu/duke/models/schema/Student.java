@@ -193,4 +193,8 @@ public class Student {
     public ArrayList<String> getMajorModuleCodes() {
         return majorModuleCodes;
     }
+
+    public ModuleList getModulesPlanned() {
+        return modulesPlanned;
+    }
 }
