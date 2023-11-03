@@ -130,6 +130,30 @@ Examples of usage:
 
 - Expected outcome: "Current major is CEG."
 
+### View recommended schedule based on course: recommend
+Based on the course, we will provide an recommended schedules that is sorted based on prerequisites.
+Format: `recommend MAJOR_CODE`
+The input is not case sensitive. E.g CEG or ceg is shown (Currently only works for CEG)
+
+Examples:
+
+Recommend ceg
+[CS1010, MA1511, MA1508E, … ,.... ,.... ,... EE4027] (modules required for the degree will be shown)
+
+### View module prerequisites: prereq 
+Based on the module selected, we will show what prerequisites the course has in a form of an array. Since NUS has the concept of preclusions, when prerequisites are shown, it is shown based on the degree of the current user, which is currently only computer science and computer engineering students.
+
+Format: `prepreq MODULE_CODE`
+The input is not case sensitive. E.g eg1311 or EG1311 is shown
+out
+Examples:
+`Command: prepreq eg1311` (assuming the user is from computer engineering)
+[CS1010, MA1511, MA1508E]
+
+
+Command: pace
+You currently have 100MCs left until graduation
+
 
 ### Add module to schedule: `add`
 Opens the user's personalized module schedule and adds the chosen module to the semester specified by the user.
