@@ -80,12 +80,8 @@ public class ModuleServiceController {
      * @param major The major for which to retrieve required modules.
      * @throws NullPointerException If `major` is null.
      */
-    public static void getRequiredModules(Major major) throws NullPointerException {
-        if (major == null) {
-            throw new NullPointerException();
-        }
-        MajorRequirements modulesRequired = new MajorRequirements(major);
-        modulesRequired.printRequiredModules(major);
+    public static void getRequiredModules(String major) throws NullPointerException {
+        MajorRequirements.printRequiredModules(major);
     }
 
 }

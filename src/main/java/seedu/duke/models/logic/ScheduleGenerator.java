@@ -10,7 +10,13 @@ import static seedu.duke.models.logic.DataRepository.getRequirements;
 
 public class ScheduleGenerator {
 
-    //Topological sort to create schedule
+    /**
+     * Generates a recommended schedule for a given course based on its requirements and prerequisites.
+     *
+     * @author ryanlohyr
+     * @param course The course for which to generate a recommended schedule.
+     * @return An ArrayList of strings representing the recommended schedule in order of completion.
+     */
     public static ArrayList<String> generateRecommendedSchedule(String course){
         ArrayList<String> requirements = getRequirements(course);
         HashMap<String, Integer> degreeMap = new HashMap<>();

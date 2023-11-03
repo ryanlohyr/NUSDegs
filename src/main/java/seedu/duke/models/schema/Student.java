@@ -14,7 +14,7 @@ import static seedu.duke.models.logic.DataRepository.getRequirements;
 public class Student {
 
     private String name;
-    private Major major;
+    private String major;
     private Schedule schedule;
     private String year;
     private int completedModuleCredits;
@@ -28,7 +28,7 @@ public class Student {
      * @param major    The major of the student.
      * @param schedule The module schedule of the student.
      */
-    public Student(String name, Major major, Schedule schedule) {
+    public Student(String name, String major, Schedule schedule) {
         this.name = name;
         this.major = major;
         this.schedule = schedule;
@@ -82,10 +82,7 @@ public class Student {
      * @throws NullPointerException If the major has not been set (i.e., it is `null`).
      */
 
-    public Major getMajor() throws NullPointerException {
-        if (major == null) {
-            throw new NullPointerException();
-        }
+    public String getMajor(){
         return major;
     }
 
@@ -96,7 +93,7 @@ public class Student {
      */
     public void setFirstMajor(String userInput){
         try {
-            setMajor(Major.valueOf(userInput.toUpperCase()));
+            setMajor(userInput.toUpperCase());
         } catch (IllegalArgumentException e) {
             System.out.println(e);
         }
@@ -174,7 +171,7 @@ public class Student {
      *
      * @param major The new major to set.
      */
-    public void setMajor(Major major) {
+    public void setMajor(String major) {
         this.major = major;
         majorModuleCodes = getRequirements(major.toString());
     }

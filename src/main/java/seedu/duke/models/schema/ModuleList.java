@@ -1,9 +1,10 @@
 package seedu.duke.models.schema;
 
+import seedu.duke.utils.errors.ClassError;
+
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
 
-import static seedu.duke.models.logic.DataRepository.getRequirements;
 
 /**
  * A class representing a list of modules and providing operations to manage them.
@@ -36,14 +37,16 @@ public class ModuleList {
         }
     }
 
-
-
     /**
      * Constructs an empty ModuleList.
      */
     public ModuleList() {
         mainModuleList = new ArrayList<Module>();
         numberOfModules = 0;
+    }
+
+    public ModuleList(ArrayList<String> array){
+        this.mainModuleList = array;
     }
 
     public void addModule (Module module) {

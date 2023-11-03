@@ -3,8 +3,6 @@ package seedu.duke.models.logic;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import seedu.duke.controllers.ModulePlannerController;
-import seedu.duke.models.schema.Major;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -30,8 +28,7 @@ class MajorRequirementsTest {
 
     @Test
     void printRequiredModules_validMajor_expectRequiredModulesShown() {
-        ModulePlannerController controller = new ModulePlannerController();
-        getRequiredModules(Major.valueOf("CEG"));
+        getRequiredModules("CEG");
         // Capture the printed output
         String printedOutput = outputStream.toString();
 
