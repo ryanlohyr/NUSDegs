@@ -23,17 +23,15 @@ import static seedu.duke.controllers.ModuleMethodsController.getRequiredModulesF
 import static seedu.duke.controllers.ModuleMethodsController.canCompleteModule;
 import static seedu.duke.controllers.ModuleMethodsController.deleteModule;
 import static seedu.duke.controllers.ModuleMethodsController.addModule;
-import static seedu.duke.models.logic.ScheduleGenerator.generateRecommendedSchedule;
+import static seedu.duke.controllers.ModuleMethodsController.recommendScheduleToStudent;
 import static seedu.duke.utils.Parser.parseArguments;
 import static seedu.duke.utils.Parser.parseCommand;
 import static seedu.duke.controllers.ModuleServiceController.checkMajorInput;
-import static seedu.duke.controllers.ModuleServiceController.chooseToAddToSchedule;
 import static seedu.duke.views.CommandLineView.displayWelcome;
 import static seedu.duke.views.CommandLineView.displayReady;
 import static seedu.duke.views.CommandLineView.displayGoodbye;
 import static seedu.duke.views.CommandLineView.displayGetMajor;
 import static seedu.duke.views.CommandLineView.displayGetYear;
-import static seedu.duke.views.CommandLineView.handleMajorMessage;
 import static seedu.duke.views.CommandLineView.printListOfCommands;
 
 
@@ -164,16 +162,7 @@ public class ModulePlannerController {
             break;
         }
         case UserCommands.RECOMMEND_COMMAND: {
-            chooseToAddToSchedule(student, generateRecommendedSchedule(arguments[0].toUpperCase()));
-            break;
-        }
-        case UserCommands.SET_MAJOR_COMMAND: {
-            if (arguments.length == 1) {
-                String major = arguments[0].toUpperCase();
-                student.setMajor(major);
-                modulesMajor = new ModuleList(student.getMajor().toString());
-            }
-            handleMajorMessage(arguments.length, student.getMajor());
+            recommendScheduleToStudent(student);
             break;
         }
         case UserCommands.ADD_MODULE_COMMAND: {

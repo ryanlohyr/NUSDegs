@@ -5,14 +5,17 @@ import seedu.duke.exceptions.MissingModuleException;
 import seedu.duke.models.logic.CompletePreqs;
 import seedu.duke.models.schema.Student;
 import seedu.duke.utils.Parser;
+import seedu.duke.views.CommandLineView;
 
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import static seedu.duke.controllers.ModuleServiceController.chooseToAddToSchedule;
 import static seedu.duke.models.logic.Api.doesModuleExist;
 import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
 import static seedu.duke.models.logic.MajorRequirements.printRequiredModules;
+import static seedu.duke.models.logic.ScheduleGenerator.generateRecommendedSchedule;
 import static seedu.duke.views.CommandLineView.displayMessage;
 import static seedu.duke.views.CommandLineView.displaySuccessfulAddMessage;
 import static seedu.duke.views.CommandLineView.showPrereqCEG;
@@ -81,6 +84,12 @@ public class ModuleMethodsController {
             showPrereqCEG(module);
             displayMessage(f.getMessage());
         }
+    }
+
+    public static void recommendScheduleToStudent(Student student){
+        CommandLineView.displayMessage("Hold on a sec! Generating your recommended schedule <3....");
+        ArrayList<String> recommendedSchedule = generateRecommendedSchedule(student.getMajor());
+        chooseToAddToSchedule(student, recommendedSchedule);
     }
 
     public static void deleteModule(String module, Student student) {

@@ -25,7 +25,12 @@ public class DataRepository {
             String fileName = String.format("src/main/java/seedu/duke/models/data/%sRequirementsModuleCodes", major);
             File f = new File(fileName);
             if (!f.exists()) {
-                String[] courseArray = {
+                // String[] CourseArray;
+
+                // String[] CSCourseArray = {
+
+                // };
+                String[] cegCourseArray = {
                     "CG1111A", "MA1511", "MA1512", "CS1010", "GESS1000",
                     "GEC1000", "GEN2000", "ES2631", "GEA1000", "DTK1234",
                     "EG1311", "IE2141", "EE2211", "EG2501", "CDE2000",
@@ -34,7 +39,7 @@ public class DataRepository {
                     "CG2271", "ST2334", "CS2040C", "CS2113", "EE2026", "EE4204"
                 };
 
-                return new ArrayList<>(Arrays.asList(courseArray));
+                return new ArrayList<>(Arrays.asList(cegCourseArray));
             }
             ArrayList<String> currentArray = new ArrayList<>();
             Scanner s = new Scanner(f);

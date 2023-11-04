@@ -25,7 +25,7 @@ public class Schedule extends ModuleList {
      * @param modulesPerSem An array indicating the distribution of modules across semesters.
      */
     public Schedule(String modules, int[] modulesPerSem) {
-        //super(modules);
+        super(modules);
         this.modulesPerSem = modulesPerSem;
     }
 
@@ -46,7 +46,7 @@ public class Schedule extends ModuleList {
         return MAXIMUM_SEMESTERS;
     }
 
-    public void addRecommendedScheduleListToSchedule(ArrayList<String> scheduleToAdd){
+    public void addRecommendedScheduleListToSchedule(ArrayList<String> scheduleToAdd) {
         final int modsToAddPerSem = 5;
         int currentIndexOfMod = 0;
         int currentSem = 1;
@@ -67,8 +67,8 @@ public class Schedule extends ModuleList {
                 currentIndexOfMod = 0;
             }
             try {
-                addModule(module, currentSem);
-            } catch (InvalidObjectException | IllegalArgumentException | FailPrereqException e) {
+                addModuleWithoutCheckingPrereq(module, currentSem);
+            } catch (InvalidObjectException | IllegalArgumentException e){
                 throw new RuntimeException(e);
             }
 
@@ -112,7 +112,7 @@ public class Schedule extends ModuleList {
         }
 
         //Sub list as we only want modules before the current target semester
-        List<String> completedModulesArray = getModulesCompleted().subList(0, (indexToAdd));
+        List<String> completedModulesArray = getModulesPlanned().subList(0, (indexToAdd));
         ModuleList completedModules;
         if (!completedModulesArray.isEmpty()) {
             completedModules = new ModuleList(String.join(" ", completedModulesArray));
@@ -122,7 +122,7 @@ public class Schedule extends ModuleList {
 
         try {
             if (satisfiesAllPrereq(module, completedModules)) {
-                //module initialisaiton will be here
+                //module initialization will be here
 
                 this.getMainModuleList().add(indexToAdd, new Module(module));
                 modulesPerSem[targetSem - 1] += 1;
@@ -197,6 +197,44 @@ public class Schedule extends ModuleList {
         modulesPerSem[targetSem - 1] -= 1;
         changeNumberOfModules(-1);
     }
+
+    /**
+     * Adds a module to the schedule for a specified semester.
+     *
+     * @param module The module code to be added.
+     * @param targetSem The target semester (an integer from 1 to 8) in which to add the module.
+     * @throws IllegalArgumentException If the provided semester is out of the valid range (1 to 8),
+     *     or if the module already exists in the schedule, or if the module is not valid.
+     * @throws InvalidObjectException If the module is null.
+     * @throws FailPrereqException If the prerequisites for the module are not satisfied
+     */
+    public void addModuleWithoutCheckingPrereq(String module, int targetSem)
+            throws
+            InvalidObjectException,
+            IllegalArgumentException {
+
+        if (targetSem < 1 || targetSem > MAXIMUM_SEMESTERS) {
+            throw new IllegalArgumentException("Please select an integer from 1 to 8 for semester selection");
+        }
+
+        try {
+            if (exists(module)) {
+                throw new IllegalArgumentException("Module already exists in the schedule");
+            }
+        } catch (InvalidObjectException e) {
+            throw new InvalidObjectException("Module cannot be null");
+        }
+
+        int indexToAdd = 0;
+        for (int i = 1; i < targetSem; i++) {
+            indexToAdd += this.modulesPerSem[i - 1];
+        }
+
+        this.getMainModuleList().add(indexToAdd, new Module(module));
+        modulesPerSem[targetSem - 1] += 1;
+        changeNumberOfModules(1);
+    }
+
 
     /**
      * Prints the student's course schedule, displaying modules organized by semesters.
