@@ -245,7 +245,7 @@ class ModuleMethodsControllerTest {
         String expectedOutput = "[GEA1000, MA1511, MA1512, DTK1234, GESS1000, CS1010, GEN2000, EG2501, EG1311"
                 + ", GEC1000, PF1101, CDE2000, IE2141, CG1111A, EG2401A, ES2631, ST2334, MA1508E, CS1231, CG2023, "
                 + "CG2111A, CS2040C, CG2027, EE2026, EE4204, EE2211, CG2271, CS2113, CG2028, CP3880, CG4002]";
-        assertEquals(expectedOutput,printedOutput);
+        assertEquals(expectedOutput, printedOutput);
     }
     //to add for cs
 
@@ -263,10 +263,17 @@ class ModuleMethodsControllerTest {
                 "Sem 6: CG2028 CS2113 CG2271 EE2211 \n" +
                 "Sem 7: CG4002 CP3880 \n" +
                 "Sem 8:";
-        assertEquals(expectedOutput,printedOutput);
+
+        printedOutput = printedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
+
+        expectedOutput = expectedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
+
+        assertEquals(expectedOutput, printedOutput);
     }
-
-
 
 
 }
