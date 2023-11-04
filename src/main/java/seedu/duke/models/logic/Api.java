@@ -15,6 +15,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import seedu.duke.exceptions.InvalidModuleException;
 import seedu.duke.models.schema.Major;
 import seedu.duke.models.schema.ModuleList;
 
@@ -135,6 +136,12 @@ public class Api {
      */
     public static JSONObject getFullModuleInfo(String moduleCode) throws RuntimeException {
         try {
+            // Regex pattern to match only letters and numbers
+            String regexPattern = "^[a-zA-Z0-9]+$";
+
+            if(!moduleCode.matches(regexPattern)){
+                throw new InvalidModuleException();
+            }
             String url = "https://api.nusmods.com/v2/2023-2024/modules/" + moduleCode + ".json";
 
             String responseBody = sendHttpRequestAndGetResponseBody(url);
@@ -155,6 +162,8 @@ public class Api {
                     " the provided URL: " + e.getMessage());
         } catch (NullPointerException e) {
             //System.out.println("Invalid Module Name");
+        }catch (InvalidModuleException e) {
+            System.out.println("Invalid Module Code :" + e.getMessage());
         }
         return null;
     }

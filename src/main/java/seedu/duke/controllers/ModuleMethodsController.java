@@ -133,7 +133,7 @@ public class ModuleMethodsController {
 
         ArrayList<String> prereq = getModulePrereqBasedOnCourse(moduleCode, major);
         if(prereq == null || prereq.isEmpty()){
-            displayMessage("Module " + moduleCode + " has no prerequisites");
+            displayMessage("Module " + moduleCode + " has no prerequisites.");
         }else{
             displayMessage(prereq);
         }

@@ -110,7 +110,7 @@ class ModuleMethodsControllerTest {
         String major = "CEG";
         determinePrereq(invalidModuleCode, major);
         String printedOutput = outputStream.toString().trim();
-        String expectedResponse = "Invalid Module Name";
+        String expectedResponse = "Invalid Module Code :Only alphabets and digits are allowed in module codes!";
         assertEquals(printedOutput, expectedResponse);
     }
 
