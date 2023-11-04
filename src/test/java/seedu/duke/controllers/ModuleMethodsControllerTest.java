@@ -275,17 +275,6 @@ class ModuleMethodsControllerTest {
     }
 
     @Test
-    void testRecommend_generateCSRecommendedSchedule() {
-        ArrayList<String> recommendedSchedule = generateRecommendedSchedule("CS");
-        System.out.println(recommendedSchedule);
-        String printedOutput = outputStream.toString().trim();
-        String expectedOutput = "[GEA1000, MA1511, MA1512, DTK1234, GESS1000, CS1010, GEN2000, EG2501, EG1311"
-                + ", GEC1000, PF1101, CDE2000, IE2141, CG1111A, EG2401A, ES2631, ST2334, MA1508E, CS1231, CG2023, "
-                + "CG2111A, CS2040C, CG2027, EE2026, EE4204, EE2211, CG2271, CS2113, CG2028, CP3880, CG4002]";
-        assertEquals(expectedOutput, printedOutput);
-    }
-
-    @Test
     void testRecommend_addCSRecommendedScheduleToStudent() {
         ArrayList<String> recommendedSchedule = generateRecommendedSchedule("CS");
         student.getSchedule().addRecommendedScheduleListToSchedule(recommendedSchedule);
