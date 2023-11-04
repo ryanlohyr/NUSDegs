@@ -23,7 +23,6 @@ public class ModuleList {
     public ModuleList(String modules) {
         mainModuleList = new ArrayList<Module>();
         if (modules == null || modules.isEmpty()) {
-            System.out.println("empty modules");
             return;
         }
         try {
@@ -101,6 +100,14 @@ public class ModuleList {
             }
         }
         throw new InvalidObjectException("Module does not exist.");
+    }
+
+    public ArrayList<String> getModulesPlanned(){
+        ArrayList<String> completedModuleCodes = new ArrayList<>();
+        for (Module module: mainModuleList){
+            completedModuleCodes.add(module.getModuleCode());
+        }
+        return completedModuleCodes;
     }
 
 

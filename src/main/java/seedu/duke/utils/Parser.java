@@ -1,11 +1,11 @@
 package seedu.duke.utils;
 
 import seedu.duke.models.schema.Major;
+import seedu.duke.models.schema.UserCommands;
 import seedu.duke.utils.errors.UserError;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
 
 public class Parser {
 
@@ -119,23 +119,20 @@ public class Parser {
      */
     public static boolean isValidInputForCommand(String command, String[] arguments) {
         switch (command) {
-        case "prereq": {
+        case UserCommands.PREREQUISITE_COMMAND: {
             if (arguments.length < 1) {
                 return false;
             }
             break;
         }
-        case "recommend": {
-            if (arguments.length < 1) {
-                return false;
-            }
-            if (!Objects.equals(arguments[0].toUpperCase(), "CEG")){
-                UserError.invalidInput();
+        case UserCommands.RECOMMEND_COMMAND: {
+            //arguments need to be empty
+            if (arguments.length > 0) {
                 return false;
             }
             break;
         }
-        case "major": {
+        case UserCommands.SET_MAJOR_COMMAND: {
             if (arguments.length == 0) {
                 return true;
             }
@@ -152,7 +149,7 @@ public class Parser {
             }
             break;
         }
-        case "add": {
+        case UserCommands.ADD_MODULE_COMMAND: {
             if (arguments.length != 2) {
                 UserError.invalidAddFormat();
                 return false;
@@ -165,20 +162,14 @@ public class Parser {
             }
             break;
         }
-        case "delete": {
+        case UserCommands.DELETE_MODULE_COMMAND: {
             if (arguments.length != 1) {
                 UserError.invalidDeleteFormat();
                 return false;
             }
             break;
         }
-        case "test2": {
-            if (arguments.length < 20) {
-                return false;
-            }
-            break;
-        }
-        case "info": {
+        case UserCommands.INFO_COMMAND: {
             if (arguments.length < 1) {
                 UserError.emptyInputforInfoCommand();
                 return false;

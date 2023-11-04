@@ -12,12 +12,15 @@ import seedu.duke.models.schema.Student;
 import java.io.ByteArrayOutputStream;
 import java.io.InvalidObjectException;
 import java.io.PrintStream;
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static seedu.duke.controllers.ModuleMethodsController.computePace;
 import static seedu.duke.controllers.ModuleMethodsController.determinePrereq;
+import static seedu.duke.models.logic.ScheduleGenerator.generateRecommendedSchedule;
 import static seedu.duke.views.CommandLineView.displayMessage;
 import static seedu.duke.views.CommandLineView.displaySuccessfulAddMessage;
 import static seedu.duke.views.CommandLineView.showPrereqCEG;
@@ -232,8 +235,38 @@ class ModuleMethodsControllerTest {
                 .replaceAll("\r", "\n");
         assertFalse(doesModuleExist);
         assertEquals(printedOutput, expectedOutput);
-
     }
+
+    @Test
+    void testRecommend_generateCEGRecommendedSchedule() {
+        ArrayList<String> recommendedSchedule = generateRecommendedSchedule(student.getMajor());
+        System.out.println(recommendedSchedule);
+        String printedOutput = outputStream.toString().trim();
+        String expectedOutput = "[GEA1000, MA1511, MA1512, DTK1234, GESS1000, CS1010, GEN2000, EG2501, EG1311"
+                + ", GEC1000, PF1101, CDE2000, IE2141, CG1111A, EG2401A, ES2631, ST2334, MA1508E, CS1231, CG2023, "
+                + "CG2111A, CS2040C, CG2027, EE2026, EE4204, EE2211, CG2271, CS2113, CG2028, CP3880, CG4002]";
+        assertEquals(expectedOutput,printedOutput);
+    }
+    //to add for cs
+
+    @Test
+    void testRecommend_addRecommendedScheduleToStudent() {
+        ArrayList<String> recommendedSchedule = generateRecommendedSchedule(student.getMajor());
+        student.getSchedule().addRecommendedScheduleListToSchedule(recommendedSchedule);
+        student.getSchedule().printMainModuleList();
+        String printedOutput = outputStream.toString().trim();
+        String expectedOutput = "Sem 1: GESS1000 DTK1234 MA1512 MA1511 GEA1000 \n" +
+                "Sem 2: GEC1000 EG1311 EG2501 GEN2000 CS1010 \n" +
+                "Sem 3: EG2401A CG1111A IE2141 CDE2000 PF1101 \n" +
+                "Sem 4: CG2023 CS1231 MA1508E ST2334 ES2631 \n" +
+                "Sem 5: EE4204 EE2026 CG2027 CS2040C CG2111A \n" +
+                "Sem 6: CG2028 CS2113 CG2271 EE2211 \n" +
+                "Sem 7: CG4002 CP3880 \n" +
+                "Sem 8:";
+        assertEquals(expectedOutput,printedOutput);
+    }
+
+
 
 
 }

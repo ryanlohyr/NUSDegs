@@ -49,7 +49,7 @@ public class ModuleServiceController {
         }
 
         if (userInput.equals("Y")) {
-            displayMessage("yes was chosen");
+            displayMessage("Hold on, this may take a while......");
             student.getSchedule().addRecommendedScheduleListToSchedule(scheduleToAdd);
             student.getSchedule().printMainModuleList();
 
