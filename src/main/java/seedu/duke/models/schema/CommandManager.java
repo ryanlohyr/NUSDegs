@@ -24,7 +24,6 @@ public class CommandManager {
         commandsAndDescription.put("pace", "Computes and displays your graduation pace.");
         commandsAndDescription.put("prereq", "Displays the prerequisites for a specific module.");
         commandsAndDescription.put("recommend", "Displays a recommended schedule based on a keyword.");
-        commandsAndDescription.put("major", "Updates or displays your current major.");
         commandsAndDescription.put("required", "Displays the full requirements for your major.");
         commandsAndDescription.put("complete", "Marks a module as complete on schedule planner.");
         commandsAndDescription.put("Bye", "Exits the program.");

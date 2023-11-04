@@ -185,21 +185,6 @@ public class ModulePlannerController {
         case UserCommands.COMPLETE_MODULE_COMMAND: {
             String module = arguments[0].toUpperCase();
             //to add to user completed module
-
-            /*
-            if (modulesMajor != null) {
-                if (addModulePreqs.checkModInput(arguments, modulesMajor)) {
-                    String moduleCompleted = arguments[0].toUpperCase();
-                    addModulePreqs.getUnlockedMods(moduleCompleted);
-                    addModulePreqs.printUnlockedMods(moduleCompleted);
-                    modulesTaken.addModule(moduleCompleted);
-                    break;
-                }
-            } else {
-                ErrorHandler.emptyMajor();
-            }
-            */
-
             if (canCompleteModule(arguments, student.getMajorModuleCodes(), addModulePreqs)) {
                 student.completeModuleSchedule(module);
             }

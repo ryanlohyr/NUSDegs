@@ -19,6 +19,7 @@ import static seedu.duke.views.CommandLineView.displayMessage;
 import static seedu.duke.views.CommandLineView.displaySuccessfulAddMessage;
 import static seedu.duke.views.CommandLineView.showPrereqCEG;
 import static seedu.duke.views.CommandLineView.displaySuccessfulDeleteMessage;
+import static seedu.duke.views.ModuleInfoView.printModuleStringArray;
 
 /**
  * This class houses all the methods for the Module Planner controller.
@@ -68,7 +69,7 @@ public class ModuleMethodsController {
     }
 
     public static void showModulesLeft(ArrayList<String> moduleCodes) {
-        displayMessage(moduleCodes);
+        printModuleStringArray(moduleCodes);
     }
 
 

@@ -22,8 +22,13 @@ public class CommandLineView {
 
     public static void displayReady(){
         System.out.println("Now you're all set to use NUSDegs to kick start your degree planning!");
+        displayHelp();
+    }
+
+    public static void displayHelp(){
         System.out.println("Type 'help' to see the available commands");
     }
+
 
     public static void displayGetMajor(String name){
         System.out.println("Welcome " + name + "! What major are you? (Only two available: CEG or CS)");

@@ -7,7 +7,7 @@ import seedu.duke.models.logic.Api;
 import java.util.Objects;
 
 import org.junit.jupiter.api.Test;
-import seedu.duke.views.ModuleInfo;
+import seedu.duke.views.ModuleInfoView;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -94,7 +94,7 @@ public class ApiTest {
     @Test
     void testPrintJsonArray() {
         JSONArray modulesToPrint = Api.search("Machine Learning", Api.listAllModules());
-        ModuleInfo.printJsonArray(modulesToPrint);
+        ModuleInfoView.printJsonArray(modulesToPrint);
     }
 
 

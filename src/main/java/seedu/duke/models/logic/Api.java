@@ -23,7 +23,7 @@ import static seedu.duke.models.logic.DataRepository.getRequirements;
 
 import seedu.duke.utils.Parser;
 import seedu.duke.utils.errors.UserError;
-import seedu.duke.views.ModuleInfo;
+import seedu.duke.views.ModuleInfoView;
 import seedu.duke.utils.UnknownCommandException;
 
 
@@ -521,7 +521,7 @@ public class Api {
         } else if (command.equals("all")) {
             JSONArray allModules = listAllModules();
             assert allModules != null;
-            ModuleInfo.printJsonArray(allModules);
+            ModuleInfoView.printJsonArray(allModules);
         } else {
             System.out.println("man");
             UserError.invalidCommandforInfoCommand();
@@ -539,7 +539,7 @@ public class Api {
             UserError.emptyArrayforSearchCommand();
             return;
         }
-        ModuleInfo.searchHeader();
-        ModuleInfo.printJsonArray(modulesToPrint);
+        ModuleInfoView.searchHeader();
+        ModuleInfoView.printJsonArray(modulesToPrint);
     }
 }
