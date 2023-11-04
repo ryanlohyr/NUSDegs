@@ -66,10 +66,10 @@ public class DataRepository {
         String[] courseArray;
 
         String[] csCourseArray = {
-             "CS1101S", "ES2660", "GEC1000", "GEA1000", "GESS1000",
-             "GEN2000", "IS1108", "CS1231S", "CS2030S", "CS2040S",
-             "CS2100", "CS2101", "CS2103T", "CS2106", "CS2109S",
-              "CS3230", "MA1521", "MA1522", "ST2334", "CP3880"
+            "CS1101S", "ES2660", "GEC1000", "GEA1000", "GESS1000",
+            "GEN2000", "IS1108", "CS1231S", "CS2030S", "CS2040S",
+            "CS2100", "CS2101", "CS2103T", "CS2106", "CS2109S",
+            "CS3230", "MA1521", "MA1522", "ST2334", "CP3880"
         };
         String[] cegCourseArray = {
             "CG1111A", "MA1511", "MA1512", "CS1010", "GESS1000",

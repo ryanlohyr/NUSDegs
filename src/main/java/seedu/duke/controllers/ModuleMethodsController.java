@@ -9,7 +9,6 @@ import seedu.duke.views.CommandLineView;
 
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
-import java.util.Objects;
 
 import static seedu.duke.controllers.ModuleServiceController.chooseToAddToSchedule;
 import static seedu.duke.models.logic.Api.doesModuleExist;
