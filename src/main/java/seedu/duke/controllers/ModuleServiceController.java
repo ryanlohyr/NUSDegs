@@ -18,7 +18,7 @@ public class ModuleServiceController {
      * @param userInput The user's major input.
      * @return True if the input is a valid major, false otherwise.
      */
-    public static boolean checkMajorInput(String userInput) {
+    public static boolean validateMajorInput(String userInput) {
         try {
             Major.valueOf(userInput.toUpperCase());
             return true;

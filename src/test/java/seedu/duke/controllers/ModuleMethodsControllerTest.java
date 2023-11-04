@@ -247,11 +247,10 @@ class ModuleMethodsControllerTest {
                 + "CG2111A, CS2040C, CG2027, EE2026, EE4204, EE2211, CG2271, CS2113, CG2028, CP3880, CG4002]";
         assertEquals(expectedOutput, printedOutput);
     }
-    //to add for cs
 
     @Test
-    void testRecommend_addRecommendedScheduleToStudent() {
-        ArrayList<String> recommendedSchedule = generateRecommendedSchedule(student.getMajor());
+    void testRecommend_addCEGRecommendedScheduleToStudent() {
+        ArrayList<String> recommendedSchedule = generateRecommendedSchedule("CEG");
         student.getSchedule().addRecommendedScheduleListToSchedule(recommendedSchedule);
         student.getSchedule().printMainModuleList();
         String printedOutput = outputStream.toString().trim();
@@ -262,6 +261,43 @@ class ModuleMethodsControllerTest {
                 "Sem 5: EE4204 EE2026 CG2027 CS2040C CG2111A \n" +
                 "Sem 6: CG2028 CS2113 CG2271 EE2211 \n" +
                 "Sem 7: CG4002 CP3880 \n" +
+                "Sem 8:";
+
+        printedOutput = printedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
+
+        expectedOutput = expectedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
+
+        assertEquals(expectedOutput, printedOutput);
+    }
+
+    @Test
+    void testRecommend_generateCSRecommendedSchedule() {
+        ArrayList<String> recommendedSchedule = generateRecommendedSchedule("CS");
+        System.out.println(recommendedSchedule);
+        String printedOutput = outputStream.toString().trim();
+        String expectedOutput = "[GEA1000, MA1511, MA1512, DTK1234, GESS1000, CS1010, GEN2000, EG2501, EG1311"
+                + ", GEC1000, PF1101, CDE2000, IE2141, CG1111A, EG2401A, ES2631, ST2334, MA1508E, CS1231, CG2023, "
+                + "CG2111A, CS2040C, CG2027, EE2026, EE4204, EE2211, CG2271, CS2113, CG2028, CP3880, CG4002]";
+        assertEquals(expectedOutput, printedOutput);
+    }
+
+    @Test
+    void testRecommend_addCSRecommendedScheduleToStudent() {
+        ArrayList<String> recommendedSchedule = generateRecommendedSchedule("CS");
+        student.getSchedule().addRecommendedScheduleListToSchedule(recommendedSchedule);
+        student.getSchedule().printMainModuleList();
+        String printedOutput = outputStream.toString().trim();
+        String expectedOutput = "Sem 1: CS1231S MA1522 IS1108 MA1521 GEA1000 \n" +
+                "Sem 2: GEN2000 GESS1000 CS1101S CS2101 ES2660 \n" +
+                "Sem 3: CS2100 CS2040S CS2030S ST2334 GEC1000 \n" +
+                "Sem 4: CS2103T \n" +
+                "Sem 5: CP3880 CS2106 CS3230 CS2109S \n" +
+                "Sem 6: \n" +
+                "Sem 7: \n" +
                 "Sem 8:";
 
         printedOutput = printedOutput
