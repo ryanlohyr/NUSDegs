@@ -3,6 +3,8 @@ package seedu.duke.models.schema;
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
 
+import static seedu.duke.views.ModuleInfoView.printModuleArray;
+
 
 /**
  * A class representing a list of modules and providing operations to manage them.
@@ -122,10 +124,7 @@ public class ModuleList {
     }
 
     public void printMainModuleList(){
-        for (Module module: mainModuleList){
-            System.out.print(module + " ");
-        }
-        System.out.println();
+        printModuleArray(mainModuleList);
     }
 
     /**

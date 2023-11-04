@@ -7,7 +7,9 @@ import seedu.duke.models.schema.Student;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static seedu.duke.views.CommandLineView.displayHelp;
 import static seedu.duke.views.CommandLineView.displayMessage;
+import static seedu.duke.views.ModuleInfoView.printModuleStringArray;
 
 public class ModuleServiceController {
 
@@ -38,8 +40,12 @@ public class ModuleServiceController {
     public static void chooseToAddToSchedule(Student student, ArrayList<String> scheduleToAdd) {
 
         Scanner in = new Scanner(System.in);
-        displayMessage(scheduleToAdd);
-        displayMessage("Do you want to add this to your draft schedule?, please input 'Y' or 'N'");
+        printModuleStringArray(scheduleToAdd);
+        displayMessage("Here you go!");
+        displayMessage("Taking the modules in this order will ensure a prerequisite worry free uni life!");
+        displayMessage("Do you want to add this to your draft schedule? " +
+                "(This will overwrite your current schedule!)");
+        displayMessage("Please input 'Y' or 'N'");
 
         String userInput = in.nextLine();
 
@@ -54,7 +60,7 @@ public class ModuleServiceController {
             student.getSchedule().printMainModuleList();
 
         } else {
-            displayMessage("No was chosen");
+            displayHelp();
         }
     }
     /**
