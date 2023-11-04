@@ -9,7 +9,6 @@ import seedu.duke.views.CommandLineView;
 
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
-import java.util.Objects;
 
 import static seedu.duke.controllers.ModuleServiceController.chooseToAddToSchedule;
 import static seedu.duke.models.logic.Api.doesModuleExist;
@@ -133,8 +132,11 @@ public class ModuleMethodsController {
         }
 
         ArrayList<String> prereq = getModulePrereqBasedOnCourse(moduleCode, major);
-        displayMessage(Objects.requireNonNullElseGet(prereq, () -> "Module " + moduleCode +
-                " has no prerequisites."));
+        if(prereq == null || prereq.isEmpty()){
+            displayMessage("Module " + moduleCode + " has no prerequisites.");
+        }else{
+            displayMessage(prereq);
+        }
     }
 
 

@@ -26,7 +26,7 @@ import static seedu.duke.controllers.ModuleMethodsController.addModule;
 import static seedu.duke.controllers.ModuleMethodsController.recommendScheduleToStudent;
 import static seedu.duke.utils.Parser.parseArguments;
 import static seedu.duke.utils.Parser.parseCommand;
-import static seedu.duke.controllers.ModuleServiceController.checkMajorInput;
+import static seedu.duke.controllers.ModuleServiceController.validateMajorInput;
 import static seedu.duke.views.CommandLineView.displayWelcome;
 import static seedu.duke.views.CommandLineView.displayReady;
 import static seedu.duke.views.CommandLineView.displayGoodbye;
@@ -103,7 +103,7 @@ public class ModulePlannerController {
         displayGetMajor(student.getName());
         do {
             userInput = in.nextLine().trim();
-        } while (!checkMajorInput(userInput));
+        } while (!validateMajorInput(userInput));
         student.setFirstMajor(userInput);
 
         // Get and set student's year
