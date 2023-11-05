@@ -9,6 +9,7 @@ import java.util.List;
 public class WeeklyScheduleView {
     private static final int columnWidth = 12;
     private static final String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+
     public static void print(String output) {
         System.out.print(output);
     }
@@ -30,12 +31,14 @@ public class WeeklyScheduleView {
     }
 
     public static void printToJustify(int number) {
-        print(String.format("%-"+number+ "s", ""));
+        print(String.format("%-" + number + "s", ""));
     }
 
     //ideally a function that can be called in Student
-    public static void printWeeklySchedule(ArrayList<ModuleWeekly> currentSemesterModules) {//ArrayList<String>[][] weeklySchedule) { // 8am to 8pm, Monday to Sunday
-        //convert current semester modules (ArrayList<Module>, ModuleList) to weeklySchedule, "2D array" of ArrayList of Event (List<List<ArrayList<Event>>> weeklySchedule)
+    public static void printWeeklySchedule(ArrayList<ModuleWeekly> currentSemesterModules) {
+        // 8am to 8pm, Monday to Sunday
+        // Convert current semester modules (ArrayList<Module>, ModuleList)
+        // to weeklySchedule, "2D array" of ArrayList of Event (List<List<ArrayList<Event>>>, ArrayList<String>[][])
         List<List<ArrayList<String>>> weeklyScheduleByTime = initialiseTwoDList();
 
         for (ModuleWeekly module : currentSemesterModules) {
@@ -44,7 +47,8 @@ public class WeeklyScheduleView {
                 int timePeriod = event.getStartTime() - 8; //8am index 0
                 int eventDurationLeft = event.getDuration();
                 while (eventDurationLeft > 0) {
-                    addToWeeklyScheduleByTime(timePeriod, day, module.getModuleCode() + " " + event.getEventType(), weeklyScheduleByTime);
+                    addToWeeklyScheduleByTime(timePeriod, day,
+                            module.getModuleCode() + " " + event.getEventType(), weeklyScheduleByTime);
                     //check if java pass by reference
 
                     timePeriod += 1;
@@ -73,7 +77,8 @@ public class WeeklyScheduleView {
         printlnVerticalLine();
     }
 
-    public static void printRow(List<ArrayList<String>> hourSchedule, int timePeriod, boolean last_line) { //header & 7 days
+    public static void printRow(List<ArrayList<String>> hourSchedule, int timePeriod, boolean lastLine) {
+        //header & 7 days
         boolean tasksPrinted = false;
 
         //save a copy
@@ -137,7 +142,7 @@ public class WeeklyScheduleView {
             }
             tasksPrinted = thisTaskPrinted;
         }
-        if (last_line) {
+        if (lastLine) {
             printlnHorizontalLine();
         }
 
@@ -145,23 +150,23 @@ public class WeeklyScheduleView {
 
     public static String getTime(int timePeriod) {
         switch (timePeriod) {
-            case 0:
-            case 1:
-            case 2:
-                return (timePeriod + 8) + "-" + (timePeriod + 9) + "am";
-            case 3:
-                return (timePeriod + 8) + "am-" + (timePeriod + 9) + "pm";
-            case 4:
-                return (timePeriod + 8) + "-" + (timePeriod - 3) + "pm";
-            case 5:
-            case 6:
-            case 7:
-            case 8:
-            case 9:
-            case 10:
-            case 11:
-                return (timePeriod - 4) + "-" + (timePeriod - 3) + "pm";
-            default:
+        case 0:
+        case 1:
+        case 2:
+            return (timePeriod + 8) + "-" + (timePeriod + 9) + "am";
+        case 3:
+            return (timePeriod + 8) + "am-" + (timePeriod + 9) + "pm";
+        case 4:
+            return (timePeriod + 8) + "-" + (timePeriod - 3) + "pm";
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+        case 9:
+        case 10:
+        case 11:
+            return (timePeriod - 4) + "-" + (timePeriod - 3) + "pm";
+        default:
                 //do nothing
         }
         return "";
@@ -173,8 +178,7 @@ public class WeeklyScheduleView {
                 list.add(null);
             }
             list.add(object);
-        }
-        else {
+        } else {
             list.set(index, object);
         }
     }
@@ -195,7 +199,7 @@ public class WeeklyScheduleView {
     }
 
     public static void addToWeeklyScheduleByTime(int indexParent, int indexChild, String eventName,
-                                           List<List<ArrayList<String>>> listOfList) {
+                                                 List<List<ArrayList<String>>> listOfList) {
         //"2D" array
         List<ArrayList<String>> parentList = listOfList.get(indexParent);
         ArrayList<String> childList = parentList.get(indexChild);
