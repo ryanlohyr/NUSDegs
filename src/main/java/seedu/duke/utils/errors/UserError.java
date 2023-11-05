@@ -64,4 +64,8 @@ public class UserError {
         System.out.println(moduleCode + "does not exist in your schedule.");
     }
 
+    public static void invalidModuleCode() {
+        System.out.println("oops! This module does not exist. Please try again!");
+    }
+
 }

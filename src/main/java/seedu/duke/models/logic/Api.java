@@ -2,8 +2,10 @@ package seedu.duke.models.logic;
 
 import java.io.IOException;
 import java.io.InvalidObjectException;
+import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -138,16 +140,17 @@ public class Api {
         try {
             // Regex pattern to match only letters and numbers
             String regexPattern = "^[a-zA-Z0-9]+$";
-
             if(!moduleCode.matches(regexPattern)){
                 throw new InvalidModuleException();
             }
             String url = "https://api.nusmods.com/v2/2023-2024/modules/" + moduleCode + ".json";
-
-            String responseBody = sendHttpRequestAndGetResponseBody(url);
-            if (responseBody.isEmpty()) {
-                return new JSONObject();
+            URL obj = new URL(url);
+            HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
+            int responseCode = connection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
+                throw new InvalidModuleException();
             }
+            String responseBody = sendHttpRequestAndGetResponseBody(url);
             JSONParser parser = new JSONParser();
             return (JSONObject) parser.parse(responseBody);
         } catch (ParseException e) {
@@ -188,16 +191,12 @@ public class Api {
      * @return The description of the module.
      *
      */
-    public static String getDescription(String moduleCode) {
+    public static String getDescription(String moduleCode) throws InvalidModuleException {
         JSONObject moduleInfo = getFullModuleInfo(moduleCode);
-        String error = " ";
-        try {
-            String descr = (String) moduleInfo.get("description");
-            return descr;
-        } catch (NullPointerException e) {
-            System.out.println(" ");
+        if (moduleInfo == null) {
+            throw new InvalidModuleException();
         }
-        return error;
+        return (String) moduleInfo.get("description");
     }
 
     /**
@@ -208,16 +207,16 @@ public class Api {
      * @return A JSONArray containing workload details.
      *
      */
-    public static JSONArray getWorkload(String moduleCode) {
+    public static JSONArray getWorkload(String moduleCode) throws InvalidModuleException {
         JSONObject moduleInfo = getFullModuleInfo(moduleCode);
-        JSONArray emptyArray = new JSONArray();
-        assert moduleInfo != null;
+        if (moduleInfo == null) {
+            throw new InvalidModuleException();
+        }
         try {
             return (JSONArray) moduleInfo.get("workload");
         } catch (NullPointerException e) {
-            System.out.println(" ");
+            throw new InvalidModuleException();
         }
-        return emptyArray;
     }
 
     /**
@@ -505,26 +504,25 @@ public class Api {
      *
      */
     public static void infoCommands(String command, String userInput) {
-        if (command.equals("description")) {
-            String moduleCode =
-                    userInput.substring(userInput.indexOf("description") + 11).trim().toUpperCase();
-            if (!Api.getDescription(moduleCode).isEmpty()) {
-                String description = Api.getDescription(moduleCode);
-                System.out.println(description);
+        try {
+            if (command.equals("description")) {
+                String moduleCode =
+                        userInput.substring(userInput.indexOf("description") + 11).trim().toUpperCase();
+                if (!Api.getDescription(moduleCode).isEmpty()) {
+                    String description = Api.getDescription(moduleCode);
+                    System.out.println(description);
+                }
+            } else if (command.equals("workload")) {
+                String moduleCode = userInput.substring(userInput.indexOf("workload") + 8).trim().toUpperCase();
+                if (!Api.getWorkload(moduleCode).isEmpty()) {
+                    JSONArray workload = Api.getWorkload(moduleCode);
+                    System.out.println(workload);
+                }
+            } else {
+                UserError.invalidCommandforInfoCommand();
             }
-        } else if (command.equals("workload")) {
-            String moduleCode = userInput.substring(userInput.indexOf("workload") + 8).trim().toUpperCase();
-            if (!Api.getWorkload(moduleCode).isEmpty()) {
-                JSONArray workload = Api.getWorkload(moduleCode);
-                System.out.println(workload);
-            }
-        } else if (command.equals("all")) {
-            JSONArray allModules = listAllModules();
-            assert allModules != null;
-            ModuleInfoView.printJsonArray(allModules);
-        } else {
-            System.out.println("man");
-            UserError.invalidCommandforInfoCommand();
+        } catch (InvalidModuleException e) {
+            UserError.invalidModuleCode();
         }
     }
 
