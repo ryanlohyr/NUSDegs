@@ -119,9 +119,6 @@ public class Student {
         }
     }
 
-    public void printSchedule(){
-        this.schedule.printMainModuleList();
-    }
 
     /**
      * Deletes a module with the specified module code. This method also updates the completed
@@ -188,5 +185,9 @@ public class Student {
 
     public ModuleList getModulesPlanned() {
         return schedule.getModulesPlanned();
+    }
+
+    public void printSchedule(){
+        this.schedule.printMainModuleList();
     }
 }
