@@ -1,7 +1,6 @@
 package seedu.duke.views;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class WeeklyScheduleView {
@@ -11,12 +10,20 @@ public class WeeklyScheduleView {
         System.out.print(output);
     }
 
+    public static void println(String output) {
+        System.out.print(output);
+    }
+
     public static void printHorizontalLine() {
-        System.out.println("--------------------------------------");
+        println("--------------------------------------------------------------------------------------------");
     }
 
     public static void printVerticalLine() {
         System.out.print("|");
+    }
+
+    public static void printlnVerticalLine() {
+        System.out.println("|");
     }
 
     public static void printToJustify(int number) {
@@ -24,12 +31,12 @@ public class WeeklyScheduleView {
     }
 
     //ideally a function that can be called in Student
-    public static void printWeeklySchedule(ArrayList<String>[][] weeklySchedule) {//8am-8pm
-        //weeklySchedule[][] is an Array of Array of Tasks
-        //Tasks is an ArrayList of Strings
+    public static void printWeeklySchedule(List<List<ArrayList<String>>> weeklySchedule) {//ArrayList<String>[][] weeklySchedule) {//8am-8pm
+        //weeklySchedule[][] should be an Array of Array of Tasks
+        //Tasks is an ArrayList of Task
         printDayHeader();
         for (int timePeriod = 0; timePeriod < 12; timePeriod++) { //8-9am index 0, 7-8pm index 11
-            printRow(weeklySchedule[timePeriod], timePeriod, timePeriod == 11);
+            printRow(weeklySchedule.get(timePeriod), timePeriod, timePeriod == 11);
         }
     }
 
@@ -46,16 +53,17 @@ public class WeeklyScheduleView {
         printVerticalLine();
     }
 
-    public static void printRow(ArrayList<String>[] hourSchedule, int timePeriod, boolean last_line) { //header & 7 days
+    public static void printRow(List<ArrayList<String>> hourSchedule, int timePeriod, boolean last_line) { //header & 7 days
         boolean tasksPrinted = false;
 
         //save a copy
-        List<String>[] weeklyTask = new List[8];
+        //List<String>[] weeklyTask = new List<String>[8];
+        List<ArrayList<String>> weeklyTask = new ArrayList<>();
         String header = getTime(timePeriod);
-        weeklyTask[0] = new ArrayList<String>(List.of(header)); //????
+        weeklyTask.set(0, new ArrayList<String>(List.of(header))); //????
         for (int i = 0; i < 7; i++) { //7 days
-            ArrayList<String> task = new ArrayList<String>(hourSchedule[i]);
-            weeklyTask[i + 1] = task;
+            ArrayList<String> task = new ArrayList<String>(hourSchedule.get(i));
+            weeklyTask.set(i + 1, task);
         }
 
         printHorizontalLine();
@@ -66,14 +74,14 @@ public class WeeklyScheduleView {
                 printVerticalLine();
                 //for (int t = 0; t < weeklyTask[i].size(); t++) { //print limited char
                 //weeklyTask[i] is an ArrayList<String> that contains tasks in that time period
-                if (weeklyTask[i].isEmpty()) {
+                if (weeklyTask.get(i).isEmpty()) {
                     printToJustify(columnWidth);
                 } else {
-                    String currentTask = weeklyTask[i].get(0); //get 1st task
+                    String currentTask = weeklyTask.get(i).get(0); //get 1st task
                     if (currentTask.length() < columnWidth) {
                         print(currentTask);
                         printToJustify(columnWidth - currentTask.length());
-                        weeklyTask[i].remove(0);
+                        weeklyTask.get(i).remove(0);
                     } else {
                         String[] words = currentTask.split(" ");
                         int columnWidthLeft = columnWidth;
@@ -90,20 +98,23 @@ public class WeeklyScheduleView {
                         //currentTask should be updated to start from index j
                         String startingWord = words[j];
                         int startingIndex = currentTask.indexOf(startingWord);
-                        weeklyTask[i].set(0, currentTask.substring(startingIndex)); //update currentTask
+                        weeklyTask.get(i).set(0, currentTask.substring(startingIndex)); //update currentTask
                     }
                 }
             }
-            printVerticalLine();
+            printlnVerticalLine();
 
             boolean thisTaskPrinted = true;
             for (int i = 0; i <= 7; i++) { //timePeriod + 7 days
-                if (!weeklyTask[i].isEmpty()) {
+                if (!weeklyTask.get(i).isEmpty()) {
                     thisTaskPrinted = false; //not finished
                     break;
                 }
             }
             tasksPrinted = thisTaskPrinted;
+        }
+        if (last_line) {
+            printHorizontalLine();
         }
 
     }
