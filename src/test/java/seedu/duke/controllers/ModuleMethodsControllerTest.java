@@ -29,7 +29,7 @@ class ModuleMethodsControllerTest {
     private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
 
-    private Student student;
+    private Student student = new Student();
 
     @BeforeEach
     public void setUpStreams() {
@@ -136,6 +136,7 @@ class ModuleMethodsControllerTest {
 
     @Test
     void testPrereq_addValidModuleToStudent() throws InvalidObjectException {
+
         String moduleCode = "EG1311";
         int targetSem = 1;
         boolean doesModuleExist = false;
@@ -144,7 +145,7 @@ class ModuleMethodsControllerTest {
             displaySuccessfulAddMessage();
             student.printSchedule();
             Schedule currentSchedule = student.getSchedule();
-            doesModuleExist = currentSchedule.exists(moduleCode);
+            doesModuleExist = currentSchedule.getModulesPlanned().exists(moduleCode);
         } catch (InvalidObjectException | IllegalArgumentException e) {
             displayMessage(e.getMessage());
         } catch (FailPrereqException f) {
@@ -184,7 +185,7 @@ class ModuleMethodsControllerTest {
             displaySuccessfulAddMessage();
             student.printSchedule();
             Schedule currentSchedule = student.getSchedule();
-            doesModuleExist = currentSchedule.exists(moduleCode);
+            doesModuleExist = currentSchedule.getModulesPlanned().exists(moduleCode);
         } catch (InvalidObjectException | IllegalArgumentException e) {
             displayMessage(e.getMessage());
         } catch (FailPrereqException f) {
@@ -217,7 +218,7 @@ class ModuleMethodsControllerTest {
             displaySuccessfulAddMessage();
             student.printSchedule();
             Schedule currentSchedule = student.getSchedule();
-            doesModuleExist = currentSchedule.exists(moduleCode);
+            doesModuleExist = currentSchedule.getModulesPlanned().exists(moduleCode);
         } catch (InvalidObjectException | IllegalArgumentException e) {
             displayMessage(e.getMessage());
         } catch (FailPrereqException f) {

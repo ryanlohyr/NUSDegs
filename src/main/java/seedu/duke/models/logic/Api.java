@@ -9,6 +9,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 import org.json.simple.JSONArray;
@@ -64,15 +65,8 @@ public class Api {
      * @return True if the module is exempted, false otherwise.
      */
     private static boolean isModuleException(String moduleCode) {
-        ArrayList<String> exemptedModules = new ArrayList<>();
-        exemptedModules.add("CS1231");
-        exemptedModules.add("CS1231S");
-        exemptedModules.add("MA1508E");
-        exemptedModules.add("EE4204");
-        exemptedModules.add("MA1511");
-        exemptedModules.add("MA1512");
-        exemptedModules.add("MA1521");
-        exemptedModules.add("MA1522");
+        ArrayList<String> exemptedModules = new ArrayList<>(List.of("CS1231", "CS1231S", "MA1508E", "EE4204",
+                "MA1511", "MA1512", "MA1521", "MA1522"));
 
         return exemptedModules.contains(moduleCode);
     }

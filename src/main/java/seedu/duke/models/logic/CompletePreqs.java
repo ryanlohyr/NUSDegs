@@ -18,6 +18,12 @@ public class CompletePreqs {
     // To track modules that are already unlocked
     private Set<String> unlockedModulesSet;
 
+    public CompletePreqs() {
+        modulesWithPreqs = new HashMap<>();
+        unlockedModulesSet = new HashSet<>();
+        addToModulesCompleted = new ArrayList<>();
+    }
+
     public CompletePreqs(HashMap<String, List<String>> inputMods) {
         modulesWithPreqs = new HashMap<>(inputMods);
         unlockedModulesSet = new HashSet<>();
