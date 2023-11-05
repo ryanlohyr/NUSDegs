@@ -1,6 +1,7 @@
 package seedu.duke.models.schema;
 
 import seedu.duke.exceptions.FailPrereqException;
+import seedu.duke.views.SemesterPlannerView;
 
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.List;
 
 import static seedu.duke.models.logic.Api.doesModuleExist;
 import static seedu.duke.models.logic.Api.satisfiesAllPrereq;
+import static seedu.duke.views.SemesterPlannerView.printSemesterPlanner;
 
 /**
  * The `Schedule` class represents a student's course schedule and extends the `ModuleList` class.
@@ -62,10 +64,12 @@ public class Schedule extends ModuleList {
             //Sub list as we only want modules before the current target semester
             List<String> completedModulesArray = getModuleCodes().subList(0, (indexToAdd));
             ModuleList completedModules = new ModuleList(String.join(" ", completedModulesArray));
-            if(!satisfiesAllPrereq(module,completedModules)){
+
+            if (!satisfiesAllPrereq(module, completedModules)){
                 currentSem += 1;
                 currentIndexOfMod = 0;
             }
+
             try {
                 addModuleWithoutCheckingPrereq(module, currentSem);
             } catch (InvalidObjectException | IllegalArgumentException e){
@@ -73,7 +77,7 @@ public class Schedule extends ModuleList {
             }
 
             currentIndexOfMod += 1;
-            if(currentIndexOfMod >= modsToAddPerSem){
+            if (currentIndexOfMod >= modsToAddPerSem){
                 currentIndexOfMod = 0;
                 currentSem += 1;
             }
@@ -111,22 +115,17 @@ public class Schedule extends ModuleList {
             indexToAdd += this.modulesPerSem[i - 1];
         }
 
+
         //Sub list as we only want modules before the current target semester
-        List<String> completedModulesArray = getModulesPlanned().subList(0, (indexToAdd));
-        ModuleList completedModules;
-        if (!completedModulesArray.isEmpty()) {
-            completedModules = new ModuleList(String.join(" ", completedModulesArray));
-        } else {
-            completedModules = new ModuleList();
-        }
+        List<String> plannedModulesArray = getModuleCodes().subList(0, (indexToAdd));
+        ModuleList plannedModules = new ModuleList(String.join(" ", plannedModulesArray));
 
         try {
-            if (satisfiesAllPrereq(module, completedModules)) {
+            if (satisfiesAllPrereq(module, plannedModules)) {
                 //module initialization will be here
 
-                this.getMainModuleList().add(indexToAdd, new Module(module));
+                this.addModule(indexToAdd, new Module(module));
                 modulesPerSem[targetSem - 1] += 1;
-                changeNumberOfModules(1);
                 return;
             }
         } catch (IllegalArgumentException e) {
@@ -143,11 +142,8 @@ public class Schedule extends ModuleList {
      * @throws IllegalArgumentException If the provided module code is not valid, the module is not in the schedule
      */
     public void deleteModule(String module) throws FailPrereqException, IllegalArgumentException {
-
         //int targetIndex = getMainModuleList().indexOf(module);
         int targetIndex = getIndex(module);
-
-
 
         if (!doesModuleExist(module)) {
             throw new IllegalArgumentException("Please select a valid module");
@@ -167,11 +163,11 @@ public class Schedule extends ModuleList {
 
         int nextSemStartingIndex = moduleCount;
 
-        int lastModuleIndex = getNumberOfModules() - 1;
+        int lastModuleIndex = getMainModuleList().size() - 1;
 
         List<String> completedModulesArray = getModuleCodes().subList(0, nextSemStartingIndex);
         ModuleList completedModules = new ModuleList(String.join(" ", completedModulesArray));
-        completedModules.getMainModuleList().remove(module);
+        completedModules.deleteModulebyCode(module);
 
         List<String> modulesAheadArray;
         try {
@@ -193,9 +189,8 @@ public class Schedule extends ModuleList {
             throw new IllegalArgumentException("Invalid Module in Schedule");
         }
 
-        getMainModuleList().remove(module);
+        this.deleteModulebyCode(module);
         modulesPerSem[targetSem - 1] -= 1;
-        changeNumberOfModules(-1);
     }
 
     /**
@@ -209,9 +204,7 @@ public class Schedule extends ModuleList {
      * @throws FailPrereqException If the prerequisites for the module are not satisfied
      */
     public void addModuleWithoutCheckingPrereq(String module, int targetSem)
-            throws
-            InvalidObjectException,
-            IllegalArgumentException {
+            throws InvalidObjectException, IllegalArgumentException {
 
         if (targetSem < 1 || targetSem > MAXIMUM_SEMESTERS) {
             throw new IllegalArgumentException("Please select an integer from 1 to 8 for semester selection");
@@ -230,9 +223,8 @@ public class Schedule extends ModuleList {
             indexToAdd += this.modulesPerSem[i - 1];
         }
 
-        this.getMainModuleList().add(indexToAdd, new Module(module));
+        this.addModule(indexToAdd, new Module(module));
         modulesPerSem[targetSem - 1] += 1;
-        changeNumberOfModules(1);
     }
 
 
@@ -242,14 +234,6 @@ public class Schedule extends ModuleList {
 
     @Override
     public void printMainModuleList() {
-        int moduleCounter = 0;
-        for (int i = 0; i < modulesPerSem.length; i++) {
-            System.out.print("Sem " + (i + 1) + ": ");
-            for (int j = 0; j < modulesPerSem[i]; j++) {
-                System.out.print(getMainModuleList().get(moduleCounter).getModuleCode() + " ");
-                moduleCounter++;
-            }
-            System.out.println();
-        }
+        printSemesterPlanner(modulesPerSem, getMainModuleList());
     }
 }
