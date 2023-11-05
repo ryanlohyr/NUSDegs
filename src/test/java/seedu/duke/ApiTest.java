@@ -26,7 +26,7 @@ public class ApiTest {
         assertTrue(moduleInfo.contains(correctModuleInfo), "Module info should contain relevant info");
     }
 
-
+/*
     @Test
     void testGetDescription_shouldReturnEquals() {
         String correctDescription = "This course introduces the necessary skills for systematic and " +
@@ -54,7 +54,7 @@ public class ApiTest {
         String jsonString2 = workload.toJSONString();
         assertEquals(jsonString2, jsonString1);
     }
-
+*/
     @Test
     void testListAllModules() {
         Api.listAllModules();

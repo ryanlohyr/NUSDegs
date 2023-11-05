@@ -140,7 +140,7 @@ public class Api {
         try {
             // Regex pattern to match only letters and numbers
             String regexPattern = "^[a-zA-Z0-9]+$";
-            if(!moduleCode.matches(regexPattern)){
+            if (!moduleCode.matches(regexPattern)){
                 throw new InvalidModuleException();
             }
             String url = "https://api.nusmods.com/v2/2023-2024/modules/" + moduleCode + ".json";
@@ -165,8 +165,8 @@ public class Api {
                     " the provided URL: " + e.getMessage());
         } catch (NullPointerException e) {
             //System.out.println("Invalid Module Name");
-        }catch (InvalidModuleException e) {
-            System.out.println("Invalid Module Code :" + e.getMessage());
+        } catch (InvalidModuleException e) {
+          //  System.out.println("Invalid Module Code :" + e.getMessage());
         }
         return null;
     }
@@ -500,7 +500,6 @@ public class Api {
      * @author rohitcube
      * @param command   The command provided by the user.
      * @param userInput The user input string containing the command and module code (if applicable).
-     * @throws UnknownCommandException If an unknown command is provided.
      *
      */
     public static void infoCommands(String command, String userInput) {

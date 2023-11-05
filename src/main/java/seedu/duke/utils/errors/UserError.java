@@ -65,7 +65,7 @@ public class UserError {
     }
 
     public static void invalidModuleCode() {
-        System.out.println("oops! This module does not exist. Please try again!");
+        System.out.println("Invalid Module Code. Please try again!");
     }
 
 }
