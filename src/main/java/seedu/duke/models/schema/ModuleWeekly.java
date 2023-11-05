@@ -2,9 +2,9 @@ package seedu.duke.models.schema;
 
 
 public class ModuleWeekly extends Module {
-    private String lectureTime;
-    private String tutorialTime;
-    private String labTime;
+    private int lectureTime;
+    private int tutorialTime;
+    private int labTime;
     private int lectureDuration;
     private int labDuration;
     private int tutorialDuration;
@@ -13,8 +13,9 @@ public class ModuleWeekly extends Module {
         super(moduleCode); // Call the constructor of the superclass (Module)
     }
 
-    public ModuleWeekly(String moduleCode, String lectureTime, String tutorialTime,
-                        String labTime, int lectureDuration, int labDuration, int tutorialDuration) throws NullPointerException, RuntimeException {
+    public ModuleWeekly(String moduleCode, int lectureTime, int tutorialTime,
+                        int labTime, int lectureDuration, int labDuration, int tutorialDuration)
+            throws NullPointerException, RuntimeException {
         super(moduleCode);
         this.lectureTime = lectureTime;
         this.tutorialTime = tutorialTime;
@@ -24,15 +25,15 @@ public class ModuleWeekly extends Module {
         this.tutorialDuration = tutorialDuration;
     }
 
-    public String getLectureTime() {
+    public int getLectureTime() {
         return lectureTime;
     }
 
-    public String getTutorialTime() {
+    public int getTutorialTime() {
         return tutorialTime;
     }
 
-    public String getLabTime() {
+    public int getLabTime() {
         return labTime;
     }
 
@@ -50,15 +51,15 @@ public class ModuleWeekly extends Module {
 
     // Setter methods for ModuleWeekly specific fields
 
-    public void setLectureTime(String lectureTime) {
+    public void setLectureTime(int lectureTime) {
         this.lectureTime = lectureTime;
     }
 
-    public void setTutorialTime(String tutorialTime) {
+    public void setTutorialTime(int tutorialTime) {
         this.tutorialTime = tutorialTime;
     }
 
-    public void setLabTime(String labTime) {
+    public void setLabTime(int labTime) {
         this.labTime = labTime;
     }
 
