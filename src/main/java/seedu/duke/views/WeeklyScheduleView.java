@@ -11,11 +11,11 @@ public class WeeklyScheduleView {
     }
 
     public static void println(String output) {
-        System.out.print(output);
+        System.out.println(output);
     }
 
-    public static void printHorizontalLine() {
-        println("--------------------------------------------------------------------------------------------");
+    public static void printlnHorizontalLine() {
+        println("---------------------------------------------------------------------------------------------------");
     }
 
     public static void printVerticalLine() {
@@ -41,7 +41,8 @@ public class WeeklyScheduleView {
     }
 
     public static void printDayHeader() {
-        printHorizontalLine();
+        printlnHorizontalLine();
+        printVerticalLine();
         printToJustify(columnWidth);//printblank
         for (int i = 0; i < 7; i++) { //7 days
             printVerticalLine();
@@ -50,7 +51,7 @@ public class WeeklyScheduleView {
             print(currentDay);
             printToJustify(columnWidth - currentDay.length());
         }
-        printVerticalLine();
+        printlnVerticalLine();
     }
 
     public static void printRow(List<ArrayList<String>> hourSchedule, int timePeriod, boolean last_line) { //header & 7 days
@@ -60,13 +61,15 @@ public class WeeklyScheduleView {
         //List<String>[] weeklyTask = new List<String>[8];
         List<ArrayList<String>> weeklyTask = new ArrayList<>();
         String header = getTime(timePeriod);
-        weeklyTask.set(0, new ArrayList<String>(List.of(header))); //????
+        fillAndSet(0, new ArrayList<String>(List.of(header)), weeklyTask);
+        //weeklyTask.set(0, new ArrayList<String>(List.of(header))); //????
         for (int i = 0; i < 7; i++) { //7 days
             ArrayList<String> task = new ArrayList<String>(hourSchedule.get(i));
-            weeklyTask.set(i + 1, task);
+            fillAndSet(i + 1, task, weeklyTask);
+            //weeklyTask.set(i + 1, task);
         }
 
-        printHorizontalLine();
+        printlnHorizontalLine();
         while (!tasksPrinted) { //line, tasks
 
             //print row by row
@@ -114,7 +117,7 @@ public class WeeklyScheduleView {
             tasksPrinted = thisTaskPrinted;
         }
         if (last_line) {
-            printHorizontalLine();
+            printlnHorizontalLine();
         }
 
     }
@@ -141,5 +144,21 @@ public class WeeklyScheduleView {
                 //do nothing
         }
         return "";
+    }
+
+    public static <T> void fillAndSet(int index, T object, List<T> list)
+    {
+        if (index > (list.size() - 1))
+        {
+            for (int i = list.size(); i < index; i++)
+            {
+                list.add(null);
+            }
+            list.add(object);
+        }
+        else
+        {
+            list.set(index, object);
+        }
     }
 }

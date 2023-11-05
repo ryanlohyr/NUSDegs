@@ -10,7 +10,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.duke.views.WeeklyScheduleView.fillAndSet;
 
 class WeeklyScheduleViewTest {
 
@@ -27,11 +28,16 @@ class WeeklyScheduleViewTest {
         System.setOut(originalOut);
     }
 
+
+
     @Test
     void testPrintWeeklySchedule_success() {
+
         String expected =
-                "--------------------------------------------------------------------------------------------\n" +
-                        "|            ";
+                "-------------------------------------------------------------------------------------------" +
+                        "--------\n" +
+                "|            |Monday      |Tuesday     |Wednesday   |Thursday    |Friday      |Saturday    " +
+                        "|Sunday      |";
 
         //create data lol
         List<List<ArrayList<String>>> weeklySchedule = new ArrayList<>();
@@ -42,15 +48,18 @@ class WeeklyScheduleViewTest {
             //use list for workaround for generic array creation of "ArrayList<String>[] a = new ArrayList<String>[7];"
             for (int j = 0; j < 7; j++) { //7 days
                 ArrayList<String> task = new ArrayList<String>(Arrays.asList("cs1231", "ie2141"));
-                a.set(j, task);
+                fillAndSet(j, task, a);
+                //a.fillAndSet(task);
             }
-            weeklySchedule.set(i, a);
+            fillAndSet(i, a, weeklySchedule);
+            //weeklySchedule.set(i, a);
         }
 
         WeeklyScheduleView.printWeeklySchedule(weeklySchedule);
         String printedOutput = outputStream.toString();
 
-        assertEquals(expected, printedOutput);
+        assertTrue(printedOutput.startsWith(expected));
+        //assertTrue(false);
 
     }
 }
