@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WeeklyScheduleView {
-    private static final int columnWidth = 12;
+    private static final int columnWidth = 11;
     private static final String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
 
     public static void print(String output) {
@@ -19,7 +19,7 @@ public class WeeklyScheduleView {
     }
 
     public static void printlnHorizontalLine() {
-        println("---------------------------------------------------------------------------------------------------");
+        println("-------------------------------------------------------------------------------------------------");
     }
 
     public static void printVerticalLine() {
