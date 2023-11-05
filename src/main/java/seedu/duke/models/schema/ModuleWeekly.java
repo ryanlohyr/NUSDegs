@@ -1,5 +1,6 @@
 package seedu.duke.models.schema;
 
+
 public class ModuleWeekly extends Module {
     private String lectureTime;
     private String tutorialTime;
