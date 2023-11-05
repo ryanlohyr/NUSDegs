@@ -44,19 +44,6 @@ public class ModuleList {
         }
     }
 
-    public ModuleList(ArrayList<String> Modules) {
-        this();
-
-        for (String module: Modules) {
-            try {
-                mainModuleList.add(new Module(module));
-
-            } catch (NullPointerException e) {
-                assert false;
-            }
-        }
-    }
-
     /**
      * Retrieves the list of modules.
      *

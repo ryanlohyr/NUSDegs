@@ -80,7 +80,7 @@ public class ModulePlannerController {
         do {
             System.out.println("Please enter your name: ");
             userInput = in.nextLine().trim();
-        } while (!parser.checkNameInput(userInput, commandManager.getListOfCommands()));
+        } while (!parser.checkNameInput(userInput, commandManager.getListOfCommandNames()));
         student.setName(userInput);
 
         // Get and set student's major
@@ -109,7 +109,7 @@ public class ModulePlannerController {
             command = parseCommand(userInput);
             String[] arguments = parseArguments(userInput);
 
-            if(!commandManager.getListOfCommands().contains(command)){
+            if(!commandManager.getListOfCommandNames().contains(command)){
                 UserError.displayInvalidInputCommand(command);
                 userInput = in.nextLine();
                 continue;
