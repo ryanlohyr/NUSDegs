@@ -41,17 +41,23 @@ public class CommandManager {
     }
 
 
-    /**
+    /*
      * Retrieves the description for a specific command.
      *
      * @param command The command to retrieve the description for.
      * @return The description of the command, or "Command not recognized" if the command is not in the HashMap.
      */
-    /*
-    public String getDescription(String command) {
-        return commandArrayList.getOrDefault(command, "Command not recognized");
+
+    public String getDescription(String commandName) {
+        for (Command command : commandArrayList) {
+            if (commandName.equals(command.getCommandName())) {
+                return command.getDescription();
+            }
+        }
+        return "Command not recognized";
+        //return commandArrayList.getOrDefault(command, "Command not recognized");
     }
-    */
+
 
 
     /**

@@ -12,6 +12,10 @@ public class Command {
         return commandName;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     @Override
     public String toString() {
         return commandName + ": " + description;
