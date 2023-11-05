@@ -175,7 +175,7 @@ public class Student {
      */
     public void setMajor(String major) {
         this.major = major;
-        majorModuleCodes = getRequirements(major.toString());
+        majorModuleCodes = getRequirements(major);
     }
 
     public ArrayList<String> getModuleCodesLeft () {
