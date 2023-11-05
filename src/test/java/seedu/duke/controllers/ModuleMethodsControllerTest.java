@@ -172,7 +172,6 @@ class ModuleMethodsControllerTest {
         assertEquals(printedOutput, expectedOutput);
 
         assertTrue(doesModuleExist);
-
     }
 
     @Test

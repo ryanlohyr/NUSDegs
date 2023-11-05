@@ -52,10 +52,13 @@ public class Schedule {
         return modulesPlanned;
     }
 
-    public void addRecommendedScheduleListToSchedule(ArrayList<String> scheduleToAdd) {
+    public void addRecommendedScheduleListToSchedule(ArrayList<String> scheduleToAdd) { //overwrite
         final int modsToAddPerSem = 5;
         int currentIndexOfMod = 0;
         int currentSem = 1;
+
+        modulesPlanned = new ModuleList(); //overwrite
+        modulesPerSem = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
 
         for (String module : scheduleToAdd) {
             // Check if the module fulfill pre req, else we move it to next sem
@@ -66,7 +69,7 @@ public class Schedule {
             }
 
             //Sub list as we only want modules before the current target semester
-            List<String> completedModulesArray = modulesPlanned.getModuleCodes().subList(0, (indexToAdd));
+            List<String> completedModulesArray = scheduleToAdd.subList(0, (indexToAdd));
             ModuleList completedModules = new ModuleList(String.join(" ", completedModulesArray));
 
             if (!satisfiesAllPrereq(module, completedModules)){
@@ -84,6 +87,9 @@ public class Schedule {
             if (currentIndexOfMod >= modsToAddPerSem){
                 currentIndexOfMod = 0;
                 currentSem += 1;
+            }
+            if (currentSem > 8) {
+                return;
             }
         }
     }
@@ -191,7 +197,6 @@ public class Schedule {
             throw new IllegalArgumentException("Invalid Module in Schedule");
         }
 
-        modulesPlanned.deleteModulebyCode(module);
         modulesPerSem[targetSem - 1] -= 1;
     }
 

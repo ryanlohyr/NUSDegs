@@ -51,4 +51,12 @@ class ModuleListTest {
         boolean result = ml.exists(inputString);
         assertFalse(result);
     }
+
+    @Test
+    void deleteModulebyCodeTest_moduleExists_expectDelete() {
+        ModuleList moduleList = new ModuleList();
+        moduleList.addModule(new Module("CS1231"));
+        moduleList.deleteModulebyCode("CS1231");
+        assertTrue(moduleList.getMainModuleList().isEmpty());
+    }
 }
