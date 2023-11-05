@@ -1,18 +1,18 @@
 package seedu.duke.views;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+//import org.junit.jupiter.api.AfterEach;
+//import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import seedu.duke.models.schema.ModuleWeekly;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+//import java.io.ByteArrayOutputStream;
+//import java.io.PrintStream;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class WeeklyScheduleViewTest {
-
+/*
     private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
 
@@ -25,6 +25,8 @@ class WeeklyScheduleViewTest {
     public void restoreStreams() {
         System.setOut(originalOut);
     }
+
+ */
 
     @Test
     void testPrintWeeklySchedule_success() {
@@ -55,10 +57,10 @@ class WeeklyScheduleViewTest {
 
 
         WeeklyScheduleView.printWeeklySchedule(currentSemesterModules);
-        String printedOutput = outputStream.toString();
+        //String printedOutput = outputStream.toString();
 
-        assertTrue(printedOutput.startsWith(expected));
-        //assertTrue(false);
+        //assertTrue(printedOutput.startsWith(expected));
+        assertTrue(false);
 
     }
 }
