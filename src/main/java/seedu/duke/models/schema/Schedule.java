@@ -1,7 +1,6 @@
 package seedu.duke.models.schema;
 
 import seedu.duke.exceptions.FailPrereqException;
-import seedu.duke.views.SemesterPlannerView;
 
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
