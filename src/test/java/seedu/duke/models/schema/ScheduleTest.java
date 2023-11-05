@@ -19,7 +19,7 @@ class ScheduleTest {
         schedule.addModule("CS1010", 1);
         ArrayList<String> testArray= new ArrayList<>();
         testArray.add("CS1010");
-        assertEquals(testArray, schedule.getModuleCodes());
+        assertEquals(testArray, schedule.getModulesPlanned().getModuleCodes());
 
     }
 

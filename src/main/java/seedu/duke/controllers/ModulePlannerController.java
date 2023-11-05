@@ -2,12 +2,10 @@ package seedu.duke.controllers;
 
 import seedu.duke.models.logic.CompletePreqs;
 import seedu.duke.models.schema.ModuleList;
-import seedu.duke.models.schema.Schedule;
 import seedu.duke.models.schema.Student;
 import seedu.duke.models.schema.CommandManager;
 import seedu.duke.models.schema.UserCommands;
 import seedu.duke.models.logic.Api;
-import seedu.duke.views.CommandLineView;
 import seedu.duke.utils.Parser;
 import seedu.duke.utils.errors.UserError;
 
@@ -34,19 +32,11 @@ import static seedu.duke.views.CommandLineView.displayGetMajor;
 import static seedu.duke.views.CommandLineView.displayGetYear;
 import static seedu.duke.views.CommandLineView.printListOfCommands;
 
-
-
-
 public class ModulePlannerController {
-    private CommandLineView view;
-    private Parser parser;
+    private final Parser parser;
     private Student student;
-    private ModuleList modulesMajor;
     private ModuleList modulesTaken;
-    private ModuleList modulesLeft;
-    private HashMap<String, List<String>> modsWithPreqs;
     private CompletePreqs addModulePreqs;
-
     private CommandManager commandManager;
 
     public ModulePlannerController() {
@@ -54,19 +44,13 @@ public class ModulePlannerController {
         this.parser = new Parser();
         this.student = new Student();
 
-        //This modules list of taken and classes left can be in a storage class later on.
-        this.modulesMajor = null;
         this.modulesTaken = new ModuleList();
-        this.modulesLeft = new ModuleList();
 
-        Schedule schedule = new Schedule();
-
-        student.setSchedule(schedule);
-
-        modsWithPreqs = new HashMap<>();
 
         //Pass in Hashmap of mods with Preqs
-        this.addModulePreqs = new CompletePreqs(addModsWithPreqs(modsWithPreqs));
+        //this.addModulePreqs = new CompletePreqs(addModsWithPreqs(new HashMap<String, List<String>>()));
+        this.addModulePreqs = new CompletePreqs();
+
         //Pass in the list of mods completed.
         addModulePreqs.initializeCompletedMods(modulesTaken);
     }
@@ -213,13 +197,10 @@ public class ModulePlannerController {
 
     }
 
-
-
-
     /**
      * Add all mods that require prerequisites to a map storing the mod and a set of preqs
      *
-     * @param list
+     * @param list HashMap of ModsWithPreqs
      * @return HashMap of Mods with their corresponding preqs
      */
 
@@ -242,11 +223,13 @@ public class ModulePlannerController {
 
 
     /**
-     * Helper function to addModsWithPreqs to add Strings and sets together
+     * Adds a value to a HashMap with a list of values associated with a key.
+     * If the key does not exist in the map, it creates a new key-value pair with an empty list.
+     * The value is added to the list associated with the key.
      *
-     * @param map
-     * @param key
-     * @param value
+     * @param map   The HashMap in which the value will be added.
+     * @param key   The key to which the value will be associated.
+     * @param value The value to add to the list.
      */
     public static void addValue(HashMap<String, List<String>> map, String key, String value) {
         // If the map does not contain the key, put an empty list for that key
@@ -256,7 +239,4 @@ public class ModulePlannerController {
         // Add the value to the list associated with the key
         map.get(key).add(value);
     }
-
-
-
 }
