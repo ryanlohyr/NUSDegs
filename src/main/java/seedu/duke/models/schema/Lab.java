@@ -2,9 +2,9 @@ package seedu.duke.models.schema;
 
 import java.util.ArrayList;
 
-public class Tutorial extends Event{
+public class Lab extends Event{
 
-    public Tutorial(String day, int startTime, int duration) {
+    public Lab(String day, int startTime, int duration) {
         super(day, startTime, duration);
     }
 
@@ -22,15 +22,9 @@ public class Tutorial extends Event{
         return tutorialByHour;
     }
 
-    /*
-    @Override
-    public String toString() {
-        return "tutorial";
-    }
-     */
-
     @Override
     public String getEventType() {
-        return "Tutorial";
+        return "Lab";
     }
+
 }

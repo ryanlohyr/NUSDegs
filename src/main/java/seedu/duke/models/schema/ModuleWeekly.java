@@ -1,6 +1,8 @@
 package seedu.duke.models.schema;
 
 
+import java.util.ArrayList;
+
 public class ModuleWeekly extends Module {
     private int lectureTime;
     private int tutorialTime;
@@ -8,6 +10,7 @@ public class ModuleWeekly extends Module {
     private int lectureDuration;
     private int labDuration;
     private int tutorialDuration;
+    private ArrayList<Event> lessons = new ArrayList<Event>();
 
     public ModuleWeekly(String moduleCode) throws NullPointerException, RuntimeException {
         super(moduleCode); // Call the constructor of the superclass (Module)
@@ -73,6 +76,24 @@ public class ModuleWeekly extends Module {
 
     public void setTutorialDuration(int tutorialDuration) {
         this.tutorialDuration = tutorialDuration;
+    }
+
+    public void addLecture(String day, int time, int duration) {
+        lessons.add(new Lecture(day, time, duration));
+    }
+
+    public void addTutorial(String day, int time, int duration) {
+        lessons.add(new Tutorial(day, time, duration));
+    }
+
+    public void addLab(String day, int time, int duration) {
+        lessons.add(new Lab(day, time, duration));
+    }
+
+    //functions to alter lessons
+
+    public ArrayList<Event> getWeeklySchedule() {
+        return lessons;
     }
 }
 
