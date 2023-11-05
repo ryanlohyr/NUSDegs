@@ -26,7 +26,6 @@ import static seedu.duke.models.logic.DataRepository.getRequirements;
 import seedu.duke.utils.Parser;
 import seedu.duke.utils.errors.UserError;
 import seedu.duke.views.ModuleInfoView;
-import seedu.duke.utils.UnknownCommandException;
 
 
 public class Api {
