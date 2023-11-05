@@ -29,7 +29,7 @@ class WeeklyScheduleViewTest {
 
 
     @Test
-    void testPrintWeeklySchedule_success() {
+    void testPrintWeeklySchedule_validCurrentSemesterModules_expectWeeklySchedule() {
         ArrayList<ModuleWeekly> currentSemesterModules = new ArrayList<ModuleWeekly>();
 
         ModuleWeekly testModule = new ModuleWeekly("CS1231");
@@ -40,14 +40,11 @@ class WeeklyScheduleViewTest {
         currentSemesterModules.add(testModule);
 
 
-        String expected =
-                "-------------------------------------------------------------------------------------------------\n";
-
-
         WeeklyScheduleView.printWeeklySchedule(currentSemesterModules);
         String printedOutput = outputStream.toString();
 
-        assertTrue(printedOutput.startsWith(expected));
+        assertTrue(printedOutput.startsWith(
+                "-------------------------------------------------------------------------------------------------"));
         //assertTrue(false);
 
     }
