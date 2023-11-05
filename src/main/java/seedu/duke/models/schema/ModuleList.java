@@ -90,6 +90,7 @@ public class ModuleList {
         for (Module module: mainModuleList){
             if (moduleCode.equals(module.getModuleCode())) {
                 deleteModule(module);
+                return;
             }
         }
     }

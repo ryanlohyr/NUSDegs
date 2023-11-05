@@ -191,7 +191,6 @@ public class Schedule {
             throw new IllegalArgumentException("Invalid Module in Schedule");
         }
 
-        modulesPlanned.deleteModulebyCode(module);
         modulesPerSem[targetSem - 1] -= 1;
     }
 
