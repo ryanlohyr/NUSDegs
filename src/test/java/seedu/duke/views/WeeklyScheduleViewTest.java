@@ -3,15 +3,13 @@ package seedu.duke.views;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import seedu.duke.models.schema.ModuleWeekly;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.duke.views.WeeklyScheduleView.fillAndSet;
 
 class WeeklyScheduleViewTest {
 
@@ -28,34 +26,35 @@ class WeeklyScheduleViewTest {
         System.setOut(originalOut);
     }
 
-
-
     @Test
     void testPrintWeeklySchedule_success() {
+        ArrayList<ModuleWeekly> currentSemesterModules = new ArrayList<ModuleWeekly>();
 
-        String expected =
-                "-------------------------------------------------------------------------------------------" +
-                        "--------\n" +
-                "|            |Monday      |Tuesday     |Wednesday   |Thursday    |Friday      |Saturday    " +
-                        "|Sunday      |";
+        ModuleWeekly testModule = new ModuleWeekly("CS1231");
+        testModule.addLecture("Monday", 13, 2);
+        testModule.addTutorial("Monday", 11, 1);
+        testModule.addLab("Monday", 9, 2);
 
-        //create data lol
-        List<List<ArrayList<String>>> weeklySchedule = new ArrayList<>();
-        for (int i = 0; i < 12; i++) { //12 time periods
+        currentSemesterModules.add(testModule);
 
-            //8-9am
-            List<ArrayList<String>> a = new ArrayList<>();
-            //use list for workaround for generic array creation of "ArrayList<String>[] a = new ArrayList<String>[7];"
-            for (int j = 0; j < 7; j++) { //7 days
-                ArrayList<String> task = new ArrayList<String>(Arrays.asList("cs1231", "ie2141"));
-                fillAndSet(j, task, a);
-                //a.fillAndSet(task);
-            }
-            fillAndSet(i, a, weeklySchedule);
-            //weeklySchedule.set(i, a);
-        }
 
-        WeeklyScheduleView.printWeeklySchedule(weeklySchedule);
+        String expected = "-----------------------------------------------------------------------------------------" +
+                "----------\n" +
+                        "|            |Monday      |Tuesday     |Wednesday   |Thursday    |Friday      |Saturday    " +
+                "|Sunday      |\n" +
+                        "-------------------------------------------------------------------------------------------" +
+                "--------\n" +
+                        "|8-9am       |            |            |            |            |            |            " +
+                "|            |\n" +
+                        "-------------------------------------------------------------------------------------------" +
+                "--------\n" +
+                        "|9-10am      |CS1231 Lab  |            |            |            |            |            " +
+                "|            |\n" +
+                        "-------------------------------------------------------------------------------------------" +
+                "--------";
+
+
+        WeeklyScheduleView.printWeeklySchedule(currentSemesterModules);
         String printedOutput = outputStream.toString();
 
         assertTrue(printedOutput.startsWith(expected));

@@ -1,5 +1,8 @@
 package seedu.duke.views;
 
+import seedu.duke.models.schema.Event;
+import seedu.duke.models.schema.ModuleWeekly;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,12 +34,28 @@ public class WeeklyScheduleView {
     }
 
     //ideally a function that can be called in Student
-    public static void printWeeklySchedule(List<List<ArrayList<String>>> weeklySchedule) {//ArrayList<String>[][] weeklySchedule) {//8am-8pm
-        //weeklySchedule[][] should be an Array of Array of Tasks
-        //Tasks is an ArrayList of Task
+    public static void printWeeklySchedule(ArrayList<ModuleWeekly> currentSemesterModules) {//ArrayList<String>[][] weeklySchedule) { // 8am to 8pm, Monday to Sunday
+        //convert current semester modules (ArrayList<Module>, ModuleList) to weeklySchedule, "2D array" of ArrayList of Event (List<List<ArrayList<Event>>> weeklySchedule)
+        List<List<ArrayList<String>>> weeklyScheduleByTime = initialiseTwoDList();
+
+        for (ModuleWeekly module : currentSemesterModules) {
+            for (Event event : module.getWeeklySchedule()) {
+                int day = event.getDay();
+                int timePeriod = event.getStartTime() - 8; //8am index 0
+                int eventDurationLeft = event.getDuration();
+                while (eventDurationLeft > 0) {
+                    addToWeeklyScheduleByTime(timePeriod, day, module.getModuleCode() + " " + event.getEventType(), weeklyScheduleByTime);
+                    //check if java pass by reference
+
+                    timePeriod += 1;
+                    eventDurationLeft -= 1;
+                }
+            }
+        }
+
         printDayHeader();
         for (int timePeriod = 0; timePeriod < 12; timePeriod++) { //8-9am index 0, 7-8pm index 11
-            printRow(weeklySchedule.get(timePeriod), timePeriod, timePeriod == 11);
+            printRow(weeklyScheduleByTime.get(timePeriod), timePeriod, timePeriod == 11);
         }
     }
 
@@ -92,10 +111,12 @@ public class WeeklyScheduleView {
                         int j = 0;
                         while (words[j].length() < columnWidthLeft) {
                             print(words[j]);
+                            //print(String.valueOf(words[j].length())); //troubleshooting
+                            columnWidthLeft -= words[j].length();
                             words[j] = "";
                             j += 1;
-                            columnWidthLeft -= words[j].length();
                         }
+                        //print(String.valueOf(columnWidthLeft)); //troubleshooting
 
                         printToJustify(columnWidthLeft);
                         //currentTask should be updated to start from index j
@@ -146,19 +167,38 @@ public class WeeklyScheduleView {
         return "";
     }
 
-    public static <T> void fillAndSet(int index, T object, List<T> list)
-    {
-        if (index > (list.size() - 1))
-        {
-            for (int i = list.size(); i < index; i++)
-            {
+    public static <T> void fillAndSet(int index, T object, List<T> list) {
+        if (index > (list.size() - 1)) {
+            for (int i = list.size(); i < index; i++) {
                 list.add(null);
             }
             list.add(object);
         }
-        else
-        {
+        else {
             list.set(index, object);
         }
+    }
+
+    public static List<List<ArrayList<String>>> initialiseTwoDList() {
+        List<List<ArrayList<String>>> grandparentList = new ArrayList<>();
+        for (int i = 0; i < 12; i++) { //12 time periods
+            List<ArrayList<String>> parentList = new ArrayList<>();
+            for (int j = 0; j < 7; j++) { //7 days
+                ArrayList<String> childList = new ArrayList<String>();
+                fillAndSet(j, childList, parentList);
+                parentList.add(childList);
+            }
+            fillAndSet(i, parentList, grandparentList);
+            grandparentList.add(parentList);
+        }
+        return grandparentList;
+    }
+
+    public static void addToWeeklyScheduleByTime(int indexParent, int indexChild, String eventName,
+                                           List<List<ArrayList<String>>> listOfList) {
+        //"2D" array
+        List<ArrayList<String>> parentList = listOfList.get(indexParent);
+        ArrayList<String> childList = parentList.get(indexChild);
+        childList.add(eventName);
     }
 }
