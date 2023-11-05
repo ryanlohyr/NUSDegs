@@ -9,9 +9,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.InvalidObjectException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static seedu.duke.models.logic.ScheduleGenerator.generateRecommendedSchedule;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ScheduleTest {
 
@@ -72,21 +73,22 @@ class ScheduleTest {
     }
 
     @Test
-    void addRecommendedScheduleListToScheduleTest_expectRecommendedInSchedule() throws InvalidObjectException, FailPrereqException {
+    void addRecommendedScheduleListToScheduleTest_expectRecommendedInSchedule()
+            throws InvalidObjectException, FailPrereqException {
         student.addModuleSchedule("MA1511", 2);
 
-        ArrayList<String> recommendedSchedule = generateRecommendedSchedule(student.getMajor());
+        ArrayList<String> recommendedSchedule = new ArrayList<>(List.of("CS1010", "MA1511", "CS2040C"));
         student.getSchedule().addRecommendedScheduleListToSchedule(recommendedSchedule);
         student.printSchedule();
 
         String printedOutput = outputStream.toString();
-        String expectedOutput = "Sem 1: GESS1000 DTK1234 MA1512 MA1511 GEA1000 \n" +
-                "Sem 2: GEC1000 EG1311 EG2501 GEN2000 CS1010 \n" +
-                "Sem 3: EG2401A CG1111A IE2141 CDE2000 PF1101 \n" +
-                "Sem 4: CG2023 CS1231 MA1508E ST2334 ES2631 \n" +
-                "Sem 5: EE4204 EE2026 CG2027 CS2040C CG2111A \n" +
-                "Sem 6: CG2028 CS2113 CG2271 EE2211 \n" +
-                "Sem 7: CG4002 CP3880 \n" +
+        String expectedOutput = "Sem 1: MA1511 CS1010 \n" +
+                "Sem 2: CS2040C \n" +
+                "Sem 3: \n" +
+                "Sem 4: \n" +
+                "Sem 5: \n" +
+                "Sem 6: \n" +
+                "Sem 7: \n" +
                 "Sem 8: \n";
         printedOutput = printedOutput
                 .replaceAll("\r\n", "\n")
