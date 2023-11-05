@@ -32,6 +32,10 @@ class MajorRequirementsTest {
         // Capture the printed output
         String printedOutput = outputStream.toString();
 
+        printedOutput = printedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
+
         // Assert the printed output matches the expected value
         assertTrue(printedOutput.startsWith(
                 "#===========================================================================================#")

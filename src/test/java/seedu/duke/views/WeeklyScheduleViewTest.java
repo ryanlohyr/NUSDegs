@@ -43,6 +43,10 @@ class WeeklyScheduleViewTest {
         WeeklyScheduleView.printWeeklySchedule(currentSemesterModules);
         String printedOutput = outputStream.toString();
 
+        printedOutput = printedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
+
         assertTrue(printedOutput.startsWith(
                 "-------------------------------------------------------------------------------------------------"));
         //assertTrue(false);
