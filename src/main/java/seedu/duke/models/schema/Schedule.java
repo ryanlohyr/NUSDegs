@@ -58,7 +58,11 @@ public class Schedule {
 
     public void addRecommendedScheduleListToSchedule(ArrayList<String> scheduleToAdd, boolean keep) {
         //update to store completion statuses
-        completedModules = modulesPlanned.newHashMapOfCompleted();
+        if (keep) {
+            completedModules = modulesPlanned.newHashMapOfCompleted();
+        } else {
+            completedModules.clear();
+        }
 
         final int modsToAddPerSem = 5;
         int currentIndexOfMod = 0;

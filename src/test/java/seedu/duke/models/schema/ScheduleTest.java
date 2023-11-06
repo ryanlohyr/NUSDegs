@@ -78,7 +78,7 @@ class ScheduleTest {
         student.addModuleSchedule("MA1511", 2);
 
         ArrayList<String> recommendedSchedule = new ArrayList<>(List.of("CS1010", "MA1511", "CS2040C"));
-        student.getSchedule().addRecommendedScheduleListToSchedule(recommendedSchedule);
+        student.getSchedule().addRecommendedScheduleListToSchedule(recommendedSchedule, true);
         student.printSchedule();
 
         String printedOutput = outputStream.toString();

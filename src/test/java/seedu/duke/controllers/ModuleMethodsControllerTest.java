@@ -251,7 +251,7 @@ class ModuleMethodsControllerTest {
     @Test
     void testRecommend_addCEGRecommendedScheduleToStudent() {
         ArrayList<String> recommendedSchedule = generateRecommendedSchedule("CEG");
-        student.getSchedule().addRecommendedScheduleListToSchedule(recommendedSchedule);
+        student.getSchedule().addRecommendedScheduleListToSchedule(recommendedSchedule, true);
         student.getSchedule().printMainModuleList();
         String printedOutput = outputStream.toString().trim();
         String expectedOutput = "Sem 1:   X GESS1000   X DTK1234   X MA1512   X MA1511   X GEA1000   \n" +
@@ -277,7 +277,7 @@ class ModuleMethodsControllerTest {
     @Test
     void testRecommend_addCSRecommendedScheduleToStudent() {
         ArrayList<String> recommendedSchedule = generateRecommendedSchedule("CS");
-        student.getSchedule().addRecommendedScheduleListToSchedule(recommendedSchedule);
+        student.getSchedule().addRecommendedScheduleListToSchedule(recommendedSchedule, true);
         student.getSchedule().printMainModuleList();
         String printedOutput = outputStream.toString().trim();
         String expectedOutput = "Sem 1:   X CS1231S   X MA1522   X IS1108   X MA1521   X GEA1000   \n" +
