@@ -3,7 +3,6 @@ package seedu.duke.views;
 import seedu.duke.models.schema.Module;
 import seedu.duke.models.schema.ModuleList;
 
-import java.util.ArrayList;
 
 public class SemesterPlannerView {
     public static void print(String output) {

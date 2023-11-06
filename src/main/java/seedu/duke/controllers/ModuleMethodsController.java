@@ -2,7 +2,6 @@ package seedu.duke.controllers;
 
 import seedu.duke.exceptions.FailPrereqException;
 import seedu.duke.exceptions.MissingModuleException;
-import seedu.duke.models.logic.CompletePreqs;
 import seedu.duke.models.schema.Module;
 import seedu.duke.models.schema.Student;
 import seedu.duke.utils.Parser;
@@ -17,7 +16,13 @@ import static seedu.duke.models.logic.Api.doesModuleExist;
 import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
 import static seedu.duke.models.logic.MajorRequirements.printRequiredModules;
 import static seedu.duke.models.logic.ScheduleGenerator.generateRecommendedSchedule;
-import static seedu.duke.views.CommandLineView.*;
+
+import static seedu.duke.views.CommandLineView.displayMessage;
+import static seedu.duke.views.CommandLineView.displaySuccessfulAddMessage;
+import static seedu.duke.views.CommandLineView.showPrereqCEG;
+import static seedu.duke.views.CommandLineView.displaySuccessfulDeleteMessage;
+import static seedu.duke.views.CommandLineView.displaySuccessfulCompleteMessage;
+
 import static seedu.duke.views.ModuleInfoView.printModuleStringArray;
 
 /**
@@ -31,12 +36,13 @@ import static seedu.duke.views.ModuleInfoView.printModuleStringArray;
  * @author ryanlohyr
  */
 public class ModuleMethodsController {
+
+    //@@author ryanlohyr
     /**
      * Computes and displays the recommended pace for completing remaining module credits until graduation.
      *
      * @param arguments              An array of strings containing academic year and semester information.
      * @param completedModuleCredits The number of module credits already completed by the user.
-     * @author ryanlohyr
      */
     static void computePace(String[] arguments, int completedModuleCredits) {
         int totalCreditsToGraduate = 160;

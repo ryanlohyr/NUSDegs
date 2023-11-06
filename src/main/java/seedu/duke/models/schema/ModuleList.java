@@ -2,6 +2,7 @@ package seedu.duke.models.schema;
 
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static seedu.duke.views.ModuleInfoView.printModuleArray;
 
@@ -73,12 +74,36 @@ public class ModuleList {
         return completedModuleCodes;
     }
 
+    public ModuleList newModuleListOfCompleted(){
+        ModuleList newModuleList = new ModuleList();
+        for (Module module: mainModuleList){
+            if (module.getCompletionStatus()) {
+                newModuleList.addModule(module);
+            }
+        }
+        return newModuleList;
+    }
+
+    public HashMap<String, Module> newHashMapOfCompleted(){
+        HashMap<String, Module> completedModules = new HashMap<String, Module>();
+        for (Module module: mainModuleList){
+            if (module.getCompletionStatus()) {
+                completedModules.put(module.getModuleCode(), module);
+            }
+        }
+        return completedModules;
+    }
+
     public void addModule (Module module) {
         mainModuleList.add(module);
     }
 
     public void addModule (int index, Module module) {
         mainModuleList.add(index, module);
+    }
+
+    public void replaceModule (int index, Module module) {
+        mainModuleList.set(index, module);
     }
 
 
@@ -95,7 +120,22 @@ public class ModuleList {
         }
     }
 
-    public boolean exists(String moduleCodeA) throws InvalidObjectException {
+    public boolean exists(Module module) {
+        if (mainModuleList == null) {
+            return false;
+        }
+
+        assert module != null;
+
+        for (Module moduleB : mainModuleList) {
+            if (module.equals(moduleB)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean existsByCode(String moduleCodeA) throws InvalidObjectException {
         if (mainModuleList == null) {
             throw new InvalidObjectException("Null Module List");
         }
@@ -122,8 +162,24 @@ public class ModuleList {
         throw new InvalidObjectException("Module does not exist.");
     }
 
+    public Module getModule(Module module) throws InvalidObjectException {
+        for (Module currentModule: mainModuleList) {
+            if (currentModule.equals(module)) {
+                return currentModule;
+            }
+        }
+        throw new InvalidObjectException("Module does not exist.");
+    }
 
-    public int getIndex(String moduleCode) {
+    public int size() {
+        return mainModuleList.size();
+    }
+
+    public int getIndex(Module module) {
+        return mainModuleList.indexOf(module);
+    }
+
+    public int getIndexByCode(String moduleCode) {
         int i = 0;
         for (Module module: mainModuleList){
             if (moduleCode.equals(module.getModuleCode())) {
