@@ -14,18 +14,24 @@ It's a comprehensive tool for efficient and successful degree completion.
 1. Down the latest version of `Duke` from [here](http://link.to/duke).
 
 ## Features
-- Left
-- Required
-- Complete
-- Info
-- Search
-- Major
-- Add
-- Delete
-- recommend
-- prereq
+- View help : `help`
+- View modules left for graduation: `left`
+- Check prerequisite for a module: `prereq`
+- Search for modules based on keywords: `search`
+- View info about a module: `info`
+- View modules required for major: `required`
+- View schedule planner: `schedule`
+- Recommend a schedule based on major: `recommend`
+- Add module to schedule planner: `add`
+- Delete module from schedule planner: `delete`
+- Complete a module in your schedule planner: `complete`
+- Check current pace to graduate: `pace`
 
-{Give detailed description of each feature}
+### Viewing help: `help`
+
+To view a list of all possible commands, a brief description of their functionality and syntax.
+
+Format: `help`
 
 ### Checking modules left: `left`
 Displays the modules left, which are the modules required for the user's major that have not been completed.
@@ -38,66 +44,28 @@ User input:
 `left`
 
 - Expected outcome:
-![ss_left_ceg.png](screenshots%2Fss_left_ceg.png)
+![ss_left_ceg.png](screenshots%2Fss_left_ceg.jpeg)
 
-### Getting a list of required modules: `required`
-Get an overview of required modules for the user's major
+### View module prerequisites:`prereq`
+Based on the module selected, we will show what prerequisites the course has.
 
-Format: `required`
+##### Note:
+- Since NUS has the concept of preclusions, when prerequisites are shown, it is shown based on the degree of the current 
+user.
 
-Example of usage 1: (scenario where user's selected major is CEG)
+- If the module is not a requisite of the students major, we will only show one preclusion as a prerequisite 
 
-User input:
-`required`
+Format: `prepreq MODULE_CODE`
 
-- Expected outcome:
-![ss_required_ceg.png](screenshots%2Fss_required_ceg.png)
-![ss_required_ceg2.png](screenshots%2Fss_required_ceg2.png)
+The input is not case sensitive. E.g eg1311 or EG1311 is shown
+out
 
-### Complete a module: `complete`
-Completes a module (not displayed when the feature `left` is used).
+User input
+`prepreq eg1311` 
 
-Format: `complete`
+Assuming the user is from Computer Engineering
 
-Example of usage 1: (scenario where user's selected major is CEG)
-
-User input:
-`complete ma1511`
-
-Expected outcome:
-`Mod completed: MA1511`
-
-Changes to modules left are shown when
-
-User input:
-`left`
-
-Expected outcome:
-![ss_complete_ceg.png](screenshots%2Fss_complete_ceg.png)
-
-### Get information about a module: `info`
-Get information about a module using the info command, followed by one of the commands 'description', 'workload' 
-and 'all'.
-
-Format: `info n/command n/moduleCode`
-
-
-* The `command` cannot be empty.
-* The `moduleCode` cannot be empty.
-
-Example of usage: 
-
-`info description CS2113`
-
-- Expected outcome: This course introduces the necessary skills for systematic and rigorous development of software systems. It covers requirements, design, implementation, quality assurance, and project management aspects of small-to-medium size multi-person software projects. The course uses the Object Oriented Programming paradigm. Students of this course will receive hands-on practice of tools commonly used in the industry, such as test automation tools, build automation tools, and code revisioning tools will be covered.
-
-`info workload CS2113`
-
-- Expected outcome: "[2,1,0,3,4]"
-
-`info all`
-
-- Expected outcome: Displays module title and module code of all available modules
+![ss_left_ceg.png](screenshots%2Fss_prereq.jpeg)
 
 
 ### Searching for a module by title: `search`
@@ -112,49 +80,65 @@ Example of usage:
 `search n/Darwinian`
 
 - Expected outcome:
-These are the modules that contain your keyword in the title:
+  These are the modules that contain your keyword in the title:
 
-### Selecting your current major: `major`
-Saves the selected major into the programme if a major is specified.
-Returns the current saved major if no major is specified.
+### Get information about a module: `info`
+Get information about a module using the info command, followed by one of the commands 'description', 'workload'
+and 'all'.
 
-Format: `major n/MAJOR`
+Format: `info n/command n/moduleCode`
 
-* The `MAJOR` is an optional argument to update current major and can be CEG (upcoming feature includes CS).
 
-Examples of usage:
+* The `command` cannot be empty.
+* The `moduleCode` cannot be empty.
 
-`major CEG`
+Example of usage:
 
-- Expected outcome: "Major CEG selected!"
+`info description CS2113`
 
-`major` (Assume CEG has been selected by the previous command)
+- Expected outcome: This course introduces the necessary skills for systematic and rigorous development of software systems. It covers requirements, design, implementation, quality assurance, and project management aspects of small-to-medium size multi-person software projects. The course uses the Object Oriented Programming paradigm. Students of this course will receive hands-on practice of tools commonly used in the industry, such as test automation tools, build automation tools, and code revisioning tools will be covered.
 
-- Expected outcome: "Current major is CEG."
+`info workload CS2113`
 
-### View recommended schedule based on course: recommend
+- Expected outcome: "[2,1,0,3,4]"
+
+`info all`
+
+- Expected outcome: Displays module title and module code of all available modules
+
+### Getting a list of required modules:`required`
+Get an overview of required modules for the user's major
+
+Format: `required`
+
+Example of usage 1: (scenario where user's selected major is CEG)
+
+User input:
+`required`
+
+- Expected outcome:
+![ss_required_ceg.png](screenshots%2Fss_required_ceg.png)
+![ss_required_ceg2.png](screenshots%2Fss_required_ceg2.png)
+
+
+### View schedule planner: `schedule`
+to be addedd
+
+### View recommended schedule based on course: `recommend`
 Based on the course, we will provide an recommended schedules that is sorted based on prerequisites.
+
 Format: `recommend MAJOR_CODE`
-The input is not case sensitive. E.g CEG or ceg is shown (Currently only works for CEG)
 
-Examples:
+The input is not case-sensitive. E.g. CEG or ceg is shown (Currently only works for CEG)
 
-Recommend ceg
-[CS1010, MA1511, MA1508E, … ,.... ,.... ,... EE4027] (modules required for the degree will be shown)
+User input:
+`recommend`
 
-### View module prerequisites: prereq 
-Based on the module selected, we will show what prerequisites the course has in a form of an array. Since NUS has the concept of preclusions, when prerequisites are shown, it is shown based on the degree of the current user, which is currently only computer science and computer engineering students.
+Expected outcome:
+![recommendedSchedule.jpg](photos%2FrecommendSchedule.jpeg)
 
-Format: `prepreq MODULE_CODE`
-The input is not case sensitive. E.g eg1311 or EG1311 is shown
-out
-Examples:
-`Command: prepreq eg1311` (assuming the user is from computer engineering)
-[CS1010, MA1511, MA1508E]
-
-
-Command: pace
-You currently have 100MCs left until graduation
+If the user enters `Y`, the recommended schedule will be added to their schedule
+![recommendedSchedule.jpg](screenshots%2Fadd_recommend.jpeg)
 
 
 ### Add module to schedule: `add`
@@ -188,6 +172,39 @@ Examples of usage:
 
 ![](photos/delete_outcome.png)
 
+### Complete a module: `complete`
+Completes a module (Completes a module in your schedule planner).
+
+Note: the module you complete has to be first added in your schedule planner! 
+
+Format: `complete`
+
+Example of usage 1: (scenario where user's selected major is CEG)
+
+User input:
+`complete ma1511`
+
+Expected outcome:
+`Mod completed: MA1511`
+
+### Check current pace to graduate: `pace`
+
+Based on the modules that have been completed, t
+The user can see how many MCs are left and how much time is left to complete the required MCs.
+
+Format: `pace`
+
+if no argument is given, we will take the year that you have initially inputted.
+User input
+
+if an argument is given, we will take the academic year given and calculate the pace based on that.
+
+User input:
+`pace y1/s1`
+
+Expected outcome: assuming 0MCs were done in semester one
+![pace.jpg](photos%2Fpace.jpeg)
+
 ## FAQ
 
 **Q**: How do I transfer my data to another computer? 
@@ -195,8 +212,20 @@ Examples of usage:
 **A**: Currently, this feature is not included in NUSDegs.
 
 ## Command Summary
+Note: if a argument is wrapped with `[]` it means that it is optional. 
 
-{Give a 'cheat sheet' of commands here}
-
-* Add todo `todo n/TODO_NAME d/DEADLINE`
+| **Command**                                | **Format**                            |
+|--------------------------------------------|---------------------------------------|
+| View Help                                  | `help`                                |
+| View modules left for graduation           | `left`                                | 
+| Check prerequisite for a module            | `prereq <MODULE_CODE>`                | 
+| Search for modules based on keywords       | `placeholder`                         | 
+| View info about a module                   | `placeholder`                         | 
+| View modules required for major            | `required`                            | 
+| View schedule planner                      | `schedule`                            | 
+| Recommend a schedule based on major        | `recommend`                           | 
+| Add module to schedule planner             | `add <MODULE_CODE> <SEMESTER_NUMBER>` | 
+| Delete module from schedule planner        | `delete <MODULE_CODE>`                |
+| Complete a module in your schedule planner | `complete <MODULE_CODE>`              |
+| Check current pace to graduate             | `pace [<MODULE_CODE>]`                | 
 

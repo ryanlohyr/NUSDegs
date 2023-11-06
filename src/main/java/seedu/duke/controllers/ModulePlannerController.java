@@ -137,7 +137,7 @@ public class ModulePlannerController {
             break;
         }
         case UserCommands.PACE_COMMAND: {
-            computePace(arguments, student.getCurrentModuleCredits());
+            computePace(arguments, student.getCurrentModuleCredits(), student.getYear());
             break;
         }
         case UserCommands.PREREQUISITE_COMMAND: {
