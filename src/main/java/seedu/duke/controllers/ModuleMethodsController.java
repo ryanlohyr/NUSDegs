@@ -6,6 +6,7 @@ import seedu.duke.models.schema.Module;
 import seedu.duke.models.schema.Student;
 import seedu.duke.utils.Parser;
 import seedu.duke.utils.errors.UserError;
+import seedu.duke.utils.exceptions.InvalidPrereqException;
 import seedu.duke.views.CommandLineView;
 
 import java.io.InvalidObjectException;
@@ -138,14 +139,31 @@ public class ModuleMethodsController {
         printRequiredModules(major);
     }
 
+    /**
+     * Determines and displays the prerequisites of a module for a given major.
+     *
+     * This method determines the prerequisites of a module based on the provided module code and major.
+     * It checks if the module exists, retrieves its prerequisites, and displays them if they are available.
+     * If the module does not exist, or if there are any issues with retrieving prerequisites, appropriate
+     * messages are displayed.
+     * @author ryanlohyr
+     * @param moduleCode The module code for which prerequisites need to be determined.
+     * @param major      The major for which the prerequisites are determined.
+     */
     public static void determinePrereq(String moduleCode, String major) {
         boolean exist = doesModuleExist(moduleCode);
 
         if (!exist) {
             return;
         }
+        ArrayList<String> prereq;
+        try{
+            prereq = getModulePrereqBasedOnCourse(moduleCode, major);
+        } catch (InvalidPrereqException e) {
+            displayMessage(e.getMessage());
+            return;
+        }
 
-        ArrayList<String> prereq = getModulePrereqBasedOnCourse(moduleCode, major);
         if (prereq == null || prereq.isEmpty()) {
             displayMessage("Module " + moduleCode + " has no prerequisites.");
         }else{

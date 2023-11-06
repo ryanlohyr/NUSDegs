@@ -2,6 +2,7 @@ package seedu.duke.models.schema;
 
 import seedu.duke.exceptions.FailPrereqException;
 import seedu.duke.exceptions.MissingModuleException;
+import seedu.duke.utils.exceptions.InvalidPrereqException;
 
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
@@ -65,6 +66,19 @@ public class Schedule {
         return modulesPlanned;
     }
 
+    /**
+     * Adds a recommended schedule list to the current schedule, updating completion statuses if needed.
+     *
+     * This method adds a list of recommended schedule modules to the current schedule. You can choose to
+     * either keep or clear the completion statuses of modules. The recommended schedule modules are added
+     * to the schedule, taking into account prerequisites and distributing them across semesters based on
+     * fulfillment of prerequisites.
+     *
+     * @author ryanlohyr
+     * @param scheduleToAdd The list of recommended schedule modules to add.
+     * @param keep          A boolean indicating whether to keep or clear completion statuses.
+     *                     If true, completion statuses are kept; if false, completion statuses are cleared.
+     */
     public void addRecommendedScheduleListToSchedule(ArrayList<String> scheduleToAdd, boolean keep) {
         //update to store completion statuses
         if (keep) {
@@ -319,7 +333,12 @@ public class Schedule {
         }
 
         for (String requirement : requirements) {
-            ArrayList<String> prereqArray = getModulePrereqBasedOnCourse(requirement, course);
+            ArrayList<String> prereqArray;
+            try{
+                prereqArray = getModulePrereqBasedOnCourse(requirement, course);
+            } catch (InvalidPrereqException e){
+                prereqArray = new ArrayList<>();
+            }
             if (prereqArray == null) {
                 prereqArray = new ArrayList<>();
             }

@@ -27,6 +27,7 @@ import static seedu.duke.models.logic.DataRepository.getRequirements;
 
 import seedu.duke.utils.Parser;
 import seedu.duke.utils.errors.UserError;
+import seedu.duke.utils.exceptions.InvalidPrereqException;
 import seedu.duke.views.ModuleInfoView;
 
 
@@ -195,6 +196,17 @@ public class Api {
     }
 
 
+    /**
+     * Wraps a long input string into multiple lines at a specified wrap index.
+     *
+     * This method takes an input string and wraps it into multiple lines by inserting newline
+     * characters at or before the specified wrap index. It ensures that the words are not split,
+     * and the text remains readable.
+     *
+     * @param input     The input string to be wrapped.
+     * @param wrapIndex The wrap index, indicating the maximum number of characters per line.
+     * @return A new string with newline characters added for wrapping.
+     */
     public static String wrapText(String input, int wrapIndex) {
         if (input == null || input.trim().isEmpty()) {
             return "";
@@ -277,7 +289,7 @@ public class Api {
             ArrayList<String> prerequisites,
             ArrayList<Objects> modulePrereqArray,
             ArrayList<String> courseRequirements,
-            String currRequisite) {
+            String currRequisite) throws ClassCastException {
         try {
             int lengthOfModulePreReqArray = modulePrereqArray.size();
             int counter = 0;
@@ -320,9 +332,8 @@ public class Api {
                 counter += 1;
             }
         } catch (ClassCastException e) {
-            System.out.println("Sorry but we could not get the prerequisite " +
-                    "for this module as NUSMods API provided it " +
-                    "in a format we did not expect :<");
+            throw new ClassCastException();
+
         }
     }
 
@@ -335,7 +346,8 @@ public class Api {
      * @return A JSONObject representing the prerequisite tree for the module or NULL if no prerequisites are specified.
      *
      */
-    public static ArrayList<String> getModulePrereqBasedOnCourse(String moduleCode, String major) {
+    public static ArrayList<String> getModulePrereqBasedOnCourse(String moduleCode, String major)
+            throws InvalidPrereqException {
         try {
             Major.valueOf(major.toUpperCase());
         } catch (IllegalArgumentException e) {
@@ -359,7 +371,11 @@ public class Api {
 
         ArrayList<Objects> initial = (ArrayList<Objects>) modulePrereqTree.get(key);
 
-        flattenPrereq(major, prerequisites, initial, getRequirements(major), key);
+        try{
+            flattenPrereq(major, prerequisites, initial, getRequirements(major), key);
+        }catch(ClassCastException e){
+            throw new InvalidPrereqException(moduleCode);
+        }
 
         return prerequisites;
 
@@ -581,6 +597,14 @@ public class Api {
         return modulesContainingKeyword;
     }
 
+    /**
+     * Performs a module search and displays the results.
+     *
+     * This method takes a user input string, extracts keywords from it, performs a search using
+     * the API, and displays the results in a structured format.
+     *
+     * @param userInput The user input string for searching modules.
+     */
     public static void searchCommand(String userInput) {
         if (!Parser.isValidKeywordInput(userInput)) {
             UserError.emptyKeywordforSearchCommand();
