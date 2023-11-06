@@ -68,4 +68,8 @@ public class UserError {
         System.out.println("Invalid Module Code. Please try again!");
     }
 
+    public static void displayModuleAlreadyCompleted(String moduleCode){
+        System.out.printf("%s has already been marked as completed.%n", moduleCode);
+    }
+
 }

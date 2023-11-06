@@ -17,7 +17,7 @@ class ModuleListTest {
         ModuleList ml = new ModuleList("CS1231S CS2030S CS2040S CS2100 CS2101 CS2106 CS2109S CS3230");
 
         //test
-        boolean result = ml.exists(inputString);
+        boolean result = ml.existsByCode(inputString);
         assertTrue(result);
     }
 
@@ -28,7 +28,7 @@ class ModuleListTest {
         ModuleList ml = new ModuleList("CS2030S CS2040S CS2100 CS2101 CS2106 CS2109S CS3230");
 
         //test
-        boolean result = ml.exists(inputString);
+        boolean result = ml.existsByCode(inputString);
         assertFalse(result);
     }
 
@@ -38,7 +38,7 @@ class ModuleListTest {
         ModuleList ml = new ModuleList("CS2030S CS2040S CS2100 CS2101 CS2106 CS2109S CS3230");
 
         //test
-        assertThrows(InvalidObjectException.class, () -> ml.exists(null));
+        assertThrows(InvalidObjectException.class, () -> ml.existsByCode(null));
     }
 
     //success scenario 3: input string, 1 empty ModuleList --> false
@@ -48,7 +48,7 @@ class ModuleListTest {
         ModuleList ml = new ModuleList();
 
         //test
-        boolean result = ml.exists(inputString);
+        boolean result = ml.existsByCode(inputString);
         assertFalse(result);
     }
 

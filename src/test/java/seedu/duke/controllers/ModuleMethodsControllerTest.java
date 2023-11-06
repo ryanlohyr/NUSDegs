@@ -30,8 +30,6 @@ class ModuleMethodsControllerTest {
 
     private Student student = new Student();
 
-    private Schedule schedule = new Schedule();
-
     @BeforeEach
     public void setUpStreams() {
         this.student = new Student();
@@ -149,7 +147,7 @@ class ModuleMethodsControllerTest {
             displaySuccessfulAddMessage();
             student.printSchedule();
             Schedule currentSchedule = student.getSchedule();
-            doesModuleExist = currentSchedule.getModulesPlanned().exists(moduleCode);
+            doesModuleExist = currentSchedule.getModulesPlanned().existsByCode(moduleCode);
         } catch (InvalidObjectException | IllegalArgumentException e) {
             displayMessage(e.getMessage());
         } catch (FailPrereqException f) {
@@ -158,13 +156,13 @@ class ModuleMethodsControllerTest {
         }
         String printedOutput = outputStream.toString().trim();
         String expectedOutput = "Module Successfully Added\n" +
-                "Sem 1: EG1311 \n" +
-                "Sem 2: \n" +
-                "Sem 3: \n" +
-                "Sem 4: \n" +
-                "Sem 5: \n" +
-                "Sem 6: \n" +
-                "Sem 7: \n" +
+                "Sem 1:   X EG1311   \n" +
+                "Sem 2:   \n" +
+                "Sem 3:   \n" +
+                "Sem 4:   \n" +
+                "Sem 5:   \n" +
+                "Sem 6:   \n" +
+                "Sem 7:   \n" +
                 "Sem 8:";
         printedOutput = printedOutput
                 .replaceAll("\r\n", "\n")
@@ -173,7 +171,7 @@ class ModuleMethodsControllerTest {
                 .replaceAll("\r\n", "\n")
                 .replaceAll("\r", "\n");
 
-        assertEquals(printedOutput, expectedOutput);
+        assertEquals(expectedOutput, printedOutput);
 
         assertTrue(doesModuleExist);
     }
@@ -188,7 +186,7 @@ class ModuleMethodsControllerTest {
             displaySuccessfulAddMessage();
             student.printSchedule();
             Schedule currentSchedule = student.getSchedule();
-            doesModuleExist = currentSchedule.getModulesPlanned().exists(moduleCode);
+            doesModuleExist = currentSchedule.getModulesPlanned().existsByCode(moduleCode);
         } catch (InvalidObjectException | IllegalArgumentException e) {
             displayMessage(e.getMessage());
         } catch (FailPrereqException f) {
@@ -221,7 +219,7 @@ class ModuleMethodsControllerTest {
             displaySuccessfulAddMessage();
             student.printSchedule();
             Schedule currentSchedule = student.getSchedule();
-            doesModuleExist = currentSchedule.getModulesPlanned().exists(moduleCode);
+            doesModuleExist = currentSchedule.getModulesPlanned().existsByCode(moduleCode);
         } catch (InvalidObjectException | IllegalArgumentException e) {
             displayMessage(e.getMessage());
         } catch (FailPrereqException f) {
@@ -255,16 +253,16 @@ class ModuleMethodsControllerTest {
     @Test
     void testRecommend_addCEGRecommendedScheduleToStudent() {
         ArrayList<String> recommendedSchedule = student.getSchedule().generateRecommendedSchedule("CEG");
-        student.getSchedule().addRecommendedScheduleListToSchedule(recommendedSchedule);
+        student.getSchedule().addRecommendedScheduleListToSchedule(recommendedSchedule, true);
         student.getSchedule().printMainModuleList();
         String printedOutput = outputStream.toString().trim();
-        String expectedOutput = "Sem 1: GESS1000 DTK1234 MA1512 MA1511 GEA1000 \n" +
-                "Sem 2: EG1311 EG2501 GEN2000 CS1010 CS1231 \n" +
-                "Sem 3: CG1111A IE2141 CDE2000 PF1101 GEC1000 \n" +
-                "Sem 4: CG2023 MA1508E ST2334 ES2631 EG2401A \n" +
-                "Sem 5: EE4204 EE2026 CG2027 CS2040C CG2111A \n" +
-                "Sem 6: CG2028 CS2113 CG2271 EE2211 \n" +
-                "Sem 7: CG4002 CP3880 \n" +
+        String expectedOutput = "Sem 1:   X GESS1000   X DTK1234   X MA1512   X MA1511   X GEA1000   \n" +
+                "Sem 2:   X EG1311   X EG2501   X GEN2000   X CS1010   X CS1231   \n" +
+                "Sem 3:   X CG1111A   X IE2141   X CDE2000   X PF1101   X GEC1000   \n" +
+                "Sem 4:   X CG2023   X MA1508E   X ST2334   X ES2631   X EG2401A   \n" +
+                "Sem 5:   X EE4204   X EE2026   X CG2027   X CS2040C   X CG2111A   \n" +
+                "Sem 6:   X CG2028   X CS2113   X CG2271   X EE2211   \n" +
+                "Sem 7:   X CG4002   X CP3880   \n" +
                 "Sem 8:";
 
         printedOutput = printedOutput
@@ -283,7 +281,8 @@ class ModuleMethodsControllerTest {
         ArrayList<String> recommendedSchedule = student.getSchedule().generateRecommendedSchedule("CS");
         System.out.println(recommendedSchedule);
         String printedOutput = outputStream.toString().trim();
-        String expectedOutput = "[GEA1000, MA1521, IS1108, MA1522, CS1231S, ES2660, CS2101, CS1101S, GESS1000, GEN2000," +
+        String expectedOutput = "[GEA1000, MA1521, IS1108, MA1522, CS1231S, ES2660," +
+                " CS2101, CS1101S, GESS1000, GEN2000," +
                 " GEC1000, ST2334, CS2030S, CS2040S, CS2100, CS2103T, CS2109S, CS3230, CS2106, CP3880]";
         assertEquals(expectedOutput, printedOutput);
     }
@@ -291,16 +290,16 @@ class ModuleMethodsControllerTest {
     @Test
     void testRecommend_addCSRecommendedScheduleToStudent() {
         ArrayList<String> recommendedSchedule = student.getSchedule().generateRecommendedSchedule("CS");
-        student.getSchedule().addRecommendedScheduleListToSchedule(recommendedSchedule);
+        student.getSchedule().addRecommendedScheduleListToSchedule(recommendedSchedule,true);
         student.getSchedule().printMainModuleList();
         String printedOutput = outputStream.toString().trim();
-        String expectedOutput = "Sem 1: CS1231S MA1522 IS1108 MA1521 GEA1000 \n" +
-                "Sem 2: GEN2000 GESS1000 CS1101S CS2101 ES2660 \n" +
-                "Sem 3: CS2100 CS2040S CS2030S ST2334 GEC1000 \n" +
-                "Sem 4: CS2106 CS3230 CS2109S CS2103T \n" +
-                "Sem 5: CP3880 \n" +
-                "Sem 6: \n" +
-                "Sem 7: \n" +
+        String expectedOutput = "Sem 1:   X CS1231S   X MA1522   X IS1108   X MA1521   X GEA1000   \n" +
+                "Sem 2:   X GEN2000   X GESS1000   X CS1101S   X CS2101   X ES2660   \n" +
+                "Sem 3:   X CS2100   X CS2040S   X CS2030S   X ST2334   X GEC1000   \n" +
+                "Sem 4:   X CS2106   X CS3230   X CS2109S   X CS2103T   \n" +
+                "Sem 5:   X CP3880   \n" +
+                "Sem 6:   \n" +
+                "Sem 7:   \n" +
                 "Sem 8:";
 
         printedOutput = printedOutput

@@ -25,6 +25,7 @@ public class Schedule {
     private static final int MAXIMUM_SEMESTERS = 8;
     protected int[] modulesPerSem;
     private ModuleList modulesPlanned;
+    private HashMap<String, Module> completedModules;
 
     private HashMap<String, ArrayList<String>> prereqMap;
 
@@ -36,8 +37,9 @@ public class Schedule {
      * @param modulesPerSem An array indicating the distribution of modules across semesters.
      */
     public Schedule(String modules, int[] modulesPerSem) {
-        modulesPlanned = new ModuleList(modules);
         this.modulesPerSem = modulesPerSem;
+        modulesPlanned = new ModuleList(modules);
+        completedModules = new HashMap<String, Module>();
 
     }
 
@@ -45,8 +47,9 @@ public class Schedule {
      * Constructs a new, empty `Schedule` with no modules and a default semester distribution.
      */
     public Schedule() {
-        modulesPlanned = new ModuleList();
         modulesPerSem = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+        modulesPlanned = new ModuleList();
+        completedModules = new HashMap<String, Module>();
     }
 
     /**
@@ -62,12 +65,20 @@ public class Schedule {
         return modulesPlanned;
     }
 
-    public void addRecommendedScheduleListToSchedule(ArrayList<String> scheduleToAdd) { //overwrite
+    public void addRecommendedScheduleListToSchedule(ArrayList<String> scheduleToAdd, boolean keep) {
+        //update to store completion statuses
+        if (keep) {
+            completedModules = modulesPlanned.newHashMapOfCompleted();
+        } else {
+            completedModules.clear();
+        }
+
         final int modsToAddPerSem = 5;
         int currentIndexOfMod = 0;
         int currentSem = 1;
 
-        modulesPlanned = new ModuleList(); //overwrite
+        //overwrite
+        modulesPlanned = new ModuleList();
         modulesPerSem = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
 
         for (String module : scheduleToAdd) {
@@ -124,7 +135,7 @@ public class Schedule {
         }
 
         try {
-            if (modulesPlanned.exists(module)) {
+            if (modulesPlanned.existsByCode(module)) {
                 throw new IllegalArgumentException("Module already exists in the schedule");
             }
         } catch (InvalidObjectException e) {
@@ -167,7 +178,7 @@ public class Schedule {
             throw new MissingModuleException("Module does not exist in schedule");
         }
 
-        int targetIndex = modulesPlanned.getIndex(module);
+        int targetIndex = modulesPlanned.getIndexByString(module);
 
         int targetSem = 1;
         int moduleCount = modulesPerSem[0];
@@ -240,14 +251,14 @@ public class Schedule {
     /**
      * Adds a module to the schedule for a specified semester.
      *
-     * @param module The module code to be added.
+     * @param moduleCode The module code to be added.
      * @param targetSem The target semester (an integer from 1 to 8) in which to add the module.
      * @throws IllegalArgumentException If the provided semester is out of the valid range (1 to 8),
      *     or if the module already exists in the schedule, or if the module is not valid.
      * @throws InvalidObjectException If the module is null.
      * @throws FailPrereqException If the prerequisites for the module are not satisfied
      */
-    public void addModuleWithoutCheckingPrereq(String module, int targetSem)
+    public void addModuleWithoutCheckingPrereq(String moduleCode, int targetSem)
             throws InvalidObjectException, IllegalArgumentException {
 
         if (targetSem < 1 || targetSem > MAXIMUM_SEMESTERS) {
@@ -255,7 +266,7 @@ public class Schedule {
         }
 
         try {
-            if (modulesPlanned.exists(module)) {
+            if (modulesPlanned.existsByCode(moduleCode)) {
                 throw new IllegalArgumentException("Module already exists in the schedule");
             }
         } catch (InvalidObjectException e) {
@@ -267,7 +278,15 @@ public class Schedule {
             indexToAdd += this.modulesPerSem[i - 1];
         }
 
-        modulesPlanned.addModule(indexToAdd, new Module(module));
+        //reuse module data if existed
+        Module module = completedModules.get(moduleCode);
+        if (module != null) {
+            modulesPlanned.addModule(indexToAdd, module);
+            modulesPerSem[targetSem - 1] += 1;
+            return;
+        }
+
+        modulesPlanned.addModule(indexToAdd, new Module(moduleCode));
         modulesPerSem[targetSem - 1] += 1;
     }
 
@@ -276,7 +295,7 @@ public class Schedule {
      */
 
     public void printMainModuleList() {
-        printSemesterPlanner(modulesPerSem, modulesPlanned.getMainModuleList());
+        printSemesterPlanner(modulesPerSem, modulesPlanned);
     }
 
     /**

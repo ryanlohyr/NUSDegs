@@ -433,7 +433,7 @@ public class Api {
                         String formattedModule = ((String) module).replace(":D", "");
                         formattedModule = formattedModule.replace("%", "");
                         try {
-                            if (completedModules.exists(formattedModule)) {
+                            if (completedModules.existsByCode(formattedModule)) {
                                 return true;
                             }
                         } catch (InvalidObjectException e) {
@@ -467,7 +467,7 @@ public class Api {
                         String formattedModule = ((String) module).replace(":D", "");
                         formattedModule = formattedModule.replace("%", "");
                         try {
-                            if (!completedModules.exists(formattedModule)) {
+                            if (!completedModules.existsByCode(formattedModule)) {
                                 return false;
                             }
                         } catch (InvalidObjectException e) {
