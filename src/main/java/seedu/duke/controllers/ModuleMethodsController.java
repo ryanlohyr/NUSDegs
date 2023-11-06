@@ -86,7 +86,7 @@ public class ModuleMethodsController {
         }
     }
 
-    public static void recommendScheduleToStudent(Student student){
+    public static void recommendScheduleToStudent(Student student) {
         CommandLineView.displayMessage("Hold on a sec! Generating your recommended schedule <3....");
         ArrayList<String> recommendedSchedule = generateRecommendedSchedule(student.getMajor());
         chooseToAddToSchedule(student, recommendedSchedule);
@@ -103,23 +103,18 @@ public class ModuleMethodsController {
     }
 
 
-    public static boolean canCompleteModule(
-            String[] arguments,
-            ArrayList<String> majorModuleCodes,
-            //ModuleList modulesTaken,
+    public static boolean canCompleteModule(String[] arguments, ArrayList<String> majorModuleCodes,
             CompletePreqs addModulePreqs) {
+
         if (addModulePreqs.checkModInput(arguments, majorModuleCodes)) {
             String moduleCompleted = arguments[0].toUpperCase();
             addModulePreqs.getUnlockedMods(moduleCompleted);
             addModulePreqs.printUnlockedMods(moduleCompleted);
-            //modulesTaken.addModule(moduleCompleted);
-            return true;
 
+            return true;
         }
         return false;
     }
-
-
 
     public static void getRequiredModulesForStudent(String major) {
         printRequiredModules(major);
@@ -133,13 +128,10 @@ public class ModuleMethodsController {
         }
 
         ArrayList<String> prereq = getModulePrereqBasedOnCourse(moduleCode, major);
-        if(prereq == null || prereq.isEmpty()){
+        if (prereq == null || prereq.isEmpty()) {
             displayMessage("Module " + moduleCode + " has no prerequisites.");
-        }else{
+        } else {
             displayMessage(prereq);
         }
     }
-
-
-
 }
