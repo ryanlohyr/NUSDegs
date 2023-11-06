@@ -14,14 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
-import static seedu.duke.controllers.ModuleMethodsController.determinePrereq;
-import static seedu.duke.controllers.ModuleMethodsController.showModulesLeft;
-import static seedu.duke.controllers.ModuleMethodsController.computePace;
-import static seedu.duke.controllers.ModuleMethodsController.getRequiredModulesForStudent;
-import static seedu.duke.controllers.ModuleMethodsController.canCompleteModule;
-import static seedu.duke.controllers.ModuleMethodsController.deleteModule;
-import static seedu.duke.controllers.ModuleMethodsController.addModule;
-import static seedu.duke.controllers.ModuleMethodsController.recommendScheduleToStudent;
+import static seedu.duke.controllers.ModuleMethodsController.*;
 import static seedu.duke.utils.Parser.parseArguments;
 import static seedu.duke.utils.Parser.parseCommand;
 import static seedu.duke.controllers.ModuleServiceController.validateMajorInput;
@@ -169,9 +162,16 @@ public class ModulePlannerController {
         case UserCommands.COMPLETE_MODULE_COMMAND: {
             String module = arguments[0].toUpperCase();
             //to add to user completed module
-            if (canCompleteModule(arguments, student.getMajorModuleCodes(), addModulePreqs)) {
+
+            completeModule(student, module);
+
+            /*
+            if (canCompleteModule(arguments, student.getMajorModuleCodes(), student.getModulesPlanned(),
+                    //addModulePreqs)) {
                 student.completeModuleSchedule(module);
-            }
+            //}
+
+             */
             break;
         }
         case UserCommands.REQUIRED_MODULES_COMMAND: {

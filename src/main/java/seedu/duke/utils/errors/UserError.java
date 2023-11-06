@@ -64,4 +64,8 @@ public class UserError {
         System.out.println(moduleCode + "does not exist in your schedule.");
     }
 
+    public static void displayModuleAlreadyCompleted(String moduleCode){
+        System.out.printf("%s has already been marked as completed.%n", moduleCode);
+    }
+
 }

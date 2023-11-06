@@ -70,6 +70,11 @@ public class CommandLineView {
 
     }
 
+    public static void displaySuccessfulCompleteMessage() {
+        displayMessage("Module Successfully Completed");
+    }
+
+
     /**
      * Display a message to the command line view.
      *

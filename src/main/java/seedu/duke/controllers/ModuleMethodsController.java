@@ -3,8 +3,10 @@ package seedu.duke.controllers;
 import seedu.duke.exceptions.FailPrereqException;
 import seedu.duke.exceptions.MissingModuleException;
 import seedu.duke.models.logic.CompletePreqs;
+import seedu.duke.models.schema.Module;
 import seedu.duke.models.schema.Student;
 import seedu.duke.utils.Parser;
+import seedu.duke.utils.errors.UserError;
 import seedu.duke.views.CommandLineView;
 
 import java.io.InvalidObjectException;
@@ -15,10 +17,7 @@ import static seedu.duke.models.logic.Api.doesModuleExist;
 import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
 import static seedu.duke.models.logic.MajorRequirements.printRequiredModules;
 import static seedu.duke.models.logic.ScheduleGenerator.generateRecommendedSchedule;
-import static seedu.duke.views.CommandLineView.displayMessage;
-import static seedu.duke.views.CommandLineView.displaySuccessfulAddMessage;
-import static seedu.duke.views.CommandLineView.showPrereqCEG;
-import static seedu.duke.views.CommandLineView.displaySuccessfulDeleteMessage;
+import static seedu.duke.views.CommandLineView.*;
 import static seedu.duke.views.ModuleInfoView.printModuleStringArray;
 
 /**
@@ -35,10 +34,9 @@ public class ModuleMethodsController {
     /**
      * Computes and displays the recommended pace for completing remaining module credits until graduation.
      *
-     * @author ryanlohyr
      * @param arguments              An array of strings containing academic year and semester information.
      * @param completedModuleCredits The number of module credits already completed by the user.
-     *
+     * @author ryanlohyr
      */
     static void computePace(String[] arguments, int completedModuleCredits) {
         int totalCreditsToGraduate = 160;
@@ -102,19 +100,28 @@ public class ModuleMethodsController {
         }
     }
 
+    //public static boolean canCompleteModule(String[] arguments, ArrayList<String> majorModuleCodes,
+    //ModuleList modulesPlanned, CompletePreqs addModulePreqs) {
+    public static void completeModule(Student student, String moduleCode) {
+        try {
+            Module module = student.existModuleSchedule(moduleCode);
+            if (module.getCompletionStatus()) {
+                UserError.displayModuleAlreadyCompleted(module.getModuleCode());
+            } else {
+                student.completeModuleSchedule(moduleCode);
+                displaySuccessfulCompleteMessage();
+            }
 
-    public static boolean canCompleteModule(String[] arguments, ArrayList<String> majorModuleCodes,
-            CompletePreqs addModulePreqs) {
+        } catch (MissingModuleException e) {
+            displayMessage(e.getMessage());
+            UserError.invalidAddFormat();
 
-        if (addModulePreqs.checkModInput(arguments, majorModuleCodes)) {
-            String moduleCompleted = arguments[0].toUpperCase();
-            addModulePreqs.getUnlockedMods(moduleCompleted);
-            addModulePreqs.printUnlockedMods(moduleCompleted);
-
-            return true;
+        } catch (InvalidObjectException e) {
+            assert false;
         }
-        return false;
     }
+
+
 
     public static void getRequiredModulesForStudent(String major) {
         printRequiredModules(major);
