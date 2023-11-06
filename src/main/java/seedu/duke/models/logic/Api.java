@@ -17,6 +17,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import seedu.duke.exceptions.InvalidModuleCodeException;
 import seedu.duke.exceptions.InvalidModuleException;
 import seedu.duke.models.schema.Major;
 import seedu.duke.models.schema.ModuleList;
@@ -147,7 +148,7 @@ public class Api {
             HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
             int responseCode = connection.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
-                throw new InvalidModuleException();
+                throw new InvalidModuleCodeException();
             }
             String responseBody = sendHttpRequestAndGetResponseBody(url);
             JSONParser parser = new JSONParser();
@@ -165,7 +166,9 @@ public class Api {
         } catch (NullPointerException e) {
             //System.out.println("Invalid Module Name");
         } catch (InvalidModuleException e) {
-          //  System.out.println("Invalid Module Code :" + e.getMessage());
+            System.out.println("Invalid Module Code: " + e.getMessage());
+        } catch (InvalidModuleCodeException e) {
+            System.out.println(e.getMessage());
         }
         return null;
     }
@@ -190,10 +193,10 @@ public class Api {
      * @return The description of the module.
      *
      */
-    public static String getDescription(String moduleCode) throws InvalidModuleException {
+    public static String getDescription(String moduleCode) throws InvalidModuleException, InvalidModuleCodeException {
         JSONObject moduleInfo = getFullModuleInfo(moduleCode);
         if (moduleInfo == null) {
-            throw new InvalidModuleException();
+            throw new InvalidModuleCodeException();
         }
         return (String) moduleInfo.get("description");
     }
@@ -230,15 +233,15 @@ public class Api {
      * @return A JSONArray containing workload details.
      *
      */
-    public static JSONArray getWorkload(String moduleCode) throws InvalidModuleException {
-        JSONObject moduleInfo = getFullModuleInfo(moduleCode);
-        if (moduleInfo == null) {
-            throw new InvalidModuleException();
-        }
+    public static JSONArray getWorkload(String moduleCode) throws InvalidModuleCodeException {
         try {
+            JSONObject moduleInfo = getFullModuleInfo(moduleCode);
+            if (moduleInfo == null) {
+                throw new InvalidModuleCodeException();
+            }
             return (JSONArray) moduleInfo.get("workload");
         } catch (NullPointerException e) {
-            throw new InvalidModuleException();
+            throw new InvalidModuleCodeException();
         }
     }
 
@@ -491,30 +494,7 @@ public class Api {
         return null;
     }
 
-    /**
-     * Searches for modules containing a specified keyword in their title within a given module list.
-     *
-     * @author rohitcube
-     * @param keyword    The keyword to search for.
-     * @param moduleList The list of modules to search within.
-     * @return A JSONArray containing modules matching the keyword.
-     *
-     */
-    public static JSONArray search(String keyword, JSONArray moduleList) {
-        JSONArray modulesContainingKeyword = new JSONArray();
-        if (keyword.isEmpty()) {
-            return new JSONArray();
-        }
-        for (Object moduleObject : moduleList) {
-            JSONObject module = (JSONObject) moduleObject; // Cast to JSONObject
-            String title = (String) module.get("title");
-            if (title.contains(keyword)) {
-                modulesContainingKeyword.add(module);
-                //not sure how to resolve this yellow line
-            }
-        }
-        return modulesContainingKeyword;
-    }
+
 
     /**
      * Executes commands based on user input for module information retrieval.
@@ -544,8 +524,35 @@ public class Api {
                 UserError.invalidCommandforInfoCommand();
             }
         } catch (InvalidModuleException e) {
-            UserError.invalidModuleCode();
+          //  System.out.println("Invalid entry" + e.getMessage());
+        } catch (InvalidModuleCodeException e) {
+          //  System.out.println(e.getMessage());
         }
+    }
+
+    /**
+     * Searches for modules containing a specified keyword in their title within a given module list.
+     *
+     * @author rohitcube
+     * @param keyword    The keyword to search for.
+     * @param moduleList The list of modules to search within.
+     * @return A JSONArray containing modules matching the keyword.
+     *
+     */
+    public static JSONArray search(String keyword, JSONArray moduleList) {
+        JSONArray modulesContainingKeyword = new JSONArray();
+        if (keyword.isEmpty()) {
+            return new JSONArray();
+        }
+        for (Object moduleObject : moduleList) {
+            JSONObject module = (JSONObject) moduleObject; // Cast to JSONObject
+            String title = (String) module.get("title");
+            if (title.contains(keyword)) {
+                modulesContainingKeyword.add(module);
+                //not sure how to resolve this yellow line
+            }
+        }
+        return modulesContainingKeyword;
     }
 
     public static void searchCommand(String userInput) {
