@@ -26,6 +26,15 @@ public class Module {
         this.moduleCode = moduleCode;
     }
 
+    /**
+     * Loads module information from the NUSMods API and populates the fields of this object.
+     *
+     * This method sends a request to the NUSMods API to retrieve module information and
+     * then populates the fields of the current object with the received data. The fields
+     * include module description, module name, module credits, and completion status.
+     *
+     *
+     */
     public void loadNUSModsAPI(){
         JSONObject response = getFullModuleInfo(moduleCode);
         assert response != null: "Response from NUSMods API is null";

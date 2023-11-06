@@ -170,6 +170,15 @@ public class Student {
         majorModuleCodes = getRequirements(major);
     }
 
+    /**
+     * Retrieves the module codes that are left to be completed in the major's curriculum.
+     *
+     * This method compares the list of major module codes with the list of completed module codes
+     * in the current schedule. It returns a list of module codes that are still left to be completed
+     * as per the major's curriculum.
+     *
+     * @return An ArrayList of Strings representing module codes that are left to be completed.
+     */
     public ArrayList<String> getModuleCodesLeft () {
         ArrayList<String> moduleCodesLeft = new ArrayList<String>();
         ArrayList<String> completedModuleCodes = schedule.getModulesPlanned().getModulesCompleted();
