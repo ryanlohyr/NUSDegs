@@ -15,8 +15,6 @@ import static seedu.duke.controllers.ModuleServiceController.chooseToAddToSchedu
 import static seedu.duke.models.logic.Api.doesModuleExist;
 import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
 import static seedu.duke.models.logic.MajorRequirements.printRequiredModules;
-import static seedu.duke.models.logic.ScheduleGenerator.generateRecommendedSchedule;
-
 import static seedu.duke.views.CommandLineView.displayMessage;
 import static seedu.duke.views.CommandLineView.displaySuccessfulAddMessage;
 import static seedu.duke.views.CommandLineView.showPrereqCEG;
@@ -37,10 +35,11 @@ import static seedu.duke.views.ModuleInfoView.printModuleStringArray;
  */
 public class ModuleMethodsController {
 
-    //@@author ryanlohyr
+
     /**
      * Computes and displays the recommended pace for completing remaining module credits until graduation.
      *
+     * @author ryanlohyr
      * @param arguments              An array of strings containing academic year and semester information.
      * @param completedModuleCredits The number of module credits already completed by the user.
      */
@@ -97,7 +96,8 @@ public class ModuleMethodsController {
 
     public static void recommendScheduleToStudent(Student student) {
         CommandLineView.displayMessage("Hold on a sec! Generating your recommended schedule <3....");
-        ArrayList<String> recommendedSchedule = generateRecommendedSchedule(student.getMajor());
+        //to refactor
+        ArrayList<String> recommendedSchedule = student.getSchedule().generateRecommendedSchedule(student.getMajor());
         chooseToAddToSchedule(student, recommendedSchedule);
     }
 

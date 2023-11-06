@@ -27,7 +27,6 @@ public class ModuleList {
 
     public ModuleList(String modules) {
         this();
-
         if (modules == null || modules.isEmpty()) {
             return;
         }
@@ -177,6 +176,17 @@ public class ModuleList {
 
     public int getIndex(Module module) {
         return mainModuleList.indexOf(module);
+    }
+
+    public int getIndexByString(String moduleCode) {
+        int i = 0;
+        for (Module module: mainModuleList){
+            if (moduleCode.equals(module.getModuleCode())) {
+                return i;
+            }
+            i++;
+        }
+        return -1;
     }
 
     public int getIndexByCode(String moduleCode) {

@@ -43,7 +43,7 @@ public class ModuleServiceController {
         printModuleStringArray(scheduleToAdd);
         displayMessage("Here you go!");
         displayMessage("Taking the modules in this order will ensure a prerequisite worry free uni life!");
-        displayMessage("Do you want to add this to your draft schedule? " +
+        displayMessage("Do you want to add this to your schedule planner? " +
                 "(This will overwrite your current schedule!)");
         displayMessage("Please input 'Y' or 'N'");
 
@@ -74,7 +74,9 @@ public class ModuleServiceController {
                 keep = false;
             }
             student.getSchedule().addRecommendedScheduleListToSchedule(scheduleToAdd, keep);
+            displayMessage("Here is your schedule planner!");
             student.getSchedule().printMainModuleList();
+            displayMessage("Happy degree planning!");
 
 
         } else {
