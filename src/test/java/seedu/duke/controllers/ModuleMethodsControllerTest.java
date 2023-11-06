@@ -29,7 +29,7 @@ class ModuleMethodsControllerTest {
     private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
 
-    private Student student;
+    private Student student = new Student();
 
     @BeforeEach
     public void setUpStreams() {
@@ -112,7 +112,7 @@ class ModuleMethodsControllerTest {
         String major = "CEG";
         determinePrereq(invalidModuleCode, major);
         String printedOutput = outputStream.toString().trim();
-        String expectedResponse = "Invalid Module Code :Only alphabets and digits are allowed in module codes!";
+        String expectedResponse = "Invalid Module Code: Only alphabets and digits are allowed in module codes!";
         assertEquals(printedOutput, expectedResponse);
     }
 
@@ -138,6 +138,7 @@ class ModuleMethodsControllerTest {
 
     @Test
     void testPrereq_addValidModuleToStudent() throws InvalidObjectException {
+
         String moduleCode = "EG1311";
         int targetSem = 1;
         boolean doesModuleExist = false;
@@ -146,7 +147,7 @@ class ModuleMethodsControllerTest {
             displaySuccessfulAddMessage();
             student.printSchedule();
             Schedule currentSchedule = student.getSchedule();
-            doesModuleExist = currentSchedule.exists(moduleCode);
+            doesModuleExist = currentSchedule.getModulesPlanned().exists(moduleCode);
         } catch (InvalidObjectException | IllegalArgumentException e) {
             displayMessage(e.getMessage());
         } catch (FailPrereqException f) {
@@ -173,7 +174,6 @@ class ModuleMethodsControllerTest {
         assertEquals(printedOutput, expectedOutput);
 
         assertTrue(doesModuleExist);
-
     }
 
     @Test
@@ -186,7 +186,7 @@ class ModuleMethodsControllerTest {
             displaySuccessfulAddMessage();
             student.printSchedule();
             Schedule currentSchedule = student.getSchedule();
-            doesModuleExist = currentSchedule.exists(moduleCode);
+            doesModuleExist = currentSchedule.getModulesPlanned().exists(moduleCode);
         } catch (InvalidObjectException | IllegalArgumentException e) {
             displayMessage(e.getMessage());
         } catch (FailPrereqException f) {
@@ -219,7 +219,7 @@ class ModuleMethodsControllerTest {
             displaySuccessfulAddMessage();
             student.printSchedule();
             Schedule currentSchedule = student.getSchedule();
-            doesModuleExist = currentSchedule.exists(moduleCode);
+            doesModuleExist = currentSchedule.getModulesPlanned().exists(moduleCode);
         } catch (InvalidObjectException | IllegalArgumentException e) {
             displayMessage(e.getMessage());
         } catch (FailPrereqException f) {

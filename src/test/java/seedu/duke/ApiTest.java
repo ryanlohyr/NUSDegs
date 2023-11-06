@@ -2,6 +2,8 @@ package seedu.duke;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import seedu.duke.exceptions.InvalidModuleCodeException;
+import seedu.duke.exceptions.InvalidModuleException;
 import seedu.duke.models.logic.Api;
 
 import java.util.Objects;
@@ -9,9 +11,10 @@ import java.util.Objects;
 import org.junit.jupiter.api.Test;
 import seedu.duke.views.ModuleInfoView;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class ApiTest {
@@ -26,9 +29,18 @@ public class ApiTest {
         assertTrue(moduleInfo.contains(correctModuleInfo), "Module info should contain relevant info");
     }
 
+    @Test
+    public void getDescription_invalidEntry() {
+        assertThrows(InvalidModuleCodeException.class, () -> Api.getDescription("invalid342432"));
+    }
 
     @Test
-    void testGetDescription_shouldReturnEquals() {
+    public void getDescription_emptyEntry() {
+        assertThrows(InvalidModuleCodeException.class, () -> Api.getDescription("  "));
+    }
+
+    @Test
+    void testGetDescription_shouldReturnEquals() throws InvalidModuleException, InvalidModuleCodeException {
         String correctDescription = "This course introduces the necessary skills for systematic and " +
                 "rigorous development of software systems. It covers requirements, design, implementation, " +
                 "quality assurance, and project management aspects of small-to-medium size multi-person software" +
@@ -41,7 +53,7 @@ public class ApiTest {
     }
 
     @Test
-    void testGetWorkload_shouldReturnCorrectValue() {
+    void testGetWorkload_shouldReturnCorrectValue() throws InvalidModuleCodeException {
         // uses unchecked or unsafe operations, Note: Recompile with -Xlint:unchecked for details.
         JSONArray workload = Api.getWorkload("CS2113");
         JSONArray jsonArray = new JSONArray();
@@ -53,6 +65,29 @@ public class ApiTest {
         String jsonString1 = jsonArray.toJSONString();
         String jsonString2 = workload.toJSONString();
         assertEquals(jsonString2, jsonString1);
+    }
+
+    @Test
+    void testGetWorkload_invalidEntry() {
+        assertThrows(InvalidModuleCodeException.class, () -> Api.getWorkload("invH3432"));
+    }
+
+    @Test
+    void testWrapTextEmptyInput() {
+        String text = " ";
+        System.out.println(Api.wrapText(text, 60));
+        assertTrue(Api.wrapText(text, 60).trim().isEmpty());
+    }
+    @Test
+    void testWrapTextNullInput() {
+        String text = null;
+        System.out.println(Api.wrapText(text, 60));
+        assertTrue(Api.wrapText(text, 60).trim().isEmpty());
+    }
+
+    @Test
+    void testSearchCommand_invalidInput() {
+        assertTrue(Api.search("1231724738", Api.listAllModules()).isEmpty());
     }
 
     @Test

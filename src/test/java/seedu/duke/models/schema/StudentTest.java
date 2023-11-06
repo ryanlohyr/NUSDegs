@@ -1,16 +1,20 @@
 package seedu.duke.models.schema;
 
 import org.junit.jupiter.api.Test;
+import seedu.duke.exceptions.FailPrereqException;
+import seedu.duke.exceptions.MissingModuleException;
 
+import java.io.InvalidObjectException;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class StudentTest {
 
     //success scenario: difference (not working)
     @Test
-    void getModuleCodesLeft_majorSet_expectArrayList() {
+    void getModuleCodesLeftTest_majorSet_expectArrayList() {
         Student student = new Student();
         student.setMajor("CEG");
         //actual: student.getModuleCodesLeft();
@@ -26,6 +30,16 @@ public class StudentTest {
         }
 
         assertEquals(expected, student.getModuleCodesLeft());
+    }
+
+    @Test
+    void deleteModuleScheduleTest_moduleExists_expectDelete()
+            throws InvalidObjectException, FailPrereqException, MissingModuleException {
+        Student student = new Student();
+        student.addModuleSchedule("CS1010", 1);
+        student.deleteModuleSchedule("CS1010");
+
+        assertTrue(student.getModulesPlanned().getMainModuleList().isEmpty());
     }
 
     // getModuleCodesLeft_noMajorSet_expectException()

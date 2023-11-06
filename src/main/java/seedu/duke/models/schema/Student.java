@@ -18,7 +18,6 @@ public class Student {
     private Schedule schedule;
     private String year;
     private int completedModuleCredits;
-    private ModuleList modulesPlanned;
     private ArrayList<String> majorModuleCodes;
 
     /**
@@ -33,7 +32,6 @@ public class Student {
         this.major = major;
         this.schedule = schedule;
         this.year = null;
-        this.modulesPlanned = new ModuleList();
     }
 
     /**
@@ -44,7 +42,6 @@ public class Student {
         this.major = null;
         this.schedule = new Schedule();
         this.year = null;
-        this.modulesPlanned = new ModuleList();
     }
 
     /**
@@ -103,8 +100,7 @@ public class Student {
     }
 
     public void addModuleSchedule(String moduleCode, int targetSem) throws InvalidObjectException, FailPrereqException {
-        this.schedule.addModule(moduleCode,targetSem);
-        this.modulesPlanned.addModule(new Module(moduleCode));
+        this.schedule.addModule(moduleCode, targetSem);
     }
 
     /**
@@ -114,8 +110,7 @@ public class Student {
      * @param moduleCode The code of the module to be completed.
      */
     public void completeModuleSchedule(String moduleCode) {
-        ArrayList<Module> modulesPlanned = this.modulesPlanned.getMainModuleList();
-        for (Module module : modulesPlanned) {
+        for (Module module : schedule.getModulesPlanned().getMainModuleList()) {
             if (module.getModuleCode().equals(moduleCode)) {
                 this.completedModuleCredits += module.getModuleCredits();
                 module.markModuleAsCompleted();
@@ -124,10 +119,6 @@ public class Student {
         }
     }
 
-
-    public void printSchedule(){
-        this.schedule.printMainModuleList();
-    }
 
     /**
      * Deletes a module with the specified module code. This method also updates the completed
@@ -138,17 +129,16 @@ public class Student {
      * @throws FailPrereqException If deleting the module fails due to prerequisite dependencies.
      */
     public void deleteModuleSchedule(String moduleCode) throws FailPrereqException, MissingModuleException {
-        this.schedule.deleteModule(moduleCode);
+        schedule.deleteModule(moduleCode);
         Module module;
         try {
-            module = modulesPlanned.getModule(moduleCode);
+            module = schedule.getModule(moduleCode);
         } catch (InvalidObjectException e) {
             throw new MissingModuleException(moduleCode + " is not in Modules Planner.");
         }
-        this.completedModuleCredits -= module.getModuleCredits();
-        modulesPlanned.deleteModule(module);
+        completedModuleCredits -= module.getModuleCredits();
+        schedule.getModulesPlanned().deleteModule(module);
     }
-
 
     public String getYear() {
         return year;
@@ -157,7 +147,6 @@ public class Student {
     public void setYear(String year) {
         this.year = year;
     }
-
 
     /**
      * Sets the name of the student.
@@ -180,7 +169,7 @@ public class Student {
 
     public ArrayList<String> getModuleCodesLeft () {
         ArrayList<String> moduleCodesLeft = new ArrayList<String>();
-        ArrayList<String> completedModuleCodes = modulesPlanned.getModulesCompleted();
+        ArrayList<String> completedModuleCodes = schedule.getModulesPlanned().getModulesCompleted();
 
         for (String moduleCode: majorModuleCodes) {
             if (!completedModuleCodes.contains(moduleCode)) {
@@ -195,6 +184,10 @@ public class Student {
     }
 
     public ModuleList getModulesPlanned() {
-        return modulesPlanned;
+        return schedule.getModulesPlanned();
+    }
+
+    public void printSchedule(){
+        this.schedule.printMainModuleList();
     }
 }
