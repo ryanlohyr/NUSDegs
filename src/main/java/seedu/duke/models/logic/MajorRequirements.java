@@ -1,134 +1,65 @@
 package seedu.duke.models.logic;
 
-import seedu.duke.models.schema.Major;
 import seedu.duke.views.CommandLineView;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
 
 public class MajorRequirements {
-    private CommandLineView view = new CommandLineView();
-    private String filePath = null;
 
-    private int formatLineLength = 0;
-    private final int accountForTabs = 15;
-
-    public MajorRequirements(Major major) {
-        try {
-            filePath = DataRepository.getFullRequirements(major);
-
-        } catch (NullPointerException e) {
-            view.displayMessage("Cannot get filePath. " + e.getMessage());
+    public static void printRequiredModules(String major) {
+        if (!major.equals("CEG")) {
+            CommandLineView.displayMessage("Sorry this major has not be included in our app yet.");
+            return;
         }
+        CommandLineView.displayMessage(
+                "#===========================================================================================#\n" +
+                "║\tModular Requirements for CEG                                                \tUnits\t║\n" +
+                "#===========================================================================================#\n" +
+                "+-------------------------------------------------------------------------------------------+\n" +
+                "│\tCommon Curriculum Requirements                                              \t60\t\t│\n" +
+                "+-------------------------------------------------------------------------------------------+\n" +
+                "\tGES1000 (Singapore Studies)                                                 \t4\n" +
+                "\tGEC1000 (Cultures and Connections)                                          \t4\n" +
+                "\tGEN2000 (Communities and Engagement)                                        \t4\n" +
+                "\tES2631 Critique & Communication of Thinking & Design (Critique & Expression)\t4\n" +
+                "\tCS1010 Programming Methodology (Digital Literacy)                           \t4\n" +
+                "\tGEA1000 Quantitative Reasoning with Data (Data Literacy)                    \t4\n" +
+                "\tDTK1234 Design Thinking (Design Thinking)                                   \t4\n" +
+                "\tEG1311 Design and Make (Maker Space)                                        \t4\n" +
+                "\tIE2141 Systems Thinking and Dynamics (Systems Thinking)                     \t4\n" +
+                "\tEE2211 Introduction to Machine Learning (Artificial Intelligence)           \t4\n" +
+                "\tCDE2501 Liveable Cities (Sustainable Futures)                               \t4\n" +
+                "\tCDE2000 (Creating Narratives)                                               \t4\n" +
+                "\tPF1101 Fundamentals of Project Management (Project Management)              \t4\n" +
+                "\tCG4002 Computer Engineering Capstone Project 1 (Integrated Project)         \t8\n" +
+                "\n" +
+                "+-------------------------------------------------------------------------------------------+\n" +
+                "│\tProgramme Requirements                                                      \t60\t\t│\n" +
+                "+-------------------------------------------------------------------------------------------+\n" +
+                " ~~\tEngineering Core                                                            \t20\t ~~\n" +
+                "\n" +
+                "\tMA1511 Engineering Calculus                                                 \t2\n" +
+                "\tMA1512 Differential Equations for Engineering                               \t2\n" +
+                "\tMA1508E Linear Algebra for Engineering                                      \t4\n" +
+                "\tEG2401A Engineering Professionalism                                         \t2\n" +
+                "\tCP3880 Advanced Technology Attachment Programme                             \t12\n" +
+                "\n" +
+                " ~~\tCEG Major                                                                   \t40\t ~~\n" +
+                "\n" +
+                "\tCG1111A Engineering Principles and Practice I                               \t4\n" +
+                "\tCG2111A Engineering Principles and Practice II                              \t4\n" +
+                "\tCS1231 Discrete Structures                                                  \t4\n" +
+                "\tCG2023 Signals & Systems                                                    \t4\n" +
+                "\tCG2027 Transistor-level Digital Circuit                                     \t2\n" +
+                "\tCG2028 Computer Organization                                                \t2\n" +
+                "\tCG2271 Real-time Operating System                                           \t4\n" +
+                "\tCS2040C Data Structures and Algorithms                                      \t4\n" +
+                "\tCS2113 Software Engineering & Object-Oriented Programming                   \t4\n" +
+                "\tEE2026 Digital Design                                                       \t4\n" +
+                "\tEE4204 Computer Networks                                                    \t4\n" +
+                "\n" +
+                "+-------------------------------------------------------------------------------------------+\n" +
+                "│\tUnrestricted Electives                                                      \t40\t\t│\n" +
+                "+-------------------------------------------------------------------------------------------+");
     }
 
-    public String getFilePath() {
-        return filePath;
-    }
-
-    /**
-     * Print a single line for a formatted subheader.
-     */
-    private void printSingleLine() {
-        view.displayMessage(String.format("+%-" + formatLineLength + "s+", "").replace(' ', '-'));
-    }
-
-    /**
-     * Print a double line for a formatted header.
-     */
-    private void printDoubleLine() {
-        view.displayMessage(String.format("#%-" + formatLineLength + "s#", "").replace(' ', '='));
-    }
-
-
-    /**
-     * Return a justified string with a specified length.
-     *
-     * @param name       The name part of the string.
-     * @param description The description part of the string.
-     * @param length     The total length of the formatted string.
-     * @return The justified string.
-     */
-    private String returnJustified(String name, String description, int length) {
-        return String.format("%-" + length + "s\t", name) + description;
-    }
-
-    /**
-     * Print the contents of a text file about major requirements with structured formatting.
-     *
-     * @param filePath The path to the text file to be printed.
-     * @throws FileNotFoundException If the file specified by filePath is not found.
-     */
-    public void printTXTFile(String filePath) throws FileNotFoundException {
-        try {
-            File f = new File(filePath); // create a File for the given file path
-            int longestLineLength = getLongestLineLength(f);
-            formatLineLength = longestLineLength + accountForTabs;
-
-            Scanner s = new Scanner(f);
-            String moduleName;
-            String moduleMCs;
-
-            while (s.hasNext()) {
-                String currentLine = s.nextLine();
-                if (currentLine.indexOf(" - ") > 0) { //module exist
-                    moduleName = currentLine.substring(0, currentLine.indexOf(" - "));
-                    moduleMCs = currentLine.substring(currentLine.indexOf(" - ") + 3);
-                } else {
-                    moduleName = currentLine;
-                    moduleMCs = "";
-                }
-
-                if (currentLine.startsWith("***")) { //subsubheader
-                    String actualModuleName = moduleName.substring(3);
-                    view.displayMessage(" ~~\t" + returnJustified(actualModuleName, moduleMCs, longestLineLength)
-                            + "\t ~~");
-                    view.printNewline();
-                } else if (currentLine.startsWith("**")) { //subheader has box
-                    printSingleLine();
-                    String actualModuleName = moduleName.substring(2);
-                    view.displayMessage("│\t" + returnJustified(actualModuleName, moduleMCs, longestLineLength)
-                            + "\t\t│");
-                    printSingleLine();
-                } else if (currentLine.startsWith("*")) { //header
-                    printDoubleLine();
-                    String actualModuleName = moduleName.substring(1);
-                    view.displayMessage("║\t" + returnJustified(actualModuleName, moduleMCs, longestLineLength)
-                            + "\t║");
-                    printDoubleLine();
-                } else if (!currentLine.isEmpty()) {
-                    view.displayMessage("\t" + returnJustified(moduleName, moduleMCs, longestLineLength));
-                } else {
-                    view.printNewline();
-                }
-
-            }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * Find the length of the longest line in a text file.
-     *
-     * @param f The text file to analyze.
-     * @return The length of the longest line found.
-     * @throws FileNotFoundException If the file specified by f is not found.
-     */
-    private static int getLongestLineLength(File f) throws FileNotFoundException {
-        Scanner s = new Scanner(f); // create a Scanner using the File as the source
-        int longestLineLength = 0;
-
-        while (s.hasNext()) {
-            String currentLine = s.nextLine();
-            if (currentLine.indexOf(" - ") > longestLineLength) {
-                longestLineLength = currentLine.indexOf(" - ");
-            }
-        }
-        if (longestLineLength % 4 > 0) { // remainder
-            longestLineLength = (longestLineLength / 4) * 4;
-        }
-        return longestLineLength;
-    }
 }

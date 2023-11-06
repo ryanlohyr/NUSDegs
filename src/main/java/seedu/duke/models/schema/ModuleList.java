@@ -3,26 +3,19 @@ package seedu.duke.models.schema;
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
 
-import static seedu.duke.models.logic.DataRepository.getRequirements;
+import static seedu.duke.views.ModuleInfoView.printModuleArray;
 
 /**
  * A class representing a list of modules and providing operations to manage them.
  */
 public class ModuleList {
-
-    private ArrayList<String> mainModuleList;
-    private int numberOfModules;
+    private ArrayList<Module> mainModuleList;
 
     /**
-     * Constructs a ModuleList based on the module requirements for a specific major.
-     *
-     * @param major The major for which module requirements are needed.
+     * Constructs an empty ModuleList.
      */
-    public ModuleList(Major major) {
-        mainModuleList = getRequirements(major.toString());
-        for (String ignored : mainModuleList) {
-            numberOfModules += 1;
-        }
+    public ModuleList() {
+        mainModuleList = new ArrayList<Module>();
     }
 
     /**
@@ -30,79 +23,25 @@ public class ModuleList {
      *
      * @param modules A space-separated string of module codes.
      */
+
     public ModuleList(String modules) {
-        try {
-            String[] moduleArray = modules.split(" ");
-            mainModuleList = new ArrayList<String>();
+        this();
 
-            numberOfModules = 0;
-            for (String module : moduleArray) {
-                mainModuleList.add(module);
-                numberOfModules += 1;
-            }
-        } catch (NullPointerException e) {
-            new ModuleList();
+        if (modules == null || modules.isEmpty()) {
+            return;
         }
-    }
 
-    /**
-     * Constructs an empty ModuleList.
-     */
-    public ModuleList() {
-        mainModuleList = new ArrayList<String>();
-        numberOfModules = 0;
-    }
+        String[] moduleArray = modules.split(" ");
 
-    public void addModule (String module) {
-        mainModuleList.add(module);
-    }
-
-    /**
-     * Computes the difference between two ModuleList objects (A - B) and updates the current list.
-     *
-     * @author janelleenqi
-     * @param a The first ModuleList.
-     * @param b The second ModuleList.
-     * @throws InvalidObjectException If either A or B is null.
-     */
-    public void getDifference (ModuleList a, ModuleList b) throws InvalidObjectException {
-        //A - B
-        if (a == null || b == null) {
-            throw new InvalidObjectException("Null Inputs");
-        }
-        mainModuleList.clear();
-
-        for (String moduleA : a.mainModuleList) {
+        for (String module : moduleArray) {
             try {
-                if (!b.exists(moduleA)) {
-                    mainModuleList.add(moduleA);
-                    numberOfModules += 1;
-                }
-            } catch (InvalidObjectException e) {
-                System.out.println("Error: " + e.getMessage());
+                mainModuleList.add(new Module(module));
+
+            } catch (NullPointerException e) {
+                System.out.println("null pointer");
+                //fail
             }
         }
-    }
-
-    /**
-     * Checks if a module exists in the list.
-     *
-     * @author janelleenqi
-     * @param moduleA The module to check for existence.
-     * @return true if the module exists in the list; false otherwise.
-     * @throws InvalidObjectException If moduleA is null.
-     */
-    public boolean exists(String moduleA) throws InvalidObjectException {
-        if (moduleA == null || mainModuleList == null) {
-            throw new InvalidObjectException("Null Inputs");
-        }
-
-        for (String moduleB : mainModuleList) {
-            if (moduleA.equals(moduleB)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     /**
@@ -111,37 +50,91 @@ public class ModuleList {
      * @author janelleenqi
      * @return The ArrayList containing the modules.
      */
-    public ArrayList<String> getMainModuleList() {
+    public ArrayList<Module> getMainModuleList() {
         assert mainModuleList != null: "null mainModuleList";
         return mainModuleList;
     }
 
-    public void printMainModuleList(){
-        for (String mod: mainModuleList){
-            System.out.print(mod + " ");
+    public ArrayList<String> getModuleCodes() {
+        ArrayList<String> moduleCodes = new ArrayList<>();
+        for (Module module: mainModuleList){
+            moduleCodes.add(module.getModuleCode());
         }
-        System.out.println();
+        return moduleCodes;
     }
 
-    /**
-     * Retrieves the number of modules.
-     *
-     * @return The number of modules.
-     */
-    public int getNumberOfModules() {
-        assert numberOfModules >= 0: "negative numberOfModules";
-        return numberOfModules;
+    public ArrayList<String> getModulesCompleted(){
+        ArrayList<String> completedModuleCodes = new ArrayList<>();
+        for (Module module: mainModuleList){
+            if (module.getCompletionStatus()) {
+                completedModuleCodes.add(module.getModuleCode());
+            }
+        }
+        return completedModuleCodes;
     }
 
-    /**
-     * Changes the number of modules by the specified difference.
-     *
-     * @param difference The difference by which to change the number of modules.
-     *                   A positive value increases the number, while a negative value decreases it.
-     */
-    public void changeNumberOfModules(int difference) {
-        numberOfModules += difference;
+    public void addModule (Module module) {
+        mainModuleList.add(module);
+    }
+
+    public void addModule (int index, Module module) {
+        mainModuleList.add(index, module);
     }
 
 
+    public void deleteModule (Module module) {
+        mainModuleList.remove(module);
+    }
+
+    public void deleteModulebyCode (String moduleCode) {
+        for (Module module: mainModuleList){
+            if (moduleCode.equals(module.getModuleCode())) {
+                deleteModule(module);
+                return;
+            }
+        }
+    }
+
+    public boolean exists(String moduleCodeA) throws InvalidObjectException {
+        if (mainModuleList == null) {
+            throw new InvalidObjectException("Null Module List");
+        }
+
+        if (moduleCodeA == null) {
+            throw new InvalidObjectException("Null Module Code");
+        }
+
+        for (Module moduleB : mainModuleList) {
+            if (moduleCodeA.equals(moduleB.getModuleCode())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public Module getModule(String moduleCode) throws InvalidObjectException {
+        for (Module module: mainModuleList) {
+            if (moduleCode.equals(module.getModuleCode())) {
+                return module;
+            }
+        }
+        throw new InvalidObjectException("Module does not exist.");
+    }
+
+
+    public int getIndex(String moduleCode) {
+        int i = 0;
+        for (Module module: mainModuleList){
+            if (moduleCode.equals(module.getModuleCode())) {
+                return i;
+            }
+            i++;
+        }
+        return -1;
+    }
+
+    public void printMainModuleList(){
+        printModuleArray(mainModuleList);
+    }
 }

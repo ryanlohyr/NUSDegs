@@ -1,6 +1,6 @@
-package seedu.duke.views;
+package seedu.duke.utils.errors;
 
-public class ErrorHandler {
+public class UserError {
     public static void invalidInput(){
         System.out.println("Invalid Input provided");
     }
@@ -12,6 +12,22 @@ public class ErrorHandler {
     public static void invalidMajor(String availableMajors) {
         System.out.println("Please select a major from this list: " + availableMajors);
     }
+
+    public static void invalidModule(String moduleCode){
+        String response = String.format("Sorry, Module %s does not exist",moduleCode);
+        System.out.println(response);
+    }
+
+    public static void displayInvalidInputCommand(String command){
+        String response = String.format("Invalid command %s. Type help to see the available commands",command);
+        System.out.println(response);
+    }
+
+    public static void displayInvalidMethodCommand(String command){
+        String response = String.format("Invalid argument for command %s", command);
+        System.out.println(response);
+    }
+
     public static void invalidAddFormat() {
         System.out.println("Please add a module using this format: add [module code] [semester]");
     }
@@ -42,6 +58,10 @@ public class ErrorHandler {
 
     public static void emptyMajor() {
         System.out.println("Major has not been provided yet.");
+    }
+
+    public static void moduleDoesNotExist(String moduleCode) {
+        System.out.println(moduleCode + "does not exist in your schedule.");
     }
 
 }

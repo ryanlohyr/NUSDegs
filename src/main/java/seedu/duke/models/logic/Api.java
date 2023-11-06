@@ -7,33 +7,35 @@ import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-//import java.util.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import seedu.duke.exceptions.InvalidModuleException;
+import seedu.duke.models.schema.Major;
 import seedu.duke.models.schema.ModuleList;
 
 import static seedu.duke.models.logic.DataRepository.getRequirements;
 
 import seedu.duke.utils.Parser;
-import seedu.duke.views.ErrorHandler;
-import seedu.duke.views.ModuleInfo;
-import seedu.duke.views.UnknownCommandException;
+import seedu.duke.utils.errors.UserError;
+import seedu.duke.views.ModuleInfoView;
+import seedu.duke.utils.UnknownCommandException;
 
 
 public class Api {
 
     /**
      * Retrieves the prerequisite tree for a module specified by its code.
-     *
      * @author ryanlohyr
      * @param moduleCode The code of the module for which prerequisites are to be retrieved.
      * @return A JSON object representing the prerequisite tree for the module. The prerequisite tree can be in one of
+     *
      */
     private static JSONObject getModulePrereqTree(String moduleCode) {
         JSONObject fullModuleInfo = getFullModuleInfo(moduleCode);
@@ -63,12 +65,9 @@ public class Api {
      * @return True if the module is exempted, false otherwise.
      */
     private static boolean isModuleException(String moduleCode) {
-        ArrayList<String> exemptedModules = new ArrayList<>();
-        exemptedModules.add("CS1231");
-        exemptedModules.add("MA1508E");
-        exemptedModules.add("EE4204");
-        exemptedModules.add("MA1511");
-        exemptedModules.add("MA1512");
+        ArrayList<String> exemptedModules = new ArrayList<>(List.of("CS1231", "CS1231S", "MA1508E", "EE4204",
+                "MA1511", "MA1512", "MA1521", "MA1522"));
+
         return exemptedModules.contains(moduleCode);
     }
 
@@ -94,11 +93,17 @@ public class Api {
         list3.add("ST2334");
         map.put("EE4204", list3);
 
-        ArrayList<String> list4 = new ArrayList<>();
-        map.put("MA1511", list4);
+        ArrayList<String> emptyList = new ArrayList<>();
 
-        ArrayList<String> list5 = new ArrayList<>();
-        map.put("MA1512", list5);
+        map.put("MA1511", emptyList);
+
+        map.put("CS1231S",emptyList);
+
+        map.put("MA1512", emptyList);
+
+        map.put("MA1521", emptyList);
+
+        map.put("MA1522", emptyList);
 
         return map.get(moduleCode);
     }
@@ -114,15 +119,23 @@ public class Api {
         return response.body();
 
     }
+
     /**
      * Retrieves detailed module information from an external API based on the module code.
      *
      * @author rohitcube
      * @param moduleCode The module code to retrieve information for.
      * @return A JSONObject containing module information.
+     *
      */
-    public static JSONObject getFullModuleInfo(String moduleCode) {
+    public static JSONObject getFullModuleInfo(String moduleCode) throws RuntimeException {
         try {
+            // Regex pattern to match only letters and numbers
+            String regexPattern = "^[a-zA-Z0-9]+$";
+
+            if(!moduleCode.matches(regexPattern)){
+                throw new InvalidModuleException();
+            }
             String url = "https://api.nusmods.com/v2/2023-2024/modules/" + moduleCode + ".json";
 
             String responseBody = sendHttpRequestAndGetResponseBody(url);
@@ -136,13 +149,15 @@ public class Api {
             System.out.println("Invalid Module Name");
         } catch (IOException | InterruptedException e) {
             System.out.println("Invalid Module Name");
-            throw new RuntimeException(e);
+            throw new RuntimeException("java.net.ConnectException", e);
         } catch (URISyntaxException e) {
             //to be replaced with more robust error class in the future
             System.out.println("Sorry, there was an error with" +
                     " the provided URL: " + e.getMessage());
         } catch (NullPointerException e) {
             //System.out.println("Invalid Module Name");
+        }catch (InvalidModuleException e) {
+            System.out.println("Invalid Module Code :" + e.getMessage());
         }
         return null;
     }
@@ -161,9 +176,11 @@ public class Api {
 
     /**
      * Retrieves the description of a module based on its module code.
+     *
      * @author rohitcube
      * @param moduleCode The module code to retrieve the description for.
      * @return The description of the module.
+     *
      */
     public static String getDescription(String moduleCode) {
         JSONObject moduleInfo = getFullModuleInfo(moduleCode);
@@ -183,6 +200,7 @@ public class Api {
      * @author rohitcube
      * @param moduleCode The module code to retrieve workload information for.
      * @return A JSONArray containing workload details.
+     *
      */
     public static JSONArray getWorkload(String moduleCode) {
         JSONObject moduleInfo = getFullModuleInfo(moduleCode);
@@ -205,6 +223,7 @@ public class Api {
      * @param modulePrereqArray  An ArrayList containing the module prerequisites to be processed.
      * @param courseRequirements An ArrayList containing course requirements.
      * @param currRequisite      The type of the current prerequisite (e.g., "and" or "or").
+     *
      */
     private static void flattenPrereq(
             String major,
@@ -212,29 +231,40 @@ public class Api {
             ArrayList<Objects> modulePrereqArray,
             ArrayList<String> courseRequirements,
             String currRequisite) {
-        //base case
-        for (Object module : modulePrereqArray) {
-            if (module instanceof String) {
-                String formattedModule = ((String) module).replace(":D", "");
-                formattedModule = formattedModule.replace("%", "");
+        try {
+            for (Object module : modulePrereqArray) {
+                if (module instanceof String) {
+                    String formattedModule = ((String) module).replace(":D", "");
+                    formattedModule = formattedModule.replace("%", "");
 
-                if (courseRequirements.contains(formattedModule)) {
-                    prerequisites.add(formattedModule);
-                    if (currRequisite.equals("or")) {
+                    if (courseRequirements.contains(formattedModule)) {
+                        prerequisites.add(formattedModule);
+                        if (currRequisite.equals("or")) {
+                            return;
+                        }
+                    }
+                } else {
+                    //item is an object
+                    //here, we determine if its 'or' or 'and'
+                    JSONObject moduleJSON = (JSONObject) module;
+
+                    if (moduleJSON.containsKey("nOf")) {
+                        String key = "and";
+                        ArrayList<ArrayList<Objects>> initial = (ArrayList<ArrayList<Objects>>) moduleJSON.get("nOf");
+                        ArrayList<Objects> formattedInitial = initial.get(1);
+                        flattenPrereq(major, prerequisites, formattedInitial, courseRequirements, key);
                         return;
                     }
+                    String key = (String) moduleJSON.keySet().toArray()[0];
+
+                    ArrayList<Objects> initial = (ArrayList<Objects>) moduleJSON.get(key);
+
+                    flattenPrereq(major, prerequisites, initial, courseRequirements, key);
+
                 }
-            } else {
-                //item is an object
-                //here, we determine if its 'or' or 'and'
-                JSONObject moduleJSON = (JSONObject) module;
-                String key = (String) moduleJSON.keySet().toArray()[0];
-
-                ArrayList<Objects> initial = (ArrayList<Objects>) moduleJSON.get(key);
-
-                flattenPrereq(major, prerequisites, initial, getRequirements(major), key);
-
             }
+        } catch (ClassCastException e) {
+            System.out.println("Error getting pre requisite for module");
         }
     }
 
@@ -245,11 +275,14 @@ public class Api {
      * @author ryanlohyr
      * @param moduleCode The code of the module for which prerequisites are to be retrieved.
      * @return A JSONObject representing the prerequisite tree for the module or NULL if no prerequisites are specified.
+     *
      */
     public static ArrayList<String> getModulePrereqBasedOnCourse(String moduleCode, String major) {
         // Only accepts CEG requirements now
-        if (!Objects.equals(major, "CEG")) {
-            return null;
+        try {
+            Major.valueOf(major.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid Major Provided");
         }
 
         //Modules that has prerequisites incorrectly identified by NUSMods
@@ -257,16 +290,16 @@ public class Api {
             return getExemptedPrerequisite(moduleCode);
         }
 
-        ArrayList<String> prerequisites = new ArrayList<>();
-
         JSONObject modulePrereqTree = getModulePrereqTree(moduleCode);
 
         if (modulePrereqTree == null) {
             return null;
         }
+
         String key = (String) modulePrereqTree.keySet().toArray()[0];
 
-        //settle this warning
+        ArrayList<String> prerequisites = new ArrayList<>();
+
         ArrayList<Objects> initial = (ArrayList<Objects>) modulePrereqTree.get(key);
 
         flattenPrereq(major, prerequisites, initial, getRequirements(major), key);
@@ -336,54 +369,71 @@ public class Api {
             ArrayList<Objects> modulePrereqArray,
             String currRequisite,
             ModuleList completedModules) {
-
-        if (currRequisite.equals("or")) {
-            for (Object module : modulePrereqArray) {
-                if (module instanceof String) {
-                    String formattedModule = ((String) module).replace(":D", "");
-                    formattedModule = formattedModule.replace("%", "");
-                    try {
-                        if (completedModules.exists(formattedModule)) {
-                            return true;
+        try{
+            if (currRequisite.equals("or")) {
+                for (Object module : modulePrereqArray) {
+                    if (module instanceof String) {
+                        String formattedModule = ((String) module).replace(":D", "");
+                        formattedModule = formattedModule.replace("%", "");
+                        try {
+                            if (completedModules.exists(formattedModule)) {
+                                return true;
+                            }
+                        } catch (InvalidObjectException e) {
+                            throw new RuntimeException(e);
                         }
-                    } catch (InvalidObjectException e) {
-                        throw new RuntimeException(e);
+                    } else {
+                        JSONObject prereqBranch = (JSONObject) module;
+
+                        //for cs, some modules return pre req in this form {"nOf":[2,["MA1511:D","MA1512:D"]]}
+                        //have to convert first
+                        if (prereqBranch.containsKey("nOf")) {
+                            String key = "and";
+                            ArrayList<ArrayList<Objects>> initial =
+                                    (ArrayList<ArrayList<Objects>>) prereqBranch.get("nOf");
+                            ArrayList<Objects> formattedInitial = initial.get(1);
+                            JSONArray prereqBranchArray = (JSONArray) formattedInitial;
+                            return checkPrereq(prereqBranchArray, key, completedModules);
+                        } else {
+                            String key = (String) prereqBranch.keySet().toArray()[0];
+                            JSONArray prereqBranchArray = (JSONArray) prereqBranch.get(key);
+                            return checkPrereq(prereqBranchArray, key, completedModules);
+                        }
+
+
                     }
-                } else {
-                    JSONObject prereqBranch = (JSONObject) module;
-                    String key = (String) prereqBranch.keySet().toArray()[0];
-
-
-                    JSONArray prereqBranchArray = (JSONArray) prereqBranch.get(key);
-                    return checkPrereq(prereqBranchArray, key, completedModules);
                 }
-            }
-            return false;
-        } else {
-            for (Object module : modulePrereqArray) {
-                if (module instanceof String) {
-                    String formattedModule = ((String) module).replace(":D", "");
-                    formattedModule = formattedModule.replace("%", "");
-                    try {
-                        if (!completedModules.exists(formattedModule)) {
+                return false;
+            } else {
+                for (Object module : modulePrereqArray) {
+                    if (module instanceof String) {
+                        String formattedModule = ((String) module).replace(":D", "");
+                        formattedModule = formattedModule.replace("%", "");
+                        try {
+                            if (!completedModules.exists(formattedModule)) {
+                                return false;
+                            }
+                        } catch (InvalidObjectException e) {
+                            throw new RuntimeException(e);
+                        }
+                    } else {
+                        JSONObject prereqBranch = (JSONObject) module;
+                        String key = (String) prereqBranch.keySet().toArray()[0];
+                        JSONArray prereqBranchArray = (JSONArray) prereqBranch.get(key);
+                        if (!checkPrereq(prereqBranchArray, key, completedModules)) {
                             return false;
                         }
-                    } catch (InvalidObjectException e) {
-                        throw new RuntimeException(e);
-                    }
-                } else {
-                    JSONObject prereqBranch = (JSONObject) module;
-                    String key = (String) prereqBranch.keySet().toArray()[0];
 
 
-                    JSONArray prereqBranchArray = (JSONArray) prereqBranch.get(key);
-                    if (!checkPrereq(prereqBranchArray, key, completedModules)) {
-                        return false;
                     }
                 }
+                return true;
             }
-            return true;
+        }catch(ClassCastException e){
+            System.out.println("Error checking prereq for this module");
+            return false;
         }
+
     }
 
     /**
@@ -392,6 +442,7 @@ public class Api {
      * @author rohitcube
      * @return A JSONArray containing module information.
      * @throws RuntimeException If there is an issue with the HTTP request or JSON parsing.
+     *
      */
     public static JSONArray listAllModules() {
         try {
@@ -419,6 +470,7 @@ public class Api {
      * @param keyword    The keyword to search for.
      * @param moduleList The list of modules to search within.
      * @return A JSONArray containing modules matching the keyword.
+     *
      */
     public static JSONArray search(String keyword, JSONArray moduleList) {
         JSONArray modulesContainingKeyword = new JSONArray();
@@ -444,6 +496,7 @@ public class Api {
      * @param command   The command provided by the user.
      * @param userInput The user input string containing the command and module code (if applicable).
      * @throws UnknownCommandException If an unknown command is provided.
+     *
      */
     public static void infoCommands(String command, String userInput) {
         if (command.equals("description")) {
@@ -462,25 +515,25 @@ public class Api {
         } else if (command.equals("all")) {
             JSONArray allModules = listAllModules();
             assert allModules != null;
-            ModuleInfo.printJsonArray(allModules);
+            ModuleInfoView.printJsonArray(allModules);
         } else {
             System.out.println("man");
-            ErrorHandler.invalidCommandforInfoCommand();
+            UserError.invalidCommandforInfoCommand();
         }
     }
 
     public static void searchCommand(String userInput) {
         if (!Parser.isValidKeywordInput(userInput)) {
-            ErrorHandler.emptyKeywordforSearchCommand();
+            UserError.emptyKeywordforSearchCommand();
             return;
         }
         String keywords = userInput.substring(userInput.indexOf("search") + 6);
         JSONArray modulesToPrint = Api.search(keywords, Api.listAllModules());
         if (modulesToPrint.isEmpty()) {
-            ErrorHandler.emptyArrayforSearchCommand();
+            UserError.emptyArrayforSearchCommand();
             return;
         }
-        ModuleInfo.searchHeader();
-        ModuleInfo.printJsonArray(modulesToPrint);
+        ModuleInfoView.searchHeader();
+        ModuleInfoView.printJsonArray(modulesToPrint);
     }
 }

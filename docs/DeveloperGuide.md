@@ -6,20 +6,47 @@
 
 ## Design & implementation, Architecture
 
-{Describe the design and implementation of the product. Use UML diagrams and short code snippets where applicable.}
-## Features
+![img.png](diagrams/architectureDiagram.png)
+
+The Architecture Diagram given above explains the high-level design of the application.
+
+The main logic of the application is handled by these four components
+- **Controller**: 
+  - Handles Commands coming from the User 
+  - Combines data from the **Model** and UI Components from **View**
+  - Never handles data logic
+- **View**:
+  - Responsible for printing onto the Command Line Application
+- **Model**: 
+  - Response for retrieving data from the **Data Repository** 
+  - Performs REST API calls to the NUSMODS API
+- **Data Repository**: 
+  - Reads data from, and writes data to file
+
+### How the architecture components interact with each other
+
+![img.png](diagrams/addModule.png)
+
+The Sequence Diagram above shows how the components interact with each other when the user inserts a module 
+into his schedule
+
+
+## Features: 
 - Pace
 - Left
 - Major
 - Required
-- info (description, workload, command)
-- search 
+- Info (description, workload, command)
+- Search 
+- Add
+- Delete
+- Recommend
 
 # Implementation
 
-## [Proposed] Pacing and MC Calculation
+## Pacing and MC Calculation
 
-The proposed "Pacing and MC Calculation" mechanism is implemented to help users track their academic progress and remaining Modular Credits (MCs) required for graduation. This feature is facilitated by the PacingManager, which stores user data and provides functions for calculating the recommended pacing and remaining MCs. The following operations are available:
+The "Pacing and MC Calculation" mechanism is implemented to help users track their academic progress and remaining Modular Credits (MCs) required for graduation. This feature is facilitated by the PacingManager, which stores user data and provides functions for calculating the recommended pacing and remaining MCs. The following operations are available:
 
 - PacingManager#calculateRemainingMCs() — Calculates the remaining MCs required for graduation.
 - PacingManager#calculateRecommendedPace() — Recommends the pacing for upcoming semesters.
@@ -44,12 +71,54 @@ Command: `pace`
 Response:
 `You currently have 100 MCs left until graduation.`
 
-## [Proposed] List Modules Left Feature
+## Recommend Schedule Based on Course
 
-The proposed left mechanism is implemented to help users keep tracks of modules left for their major. It is facilitated by `modulesLeft`, `modulesMajor` and `modulesTaken`. Additionally, it implements the following operations:
+Based on the course, we will provide an recommended schedules that is sorted based on prerequisites. This feature is facilitated by the scheudle manager which stores information about the schedule and performs actions like add and remove from schedule.
 
-- `modulesLeft#getDifference(modulesMajor, modulesTaken)` – Keeps the list of modules in `modulesMajor` but not in `modulesTaken` in `modulesLeft`.
-- `modulesLeft#getMainModuleList()` – Returns the list of modules in `modulesLeft`.
+- PacingManager#recommend() — recommends a scheudle that is sorted based on pre requisites. 
+- PacingManager#addRecommendedScheduleToSchedule() — adds the recommended schedue to the user's timetable.
+
+These operations are exposed in the Scheulde interface as Schedule#addRecommendedScheduleListToSchedule() and ScheduleGenerator#generateRecommendedSchedule() respectively.
+
+### Usage Examples
+
+Here are a few examples of how the "Recommend schedule" feature behaves:
+
+#### Step 1: Recommend schedule for computer engineering(CEG)
+
+Command: `recommend ceg` 
+
+Response:
+`[GEA1000, MA1511, MA1512, DTK1234, GESS1000, CS1010, GEN2000, EG2501, EG1311, GEC1000, PF1101, CDE2000, IE2141, CG1111A, EG2401A, ES2631, ST2334, MA1508E, CS1231, CG2023, CG2111A, CS2040C, CG2027, EE2026, EE4204, EE2211, CG2271, CS2113, CG2028, CP3880, CG4002]
+Do you want to add this to your draft schedule?, please input 'Y' or 'N'
+`
+
+#### Step 2 (Only to be done after step 1): 
+
+Command: `Y`
+
+Response:
+`
+Sem 1: GESS1000 DTK1234 MA1512 MA1511 GEA1000 
+Sem 2: GEC1000 EG1311 EG2501 GEN2000 CS1010 
+Sem 3: EG2401A CG1111A IE2141 CDE2000 PF1101 
+Sem 4: CG2023 CS1231 MA1508E ST2334 ES2631 
+Sem 5: EE4204 EE2026 CG2027 CS2040C CG2111A 
+Sem 6: CG2028 CS2113 CG2271 EE2211 
+Sem 7: CG4002 CP3880 
+Sem 8: `
+
+## List Modules Left Feature
+
+The following sequence diagram shows how the Left Command function works.
+![img.png](diagrams/left_seq_diag.png)
+
+The left mechanism is implemented to help users keep tracks of modules left for their major. It is facilitated by `modulesLeft`, `modulesMajor` and `modulesTaken`. Additionally, it implements the following operations:
+
+- `student#getModulesMajor()` and `student#getModulesTaken()` – Returns moduleList modulesMajor and modulesTaken respectively.
+- `modulesMajor#showModulesDiff(modulesTaken)` – Display modules left.
+- `modulesTaken#getMainModuleList()` - Returns ArrayList<Module> of modulesTaken which is the ArrayList of modules taken.
+- `new ModuleList()` - Instantiate modulesLeft.
 
 This operation is exposed in the `ModulePlannerController` interface as `ModulePlannerController#listModulesLeft()`.
 
@@ -66,9 +135,9 @@ Command: `left`
 Response:
 `CS2030S CS2040S CS2100 CS2101 CS2106 CS2109S CS3230`
 
-## [Proposed] Input Major Feature
+## Input Major Feature
 
-The proposed input major feature is facilitated by `Student`. It tries to store the major specified in userInput txt 
+The input major feature is facilitated by `Student`. It tries to store the major specified in userInput txt 
 file such that it can be used across sessions. It will print different responses based on whether the storing of the 
 Major was successful. Additionally, it implements the following operation:
 
@@ -103,17 +172,17 @@ Command: `major`
 
 Response: `Current major is [current major in student object].`
 
-## [Proposed] Get information about modules (from the NUSMods API)
+## Required Command
 
-The proposed required mechanism is implemented to give users an overview of the modules they need to complete for 
-their major. It is facilitated by CEGRequirements.txt, CSRequirements.txt. Additionally, it implements the following 
-operations:
+The following sequence diagram shows how the Required Command function works.
+![img.png](diagrams/required_seq_diag.png)
 
-- `DataRepository#getFullRequirements(major)` – Returns the `filePath` for the requirements of a specified major.
-- `MajorRequirements#printTXTFile(filePath)` – Displays the overview of modules required.
-- `getLongestLineLength(f)` – Returns the `longestLineLength` of the file f.
-- `returnJustified(name, description, length)` – Returns a string with a justified name according to length, appended with its description.
-- `printSingleLine()`, `printDoubleLine()` – Displays lines for formatting
+The required command is implemented to give users an overview of the modules they need to complete for 
+their major. It is facilitated by major. Additionally, it implements the following operations:
+
+- `Student#getMajor()` – Returns the `major` of the student.
+- `ModuleServiceController#getRequiredModules(major)` and `ModuleServiceController#printRequiredModules(major)` – 
+Displays the modules required.
 
 ### Usage Examples
 
@@ -129,64 +198,29 @@ Module requirements for major selected by user
 ## Get information about modules (from the NUSMods API)
 
 
-The proposed information feature returns information about the module at the user's request. It accepts 3 commands, 
+The information feature returns information about the module at the user's request. It accepts 3 commands, 
 'description', 'workload' and 'all'. The 'description' command returns a string description of the module, the workload
 command returns an array, and all displays the module title and module code for all modules present in the NUSMods 
 directory.
 
-- `getFullModuleInfo(major)` – Returns: A JSONObject containing module information..
-- `sendHttpRequestAndGetResponseBody(String url)` – Returns: The response body as a String.
-- `getDescription(String moduleCode)` – Returns: The description of the module..
-- `getWorkload(String moduleCode)` – Returns: A JSONArray containing workload details.
-- `listAllModules(), `Retrieves a list of modules from an external API and returns it as a JSONArray.
-- `infoCommands(String command, String userInput)`- This method executes commands based on user input for module 
-- information retrieval. It supports commands like "description", "workload", and "all".
-- Depending on the command, it retrieves and displays information about modules.
+- `getFullModuleInfo(major)` – Returns the `filePath` for the requirements of a specified major.
+- `sendHttpRequestAndGetResponseBody(String url)` – Displays the overview of modules required.
+- `getDescription(String moduleCode)` – Returns the `longestLineLength` of the file f.
+- `getWorkload(String moduleCode)` – Returns a string with a justified name according to length, appended with its description.
+- `listAllModules(), `printDoubleTopLine()`, `printBottomLine()`, `printDoubleBottomLine()` – Displays lines for formatting
+- `infoCommands(String command, String userInput), `printDoubleTopLine()`, `printBottomLine()`, `printDoubleBottomLine()` – Displays lines for formatting
 
-## Get information about modules (from the NUSMods API)
+### Usage Examples
 
+Here are a few examples of how the Show Required Modules Feature behaves:
 
-The proposed information feature returns information about the module at the user's request. It accepts 3 commands,
-'description', 'workload' and 'all'. The 'description' command returns a string description of the module, the workload
-command returns an array, and all displays the module title and module code for all modules present in the NUSMods
-directory.
+#### Example 1:
 
-- `getFullModuleInfo(major)` – Returns: A JSONObject containing module information..
-- `sendHttpRequestAndGetResponseBody(String url)` – Returns: The response body as a String.
-- `getDescription(String moduleCode)` – Returns: The description of the module..
-- `getWorkload(String moduleCode)` – Returns: A JSONArray containing workload details.
-- `listAllModules(), `Retrieves a list of modules from an external API and returns it as a JSONArray.
-- `infoCommands(String command, String userInput)`- This method executes commands based on user input for module
-- information retrieval. It supports commands like "description", "workload", and "all".
-- Depending on the command, it retrieves and displays information about modules.
+Command: `required`
 
+Response:
+Module requirements for major selected by user
 
-## `searchCommand(String userInput)`
-
-This method executes a search command based on user input, aiming to find modules containing specific keywords in their titles.
-
-- `search(String keyword, JSONArray moduleList)` - This method performs a search for modules containing a specific
-- keyword in their titles.
-- 
-
-### Parameters:
-
-- `userInput` (String): The user input string containing the search command and keywords.
-
-### Implementation Details:
-
-- It first checks if the keyword input is valid using the `Parser.isValidKeywordInput()` method. If not, it triggers an error and returns.
-- It then extracts the keywords from `userInput`.
-- The `Api.search()` method is called with the keywords and the list of all modules to find modules containing those keywords.
-- If no matching modules are found, an error is triggered and the process returns.
-- If matching modules are found, the method prints a header and the JSON array of modules to the console using `ModuleInfo.searchHeader()` and `ModuleInfo.printJsonArray()`.
-
-### Example Usage:
-
-```java
-searchCommand("search Machine Learning");
-searchCommand("search Darwin");
-```
 
 ## Product scope
 ### Target user profile

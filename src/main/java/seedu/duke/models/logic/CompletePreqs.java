@@ -18,6 +18,12 @@ public class CompletePreqs {
     // To track modules that are already unlocked
     private Set<String> unlockedModulesSet;
 
+    public CompletePreqs() {
+        modulesWithPreqs = new HashMap<>();
+        unlockedModulesSet = new HashSet<>();
+        addToModulesCompleted = new ArrayList<>();
+    }
+
     public CompletePreqs(HashMap<String, List<String>> inputMods) {
         modulesWithPreqs = new HashMap<>(inputMods);
         unlockedModulesSet = new HashSet<>();
@@ -29,12 +35,15 @@ public class CompletePreqs {
      *
      * @param list
      */
+
     public void initializeCompletedMods(ModuleList list) {
-        addToModulesCompleted.addAll(list.getMainModuleList());
+        addToModulesCompleted.addAll(list.getModuleCodes());
         for (String mod : addToModulesCompleted) {
             processModuleForUnlockingWithoutPrint(mod);
         }
     }
+
+
 
     /**
      * Prints what mods have been unlocked after input
@@ -133,17 +142,17 @@ public class CompletePreqs {
         }
     }
 
-    public boolean checkModInput(String[] words, ModuleList list){
-        if (words.length == 2){
-            if (list.getMainModuleList().contains(words[1].toUpperCase())){
+    public boolean checkModInput(String[] words, ArrayList<String> majorModuleCodes){
+        if (words.length == 1){
+            if (majorModuleCodes.contains(words[0].toUpperCase())){
                 return true;
             }
             System.out.println("Please enter a available mod: ");
-            list.printMainModuleList();
+            System.out.println(majorModuleCodes);
             return false;
         }
         System.out.println("Please enter a available mod after the complete keyword");
-        list.printMainModuleList();
+        System.out.println(majorModuleCodes);
         return false;
     }
 }

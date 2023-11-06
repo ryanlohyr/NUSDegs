@@ -1,0 +1,89 @@
+package seedu.duke.models.schema;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * This class represents the command system for the application.
+ * It stores and provides descriptions for each available command.
+ */
+public class CommandManager {
+    private ArrayList<Command> commandArrayList;
+
+    public CommandManager() {
+        commandArrayList = new ArrayList<>();
+        addCurrentCommands();
+    }
+
+    /**
+     * Populates the commandsAndDescription HashMap with the current commands and their descriptions.
+     */
+    private void addCurrentCommands() {
+        commandArrayList.addAll(List.of(
+                new Command("help", "Shows the list of commands."),
+
+                new Command("required", "Displays the full requirements for your major."),
+                new Command("recommend", "Displays a recommended schedule based on a keyword."),
+
+                new Command("search", "search for modules to take based on keyword"),
+                new Command("info", "Displays information about a specific module."),
+                new Command("prereq", "Displays the prerequisites for a specific module."),
+
+                new Command("schedule", "Shows schedule planner"),
+                new Command("add", "Adds module to the recommended schedule planner."),
+                new Command("delete", "Deletes module from the schedule planner."),
+
+                new Command("complete", "Marks a module as complete on schedule planner."),
+                new Command("left", "Displays a list of remaining modules."),
+                new Command("pace", "Computes and displays your graduation pace."),
+
+                new Command("Bye", "Exits the program.")));
+    }
+
+
+    /*
+     * Retrieves the description for a specific command.
+     *
+     * @param command The command to retrieve the description for.
+     * @return The description of the command, or "Command not recognized" if the command is not in the HashMap.
+     */
+
+    public String getDescription(String commandName) {
+        for (Command command : commandArrayList) {
+            if (commandName.equals(command.getCommandName())) {
+                return command.getDescription();
+            }
+        }
+        return "Command not recognized";
+        //return commandArrayList.getOrDefault(command, "Command not recognized");
+    }
+
+
+
+    /**
+     * Retrieves a list of all available commands.
+     *
+     * @return An ArrayList containing all available commands.
+     */
+    public ArrayList<String> getListOfCommandNames() {
+        ArrayList<String> commandNameArrayList = new ArrayList<String>();
+        for (Command command : commandArrayList) {
+            commandNameArrayList.add(command.getCommandName());
+        }
+        return commandNameArrayList;
+    }
+
+
+    /**
+     * Returns a formatted list of all commands and their descriptions.
+     *
+     * @return An ArrayList of strings, where each string represents a command and its description.
+     */
+    public ArrayList<String> printListOfCommands() {
+        ArrayList<String> commandList = new ArrayList<>();
+        for (Command command : commandArrayList) {
+            commandList.add(command.toString());
+        }
+        return commandList;
+    }
+}
