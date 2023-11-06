@@ -26,7 +26,20 @@ public class ApiTest {
         assertTrue(moduleInfo.contains(correctModuleInfo), "Module info should contain relevant info");
     }
 
+    @Test
+    void testWrapText() {
+        String text = " ";
+        System.out.println(Api.wrapText(text, 60));
+    }
+
 /*
+
+        tests to write
+        1. fullmodinfo -> valid entry, invalid entry
+        2. get description -> valid entry, invalid entry, whitespace characters
+        3. get workload -> same
+        4. infocommands -> valid entry, invalid entry, whitespace + invalid command and its permutations
+        5. search -> valid entry, invalid entry, whitespace
     @Test
     void testGetDescription_shouldReturnEquals() {
         String correctDescription = "This course introduces the necessary skills for systematic and " +

@@ -198,6 +198,30 @@ public class Api {
         return (String) moduleInfo.get("description");
     }
 
+
+    public static String wrapText(String input, int wrapIndex) {
+        if (input == null || input.isEmpty()) {
+            return "";
+        }
+        StringBuilder description = new StringBuilder(input);
+        int currIndex = 0;
+        int markerIndex = 0;
+        while (currIndex < description.length()) {
+            if (markerIndex >= wrapIndex) { //index where string is wrapped
+                if (description.charAt(currIndex) == ' ') {
+                    description.insert(currIndex, '\n');
+                    markerIndex = 0;
+                    continue;
+                }
+                currIndex--;
+                continue;
+            }
+            currIndex++;
+            markerIndex++;
+        }
+        return description.toString();
+    }
+
     /**
      * Retrieves the workload information for a module based on its module code.
      *
@@ -508,7 +532,7 @@ public class Api {
                         userInput.substring(userInput.indexOf("description") + 11).trim().toUpperCase();
                 if (!Api.getDescription(moduleCode).isEmpty()) {
                     String description = Api.getDescription(moduleCode);
-                    System.out.println(description);
+                    System.out.println(Api.wrapText(description, 100));
                 }
             } else if (command.equals("workload")) {
                 String moduleCode = userInput.substring(userInput.indexOf("workload") + 8).trim().toUpperCase();
