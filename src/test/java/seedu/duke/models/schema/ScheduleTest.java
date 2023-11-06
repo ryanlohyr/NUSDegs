@@ -78,18 +78,18 @@ class ScheduleTest {
         student.addModuleSchedule("MA1511", 2);
 
         ArrayList<String> recommendedSchedule = new ArrayList<>(List.of("CS1010", "MA1511", "CS2040C"));
-        student.getSchedule().addRecommendedScheduleListToSchedule(recommendedSchedule);
+        student.getSchedule().addRecommendedScheduleListToSchedule(recommendedSchedule, true);
         student.printSchedule();
 
         String printedOutput = outputStream.toString();
-        String expectedOutput = "Sem 1: MA1511 CS1010 \n" +
-                "Sem 2: CS2040C \n" +
-                "Sem 3: \n" +
-                "Sem 4: \n" +
-                "Sem 5: \n" +
-                "Sem 6: \n" +
-                "Sem 7: \n" +
-                "Sem 8: \n";
+        String expectedOutput = "Sem 1:   X MA1511   X CS1010   \n" +
+                "Sem 2:   X CS2040C   \n" +
+                "Sem 3:   \n" +
+                "Sem 4:   \n" +
+                "Sem 5:   \n" +
+                "Sem 6:   \n" +
+                "Sem 7:   \n" +
+                "Sem 8:   \n";
         printedOutput = printedOutput
                 .replaceAll("\r\n", "\n")
                 .replaceAll("\r", "\n");

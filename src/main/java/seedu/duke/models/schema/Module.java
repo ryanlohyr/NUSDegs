@@ -71,9 +71,15 @@ public class Module {
         return this.moduleCode;
     }
 
+    public boolean equals(Module module) {
+        return this.moduleCode.equals(module.moduleCode);
+    }
 
 
-
+    @Override
+    public String toString() {
+        return this.moduleCode;
+    }
 
 
 }
