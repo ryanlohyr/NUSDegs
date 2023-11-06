@@ -130,14 +130,6 @@ public class Student {
      */
     public void deleteModuleSchedule(String moduleCode) throws FailPrereqException, MissingModuleException {
         schedule.deleteModule(moduleCode);
-        Module module;
-        try {
-            module = schedule.getModule(moduleCode);
-        } catch (InvalidObjectException e) {
-            throw new MissingModuleException(moduleCode + " is not in Modules Planner.");
-        }
-        completedModuleCredits -= module.getModuleCredits();
-        schedule.getModulesPlanned().deleteModule(module);
     }
 
     public String getYear() {

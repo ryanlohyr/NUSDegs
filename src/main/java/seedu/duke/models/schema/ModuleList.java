@@ -26,7 +26,6 @@ public class ModuleList {
 
     public ModuleList(String modules) {
         this();
-
         if (modules == null || modules.isEmpty()) {
             return;
         }

@@ -125,8 +125,8 @@ public class Parser {
             }
             break;
         }
+        case UserCommands.VIEW_SCHEDULE_COMMAND:
         case UserCommands.RECOMMEND_COMMAND: {
-            //arguments need to be empty
             if (arguments.length > 0) {
                 return false;
             }
