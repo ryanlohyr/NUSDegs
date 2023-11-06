@@ -27,9 +27,16 @@ public class ApiTest {
     }
 
     @Test
-    void testWrapText() {
+    void testWrapTextEmptyInput() {
         String text = " ";
         System.out.println(Api.wrapText(text, 60));
+        assertTrue(Api.wrapText(text, 60).trim().isEmpty());
+    }
+    @Test
+    void testWrapTextNullInput() {
+        String text = null;
+        System.out.println(Api.wrapText(text, 60));
+        assertTrue(Api.wrapText(text, 60).trim().isEmpty());
     }
 
 /*

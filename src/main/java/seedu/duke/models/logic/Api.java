@@ -200,7 +200,7 @@ public class Api {
 
 
     public static String wrapText(String input, int wrapIndex) {
-        if (input == null || input.isEmpty()) {
+        if (input == null || input.trim().isEmpty()) {
             return "";
         }
         StringBuilder description = new StringBuilder(input);
