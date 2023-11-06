@@ -112,14 +112,8 @@ public class Student {
 
         Module module = schedule.getModule(moduleCode);
 
-
-        //for (Module module : schedule.getModulesPlanned().getMainModuleList()) {
-        //if (module.getModuleCode().equals(moduleCode)) {
         this.completedModuleCredits += module.getModuleCredits();
         module.markModuleAsCompleted();
-        return;
-        //}
-        //}
     }
 
     //@@author ryanlohyr

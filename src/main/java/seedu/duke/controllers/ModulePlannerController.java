@@ -165,13 +165,6 @@ public class ModulePlannerController {
 
             completeModule(student, module);
 
-            /*
-            if (canCompleteModule(arguments, student.getMajorModuleCodes(), student.getModulesPlanned(),
-                    //addModulePreqs)) {
-                student.completeModuleSchedule(module);
-            //}
-
-             */
             break;
         }
         case UserCommands.REQUIRED_MODULES_COMMAND: {

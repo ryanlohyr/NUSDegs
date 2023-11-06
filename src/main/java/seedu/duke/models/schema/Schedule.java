@@ -243,6 +243,6 @@ public class Schedule {
      */
 
     public void printMainModuleList() {
-        printSemesterPlanner(modulesPerSem, modulesPlanned.getMainModuleList());
+        printSemesterPlanner(modulesPerSem, modulesPlanned);
     }
 }

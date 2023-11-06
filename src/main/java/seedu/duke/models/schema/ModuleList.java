@@ -134,6 +134,10 @@ public class ModuleList {
         return -1;
     }
 
+    public Module getModuleByIndex(int index) {
+        return this.mainModuleList.get(index);
+    }
+
     public void printMainModuleList(){
         printModuleArray(mainModuleList);
     }
