@@ -2,8 +2,10 @@ package seedu.duke.models.logic;
 
 import java.io.IOException;
 import java.io.InvalidObjectException;
+import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -16,6 +18,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import seedu.duke.exceptions.InvalidModuleCodeException;
 import seedu.duke.exceptions.InvalidModuleException;
 import seedu.duke.models.schema.Major;
 import seedu.duke.models.schema.ModuleList;
@@ -25,7 +28,6 @@ import static seedu.duke.models.logic.DataRepository.getRequirements;
 import seedu.duke.utils.Parser;
 import seedu.duke.utils.errors.UserError;
 import seedu.duke.views.ModuleInfoView;
-import seedu.duke.utils.UnknownCommandException;
 
 
 public class Api {
@@ -132,16 +134,17 @@ public class Api {
         try {
             // Regex pattern to match only letters and numbers
             String regexPattern = "^[a-zA-Z0-9]+$";
-
-            if(!moduleCode.matches(regexPattern)){
+            if (!moduleCode.matches(regexPattern)){
                 throw new InvalidModuleException();
             }
             String url = "https://api.nusmods.com/v2/2023-2024/modules/" + moduleCode + ".json";
-
-            String responseBody = sendHttpRequestAndGetResponseBody(url);
-            if (responseBody.isEmpty()) {
-                return new JSONObject();
+            URL obj = new URL(url);
+            HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
+            int responseCode = connection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
+                throw new InvalidModuleCodeException();
             }
+            String responseBody = sendHttpRequestAndGetResponseBody(url);
             JSONParser parser = new JSONParser();
             return (JSONObject) parser.parse(responseBody);
         } catch (ParseException e) {
@@ -156,8 +159,10 @@ public class Api {
                     " the provided URL: " + e.getMessage());
         } catch (NullPointerException e) {
             //System.out.println("Invalid Module Name");
-        }catch (InvalidModuleException e) {
-            System.out.println("Invalid Module Code :" + e.getMessage());
+        } catch (InvalidModuleException e) {
+            System.out.println("Invalid Module Code: " + e.getMessage());
+        } catch (InvalidModuleCodeException e) {
+            System.out.println(e.getMessage());
         }
         return null;
     }
@@ -182,16 +187,36 @@ public class Api {
      * @return The description of the module.
      *
      */
-    public static String getDescription(String moduleCode) {
+    public static String getDescription(String moduleCode) throws InvalidModuleException, InvalidModuleCodeException {
         JSONObject moduleInfo = getFullModuleInfo(moduleCode);
-        String error = " ";
-        try {
-            String descr = (String) moduleInfo.get("description");
-            return descr;
-        } catch (NullPointerException e) {
-            System.out.println(" ");
+        if (moduleInfo == null) {
+            throw new InvalidModuleCodeException();
         }
-        return error;
+        return (String) moduleInfo.get("description");
+    }
+
+
+    public static String wrapText(String input, int wrapIndex) {
+        if (input == null || input.trim().isEmpty()) {
+            return "";
+        }
+        StringBuilder description = new StringBuilder(input);
+        int currIndex = 0;
+        int markerIndex = 0;
+        while (currIndex < description.length()) {
+            if (markerIndex >= wrapIndex) { //index where string is wrapped
+                if (description.charAt(currIndex) == ' ') {
+                    description.insert(currIndex, '\n');
+                    markerIndex = 0;
+                    continue;
+                }
+                currIndex--;
+                continue;
+            }
+            currIndex++;
+            markerIndex++;
+        }
+        return description.toString();
     }
 
     /**
@@ -202,16 +227,16 @@ public class Api {
      * @return A JSONArray containing workload details.
      *
      */
-    public static JSONArray getWorkload(String moduleCode) {
-        JSONObject moduleInfo = getFullModuleInfo(moduleCode);
-        JSONArray emptyArray = new JSONArray();
-        assert moduleInfo != null;
+    public static JSONArray getWorkload(String moduleCode) throws InvalidModuleCodeException {
         try {
+            JSONObject moduleInfo = getFullModuleInfo(moduleCode);
+            if (moduleInfo == null) {
+                throw new InvalidModuleCodeException();
+            }
             return (JSONArray) moduleInfo.get("workload");
         } catch (NullPointerException e) {
-            System.out.println(" ");
+            throw new InvalidModuleCodeException();
         }
-        return emptyArray;
     }
 
     /**
@@ -463,6 +488,42 @@ public class Api {
         return null;
     }
 
+
+
+    /**
+     * Executes commands based on user input for module information retrieval.
+     * Supports commands: "description", "workload", "all".
+     *
+     * @author rohitcube
+     * @param command   The command provided by the user.
+     * @param userInput The user input string containing the command and module code (if applicable).
+     *
+     */
+    public static void infoCommands(String command, String userInput) {
+        try {
+            if (command.equals("description")) {
+                String moduleCode =
+                        userInput.substring(userInput.indexOf("description") + 11).trim().toUpperCase();
+                if (!Api.getDescription(moduleCode).isEmpty()) {
+                    String description = Api.getDescription(moduleCode);
+                    System.out.println(Api.wrapText(description, 100));
+                }
+            } else if (command.equals("workload")) {
+                String moduleCode = userInput.substring(userInput.indexOf("workload") + 8).trim().toUpperCase();
+                if (!Api.getWorkload(moduleCode).isEmpty()) {
+                    JSONArray workload = Api.getWorkload(moduleCode);
+                    System.out.println(workload);
+                }
+            } else {
+                UserError.invalidCommandforInfoCommand();
+            }
+        } catch (InvalidModuleException e) {
+          //  System.out.println("Invalid entry" + e.getMessage());
+        } catch (InvalidModuleCodeException e) {
+          //  System.out.println(e.getMessage());
+        }
+    }
+
     /**
      * Searches for modules containing a specified keyword in their title within a given module list.
      *
@@ -486,40 +547,6 @@ public class Api {
             }
         }
         return modulesContainingKeyword;
-    }
-
-    /**
-     * Executes commands based on user input for module information retrieval.
-     * Supports commands: "description", "workload", "all".
-     *
-     * @author rohitcube
-     * @param command   The command provided by the user.
-     * @param userInput The user input string containing the command and module code (if applicable).
-     * @throws UnknownCommandException If an unknown command is provided.
-     *
-     */
-    public static void infoCommands(String command, String userInput) {
-        if (command.equals("description")) {
-            String moduleCode =
-                    userInput.substring(userInput.indexOf("description") + 11).trim().toUpperCase();
-            if (!Api.getDescription(moduleCode).isEmpty()) {
-                String description = Api.getDescription(moduleCode);
-                System.out.println(description);
-            }
-        } else if (command.equals("workload")) {
-            String moduleCode = userInput.substring(userInput.indexOf("workload") + 8).trim().toUpperCase();
-            if (!Api.getWorkload(moduleCode).isEmpty()) {
-                JSONArray workload = Api.getWorkload(moduleCode);
-                System.out.println(workload);
-            }
-        } else if (command.equals("all")) {
-            JSONArray allModules = listAllModules();
-            assert allModules != null;
-            ModuleInfoView.printJsonArray(allModules);
-        } else {
-            System.out.println("man");
-            UserError.invalidCommandforInfoCommand();
-        }
     }
 
     public static void searchCommand(String userInput) {

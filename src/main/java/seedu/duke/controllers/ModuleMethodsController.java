@@ -44,19 +44,23 @@ public class ModuleMethodsController {
      * @param arguments              An array of strings containing academic year and semester information.
      * @param completedModuleCredits The number of module credits already completed by the user.
      */
-    static void computePace(String[] arguments, int completedModuleCredits) {
+    static void computePace(String[] arguments, int completedModuleCredits, String currentAcademicYear) {
         int totalCreditsToGraduate = 160;
         int creditsLeft = totalCreditsToGraduate - completedModuleCredits;
         boolean argumentProvided = arguments.length != 0;
-        if (!argumentProvided) {
-            displayMessage("You currently have " + creditsLeft + " MCs till graduation");
-            return;
-        }
-        if (!Parser.isValidAcademicYear(arguments[0])) {
+
+        String[] parts = currentAcademicYear.split("/");;
+
+        //if the user provided a argument and it was invalid
+        if (argumentProvided && !Parser.isValidAcademicYear(arguments[0])) {
             return;
         }
 
-        String[] parts = arguments[0].split("/");
+        //if user provided argument, we will use this to calculate pace instead
+        if(argumentProvided) {
+            parts = arguments[0].split("/");
+        }
+
         String year = parts[0].toUpperCase();
         String semester = parts[1].toUpperCase();
 
@@ -73,6 +77,7 @@ public class ModuleMethodsController {
     }
 
     public static void showModulesLeft(ArrayList<String> moduleCodes) {
+        displayMessage("Modules Left: ");
         printModuleStringArray(moduleCodes);
     }
 
@@ -143,8 +148,8 @@ public class ModuleMethodsController {
         ArrayList<String> prereq = getModulePrereqBasedOnCourse(moduleCode, major);
         if (prereq == null || prereq.isEmpty()) {
             displayMessage("Module " + moduleCode + " has no prerequisites.");
-        } else {
-            displayMessage(prereq);
+        }else{
+            printModuleStringArray(prereq);
         }
     }
 }

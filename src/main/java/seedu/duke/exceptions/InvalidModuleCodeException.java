@@ -5,9 +5,9 @@ package seedu.duke.exceptions;
  * An invalid module that has illegal characters.
  * @author ryanlohyr
  */
-public class InvalidModuleException extends Exception{
-    public InvalidModuleException() {
-        super("Only alphabets and digits are allowed in module codes!");
+public class InvalidModuleCodeException extends Exception {
+    public InvalidModuleCodeException() {
+        super("Invalid Module Name");
     }
 
 }

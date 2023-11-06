@@ -36,7 +36,7 @@ class ModuleMethodsControllerTest {
         this.student = new Student();
         student.setName("Ryan Loh");
         student.setFirstMajor("CEG");
-        student.setYear("Y2/S1");
+        student.setYear("Y3/S2");
         System.setOut(new PrintStream(outputStream));
     }
 
@@ -47,22 +47,22 @@ class ModuleMethodsControllerTest {
 
     @Test
     void computePaceWithoutArgument() {
-        ModulePlannerController controller = new ModulePlannerController();
         String[] userInput = {};
         int creditsCompleted = 60;
-        computePace(userInput, creditsCompleted);
+        computePace(userInput, creditsCompleted, student.getYear());
         // Capture the printed output
         String printedOutput = outputStream.toString().trim();
         // Assert the printed output matches the expected value
-        assertEquals(String.format("You currently have %s MCs till graduation", 160 - 60), printedOutput);
+        String expectedOutput = "You have 100MCs for 2 semesters. Recommended Pace: 50MCs per sem until graduation";
+
+        assertEquals(expectedOutput,printedOutput);
     }
 
     @Test
     void computePaceInvalidArgument() {
-        ModulePlannerController controller = new ModulePlannerController();
         String[] userInput = {"y2s1"};
         int creditsLeft = 60;
-        computePace(userInput, creditsLeft);
+        computePace(userInput, creditsLeft,student.getYear());
         // Capture the printed output
         String printedOutput = outputStream.toString().trim();
         // Assert the printed output matches the expected value
@@ -71,10 +71,10 @@ class ModuleMethodsControllerTest {
 
     @Test
     void computePaceInvalidSemester() {
-        ModulePlannerController controller = new ModulePlannerController();
         String[] userInput = {"y2/s10"};
         int creditsLeft = 60;
-        computePace(userInput, creditsLeft);
+        String studentsCurrYear = "y1/s2";
+        computePace(userInput, creditsLeft,studentsCurrYear);
         // Capture the printed output
         String printedOutput = outputStream.toString().trim();
         // Assert the printed output matches the expected value
@@ -85,7 +85,8 @@ class ModuleMethodsControllerTest {
     void computePaceInvalidYear() {
         String[] userInput = {"y20/s1"};
         int creditsLeft = 60;
-        computePace(userInput, creditsLeft);
+        String studentsCurrYear = "y1/s2";
+        computePace(userInput, creditsLeft,studentsCurrYear);
         // Capture the printed output
         String printedOutput = outputStream.toString().trim();
         // Assert the printed output matches the expected value
@@ -96,7 +97,8 @@ class ModuleMethodsControllerTest {
     void computePaceValidYear() {
         String[] userInput = {"y2/s1"};
         int creditsLeft = 60;
-        computePace(userInput, creditsLeft);
+        String studentsCurrYear = "y1/s2";
+        computePace(userInput, creditsLeft,studentsCurrYear);
         // Capture the printed output
         String printedOutput = outputStream.toString().trim();
         String line = "You have 100MCs for 5 semesters. Recommended Pace: 20MCs per sem until graduation";
@@ -110,7 +112,7 @@ class ModuleMethodsControllerTest {
         String major = "CEG";
         determinePrereq(invalidModuleCode, major);
         String printedOutput = outputStream.toString().trim();
-        String expectedResponse = "Invalid Module Code :Only alphabets and digits are allowed in module codes!";
+        String expectedResponse = "Invalid Module Code: Only alphabets and digits are allowed in module codes!";
         assertEquals(printedOutput, expectedResponse);
     }
 
@@ -130,7 +132,7 @@ class ModuleMethodsControllerTest {
         String major = "CEG";
         determinePrereq(invalidModuleCode, major);
         String printedOutput = outputStream.toString().trim();
-        String expectedResponse = "[CS1010, MA1511, MA1508E]";
+        String expectedResponse = "1. CS1010      2. MA1511      3. MA1508E";
         assertEquals(printedOutput, expectedResponse);
     }
 
