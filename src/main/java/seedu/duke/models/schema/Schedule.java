@@ -56,7 +56,7 @@ public class Schedule {
         return modulesPlanned;
     }
 
-    public void addRecommendedScheduleListToSchedule(ArrayList<String> scheduleToAdd) {
+    public void addRecommendedScheduleListToSchedule(ArrayList<String> scheduleToAdd, boolean keep) {
         //update to store completion statuses
         completedModules = modulesPlanned.newHashMapOfCompleted();
 
