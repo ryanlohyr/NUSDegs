@@ -6,10 +6,8 @@ import org.junit.jupiter.api.Test;
 import seedu.duke.exceptions.FailPrereqException;
 
 import java.io.ByteArrayOutputStream;
-import java.io.InvalidObjectException;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
