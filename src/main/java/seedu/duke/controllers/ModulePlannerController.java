@@ -1,10 +1,7 @@
 package seedu.duke.controllers;
 
 import seedu.duke.models.logic.CompletePreqs;
-import seedu.duke.models.schema.ModuleList;
-import seedu.duke.models.schema.Student;
-import seedu.duke.models.schema.CommandManager;
-import seedu.duke.models.schema.UserCommands;
+import seedu.duke.models.schema.*;
 import seedu.duke.models.logic.Api;
 import seedu.duke.utils.Parser;
 import seedu.duke.utils.errors.UserError;
@@ -102,17 +99,26 @@ public class ModulePlannerController {
     public void handleUserInputTillExitCommand() {
 
         Scanner in = new Scanner(System.in);
-        String userInput = in.nextLine();
+        UserCommand currentUserCommand = new UserCommand(in.nextLine());
+        if (currentUserCommand.isValid()) {
+            processCommand(UserCommand.getCommandWord(), UserCommand.getArguments(),UserCommand.getUserInput());
+        }
 
-        String command = parseCommand(userInput);
+        //String userInput = null;
 
-        while (!command.equals(UserCommands.EXIT_COMMAND)) {
+        //String command = null;
+
+        /*
+        UserCommand command = null;
+        while (!command.equals(UserCommandWord.EXIT_COMMAND)) {
+            String userInput = in.nextLine();
             command = parseCommand(userInput);
             String[] arguments = parseArguments(userInput);
 
             if(!commandManager.getListOfCommandNames().contains(command)){
                 UserError.displayInvalidInputCommand(command);
-                userInput = in.nextLine();
+                //userInput = in.nextLine();
+
                 continue;
             }
 
@@ -120,54 +126,57 @@ public class ModulePlannerController {
 
             if (!validInput) {
                 UserError.displayInvalidMethodCommand(command);
-                userInput = in.nextLine();
+                //userInput = in.nextLine();
+
                 continue;
             }
 
             processCommand(command, arguments, userInput);
 
-            userInput = in.nextLine();
+
         }
+
+         */
         in.close();
     }
 
     private void processCommand(String command, String[] arguments, String userInput) {
         switch (command) {
-        case UserCommands.LEFT_COMMAND: {
+        case UserCommandWord.LEFT_COMMAND: {
             showModulesLeft(student.getModuleCodesLeft());
             break;
         }
-        case UserCommands.PACE_COMMAND: {
+        case UserCommandWord.PACE_COMMAND: {
             computePace(arguments, student.getCurrentModuleCredits(), student.getYear());
             break;
         }
-        case UserCommands.PREREQUISITE_COMMAND: {
+        case UserCommandWord.PREREQUISITE_COMMAND: {
             String module = arguments[0];
             determinePrereq(module.toUpperCase(), student.getMajor()); //to convert "CEG" to dynamic course
             break;
         }
-        case UserCommands.RECOMMEND_COMMAND: {
+        case UserCommandWord.RECOMMEND_COMMAND: {
             recommendScheduleToStudent(student);
             break;
         }
-        case UserCommands.ADD_MODULE_COMMAND: {
+        case UserCommandWord.ADD_MODULE_COMMAND: {
             String module = arguments[0].toUpperCase();
             int targetSem = Integer.parseInt(arguments[1]);
 
             addModule(module, targetSem, student);
             break;
         }
-        case UserCommands.DELETE_MODULE_COMMAND: {
+        case UserCommandWord.DELETE_MODULE_COMMAND: {
             String module = arguments[0].toUpperCase();
 
             deleteModule(module,student);
             break;
         }
-        case UserCommands.VIEW_SCHEDULE_COMMAND: {
+        case UserCommandWord.VIEW_SCHEDULE_COMMAND: {
             student.printSchedule();
             break;
         }
-        case UserCommands.COMPLETE_MODULE_COMMAND: {
+        case UserCommandWord.COMPLETE_MODULE_COMMAND: {
             String module = arguments[0].toUpperCase();
             //to add to user completed module
 
@@ -175,19 +184,19 @@ public class ModulePlannerController {
 
             break;
         }
-        case UserCommands.REQUIRED_MODULES_COMMAND: {
+        case UserCommandWord.REQUIRED_MODULES_COMMAND: {
             getRequiredModulesForStudent(student.getMajor());
             break;
         }
-        case UserCommands.INFO_COMMAND: {
+        case UserCommandWord.INFO_COMMAND: {
             Api.infoCommands(arguments[0], userInput);
             break;
         }
-        case UserCommands.SEARCH_MODULE_COMMAND: {
+        case UserCommandWord.SEARCH_MODULE_COMMAND: {
             Api.searchCommand(userInput);
             break;
         }
-        case UserCommands.HELP_COMMAND: {
+        case UserCommandWord.HELP_COMMAND: {
             printListOfCommands(commandManager);
             break;
         }

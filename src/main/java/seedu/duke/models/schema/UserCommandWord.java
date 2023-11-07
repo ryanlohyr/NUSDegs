@@ -1,6 +1,6 @@
 package seedu.duke.models.schema;
 
-public interface UserCommands {
+public interface UserCommandWord {
     String EXIT_COMMAND = "Bye";
     String LEFT_COMMAND = "left";
     String PACE_COMMAND = "pace";

@@ -1,7 +1,7 @@
 package seedu.duke.utils;
 
 import seedu.duke.models.schema.Major;
-import seedu.duke.models.schema.UserCommands;
+import seedu.duke.models.schema.UserCommandWord;
 import seedu.duke.utils.errors.UserError;
 
 import java.util.ArrayList;
@@ -15,7 +15,10 @@ public class Parser {
      * @param userInput The user input string.
      * @return The main command from the input string.
      */
-    public static String parseCommand(String userInput){
+    public static String parseCommand(String userInput) {
+        if (userInput == null) {
+            return null;
+        }
         String[] keywords = userInput.split(" ");
         return keywords[0];
     }
@@ -119,20 +122,20 @@ public class Parser {
      */
     public static boolean isValidInputForCommand(String command, String[] arguments) {
         switch (command) {
-        case UserCommands.PREREQUISITE_COMMAND: {
+        case UserCommandWord.PREREQUISITE_COMMAND: {
             if (arguments.length < 1) {
                 return false;
             }
             break;
         }
-        case UserCommands.VIEW_SCHEDULE_COMMAND:
-        case UserCommands.RECOMMEND_COMMAND: {
+        case UserCommandWord.VIEW_SCHEDULE_COMMAND:
+        case UserCommandWord.RECOMMEND_COMMAND: {
             if (arguments.length > 0) {
                 return false;
             }
             break;
         }
-        case UserCommands.SET_MAJOR_COMMAND: {
+        case UserCommandWord.SET_MAJOR_COMMAND: {
             if (arguments.length == 0) {
                 return true;
             }
@@ -149,7 +152,7 @@ public class Parser {
             }
             break;
         }
-        case UserCommands.ADD_MODULE_COMMAND: {
+        case UserCommandWord.ADD_MODULE_COMMAND: {
             if (arguments.length != 2) {
                 UserError.invalidAddFormat();
                 return false;
@@ -162,14 +165,14 @@ public class Parser {
             }
             break;
         }
-        case UserCommands.DELETE_MODULE_COMMAND: {
+        case UserCommandWord.DELETE_MODULE_COMMAND: {
             if (arguments.length != 1) {
                 UserError.invalidDeleteFormat();
                 return false;
             }
             break;
         }
-        case UserCommands.INFO_COMMAND: {
+        case UserCommandWord.INFO_COMMAND: {
             if (arguments.length < 1) {
                 UserError.emptyInputforInfoCommand();
                 return false;
