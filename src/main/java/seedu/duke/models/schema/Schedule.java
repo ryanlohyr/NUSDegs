@@ -26,9 +26,11 @@ public class Schedule {
     private static final int MAXIMUM_SEMESTERS = 8;
     protected int[] modulesPerSem;
     private ModuleList modulesPlanned;
+
     private HashMap<String, Module> completedModules;
 
     private HashMap<String, ArrayList<String>> prereqMap;
+
 
 
     /**
@@ -134,14 +136,14 @@ public class Schedule {
     /**
      * Adds a module to the schedule for a specified semester.
      *
-     * @param module The module code to be added.
+     * @param moduleCode The module code to be added.
      * @param targetSem The target semester (an integer from 1 to 8) in which to add the module.
      * @throws IllegalArgumentException If the provided semester is out of the valid range (1 to 8),
      *     or if the module already exists in the schedule, or if the module is not valid.
      * @throws InvalidObjectException If the module is null.
      * @throws FailPrereqException If the prerequisites for the module are not satisfied
      */
-    public void addModule(String module, int targetSem) throws IllegalArgumentException, InvalidObjectException,
+    public void addModule(String moduleCode, int targetSem) throws IllegalArgumentException, InvalidObjectException,
             FailPrereqException {
 
         if (targetSem < 1 || targetSem > MAXIMUM_SEMESTERS) {
@@ -149,7 +151,7 @@ public class Schedule {
         }
 
         try {
-            if (modulesPlanned.existsByCode(module)) {
+            if (modulesPlanned.existsByCode(moduleCode)) {
                 throw new IllegalArgumentException("Module already exists in the schedule");
             }
         } catch (InvalidObjectException e) {
@@ -162,22 +164,26 @@ public class Schedule {
         }
 
         //Sub list as we only want modules before the current target semester
-        List<String> plannedModulesArray = modulesPlanned.getModuleCodes().subList(0, (indexToAdd));
-        ModuleList plannedModules = new ModuleList(String.join(" ", plannedModulesArray));
+        List<String> partialModulesPlannedArray = modulesPlanned.getModuleCodes().subList(0, (indexToAdd));
+        ModuleList partialModulesPlanned = new ModuleList(String.join(" ", partialModulesPlannedArray));
 
         try {
-            if (satisfiesAllPrereq(module, plannedModules)) {
+            if (satisfiesAllPrereq(moduleCode, partialModulesPlanned)) {
                 //module initialization will be here
 
-                modulesPlanned.addModule(indexToAdd, new Module(module));
+                Module newModule = new Module(moduleCode);
+                modulesPlanned.addModule(indexToAdd, newModule);
                 modulesPerSem[targetSem - 1] += 1;
+
+
                 return;
             }
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Please select a valid module");
         }
-        throw new FailPrereqException("Unable to add module as prerequisites not satisfied for: " + module);
+        throw new FailPrereqException("Unable to add module as prerequisites not satisfied for: " + moduleCode);
     }
+
 
     /**
      * Deletes a module from the schedule by its module code.
@@ -263,8 +269,24 @@ public class Schedule {
     }
 
     public boolean canCompleteModule(String moduleCode) {
-            //String[] arguments, ArrayList<String> majorModuleCodes,
-                                            //CompletePreqs addModulePreqs) {
+        return true;
+        //String[] arguments, ArrayList<String> majorModuleCodes,
+        //CompletePreqs addModulePreqs) {
+        //HashMap<String, Module> completedModules;
+
+        //satisfiesAllPrereq(moduleCode, ModuleList completedModules);
+
+
+        //check if module prereqs are completed
+
+        /*
+        try {
+            if (satisfiesAllPrereq(moduleCode, modulesPlanned)) {
+                return true;
+            }
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
 
         ArrayList<String> prereqArray = prereqMap.get(moduleCode);
         ArrayList<String> modulesCompleted = modulesPlanned.getModulesCompleted();
@@ -274,7 +296,7 @@ public class Schedule {
             return true;
         }
         return false;
-        /*
+
 
         if (addModulePreqs.checkModInput(arguments, majorModuleCodes)) {
             String moduleCompleted = arguments[0].toUpperCase();

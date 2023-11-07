@@ -20,7 +20,6 @@ import static seedu.duke.views.CommandLineView.displayMessage;
 import static seedu.duke.views.CommandLineView.displaySuccessfulAddMessage;
 import static seedu.duke.views.CommandLineView.showPrereqCEG;
 import static seedu.duke.views.CommandLineView.displaySuccessfulDeleteMessage;
-import static seedu.duke.views.CommandLineView.displaySuccessfulCompleteMessage;
 
 import static seedu.duke.views.ModuleInfoView.printModuleStringArray;
 
@@ -121,8 +120,6 @@ public class ModuleMethodsController {
             if (module.getCompletionStatus()) {
                 UserError.displayModuleAlreadyCompleted(module.getModuleCode());
             } else {
-
-
 
                 student.completeModuleSchedule(moduleCode);
                 //displaySuccessfulCompleteMessage();

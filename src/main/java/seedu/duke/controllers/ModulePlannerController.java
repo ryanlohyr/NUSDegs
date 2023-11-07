@@ -1,11 +1,13 @@
 package seedu.duke.controllers;
 
 import seedu.duke.models.logic.CompletePreqs;
-import seedu.duke.models.schema.*;
+import seedu.duke.models.schema.Student;
+import seedu.duke.models.schema.ModuleList;
+import seedu.duke.models.schema.CommandManager;
+import seedu.duke.models.schema.UserCommand;
+import seedu.duke.models.schema.UserCommandWord;
 import seedu.duke.models.logic.Api;
 import seedu.duke.utils.Parser;
-import seedu.duke.utils.errors.UserError;
-import seedu.duke.views.WeeklyScheduleView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,8 +23,6 @@ import static seedu.duke.controllers.ModuleMethodsController.deleteModule;
 import static seedu.duke.controllers.ModuleMethodsController.completeModule;
 import static seedu.duke.controllers.ModuleMethodsController.getRequiredModulesForStudent;
 
-import static seedu.duke.utils.Parser.parseArguments;
-import static seedu.duke.utils.Parser.parseCommand;
 import static seedu.duke.controllers.ModuleServiceController.validateMajorInput;
 import static seedu.duke.views.CommandLineView.displayWelcome;
 import static seedu.duke.views.CommandLineView.displayReady;
@@ -104,7 +104,8 @@ public class ModulePlannerController {
         while (!currentUserCommand.isBye()) {
             currentUserCommand = new UserCommand(in.nextLine());
             if (currentUserCommand.isValid() && !currentUserCommand.isBye()) {
-                processCommand(currentUserCommand.getCommandWord(), currentUserCommand.getArguments(), currentUserCommand.getUserInput());
+                processCommand(currentUserCommand.getCommandWord(), currentUserCommand.getArguments(),
+                        currentUserCommand.getUserInput());
             }
         }
         /*

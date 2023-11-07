@@ -2,12 +2,14 @@ package seedu.duke.models.schema;
 
 import seedu.duke.exceptions.FailPrereqException;
 import seedu.duke.exceptions.MissingModuleException;
+import seedu.duke.utils.errors.UserError;
 
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
 
 import static seedu.duke.models.logic.DataRepository.getRequirements;
 import static seedu.duke.views.CommandLineView.displaySuccessfulCompleteMessage;
+import static seedu.duke.views.CommandLineView.displayUnsuccessfulCompleteMessage;
 
 /**
  * The Student class represents a student with a name, major, and module schedule.
@@ -113,14 +115,17 @@ public class Student {
         //check prereq
         if (schedule.canCompleteModule(moduleCode)) {
 
-            //print fail
-        } else{
-
             Module module = schedule.getModule(moduleCode);
 
             this.completedModuleCredits += module.getModuleCredits();
             module.markModuleAsCompleted();
             displaySuccessfulCompleteMessage();
+
+        } else {
+            //print fail
+            displayUnsuccessfulCompleteMessage();
+            UserError.displayModuleAlreadyCompleted("UNFINISHED");
+            UserError.displayModuleAlreadyCompleted("HELP FINISH");
         }
     }
 

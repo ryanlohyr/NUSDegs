@@ -80,6 +80,10 @@ public class CommandLineView {
         displayMessage("Module Successfully Completed");
     }
 
+    public static void displayUnsuccessfulCompleteMessage() {
+        displayMessage("Module cannot be completed as its prereqs have not been completed.");
+    }
+
 
     /**
      * Display a message to the command line view.
