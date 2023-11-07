@@ -11,7 +11,6 @@ import static seedu.duke.views.ModuleInfoView.printModuleArray;
  */
 public class ModuleList {
     private ArrayList<Module> mainModuleList;
-
     /**
      * Constructs an empty ModuleList.
      */

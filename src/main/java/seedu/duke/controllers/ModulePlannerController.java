@@ -190,6 +190,10 @@ public class ModulePlannerController {
             printListOfCommands(commandManager);
             break;
         }
+        case UserCommands.PLANNER_COMMAND: {
+            student.plannerCommand(student, userInput);
+            break;
+        }
         default: {
             break;
         }
