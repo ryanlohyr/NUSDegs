@@ -2,9 +2,13 @@ package seedu.duke.models.schema;
 
 import seedu.duke.exceptions.FailPrereqException;
 import seedu.duke.exceptions.MissingModuleException;
+import seedu.duke.utils.Parser;
+import seedu.duke.utils.errors.UserError;
+import seedu.duke.views.WeeklyScheduleView;
 
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static seedu.duke.models.logic.DataRepository.getRequirements;
 
@@ -19,6 +23,62 @@ public class Student {
     private String year;
     private int completedModuleCredits;
     private ArrayList<String> majorModuleCodes;
+    private ModuleList currentSemesterModules;
+    private ArrayList<ModuleWeekly> currentSemesterModulesWeekly;
+
+    public void setCurrentSemesterModules() {
+        try {
+            int[] yearAndSem = Parser.parseStudentYear(year);
+            System.out.println(Arrays.toString(yearAndSem));
+            int currSem = ((yearAndSem[0] - 1) * 2) + yearAndSem[1];
+            int[] modulesPerSem = schedule.getModulesPerSem();
+            System.out.println(Arrays.toString(modulesPerSem));
+            ModuleList modulesPlanned = schedule.getModulesPlanned();
+           // schedule.printMainModuleList();
+           // System.out.println("-------------------------------");
+           // printSchedule();
+            int numberOfModulesInCurrSem = modulesPerSem[currSem - 1];
+            int numberOfModulesCleared = 0;
+            for (int i = 0; i < currSem - 1; i++) {
+                numberOfModulesCleared += modulesPerSem[i];
+            }
+            int startIndex = numberOfModulesCleared;
+            int endIndex = startIndex + numberOfModulesInCurrSem;
+            ArrayList<Module> modulesInSchedule = modulesPlanned.getMainModuleList();
+            ModuleList currentSemesterModules = new ModuleList();
+            for (int i = startIndex; i < endIndex; i++) {
+                currentSemesterModules.addModule(modulesInSchedule.get(i));
+                System.out.println(modulesInSchedule.get(i).getModuleCode());
+            }
+            ArrayList<Module> toprint = currentSemesterModules.getMainModuleList();
+         /*   for (int i = 0; i < toprint.size(); i++) {
+                System.out.println(toprint.get(i).getModuleCode());
+            }*/
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.print("why array out of bounds bruh");
+        }
+    }
+
+    public void setCurrentSemesterModulesWeekly() {
+        ArrayList<Module> mainModuleList = currentSemesterModules.getMainModuleList();
+        for (Module element : mainModuleList) {
+            currentSemesterModulesWeekly.add(new ModuleWeekly(element.getModuleCode()));
+        }
+    }
+
+    public void plannerCommand(String input) {
+        setCurrentSemesterModules();
+        setCurrentSemesterModulesWeekly();
+        if (input.trim().equals("show")) {
+            System.out.println(getCurrentSemesterModulesWeekly());
+        }
+    }
+
+    public ArrayList<ModuleWeekly> getCurrentSemesterModulesWeekly() { return currentSemesterModulesWeekly; }
+
+    public ModuleList getCurrentSemesterModules() {
+        return currentSemesterModules;
+    }
 
     /**
      * Constructs a student with a name, major, and module schedule.
@@ -65,6 +125,10 @@ public class Student {
     public int getCurrentModuleCredits(){
         return completedModuleCredits;
     }
+
+
+
+
 
     /**
      * Retrieves the name of the student.
@@ -190,4 +254,7 @@ public class Student {
     public void printSchedule(){
         this.schedule.printMainModuleList();
     }
+
+
+
 }

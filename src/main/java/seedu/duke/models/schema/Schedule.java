@@ -1,6 +1,7 @@
 package seedu.duke.models.schema;
 
 import seedu.duke.exceptions.FailPrereqException;
+import seedu.duke.utils.Parser;
 
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
@@ -20,6 +21,25 @@ public class Schedule {
     protected int[] modulesPerSem;
     private ModuleList modulesPlanned;
 
+    /*
+    public ArrayList<Module> getCurrentSemesterModules() {
+        int[] yearAndSem = Parser.parseStudentYear(year);
+        int currSem = ((yearAndSem[0] - 1) * 2) + yearAndSem[1];
+        int numberOfModulesInCurrSem = modulesPerSem[currSem - 1];
+        int numberOfModulesCleared = 0;
+        for (int i = 0; i < currSem - 1; i++) {
+            numberOfModulesCleared += modulesPerSem[i];
+        }
+        int startIndex = currSem - 1;
+        int endIndex = startIndex + numberOfModulesCleared;
+        ArrayList<Module> modulesInSchedule = modulesPlanned.getMainModuleList();
+        ArrayList<Module> currentSemesterModules = null;
+        for (int i = startIndex; i < endIndex; i++) {
+            currentSemesterModules.add(modulesInSchedule.get(i));
+        }
+        return currentSemesterModules;
+    }
+    */
     /**
      * Constructs a new `Schedule` with the provided modules and distribution across semesters.
      *
@@ -51,6 +71,8 @@ public class Schedule {
     public ModuleList getModulesPlanned() {
         return modulesPlanned;
     }
+
+    public int[] getModulesPerSem() { return modulesPerSem; }
 
     public void addRecommendedScheduleListToSchedule(ArrayList<String> scheduleToAdd) { //overwrite
         final int modsToAddPerSem = 5;

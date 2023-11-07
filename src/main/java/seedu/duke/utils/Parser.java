@@ -182,6 +182,14 @@ public class Parser {
 
             break;
         }
+        case UserCommands.PLANNER_COMMAND: {
+            if (arguments.length < 1) {
+                UserError.emptyInputforPlannerCommand();
+                return false;
+            }
+            // add check for modules that are in the current sem
+            // if argument[1] is !show or in currSemModules, return false
+        }
         default: {
             return true;
         }
@@ -203,5 +211,12 @@ public class Parser {
         return !keywords.trim().isEmpty();
     }
 
+    public static int[] parseStudentYear(String yearAndSem) {
+        char yearValue = yearAndSem.charAt(1);
+        int year = Character.getNumericValue(yearValue);
+        char semValue = yearAndSem.charAt(4);
+        int sem = Character.getNumericValue(semValue);
+        return new int[]{year, sem};
+    }
 
 }

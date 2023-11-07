@@ -2,7 +2,7 @@ package seedu.duke.models.schema;
 
 import java.util.ArrayList;
 
-public class Tutorial extends Event{
+public class Tutorial extends Event {
 
     public Tutorial(String day, int startTime, int duration) {
         super(day, startTime, duration);
