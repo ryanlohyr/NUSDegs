@@ -31,8 +31,25 @@ public class Schedule {
 
     private HashMap<String, ArrayList<String>> prereqMap;
 
-
-
+    /*
+    public ArrayList<Module> getCurrentSemesterModules() {
+        int[] yearAndSem = Parser.parseStudentYear(year);
+        int currSem = ((yearAndSem[0] - 1) * 2) + yearAndSem[1];
+        int numberOfModulesInCurrSem = modulesPerSem[currSem - 1];
+        int numberOfModulesCleared = 0;
+        for (int i = 0; i < currSem - 1; i++) {
+            numberOfModulesCleared += modulesPerSem[i];
+        }
+        int startIndex = currSem - 1;
+        int endIndex = startIndex + numberOfModulesCleared;
+        ArrayList<Module> modulesInSchedule = modulesPlanned.getMainModuleList();
+        ArrayList<Module> currentSemesterModules = null;
+        for (int i = startIndex; i < endIndex; i++) {
+            currentSemesterModules.add(modulesInSchedule.get(i));
+        }
+        return currentSemesterModules;
+    }
+    */
     /**
      * Constructs a new `Schedule` with the provided modules and distribution across semesters.
      *
@@ -67,6 +84,10 @@ public class Schedule {
     public ModuleList getModulesPlanned() {
         return modulesPlanned;
     }
+
+    public int[] getModulesPerSem() {
+        return modulesPerSem;
+    };
 
     /**
      * Adds a recommended schedule list to the current schedule, updating completion statuses if needed.
@@ -108,6 +129,7 @@ public class Schedule {
             //Sub list as we only want modules before the current target semester
             List<String> currentSemestersModules = scheduleToAdd.subList(indexToAdd, indexToAdd + currentIndexOfMod);
             ArrayList<String> currModulesPrereq = prereqMap.get(module);
+
             //now we check if the modules prereq is contained on current line
             for(String currModule:currentSemestersModules){
                 if(currModulesPrereq.contains(currModule)){
@@ -174,7 +196,6 @@ public class Schedule {
                 Module newModule = new Module(moduleCode);
                 modulesPlanned.addModule(indexToAdd, newModule);
                 modulesPerSem[targetSem - 1] += 1;
-
 
                 return;
             }
@@ -270,46 +291,6 @@ public class Schedule {
 
     public boolean canCompleteModule(String moduleCode) {
         return true;
-        //String[] arguments, ArrayList<String> majorModuleCodes,
-        //CompletePreqs addModulePreqs) {
-        //HashMap<String, Module> completedModules;
-
-        //satisfiesAllPrereq(moduleCode, ModuleList completedModules);
-
-
-        //check if module prereqs are completed
-
-        /*
-        try {
-            if (satisfiesAllPrereq(moduleCode, modulesPlanned)) {
-                return true;
-            }
-        } catch (IllegalArgumentException e) {
-            return false;
-        }
-
-        ArrayList<String> prereqArray = prereqMap.get(moduleCode);
-        ArrayList<String> modulesCompleted = modulesPlanned.getModulesCompleted();
-        //get diff
-        prereqArray.removeAll(modulesCompleted);
-        if (prereqArray.isEmpty()) {
-            return true;
-        }
-        return false;
-
-
-        if (addModulePreqs.checkModInput(arguments, majorModuleCodes)) {
-            String moduleCompleted = arguments[0].toUpperCase();
-            addModulePreqs.getUnlockedMods(moduleCompleted);
-            addModulePreqs.printUnlockedMods(moduleCompleted);
-
-            return true;
-        } catch (InvalidObjectException e) {
-            assert false;
-        }
-        return false;
-
-         */
     }
 
     /**
