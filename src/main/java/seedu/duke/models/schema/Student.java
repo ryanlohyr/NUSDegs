@@ -7,6 +7,7 @@ import java.io.InvalidObjectException;
 import java.util.ArrayList;
 
 import static seedu.duke.models.logic.DataRepository.getRequirements;
+import static seedu.duke.views.CommandLineView.displaySuccessfulCompleteMessage;
 
 /**
  * The Student class represents a student with a name, major, and module schedule.
@@ -109,11 +110,18 @@ public class Student {
      * @param moduleCode The code of the module to be completed.
      */
     public void completeModuleSchedule(String moduleCode) throws InvalidObjectException {
+        //check prereq
+        if (schedule.canCompleteModule(moduleCode)) {
 
-        Module module = schedule.getModule(moduleCode);
+            //print fail
+        } else{
 
-        this.completedModuleCredits += module.getModuleCredits();
-        module.markModuleAsCompleted();
+            Module module = schedule.getModule(moduleCode);
+
+            this.completedModuleCredits += module.getModuleCredits();
+            module.markModuleAsCompleted();
+            displaySuccessfulCompleteMessage();
+        }
     }
 
     //@@author ryanlohyr

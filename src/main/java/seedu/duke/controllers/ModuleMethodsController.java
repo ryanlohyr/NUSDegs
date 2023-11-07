@@ -121,10 +121,11 @@ public class ModuleMethodsController {
             if (module.getCompletionStatus()) {
                 UserError.displayModuleAlreadyCompleted(module.getModuleCode());
             } else {
-                //check prereq
+
+
 
                 student.completeModuleSchedule(moduleCode);
-                displaySuccessfulCompleteMessage();
+                //displaySuccessfulCompleteMessage();
             }
 
         } catch (MissingModuleException e) {

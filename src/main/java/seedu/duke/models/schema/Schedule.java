@@ -262,8 +262,19 @@ public class Schedule {
         return modulesPlanned.getModule(moduleCode);
     }
 
-    public boolean canCompleteModule(String[] arguments, ArrayList<String> majorModuleCodes,
-                                            CompletePreqs addModulePreqs) {
+    public boolean canCompleteModule(String moduleCode) {
+            //String[] arguments, ArrayList<String> majorModuleCodes,
+                                            //CompletePreqs addModulePreqs) {
+
+        ArrayList<String> prereqArray = prereqMap.get(moduleCode);
+        ArrayList<String> modulesCompleted = modulesPlanned.getModulesCompleted();
+        //get diff
+        prereqArray.removeAll(modulesCompleted);
+        if (prereqArray.isEmpty()) {
+            return true;
+        }
+        return false;
+        /*
 
         if (addModulePreqs.checkModInput(arguments, majorModuleCodes)) {
             String moduleCompleted = arguments[0].toUpperCase();
@@ -275,6 +286,8 @@ public class Schedule {
             assert false;
         }
         return false;
+
+         */
     }
 
     /**
