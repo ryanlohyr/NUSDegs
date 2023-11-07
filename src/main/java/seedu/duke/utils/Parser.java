@@ -119,6 +119,7 @@ public class Parser {
      */
     public static boolean isValidInputForCommand(String command, String[] arguments) {
         switch (command) {
+        case UserCommands.COMPLETE_MODULE_COMMAND:
         case UserCommands.PREREQUISITE_COMMAND: {
             if (arguments.length < 1) {
                 return false;

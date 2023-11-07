@@ -170,7 +170,6 @@ public class ModulePlannerController {
         case UserCommands.COMPLETE_MODULE_COMMAND: {
             String module = arguments[0].toUpperCase();
             //to add to user completed module
-
             completeModule(student, module);
 
             break;
