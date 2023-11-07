@@ -15,16 +15,16 @@ It's a comprehensive tool for efficient and successful degree completion.
 
 ## Features
 - View help : `help`
-- View modules left for graduation: `left`
-- Check prerequisite for a module: `prereq`
+- View modules required for major: `required`
+- Recommend a schedule based on major: `recommend`
 - Search for modules based on keywords: `search`
 - View info about a module: `info`
-- View modules required for major: `required`
+- Check prerequisite for a module: `prereq`
 - View schedule planner: `schedule`
-- Recommend a schedule based on major: `recommend`
 - Add module to schedule planner: `add`
 - Delete module from schedule planner: `delete`
 - Complete a module in your schedule planner: `complete`
+- View modules left for graduation: `left`
 - Check current pace to graduate: `pace`
 
 ### Viewing help: `help`
@@ -33,19 +33,30 @@ To view a list of all possible commands, a brief description of their functional
 
 Format: `help`
 
-### Checking modules left: `left`
-Displays the modules left, which are the modules required for the user's major that have not been completed.
+### Getting a list of required modules:`required`
+Get an overview of required modules for the user's major
 
-Format: `left`
+Format: `required`
 
-Example of usage 1: (scenario where user's selected major is CEG)
+Example of usage 1: (user's major is CEG)
 
-User input: 
-`left`
+User input:
+`required`
 
 - Expected outcome:
-![ss_left_ceg.png](screenshots%2Fss_left_ceg.jpeg)
+  ![ss_required_ceg_1.png](screenshots%2Fss_required_ceg_1.png)
+  ![ss_required_ceg_2.png](screenshots%2Fss_required_ceg_2.png)
 
+
+Example of usage 1: (user's major is CS)
+
+User input:
+`required`
+
+- Expected outcome:
+![ss_required_cs_1.png](photos%2Fss_required_cs_1.png)
+![ss_required_cs_2.png](photos%2Fss_required_cs_2.png)
+- 
 ### View module prerequisites:`prereq`
 Based on the module selected, we will show what prerequisites the course has.
 
@@ -106,21 +117,6 @@ systems. It covers requirements, design, implementation, quality assurance, and 
 `info all`
 
 - Expected outcome: Displays module title and module code of all available modules
-
-### Getting a list of required modules:`required`
-Get an overview of required modules for the user's major
-
-Format: `required`
-
-Example of usage 1: (scenario where user's selected major is CEG)
-
-User input:
-`required`
-
-- Expected outcome:
-![ss_required_ceg.png](screenshots%2Fss_required_ceg.png)
-![ss_required_ceg2.png](screenshots%2Fss_required_ceg2.png)
-
 
 ### View schedule planner: `schedule`
 to be addedd
@@ -187,6 +183,27 @@ User input:
 
 Expected outcome:
 `Mod completed: MA1511`
+
+### Checking modules left: `left`
+Displays the modules left, which are the modules required for the user's major that have not been completed.
+
+Format: `left`
+
+Example of usage 1: (major is CEG, no modules completed)
+
+User input:
+`left`
+
+- Expected outcome:
+  ![ss_left_ceg.png](screenshots%2Fss_left_ceg.jpeg)
+
+Example of usage 2: (major is CEG, CS1010 & GEC1000 are added and completed)
+
+User input:
+`left`
+
+- Expected outcome:
+  ![ss_left_ceg_completed.png](screenshots%2Fss_left_ceg_completed.png)
 
 ### Check current pace to graduate: `pace`
 

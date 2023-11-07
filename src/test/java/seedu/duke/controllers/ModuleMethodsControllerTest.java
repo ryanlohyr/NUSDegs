@@ -13,13 +13,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.InvalidObjectException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static seedu.duke.controllers.ModuleMethodsController.computePace;
-import static seedu.duke.controllers.ModuleMethodsController.determinePrereq;
+import static seedu.duke.controllers.ModuleMethodsController.*;
 import static seedu.duke.views.CommandLineView.displayMessage;
 import static seedu.duke.views.CommandLineView.displaySuccessfulAddMessage;
 import static seedu.duke.views.CommandLineView.showPrereqCEG;
@@ -316,4 +316,25 @@ class ModuleMethodsControllerTest {
     }
 
 
+    @Test
+    void showModulesLeftTest() {
+        String expectedOutput = "Modules Left: \n" +
+                "1. GEA1000     2. MA1521      3. IS1108      4. MA1522      5. CS1231S     \n" +
+                "6. ES2660      7. CS2101      8. CS1101S     9. GESS1000    10. GEN2000";
+
+        showModulesLeft(new ArrayList<String>(List.of("GEA1000", "MA1521", "IS1108", "MA1522", "CS1231S", "ES2660",
+                "CS2101", "CS1101S", "GESS1000", "GEN2000")));
+
+        String printedOutput = outputStream.toString().trim();
+
+        printedOutput = printedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
+
+        expectedOutput = expectedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
+
+        assertEquals(expectedOutput, printedOutput);
+    }
 }
