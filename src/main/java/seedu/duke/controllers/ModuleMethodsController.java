@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import static seedu.duke.controllers.ModuleServiceController.chooseToAddToSchedule;
 import static seedu.duke.models.logic.Api.doesModuleExist;
 import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
-import static seedu.duke.models.logic.MajorRequirements.printRequiredModules;
+import static seedu.duke.views.MajorRequirementsView.printRequiredModules;
 import static seedu.duke.views.CommandLineView.displayMessage;
 import static seedu.duke.views.CommandLineView.displaySuccessfulAddMessage;
 import static seedu.duke.views.CommandLineView.showPrereqCEG;
