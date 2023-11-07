@@ -23,6 +23,7 @@ import static seedu.duke.controllers.ModuleMethodsController.computePace;
 import static seedu.duke.controllers.ModuleMethodsController.determinePrereq;
 import static seedu.duke.views.CommandLineView.displayMessage;
 import static seedu.duke.controllers.ModuleMethodsController.completeModule;
+import static seedu.duke.controllers.ModuleMethodsController.showModulesLeft;
 import static seedu.duke.views.CommandLineView.displaySuccessfulAddMessage;
 import static seedu.duke.views.CommandLineView.showPrereq;
 
@@ -381,29 +382,9 @@ class ModuleMethodsControllerTest {
     }
 
 
-    @Test
-    void showModulesLeft() {
-    }
 
     @Test
-    void addModule() {
-    }
-
-    @Test
-    void recommendScheduleToStudent() {
-    }
-
-    @Test
-    void deleteModule() {
-    }
-
-    @Test
-    void getRequiredModulesForStudent() {
-    }
-
-
-    @Test
-    void showModulesLeftTest() {
+    void showModulesLeftTest_arrayListModules_expectModulesLeft() {
         String expectedOutput = "Modules Left: \n" +
                 "1. GEA1000     2. MA1521      3. IS1108      4. MA1522      5. CS1231S     \n" +
                 "6. ES2660      7. CS2101      8. CS1101S     9. GESS1000    10. GEN2000";
@@ -422,5 +403,22 @@ class ModuleMethodsControllerTest {
                 .replaceAll("\r", "\n");
 
         assertEquals(expectedOutput, printedOutput);
+    }
+
+
+    @Test
+    void addModuleTest() {
+    }
+
+    @Test
+    void recommendScheduleToStudentTest() {
+    }
+
+    @Test
+    void deleteModuleTest() {
+    }
+
+    @Test
+    void getRequiredModulesForStudentTest() {
     }
 }
