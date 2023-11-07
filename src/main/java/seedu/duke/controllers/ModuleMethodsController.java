@@ -20,8 +20,6 @@ import static seedu.duke.views.CommandLineView.displaySuccessfulAddMessage;
 import static seedu.duke.views.CommandLineView.showPrereq;
 import static seedu.duke.views.CommandLineView.displaySuccessfulDeleteMessage;
 
-
-
 import static seedu.duke.views.MajorRequirementsView.printRequiredModules;
 
 import static seedu.duke.views.ModuleInfoView.printModuleStringArray;

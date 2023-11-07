@@ -110,15 +110,15 @@ public class ModuleWeekly extends Module {
     }
 
     public void addLecture(String day, int time, int duration) {
-        lessons.add(new Lecture(day, time, duration));
+        lessons.add(new Lecture(day, time, duration, moduleCode));
     }
 
     public void addTutorial(String day, int time, int duration) {
-        lessons.add(new Tutorial(day, time, duration));
+        lessons.add(new Tutorial(day, time, duration, moduleCode));
     }
 
     public void addLab(String day, int time, int duration) {
-        lessons.add(new Lab(day, time, duration));
+        lessons.add(new Lab(day, time, duration, moduleCode));
     }
 
     public void getDuration(String moduleCode) {

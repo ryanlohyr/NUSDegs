@@ -271,12 +271,11 @@ public class Student {
         if (currentSemesterModules.getMainModuleList().isEmpty()) {
             System.out.println(" array list in modulelist is null");
         }
-        ArrayList<Module> currentSemModuleList = currentSemesterModules.getMainModuleList();
         currentSemesterModulesWeekly = new ArrayList<>();
-        for (int i = 0; i < currentSemModuleList.size(); i++) {
+        for (int i = 0; i < currentSemesterModules.size(); i++) {
             //       System.out.println(currentSemesterModules.getModuleByIndex(i));
             //       System.out.println(currentSemModuleList.get(i).getModuleCode());
-            String currModuleCode = currentSemModuleList.get(i).getModuleCode();
+            String currModuleCode = currentSemesterModules.getModuleByIndex(i).getModuleCode();
             ModuleWeekly currModule = new ModuleWeekly(currModuleCode);
             currentSemesterModulesWeekly.add(currModule);
             //       currentSemesterModulesWeekly.add(new ModuleWeekly(currentSemesterModules.getModuleByIndex(i).
