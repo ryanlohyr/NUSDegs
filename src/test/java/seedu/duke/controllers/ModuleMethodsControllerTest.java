@@ -19,7 +19,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static seedu.duke.controllers.ModuleMethodsController.*;
+import static seedu.duke.controllers.ModuleMethodsController.computePace;
+import static seedu.duke.controllers.ModuleMethodsController.determinePrereq;
+import static seedu.duke.controllers.ModuleMethodsController.showModulesLeft;
 import static seedu.duke.views.CommandLineView.displayMessage;
 import static seedu.duke.views.CommandLineView.displaySuccessfulAddMessage;
 import static seedu.duke.views.CommandLineView.showPrereqCEG;
