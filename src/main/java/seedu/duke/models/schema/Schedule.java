@@ -1,7 +1,8 @@
 package seedu.duke.models.schema;
 
-import seedu.duke.exceptions.FailPrereqException;
-import seedu.duke.exceptions.MissingModuleException;
+import seedu.duke.utils.exceptions.MandatoryPrereqException;
+import seedu.duke.utils.exceptions.FailPrereqException;
+import seedu.duke.utils.exceptions.MissingModuleException;
 import seedu.duke.utils.exceptions.InvalidPrereqException;
 
 import java.io.InvalidObjectException;
@@ -12,7 +13,6 @@ import java.util.Queue;
 import java.util.LinkedList;
 import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
 import static seedu.duke.models.logic.Api.getModuleFulfilledRequirements;
-import static seedu.duke.models.logic.Api.doesModuleExist;
 import static seedu.duke.models.logic.Api.satisfiesAllPrereq;
 import static seedu.duke.models.logic.DataRepository.getRequirements;
 import static seedu.duke.views.SemesterPlannerView.printSemesterPlanner;
@@ -26,10 +26,11 @@ public class Schedule {
     private static final int MAXIMUM_SEMESTERS = 8;
     protected int[] modulesPerSem;
     private ModuleList modulesPlanned;
+
     private HashMap<String, Module> completedModules;
 
+    //DO NOT USE PREREQ MAP, ONLY USED FOR OPTIMISING RECOMMENDED SCHEDULE FUNCTION
     private HashMap<String, ArrayList<String>> prereqMap;
-
 
     /*
     public ArrayList<Module> getCurrentSemesterModules() {
@@ -129,6 +130,7 @@ public class Schedule {
             //Sub list as we only want modules before the current target semester
             List<String> currentSemestersModules = scheduleToAdd.subList(indexToAdd, indexToAdd + currentIndexOfMod);
             ArrayList<String> currModulesPrereq = prereqMap.get(module);
+
             //now we check if the modules prereq is contained on current line
             for(String currModule:currentSemestersModules){
                 if(currModulesPrereq.contains(currModule)){
@@ -157,14 +159,14 @@ public class Schedule {
     /**
      * Adds a module to the schedule for a specified semester.
      *
-     * @param module The module code to be added.
+     * @param moduleCode The module code to be added.
      * @param targetSem The target semester (an integer from 1 to 8) in which to add the module.
      * @throws IllegalArgumentException If the provided semester is out of the valid range (1 to 8),
      *     or if the module already exists in the schedule, or if the module is not valid.
      * @throws InvalidObjectException If the module is null.
      * @throws FailPrereqException If the prerequisites for the module are not satisfied
      */
-    public void addModule(String module, int targetSem) throws IllegalArgumentException, InvalidObjectException,
+    public void addModule(String moduleCode, int targetSem) throws IllegalArgumentException, InvalidObjectException,
             FailPrereqException {
 
         if (targetSem < 1 || targetSem > MAXIMUM_SEMESTERS) {
@@ -172,7 +174,7 @@ public class Schedule {
         }
 
         try {
-            if (modulesPlanned.existsByCode(module)) {
+            if (modulesPlanned.existsByCode(moduleCode)) {
                 throw new IllegalArgumentException("Module already exists in the schedule");
             }
         } catch (InvalidObjectException e) {
@@ -185,22 +187,26 @@ public class Schedule {
         }
 
         //Sub list as we only want modules before the current target semester
-        List<String> plannedModulesArray = modulesPlanned.getModuleCodes().subList(0, (indexToAdd));
-        ModuleList plannedModules = new ModuleList(String.join(" ", plannedModulesArray));
+
+        List<String> partialModulesPlannedArray = modulesPlanned.getModuleCodes().subList(0, (indexToAdd));
+        ModuleList partialModulesPlanned = new ModuleList(String.join(" ", partialModulesPlannedArray));
 
         try {
-            if (satisfiesAllPrereq(module, plannedModules)) {
+            if (satisfiesAllPrereq(moduleCode, partialModulesPlanned)) {
                 //module initialization will be here
 
-                modulesPlanned.addModule(indexToAdd, new Module(module));
+                Module newModule = new Module(moduleCode);
+                modulesPlanned.addModule(indexToAdd, newModule);
                 modulesPerSem[targetSem - 1] += 1;
+
                 return;
             }
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Please select a valid module");
         }
-        throw new FailPrereqException("Unable to add module as prerequisites not satisfied for: " + module);
+        throw new FailPrereqException("Unable to add module as prerequisites not satisfied for: " + moduleCode);
     }
+
 
     /**
      * Deletes a module from the schedule by its module code.
@@ -209,13 +215,13 @@ public class Schedule {
      * @throws FailPrereqException If the module to be deleted is a prerequisite for other modules in the schedule.
      * @throws IllegalArgumentException If the provided module code is not valid, the module is not in the schedule
      */
-    public void deleteModule(String module) throws FailPrereqException, MissingModuleException {
-
-        if (!doesModuleExist(module)) {
-            throw new MissingModuleException("Module does not exist in schedule");
-        }
+    public void deleteModule(String module) throws MandatoryPrereqException, MissingModuleException {
 
         int targetIndex = modulesPlanned.getIndexByString(module);
+
+        if (targetIndex == -1) {
+            throw new MissingModuleException("Module does not exist in schedule");
+        }
 
         int targetSem = 1;
         int moduleCount = modulesPerSem[0];
@@ -240,8 +246,8 @@ public class Schedule {
         for(String fulfilledModule: requirementsFulfilledFromModule ){
             //over here we check if the semesters in front of us contain a module in fulfilled module
             if(modulesAheadArray.contains(fulfilledModule)){
-                throw new FailPrereqException("Unable to delete module. This module is a prerequisite for "
-                        + fulfilledModule);
+                throw new MandatoryPrereqException("Unable to delete module. " +
+                        "This module is a mandatory prerequisite for " + fulfilledModule);
             }
         }
 
@@ -281,8 +287,153 @@ public class Schedule {
         //
     }
 
+    public void shiftModule(String module, int targetSem) throws IllegalArgumentException,
+            FailPrereqException, MandatoryPrereqException, MissingModuleException, InvalidObjectException {
+
+        if (targetSem < 1 || targetSem > MAXIMUM_SEMESTERS) {
+            throw new IllegalArgumentException("Please select an integer from 1 to 8 for semester selection");
+        }
+
+        int originalIndex = modulesPlanned.getIndexByString(module);
+
+        if (originalIndex == -1) {
+            throw new MissingModuleException("Module does not exist in schedule");
+        }
+
+        int originalSem = 1;
+        int moduleCount = modulesPerSem[0];
+
+        while ((moduleCount - 1) < originalIndex) {
+            moduleCount += modulesPerSem[originalSem];
+            originalSem += 1;
+        }
+
+        int indexToAdd = 0;
+        for (int i = 1; i < targetSem; i++) {
+            indexToAdd += this.modulesPerSem[i - 1];
+        }
+
+        // User input sem that module is already in
+        if (originalSem == targetSem) {
+            throw new IllegalArgumentException("Module is already in semester " + targetSem);
+        }
+
+        // If shifting module earlier
+        if (originalSem > targetSem) {
+
+            //Sub list as we only want modules before the current target semester
+            List<String> plannedModulesArray = modulesPlanned.getModuleCodes().subList(0, (indexToAdd));
+            ModuleList plannedModules = new ModuleList(String.join(" ", plannedModulesArray));
+
+            try {
+                if (satisfiesAllPrereq(module, plannedModules)) {
+                    //module shifting will be here
+
+                    Module moduleToBeShifted = getModule(module);
+
+                    modulesPlanned.deleteModule(moduleToBeShifted);
+                    modulesPerSem[originalSem - 1] -= 1;
+
+                    modulesPlanned.addModule(indexToAdd, moduleToBeShifted);
+                    modulesPerSem[targetSem - 1] += 1;
+                    return;
+                }
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("Please select a valid module");
+            } catch (InvalidObjectException e) {
+                throw new InvalidObjectException("Module does not exist in the schedule.");
+            }
+            throw new FailPrereqException("Unable to shift module as prerequisites will not be satisfied for: "
+                    + module);
+        }
+
+        // If shifting module later
+
+        ArrayList<String> requirementsFulfilledFromModule = getModuleFulfilledRequirements(module);
+
+        List<String> modulesAheadArray;
+
+        int modulesAheadFromIndex = 0;
+        int modulesAheadToIndex= 0;
+
+        for (int i = 1; i < originalSem + 1; i++) {
+            modulesAheadFromIndex += this.modulesPerSem[i - 1];
+        }
+
+        for (int i = 1; i < targetSem + 1; i++) {
+            modulesAheadToIndex += this.modulesPerSem[i - 1];
+        }
+
+        try {
+            modulesAheadArray = modulesPlanned.getModuleCodes()
+                    .subList(modulesAheadFromIndex, modulesAheadToIndex);
+        } catch (IndexOutOfBoundsException | IllegalArgumentException e) {
+            modulesAheadArray = new ArrayList<>();
+        }
+
+        for(String fulfilledModule: requirementsFulfilledFromModule ){
+            //over here we check if the semesters in front of us contain a module in fulfilled module
+            if(modulesAheadArray.contains(fulfilledModule)){
+                throw new MandatoryPrereqException("Unable to shift module. " +
+                        "This module is a mandatory prerequisite for " + fulfilledModule);
+            }
+        }
+
+        //module shifting will be here
+
+        Module moduleToBeShifted = getModule(module);
+
+        modulesPlanned.deleteModule(moduleToBeShifted);
+        modulesPerSem[originalSem - 1] -= 1;
+
+        modulesPlanned.addModule(indexToAdd - 1, moduleToBeShifted);
+        modulesPerSem[targetSem - 1] += 1;
+    }
+
     public Module getModule(String moduleCode) throws InvalidObjectException {
         return modulesPlanned.getModule(moduleCode);
+    }
+
+    public void completeModule(Module module, ArrayList<String> modulePrereq) throws
+            FailPrereqException,
+            InvalidObjectException {
+        //we will slice from semester 0 to 1 semester before the target module,
+        //we will then check if the modules in the pre req array are
+        //we need to determine the semester of the module
+        String moduleCode = module.getModuleCode();
+        int targetIndex = modulesPlanned.getIndexByString(moduleCode);
+        int targetSem = 1;
+        int moduleCount = modulesPerSem[0];
+
+        while ((moduleCount - 1) < targetIndex) {
+            moduleCount += modulesPerSem[targetSem];
+            targetSem += 1;
+        }
+
+        List<String> partialModulesPlannedArray = modulesPlanned.getModuleCodes().subList(0, (moduleCount));
+        //we need to get the pre requisites of the module,
+        //for each prerequissite, we need to locate the module, check if its completed
+        //if not completed, throw error
+        if(modulePrereq == null){
+            modulePrereq = new ArrayList<>();
+        }
+        for(String currModule: modulePrereq){
+            if(partialModulesPlannedArray.contains(currModule) && !getModule(currModule).getCompletionStatus()){
+                throw new FailPrereqException(moduleCode);
+            }
+        }
+
+
+
+        //        System.out.println(partialModulesPlannedArray);
+        //        if(!satisfiesAllPrereq(moduleCode, partialModulesPlanned)){
+        //            throw new IllegalArgumentException("Please select a valid module");
+        //        }
+
+        module.markModuleAsCompleted();
+
+
+
     }
 
     /**

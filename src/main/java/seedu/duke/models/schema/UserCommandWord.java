@@ -1,6 +1,6 @@
 package seedu.duke.models.schema;
 
-public interface UserCommands {
+public interface UserCommandWord {
     String EXIT_COMMAND = "Bye";
     String LEFT_COMMAND = "left";
     String PACE_COMMAND = "pace";
@@ -9,6 +9,7 @@ public interface UserCommands {
     String SET_MAJOR_COMMAND = "major";
     String ADD_MODULE_COMMAND = "add";
     String DELETE_MODULE_COMMAND = "delete";
+    String SHIFT_MODULE_COMMAND = "shift";
     String VIEW_SCHEDULE_COMMAND = "schedule";
     String COMPLETE_MODULE_COMMAND = "complete";
     String REQUIRED_MODULES_COMMAND = "required";

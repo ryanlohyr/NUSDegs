@@ -30,8 +30,9 @@ public class CommandManager {
                 new Command("prereq", "Displays the prerequisites for a specific module."),
 
                 new Command("schedule", "Shows schedule planner"),
-                new Command("add", "Adds module to the recommended schedule planner."),
+                new Command("add", "Adds module to the schedule planner."),
                 new Command("delete", "Deletes module from the schedule planner."),
+                new Command("shift", "Shifts module in the schedule planner."),
 
                 new Command("complete", "Marks a module as complete on schedule planner."),
                 new Command("left", "Displays a list of remaining modules."),

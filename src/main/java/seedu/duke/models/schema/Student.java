@@ -3,17 +3,24 @@ package seedu.duke.models.schema;
 import seedu.duke.exceptions.FailPrereqException;
 import seedu.duke.exceptions.InvalidModifyArgumentException;
 import seedu.duke.exceptions.MissingModuleException;
+import seedu.duke.utils.exceptions.MandatoryPrereqException;
+import seedu.duke.utils.exceptions.FailPrereqException;
+import seedu.duke.utils.exceptions.MissingModuleException;
+
 import seedu.duke.utils.Parser;
+import seedu.duke.utils.exceptions.InvalidPrereqException;
 import seedu.duke.views.WeeklyScheduleView;
 
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
 import static seedu.duke.models.logic.DataRepository.getRequirements;
 import static seedu.duke.utils.Parser.parserDayForModify;
 import static seedu.duke.utils.Parser.parserTimeForModify;
 import static seedu.duke.utils.Parser.parserDurationForModify;
+import static seedu.duke.views.CommandLineView.displaySuccessfulCompleteMessage;
 
 /**
  * The Student class represents a student with a name, major, and module schedule.
@@ -143,7 +150,8 @@ public class Student {
         }
     }
 
-    public void addModuleSchedule(String moduleCode, int targetSem) throws InvalidObjectException, FailPrereqException {
+    public void addModuleSchedule(String moduleCode, int targetSem) throws IllegalArgumentException,
+            InvalidObjectException, FailPrereqException {
         this.schedule.addModule(moduleCode, targetSem);
     }
 
@@ -152,27 +160,46 @@ public class Student {
      *
      * @param moduleCode The code of the module to be completed.
      */
-    public void completeModuleSchedule(String moduleCode) throws InvalidObjectException {
+    public void completeModuleSchedule(String moduleCode) throws InvalidObjectException,
+            FailPrereqException, InvalidPrereqException {
 
         Module module = schedule.getModule(moduleCode);
 
-        this.completedModuleCredits += module.getModuleCredits();
-        module.markModuleAsCompleted();
-    }
+        ArrayList<String> modulePrereq = getModulePrereqBasedOnCourse(moduleCode,this.getMajor());
 
+        schedule.completeModule(module,modulePrereq);
+        this.completedModuleCredits += module.getModuleCredits();
+
+        displaySuccessfulCompleteMessage();
+
+    }
     /**
      * Deletes a module with the specified module code. This method also updates the completed
      * module credits and removes the module from the planned modules list.
      *
+     * @author ryanlohyr
      * @param moduleCode The code of the module to be deleted.
      * @throws FailPrereqException If deleting the module fails due to prerequisite dependencies.
      */
-    public void deleteModuleSchedule(String moduleCode) throws FailPrereqException, MissingModuleException {
-        schedule.deleteModule(moduleCode);
+    public void deleteModuleSchedule(String moduleCode) throws MandatoryPrereqException, MissingModuleException {
+        try{
+            Module module = schedule.getModule(moduleCode);
+            schedule.deleteModule(moduleCode);
+            if(module.getCompletionStatus()){
+                this.completedModuleCredits -= module.getModuleCredits();
+            }
+        }catch (InvalidObjectException e) {
+            throw new MissingModuleException(e.getMessage());
+        }
+    }
+
+    public void shiftModuleSchedule(String moduleCode, int targetSem) throws IllegalArgumentException,
+            FailPrereqException, MissingModuleException, InvalidObjectException, MandatoryPrereqException {
+        this.schedule.shiftModule(moduleCode, targetSem);
     }
 
     //@@author janelleenqi
-    public Module existModuleSchedule(String moduleCode) throws MissingModuleException {
+    public Module getModuleFromSchedule(String moduleCode) throws MissingModuleException {
         try {
             return schedule.getModule(moduleCode);
         } catch (InvalidObjectException e) {
@@ -271,7 +298,6 @@ public class Student {
             System.out.println("There are no modules in your current semester. Please add in modules, or generate" +
                     "using the 'recommend' command.");
         }
-        ArrayList<Module> currentSemModuleList = currentSemesterModules.getMainModuleList();
         currentSemesterModulesWeekly = new ArrayList<>();
         for (int i = 0; i < currentSemModuleList.size(); i++) {
             String currModuleCode = currentSemModuleList.get(i).getModuleCode();
