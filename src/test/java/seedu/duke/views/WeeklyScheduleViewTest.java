@@ -13,7 +13,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class WeeklyScheduleViewTest {
 
-
     private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
 
@@ -53,6 +52,4 @@ class WeeklyScheduleViewTest {
         //assertTrue(false);
 
     }
-
-
 }

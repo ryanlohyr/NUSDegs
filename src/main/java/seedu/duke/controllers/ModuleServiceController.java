@@ -1,12 +1,12 @@
 package seedu.duke.controllers;
 
-import seedu.duke.models.logic.MajorRequirements;
 import seedu.duke.models.schema.Major;
 import seedu.duke.models.schema.Student;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static seedu.duke.views.MajorRequirementsView.printRequiredModules;
 import static seedu.duke.views.CommandLineView.displayHelp;
 import static seedu.duke.views.CommandLineView.displayMessage;
 import static seedu.duke.views.ModuleInfoView.printModuleStringArray;
@@ -94,7 +94,7 @@ public class ModuleServiceController {
      * @throws NullPointerException If `major` is null.
      */
     public static void getRequiredModules(String major) throws NullPointerException {
-        MajorRequirements.printRequiredModules(major);
+        printRequiredModules(major);
     }
 
 }
