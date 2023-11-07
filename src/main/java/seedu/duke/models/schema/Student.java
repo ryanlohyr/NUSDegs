@@ -20,8 +20,9 @@ import static seedu.duke.utils.Parser.parserDurationForModify;
  */
 public class Student {
 
-    private static int counter;
     private static boolean intitialise;
+    private static int counter;
+    public ArrayList<ModuleWeekly> currentSemesterModulesWeekly;
     private String name;
     private String major;
     private Schedule schedule;
@@ -29,7 +30,10 @@ public class Student {
     private int completedModuleCredits;
     private ArrayList<String> majorModuleCodes;
     private ModuleList currentSemesterModules;
-    public ArrayList<ModuleWeekly> currentSemesterModulesWeekly;
+
+
+
+
 
 
     /**
