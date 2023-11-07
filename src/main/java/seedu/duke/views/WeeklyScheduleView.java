@@ -111,7 +111,7 @@ public class WeeklyScheduleView {
                         print(currentTask);
                         printToJustify(columnWidth - currentTask.length());
                         weeklyTask.get(i).remove(0);
-                    } else if (words[0].length() < columnWidth) {
+                    } else if (words[0].length() > columnWidth) {
                         //split word
                         try {
                             String columnWidthLengthWord = words[0].substring(0, 10);
