@@ -2,9 +2,12 @@ package seedu.duke.models.schema;
 
 import seedu.duke.exceptions.FailPrereqException;
 import seedu.duke.exceptions.MissingModuleException;
+import seedu.duke.utils.Parser;
+import seedu.duke.views.WeeklyScheduleView;
 
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static seedu.duke.models.logic.DataRepository.getRequirements;
 
@@ -19,6 +22,10 @@ public class Student {
     private String year;
     private int completedModuleCredits;
     private ArrayList<String> majorModuleCodes;
+    private ModuleList currentSemesterModules;
+    private ArrayList<ModuleWeekly> currentSemesterModulesWeekly;
+
+
 
     /**
      * Constructs a student with a name, major, and module schedule.
@@ -65,6 +72,10 @@ public class Student {
     public int getCurrentModuleCredits(){
         return completedModuleCredits;
     }
+
+
+
+
 
     /**
      * Retrieves the name of the student.
@@ -134,7 +145,8 @@ public class Student {
         try {
             return schedule.getModule(moduleCode);
         } catch (InvalidObjectException e) {
-            throw new MissingModuleException(moduleCode + " is not in Modules Planner.");
+            throw new MissingModuleException(moduleCode + " is not in Modules Planner. " +
+                    "Please add the module to your schedule first!");
         }
     }
 
@@ -202,4 +214,136 @@ public class Student {
     public void printSchedule(){
         this.schedule.printMainModuleList();
     }
+
+    public void setCurrentSemesterModules() {
+        try {
+            int[] yearAndSem = Parser.parseStudentYear(year);
+            System.out.println(Arrays.toString(yearAndSem));
+            int currSem = ((yearAndSem[0] - 1) * 2) + yearAndSem[1];
+            int[] modulesPerSem = schedule.getModulesPerSem();
+            System.out.println(Arrays.toString(modulesPerSem));
+            ModuleList modulesPlanned = schedule.getModulesPlanned();
+            // schedule.printMainModuleList();
+            // System.out.println("-------------------------------");
+            // printSchedule();
+            int numberOfModulesInCurrSem = modulesPerSem[currSem - 1];
+            int numberOfModulesCleared = 0;
+            for (int i = 0; i < currSem - 1; i++) {
+                numberOfModulesCleared += modulesPerSem[i];
+            }
+            int startIndex = numberOfModulesCleared;
+            int endIndex = startIndex + numberOfModulesInCurrSem;
+            ArrayList<Module> modulesInSchedule = modulesPlanned.getMainModuleList();
+            currentSemesterModules = new ModuleList();
+            for (int i = startIndex; i < endIndex; i++) {
+                currentSemesterModules.addModule(modulesInSchedule.get(i));
+                //          System.out.println(currentSemesterModules.getModule(i));
+                //          System.out.println(modulesInSchedule.get(i).getModuleCode());
+            }
+            ArrayList<Module> toprint = currentSemesterModules.getMainModuleList();
+            for (int i = 0; i < toprint.size(); i++) {
+                System.out.println(toprint.get(i).getModuleCode());
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.print("why array out of bounds bruh");
+        } catch (NullPointerException e) {
+            System.out.print("null ptr exception");
+        }
+    }
+
+    public void setCurrentSemesterModulesWeekly() {
+
+        if (currentSemesterModules.getMainModuleList().isEmpty()) {
+            System.out.println(" array list in modulelist is null");
+        }
+        ArrayList<Module> currentSemModuleList = currentSemesterModules.getMainModuleList();
+        currentSemesterModulesWeekly = new ArrayList<>();
+        for (int i = 0; i < currentSemModuleList.size(); i++) {
+            //       System.out.println(currentSemesterModules.getModuleByIndex(i));
+            //       System.out.println(currentSemModuleList.get(i).getModuleCode());
+            String currModuleCode = currentSemModuleList.get(i).getModuleCode();
+            ModuleWeekly currModule = new ModuleWeekly(currModuleCode);
+            currentSemesterModulesWeekly.add(currModule);
+            //       currentSemesterModulesWeekly.add(new ModuleWeekly(currentSemesterModules.getModuleByIndex(i).
+            //               getModuleCode()));
+        }
+        //   for (int i = 0; i < currentSemesterModulesWeekly.size(); i++) {
+        //       System.out.println(currentSemesterModulesWeekly.get(i).getModuleCode());
+        //   }
+    }
+
+    public void plannerCommand(Student student, String userInput) {
+        setCurrentSemesterModules();
+        setCurrentSemesterModulesWeekly();
+        String argument = userInput.substring(userInput.indexOf("planner") + 7).trim().toUpperCase();
+        if (argument.equals("SHOW")) {
+            if (!checkValidTime(student)) {
+                WeeklyScheduleView.printWeeklySchedule(currentSemesterModulesWeekly);
+            }
+        }
+    }
+
+
+    /*
+    int startIndexOfTutorialStartTime = userNewInput.indexOf("/tutorial");
+                        int startIndexOfLectureStartTime = userNewInput.indexOf("/lecture");
+                        int startIndexOfLabStartTime = userNewInput.indexOf("/lab");
+                 //       int startIndexOfDuration = userNewInput.indexOf("/duration");
+                        int startIndexOfDay = userNewInput.indexOf("/day");
+                        String lecture = userNewInput.substring(startIndexOfLectureStartTime + 8,
+                                startIndexOfTutorialStartTime);
+                 //       String duration = userNewInput.substring(startIndexOfDuration + 9, startIndexOfDay);
+                        String day = userNewInput.substring(startIndexOfDay + 4);
+                        String tutorial = userNewInput.substring(startIndexOfTutorialStartTime + 9, startIndexO
+                        fLabStartTime);
+                        String lab = userNewInput.substring(startIndexOfLabStartTime + 6, startIndexOfDay);
+                        for (int i = 0; i < currentSemesterModulesWeekly.size(); i++) {
+                            if (!currentSemesterModulesWeekly.get(i).getModuleCode().equals(argument)) {
+                                System.out.println("error in exists by code");
+                                continue;
+                            }
+                            currentSemesterModulesWeekly.get(i).setDay(day);
+                            currentSemesterModulesWeekly.get(i).setLectureTime(Integer.parseInt(lecture.trim()));
+                            currentSemesterModulesWeekly.get(i).setLabTime(Integer.parseInt(lab.trim()));
+                            currentSemesterModulesWeekly.get(i).setTutorialTime(Integer.parseInt(tutorial.trim()));
+                        }
+     */
+
+    public boolean checkValidTime(Student student) {
+        for (int i = 0; i < currentSemesterModulesWeekly.size(); i++) {
+            if (currentSemesterModulesWeekly.get(i).getLectureTime() == 0) {
+                System.out.println("PLEASE INSERT VALID TIME FOR LECTURE TIME FOR " +
+                        currentSemesterModulesWeekly.get(i)
+                                .getModuleCode());
+                return true;
+            }
+            if (currentSemesterModulesWeekly.get(i).getTutorialTime() == 0) {
+                System.out.println("PLEASE INSERT VALID TIME FOR TUTORIAL TIME FOR " +
+                        currentSemesterModulesWeekly.get(i)
+                                .getModuleCode());
+                return true;
+            }
+            if (currentSemesterModulesWeekly.get(i).getLabTime() == 0) {
+                System.out.println("PLEASE INSERT VALID TIME FOR LAB TIME FOR " + currentSemesterModulesWeekly.get(i)
+                        .getModuleCode());
+                return true;
+            }
+            if (!currentSemesterModulesWeekly.get(i).getDay().isEmpty()) {
+                System.out.println("PLEASE INSERT VALID DAY FOR " + currentSemesterModulesWeekly.get(i)
+                        .getModuleCode());
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public ArrayList<ModuleWeekly> getCurrentSemesterModulesWeekly() {
+        return currentSemesterModulesWeekly;
+    }
+
+    public ModuleList getCurrentSemesterModules() {
+        return currentSemesterModules;
+    }
+
+
 }

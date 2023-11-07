@@ -37,6 +37,8 @@ public class CommandManager {
                 new Command("left", "Displays a list of remaining modules."),
                 new Command("pace", "Computes and displays your graduation pace."),
 
+                new Command("planner", "Displays a grid containing this semester's classes"),
+
                 new Command("Bye", "Exits the program.")));
     }
 
