@@ -225,7 +225,7 @@ public class Student {
     }
 
     public void setCurrentSemesterModules() {
-        try {
+        //try {
             int[] yearAndSem = Parser.parseStudentYear(year);
             System.out.println(Arrays.toString(yearAndSem));
             int currSem = ((yearAndSem[0] - 1) * 2) + yearAndSem[1];
@@ -253,11 +253,11 @@ public class Student {
             for (int i = 0; i < toprint.size(); i++) {
                 System.out.println(toprint.get(i).getModuleCode());
             }
-        } catch (ArrayIndexOutOfBoundsException e) {
+        //} catch (ArrayIndexOutOfBoundsException e) {
             System.out.print("why array out of bounds bruh");
-        } catch (NullPointerException e) {
+        //} catch (NullPointerException e) {
             System.out.print("null ptr exception");
-        }
+        //}
     }
 
     public void setCurrentSemesterModulesWeekly() {
@@ -265,12 +265,11 @@ public class Student {
         if (currentSemesterModules.getMainModuleList().isEmpty()) {
             System.out.println(" array list in modulelist is null");
         }
-        ArrayList<Module> currentSemModuleList = currentSemesterModules.getMainModuleList();
         currentSemesterModulesWeekly = new ArrayList<>();
-        for (int i = 0; i < currentSemModuleList.size(); i++) {
+        for (int i = 0; i < currentSemesterModules.size(); i++) {
             //       System.out.println(currentSemesterModules.getModuleByIndex(i));
             //       System.out.println(currentSemModuleList.get(i).getModuleCode());
-            String currModuleCode = currentSemModuleList.get(i).getModuleCode();
+            String currModuleCode = currentSemesterModules.getModuleByIndex(i).getModuleCode();
             ModuleWeekly currModule = new ModuleWeekly(currModuleCode);
             currentSemesterModulesWeekly.add(currModule);
             //       currentSemesterModulesWeekly.add(new ModuleWeekly(currentSemesterModules.getModuleByIndex(i).
