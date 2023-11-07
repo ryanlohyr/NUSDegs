@@ -1,7 +1,9 @@
 package seedu.duke.models.schema;
 
+import seedu.duke.utils.exceptions.MandatoryPrereqException;
 import seedu.duke.utils.exceptions.FailPrereqException;
 import seedu.duke.utils.exceptions.MissingModuleException;
+
 import seedu.duke.utils.Parser;
 import seedu.duke.utils.exceptions.InvalidPrereqException;
 import seedu.duke.views.WeeklyScheduleView;
@@ -109,7 +111,8 @@ public class Student {
         }
     }
 
-    public void addModuleSchedule(String moduleCode, int targetSem) throws InvalidObjectException, FailPrereqException {
+    public void addModuleSchedule(String moduleCode, int targetSem) throws IllegalArgumentException,
+            InvalidObjectException, FailPrereqException {
         this.schedule.addModule(moduleCode, targetSem);
     }
 
@@ -139,7 +142,7 @@ public class Student {
      * @param moduleCode The code of the module to be deleted.
      * @throws FailPrereqException If deleting the module fails due to prerequisite dependencies.
      */
-    public void deleteModuleSchedule(String moduleCode) throws FailPrereqException, MissingModuleException {
+    public void deleteModuleSchedule(String moduleCode) throws MandatoryPrereqException, MissingModuleException {
         try{
             Module module = schedule.getModule(moduleCode);
             schedule.deleteModule(moduleCode);
@@ -149,9 +152,11 @@ public class Student {
         }catch (InvalidObjectException e) {
             throw new MissingModuleException(e.getMessage());
         }
+    }
 
-
-
+    public void shiftModuleSchedule(String moduleCode, int targetSem) throws IllegalArgumentException,
+            FailPrereqException, MissingModuleException, InvalidObjectException, MandatoryPrereqException {
+        this.schedule.shiftModule(moduleCode, targetSem);
     }
 
 

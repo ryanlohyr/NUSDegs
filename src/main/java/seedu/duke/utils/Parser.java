@@ -173,6 +173,19 @@ public class Parser {
             }
             break;
         }
+        case UserCommandWord.SHIFT_MODULE_COMMAND: {
+            if (arguments.length != 2) {
+                UserError.invalidShiftFormat();
+                return false;
+            }
+            try {
+                Integer.parseInt(arguments[1]);
+            } catch (NumberFormatException e) {
+                UserError.invalidSemester();
+                return false;
+            }
+            break;
+        }
         case UserCommandWord.INFO_COMMAND: {
             if (arguments.length < 1) {
                 UserError.emptyInputforInfoCommand();

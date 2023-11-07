@@ -1,7 +1,9 @@
 package seedu.duke.models.schema;
 
 import org.junit.jupiter.api.Test;
+
 import seedu.duke.utils.exceptions.FailPrereqException;
+import seedu.duke.utils.exceptions.MandatoryPrereqException;
 import seedu.duke.utils.exceptions.MissingModuleException;
 
 import java.io.InvalidObjectException;
@@ -34,7 +36,7 @@ public class StudentTest {
 
     @Test
     void deleteModuleScheduleTest_moduleExists_expectDelete()
-            throws InvalidObjectException, FailPrereqException, MissingModuleException {
+            throws InvalidObjectException, MandatoryPrereqException, MissingModuleException, FailPrereqException {
         Student student = new Student();
         student.addModuleSchedule("CS1010", 1);
         student.deleteModuleSchedule("CS1010");

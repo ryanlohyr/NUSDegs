@@ -1,5 +1,6 @@
 package seedu.duke.controllers;
 
+import seedu.duke.utils.exceptions.MandatoryPrereqException;
 import seedu.duke.utils.exceptions.FailPrereqException;
 import seedu.duke.utils.exceptions.MissingModuleException;
 import seedu.duke.models.schema.Module;
@@ -7,7 +8,6 @@ import seedu.duke.models.schema.Student;
 import seedu.duke.utils.Parser;
 import seedu.duke.utils.errors.UserError;
 import seedu.duke.utils.exceptions.InvalidPrereqException;
-import seedu.duke.views.CommandLineView;
 
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
@@ -19,9 +19,8 @@ import static seedu.duke.views.CommandLineView.displayMessage;
 import static seedu.duke.views.CommandLineView.displaySuccessfulAddMessage;
 import static seedu.duke.views.CommandLineView.showPrereq;
 import static seedu.duke.views.CommandLineView.displaySuccessfulDeleteMessage;
-
+import static seedu.duke.views.CommandLineView.displaySuccessfulShiftMessage;
 import static seedu.duke.views.MajorRequirementsView.printRequiredModules;
-
 import static seedu.duke.views.ModuleInfoView.printModuleStringArray;
 
 /**
@@ -96,7 +95,7 @@ public class ModuleMethodsController {
     }
 
     public static void recommendScheduleToStudent(Student student) {
-        CommandLineView.displayMessage("Hold on a sec! Generating your recommended schedule <3....");
+        displayMessage("Hold on a sec! Generating your recommended schedule <3....");
         //to refactor
         ArrayList<String> recommendedSchedule = student.getSchedule().generateRecommendedSchedule(student.getMajor());
         chooseToAddToSchedule(student, recommendedSchedule);
@@ -107,11 +106,27 @@ public class ModuleMethodsController {
             student.deleteModuleSchedule(module);
             displaySuccessfulDeleteMessage();
             student.printSchedule();
-        } catch (MissingModuleException | FailPrereqException e) {
+        } catch (MissingModuleException | MandatoryPrereqException e) {
             displayMessage(e.getMessage());
         }
     }
 
+    public static void shiftModule(String module, int targetSem, Student student) {
+        try {
+            student.shiftModuleSchedule(module, targetSem);
+            displaySuccessfulShiftMessage();
+            student.printSchedule();
+        } catch (InvalidObjectException | IllegalArgumentException | MissingModuleException |
+                 MandatoryPrereqException e) {
+            displayMessage(e.getMessage());
+        } catch (FailPrereqException f) {
+            showPrereq(module, student.getMajor());
+            displayMessage(f.getMessage());
+        }
+    }
+
+    //public static boolean canCompleteModule(String[] arguments, ArrayList<String> majorModuleCodes,
+    //ModuleList modulesPlanned, CompletePreqs addModulePreqs) {
 
     public static void completeModule(Student student, String moduleCode) {
         try {

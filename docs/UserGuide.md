@@ -8,10 +8,8 @@ It's a comprehensive tool for efficient and successful degree completion.
 
 ## Quick Start
 
-{Give steps to get started quickly}
-
 1. Ensure that you have Java 11 or above installed.
-1. Down the latest version of `Duke` from [here](http://link.to/duke).
+1. Down the latest version of `NUSDegs` from [here](http://link.to/duke).
 
 ## Features
 - View help : `help`
@@ -23,6 +21,7 @@ It's a comprehensive tool for efficient and successful degree completion.
 - View schedule planner: `schedule`
 - Add module to schedule planner: `add`
 - Delete module from schedule planner: `delete`
+- Shift module in schedule planner: `shift`
 - Complete a module in your schedule planner: `complete`
 - View modules left for graduation: `left`
 - Check current pace to graduate: `pace`
@@ -119,7 +118,12 @@ systems. It covers requirements, design, implementation, quality assurance, and 
 - Expected outcome: Displays module title and module code of all available modules
 
 ### View schedule planner: `schedule`
-to be addedd
+Shows the user their current schedule planner
+
+Format: `schedule`
+
+The input does not take into account any arguments after the command word. E.g. `schedule` and `schedule 1`
+will output the same thing.
 
 ### View recommended schedule based on course: `recommend`
 Based on the course, we will provide an recommended schedules that is sorted based on prerequisites.
@@ -138,15 +142,16 @@ If the user enters `Y`, the recommended schedule will be added to their schedule
 ![recommendedSchedule.jpg](screenshots%2Fadd_recommend.jpeg)
 
 
-### Add module to schedule: `add`
-Opens the user's personalized module schedule and adds the chosen module to the semester specified by the user.
+### Add module to schedule planner: `add`
+Opens the user's personalized module schedule planner and adds the chosen module to the semester specified by the user.
+Adding will not be allowed if the current schedule planner does not contain the required prerequisites.
 
-Format: `add n/MODULE n/SEMESTER`
+Format: `add MODULE SEMESTER`
 
-* The `MODULE` cannot be empty and must be valid.
-* The `SEMESTER` cannot be empty and must be an integer between 1-8 inclusive.
+* `MODULE` cannot be empty and must be valid.
+* `SEMESTER` cannot be empty and must be an integer between 1-8 inclusive.
 
-Examples of usage:
+Example of usage:
 
 `add CS1010 1`
 
@@ -154,12 +159,14 @@ Examples of usage:
 
 ![](photos/add_outcome.png)
 
-### Delete module from schedule: `delete`
-Opens the user's personalized module schedule and deletes the chosen module.
+### Delete module from schedule planner: `delete`
+Opens the user's personalized module schedule planner and deletes the chosen module. Deleting will not be allowed if
+the module to be deleted is a prerequisite of a module in later semesters on the schedule planner.
 
-Format: `delete n/MODULE`
+Format: `delete MODULE`
 
-* The `MODULE` cannot be empty and must be valid.
+* `MODULE` cannot be empty and must be valid.
+* `MODULE` must also be in the current schedule planner
 
 Examples of usage:
 
@@ -168,6 +175,20 @@ Examples of usage:
 - Expected outcome:
 
 ![](photos/delete_outcome.png)
+
+### Shift module in schedule planner: `shift`
+Opens the user's personalized module schedule planner and shifts the chosen module to the semester specified by the 
+user. Shifting will not be allowed if it causes conflicts with other modules in the schedule planner.
+
+Format: `shift MODULE SEMESTER`
+
+* `MODULE` cannot be empty and must be valid.
+* `MODULE` must also be in the current schedule planner
+* `SEMESTER` cannot be empty and must be an integer between 1-8 inclusive.
+
+Example of usage:
+
+`shift CS1010 2`
 
 ### Complete a module: `complete`
 Completes a module (Completes a module in your schedule planner).
