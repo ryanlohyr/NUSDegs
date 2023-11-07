@@ -116,17 +116,20 @@ public class ModuleMethodsController {
     //ModuleList modulesPlanned, CompletePreqs addModulePreqs) {
     public static void completeModule(Student student, String moduleCode) {
         try {
-            Module module = student.existModuleSchedule(moduleCode);
+            Module module = student.getModuleFromSchedule(moduleCode);
+
             if (module.getCompletionStatus()) {
                 UserError.displayModuleAlreadyCompleted(module.getModuleCode());
             } else {
+                //check prereq
+
                 student.completeModuleSchedule(moduleCode);
                 displaySuccessfulCompleteMessage();
             }
 
         } catch (MissingModuleException e) {
             displayMessage(e.getMessage());
-            UserError.invalidAddFormat();
+            //UserError.invalidAddFormat();
 
         } catch (InvalidObjectException e) {
             assert false;

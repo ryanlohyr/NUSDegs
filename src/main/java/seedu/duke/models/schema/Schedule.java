@@ -262,6 +262,21 @@ public class Schedule {
         return modulesPlanned.getModule(moduleCode);
     }
 
+    public boolean canCompleteModule(String[] arguments, ArrayList<String> majorModuleCodes,
+                                            CompletePreqs addModulePreqs) {
+
+        if (addModulePreqs.checkModInput(arguments, majorModuleCodes)) {
+            String moduleCompleted = arguments[0].toUpperCase();
+            addModulePreqs.getUnlockedMods(moduleCompleted);
+            addModulePreqs.printUnlockedMods(moduleCompleted);
+
+            return true;
+        } catch (InvalidObjectException e) {
+            assert false;
+        }
+        return false;
+    }
+
     /**
      * Adds a module to the schedule for a specified semester.
      *

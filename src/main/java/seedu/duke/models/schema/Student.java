@@ -130,7 +130,7 @@ public class Student {
 
 
     //@@author janelleenqi
-    public Module existModuleSchedule(String moduleCode) throws MissingModuleException {
+    public Module getModuleFromSchedule(String moduleCode) throws MissingModuleException {
         try {
             return schedule.getModule(moduleCode);
         } catch (InvalidObjectException e) {

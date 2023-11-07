@@ -107,12 +107,12 @@ public class ModulePlannerController {
                 processCommand(currentUserCommand.getCommandWord(), currentUserCommand.getArguments(), currentUserCommand.getUserInput());
             }
         }
-
+        /*
         //String userInput = null;
 
         //String command = null;
 
-        /*
+
         UserCommand command = null;
         while (!command.equals(UserCommandWord.EXIT_COMMAND)) {
             String userInput = in.nextLine();
@@ -140,7 +140,7 @@ public class ModulePlannerController {
 
         }
 
-         */
+        */
         in.close();
     }
 
