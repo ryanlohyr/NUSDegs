@@ -109,40 +109,6 @@ public class ModulePlannerController {
                         currentUserCommand.getUserInput());
             }
         }
-        /*
-        //String userInput = null;
-
-        //String command = null;
-
-
-        UserCommand command = null;
-        while (!command.equals(UserCommandWord.EXIT_COMMAND)) {
-            String userInput = in.nextLine();
-            command = parseCommand(userInput);
-            String[] arguments = parseArguments(userInput);
-
-            if(!commandManager.getListOfCommandNames().contains(command)){
-                UserError.displayInvalidInputCommand(command);
-                //userInput = in.nextLine();
-
-                continue;
-            }
-
-            boolean validInput = Parser.isValidInputForCommand(command, arguments);
-
-            if (!validInput) {
-                UserError.displayInvalidMethodCommand(command);
-                //userInput = in.nextLine();
-
-                continue;
-            }
-
-            processCommand(command, arguments, userInput);
-
-
-        }
-
-        */
         in.close();
     }
 

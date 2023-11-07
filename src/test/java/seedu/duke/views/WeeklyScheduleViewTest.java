@@ -9,7 +9,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+//import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class WeeklyScheduleViewTest {
 
@@ -26,10 +27,8 @@ class WeeklyScheduleViewTest {
         System.setOut(originalOut);
     }
 
-
-
     @Test
-    void testPrintWeeklySchedule_validCurrentSemesterModules_expectWeeklySchedule() {
+    void testPrintWeeklySchedule_cs1231Lessons_expectWeeklySchedule() {
         ArrayList<ModuleWeekly> currentSemesterModules = new ArrayList<ModuleWeekly>();
 
         ModuleWeekly testModule = new ModuleWeekly("CS1231");
@@ -39,6 +38,31 @@ class WeeklyScheduleViewTest {
 
         currentSemesterModules.add(testModule);
 
+        WeeklyScheduleView.printWeeklySchedule(currentSemesterModules);
+        String printedOutput = outputStream.toString();
+
+        printedOutput = printedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
+
+        String expectedOutput = "------------------------------------------------------------\n" +
+                "| Monday    | CS1231 Lecture (1pm-3pm)                     |\n" +
+                "|           | CS1231 Tutorial (11am-12pm)                  |\n" +
+                "|           | CS1231 Lab (9am-11am)                        |\n" +
+                "------------------------------------------------------------\n";
+
+        expectedOutput = expectedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
+
+        assertEquals(expectedOutput, printedOutput);
+
+        //assertTrue(false);
+    }
+
+    @Test
+    void testPrintWeeklySchedule_noLessons_expectAddGuidePrompt() {
+        ArrayList<ModuleWeekly> currentSemesterModules = new ArrayList<ModuleWeekly>();
 
         WeeklyScheduleView.printWeeklySchedule(currentSemesterModules);
         String printedOutput = outputStream.toString();
@@ -47,9 +71,16 @@ class WeeklyScheduleViewTest {
                 .replaceAll("\r\n", "\n")
                 .replaceAll("\r", "\n");
 
-        assertTrue(printedOutput.startsWith(
-                "-------------------------------------------------------------------------------------------------"));
-        //assertTrue(false);
+        String expectedOutput =
+                "Weekly Schedule is unavailable because you have not added any lectures/tutorials/labs yet.\n" +
+                "To use your Timetable, please add a module using this format: add [module code] [semester]\n";
 
+        expectedOutput = expectedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
+
+        assertEquals(expectedOutput, printedOutput);
+
+        //assertTrue(false);
     }
 }

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class Lab extends Event{
 
-    public Lab(String day, int startTime, int duration) {
-        super(day, startTime, duration);
+    public Lab(String day, int startTime, int duration, String moduleCode) {
+        super(day, startTime, duration, moduleCode);
     }
 
     @Override

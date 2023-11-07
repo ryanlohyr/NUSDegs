@@ -6,11 +6,13 @@ public class Event {
     private String day;
     private int startTime;
     private int duration;
+    private String moduleCode;
 
-    public Event(String day, int startTime, int duration) {
+    public Event(String day, int startTime, int duration, String moduleCode) {
         this.day = day;
         this.startTime = startTime;
         this.duration = duration;
+        this.moduleCode = moduleCode;
     }
 
     public ArrayList<String> getByHour() {
@@ -56,6 +58,10 @@ public class Event {
 
     public String getEventType() {
         return "";
+    }
+
+    public String getModuleCode() {
+        return moduleCode;
     }
 
 

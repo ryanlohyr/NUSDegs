@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class Tutorial extends Event {
 
-    public Tutorial(String day, int startTime, int duration) {
-        super(day, startTime, duration);
+    public Tutorial(String day, int startTime, int duration, String moduleCode) {
+        super(day, startTime, duration, moduleCode);
     }
 
     @Override

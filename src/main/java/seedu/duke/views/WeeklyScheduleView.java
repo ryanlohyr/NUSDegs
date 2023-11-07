@@ -6,8 +6,14 @@ import seedu.duke.models.schema.ModuleWeekly;
 import java.util.ArrayList;
 import java.util.List;
 
+import static seedu.duke.views.UserGuideView.addGuide;
+
 public class WeeklyScheduleView {
     private static final int columnWidth = 11;
+    //private static final int singleColumnWidth = 60;
+
+    private static final int dayColumnWidth = 10;
+    private static final int eventColumnWidth = 45;
     private static final String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
 
     public static void print(String output) {
@@ -19,11 +25,11 @@ public class WeeklyScheduleView {
     }
 
     public static void printlnHorizontalLine() {
-        println("-------------------------------------------------------------------------------------------------");
+        println("------------------------------------------------------------");
     }
 
     public static void printVerticalLine() {
-        System.out.print("|");
+        System.out.print("| ");
     }
 
     public static void printlnVerticalLine() {
@@ -36,6 +42,99 @@ public class WeeklyScheduleView {
 
     //ideally a function that can be called in Student
     public static void printWeeklySchedule(ArrayList<ModuleWeekly> currentSemesterModules) {
+        //List(by days) of TaskList (modules, event type, time)
+        List<ArrayList<String>> weeklyScheduleByDay = createDailyEvents(currentSemesterModules);
+
+        if (!eventsExist(weeklyScheduleByDay)) {
+            //no event error statement
+            println("Weekly Schedule is unavailable because you have not added any lectures/tutorials/labs yet.");
+            addGuide("To use your Timetable, ");
+            return;
+        }
+        //printDayHeader();
+        for (int day = 0; day < days.length; day++) { //8-9am index 0, 7-8pm index 11
+            if (weeklyScheduleByDay.get(day).isEmpty()) {
+                continue;
+            }
+
+            //printRow(weeklyScheduleByTime.get(timePeriod), timePeriod, timePeriod == 11);
+            printlnHorizontalLine();
+            printCurrentDayEvents(weeklyScheduleByDay.get(day), day);
+        }
+        printlnHorizontalLine();
+    }
+
+    public static List<ArrayList<String>> createDailyEvents(ArrayList<ModuleWeekly> currentSemesterModules) {
+        List<ArrayList<String>> weeklyScheduleByDay = initialiseOneDList();
+
+        for (ModuleWeekly module : currentSemesterModules) {
+            for (Event event : module.getWeeklySchedule()) {
+                addToWeeklyScheduleByDay(weeklyScheduleByDay, event.getDay(), event.getStartTime() - 8,
+                        event.getDuration(), module.getModuleCode(), event.getEventType());
+            }
+        }
+        return weeklyScheduleByDay;
+    }
+
+
+    public static void printCurrentDayEvents(ArrayList<String> taskList, int day) {
+        boolean isFirstLine = true;
+        while (!taskList.isEmpty()) {
+            String currentTask = taskList.get(0);
+            printCurrentDayEventsOneLine(currentTask, day, isFirstLine);
+            taskList.remove(0);
+            isFirstLine = false;
+        }
+    }
+
+    public static void printCurrentDayEventsOneLine(String currentTask, int day, boolean isFirstLine) {
+
+        while (!currentTask.isEmpty()) {
+            //print day
+            if (isFirstLine) {
+                printVerticalLine();
+                print(days[day]);
+                printToJustify(dayColumnWidth - days[day].length());
+                printVerticalLine();
+                isFirstLine = false;
+            } else {
+                printVerticalLine();
+                printToJustify(dayColumnWidth);
+                printVerticalLine();
+            }
+
+
+            //if line too long
+            if (currentTask.length() > eventColumnWidth) {
+                String[] words = currentTask.split(" ");
+                int singleColumnWidthLeft = eventColumnWidth;
+                int currentWordIndex = 0;
+
+                while (singleColumnWidthLeft > words[currentWordIndex].length()) {
+                    print(words[currentWordIndex]);
+                    singleColumnWidthLeft -= words[currentWordIndex].length();
+                    currentWordIndex++;
+                }
+
+                printToJustify(singleColumnWidthLeft);
+                String wordNotPrintedYet = words[currentWordIndex];
+                int indexNotPrintedYet = currentTask.indexOf(wordNotPrintedYet);
+                currentTask = currentTask.substring(indexNotPrintedYet);
+                printlnVerticalLine();
+                continue;
+            }
+
+            //line can be printed
+            print(currentTask);
+            printToJustify(eventColumnWidth - currentTask.length());
+            currentTask = "";
+            printlnVerticalLine();
+
+        }
+    }
+
+    //ideally a function that can be called in Student
+    public static void printOldWeeklySchedule(ArrayList<ModuleWeekly> currentSemesterModules) {
         // 8am to 8pm, Monday to Sunday
         // Convert current semester modules (ArrayList<Module>, ModuleList)
         // to weeklySchedule, "2D array" of ArrayList of Event (List<List<ArrayList<Event>>>, ArrayList<String>[][])
@@ -79,7 +178,7 @@ public class WeeklyScheduleView {
 
     public static void printRow(List<ArrayList<String>> hourSchedule, int timePeriod, boolean lastLine) {
         //header & 7 days
-        boolean tasksPrinted = false;
+
 
         //save a copy
         //List<String>[] weeklyTask = new List<String>[8];
@@ -93,10 +192,11 @@ public class WeeklyScheduleView {
             //weeklyTask.set(i + 1, task);
         }
 
+        boolean tasksPrinted = false;
         printlnHorizontalLine();
+        boolean firstLine = true;
         while (!tasksPrinted) { //line, tasks
 
-            //print row by row
             for (int i = 0; i <= 7; i++) { //timePeriod + 7 days
                 printVerticalLine();
                 //for (int t = 0; t < weeklyTask[i].size(); t++) { //print limited char
@@ -104,24 +204,13 @@ public class WeeklyScheduleView {
                 if (weeklyTask.get(i).isEmpty()) {
                     printToJustify(columnWidth);
                 } else {
-
                     String currentTask = weeklyTask.get(i).get(0); //get 1st task
-                    String[] words = currentTask.split(" ");
                     if (currentTask.length() < columnWidth) {
                         print(currentTask);
                         printToJustify(columnWidth - currentTask.length());
                         weeklyTask.get(i).remove(0);
-                    } else if (words[0].length() > columnWidth) {
-                        //split word
-                        try {
-                            String columnWidthLengthWord = words[0].substring(0, 10);
-                            String remainingWord = words[0].substring(11);
-                            print(columnWidthLengthWord);
-                            weeklyTask.get(i).set(0, remainingWord); //update currentTask
-                        } catch (IndexOutOfBoundsException e) {
-                            print(words[0]);
-                        }
                     } else {
+                        String[] words = currentTask.split(" ");
                         int columnWidthLeft = columnWidth;
 
                         int j = 0;
@@ -129,7 +218,7 @@ public class WeeklyScheduleView {
                             print(words[j]);
                             //print(String.valueOf(words[j].length())); //troubleshooting
                             columnWidthLeft -= words[j].length();
-                            words[j] = ""; //???
+                            words[j] = "";
                             j += 1;
                         }
                         //print(String.valueOf(columnWidthLeft)); //troubleshooting
@@ -159,29 +248,22 @@ public class WeeklyScheduleView {
 
     }
 
+    public static String getTime(int timePeriod, int duration) {
+        return getTime(timePeriod) + "-" + getTime(timePeriod + duration);
+    }
+
     public static String getTime(int timePeriod) {
-        switch (timePeriod) {
-        case 0:
-        case 1:
-        case 2:
-            return (timePeriod + 8) + "-" + (timePeriod + 9) + "am";
-        case 3:
-            return (timePeriod + 8) + "am-" + (timePeriod + 9) + "pm";
-        case 4:
-            return (timePeriod + 8) + "-" + (timePeriod - 3) + "pm";
-        case 5:
-        case 6:
-        case 7:
-        case 8:
-        case 9:
-        case 10:
-        case 11:
-            return (timePeriod - 4) + "-" + (timePeriod - 3) + "pm";
-        default:
-                //do nothing
+        if (0 <= timePeriod && timePeriod <= 3) {
+            return (timePeriod + 8) + "am";
+        } else if (timePeriod == 4) {
+            return (4 + 8) + "pm";
+        } else if (5 <= timePeriod && timePeriod <= 11) {
+            return (timePeriod - 4) + "pm";
         }
         return "";
     }
+
+
 
     public static <T> void fillAndSet(int index, T object, List<T> list) {
         if (index > (list.size() - 1)) {
@@ -192,6 +274,18 @@ public class WeeklyScheduleView {
         } else {
             list.set(index, object);
         }
+    }
+
+    public static List<ArrayList<String>> initialiseOneDList() {
+        List<ArrayList<String>> parentList = new ArrayList<>();
+
+        for (int j = 0; j < 7; j++) { //7 days
+            ArrayList<String> childList = new ArrayList<String>();
+            fillAndSet(j, childList, parentList);
+            parentList.add(childList);
+        }
+
+        return parentList;
     }
 
     public static List<List<ArrayList<String>>> initialiseTwoDList() {
@@ -209,6 +303,7 @@ public class WeeklyScheduleView {
         return grandparentList;
     }
 
+
     public static void addToWeeklyScheduleByTime(int indexParent, int indexChild, String eventName,
                                                  List<List<ArrayList<String>>> listOfList) {
         //"2D" array
@@ -216,4 +311,21 @@ public class WeeklyScheduleView {
         ArrayList<String> childList = parentList.get(indexChild);
         childList.add(eventName);
     }
+
+    public static void addToWeeklyScheduleByDay(List<ArrayList<String>> list, int day, int startTime, int duration,
+                                                String moduleCode, String eventType) {
+
+        ArrayList<String> childList = list.get(day);
+        childList.add(moduleCode + " " + eventType + " (" + getTime(startTime, duration) + ")");
+    }
+
+    public static boolean eventsExist(List<ArrayList<String>> weeklyScheduleByDay) {
+        for (ArrayList<String> currentDayEvents : weeklyScheduleByDay) {
+            if (!currentDayEvents.isEmpty()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
