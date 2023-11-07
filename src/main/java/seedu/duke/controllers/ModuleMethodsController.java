@@ -15,11 +15,8 @@ import java.util.ArrayList;
 import static seedu.duke.controllers.ModuleServiceController.chooseToAddToSchedule;
 import static seedu.duke.models.logic.Api.doesModuleExist;
 import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
+import static seedu.duke.views.CommandLineView.*;
 import static seedu.duke.views.MajorRequirementsView.printRequiredModules;
-import static seedu.duke.views.CommandLineView.displayMessage;
-import static seedu.duke.views.CommandLineView.displaySuccessfulAddMessage;
-import static seedu.duke.views.CommandLineView.showPrereqCEG;
-import static seedu.duke.views.CommandLineView.displaySuccessfulDeleteMessage;
 
 import static seedu.duke.views.ModuleInfoView.printModuleStringArray;
 
@@ -111,26 +108,28 @@ public class ModuleMethodsController {
         }
     }
 
-    //public static boolean canCompleteModule(String[] arguments, ArrayList<String> majorModuleCodes,
-    //ModuleList modulesPlanned, CompletePreqs addModulePreqs) {
+
     public static void completeModule(Student student, String moduleCode) {
         try {
             Module module = student.getModuleFromSchedule(moduleCode);
-
+            //if module is already completed, exit
             if (module.getCompletionStatus()) {
                 UserError.displayModuleAlreadyCompleted(module.getModuleCode());
-            } else {
-
-                student.completeModuleSchedule(moduleCode);
-                //displaySuccessfulCompleteMessage();
+                return;
             }
+
+            student.completeModuleSchedule(moduleCode);
 
         } catch (MissingModuleException e) {
             displayMessage(e.getMessage());
-            //UserError.invalidAddFormat();
 
         } catch (InvalidObjectException e) {
             assert false;
+        } catch (FailPrereqException e) {
+            displayMessage(e.getMessage());
+            showPrereq(moduleCode, student.getMajor());
+        } catch (InvalidPrereqException e) {
+            throw new RuntimeException(e);
         }
     }
 

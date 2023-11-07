@@ -18,8 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static seedu.duke.controllers.ModuleMethodsController.computePace;
-import static seedu.duke.controllers.ModuleMethodsController.determinePrereq;
+import static seedu.duke.controllers.ModuleMethodsController.*;
 import static seedu.duke.views.CommandLineView.displayMessage;
 import static seedu.duke.views.CommandLineView.displaySuccessfulAddMessage;
 import static seedu.duke.views.CommandLineView.showPrereqCEG;
@@ -313,6 +312,88 @@ class ModuleMethodsControllerTest {
                 .replaceAll("\r", "\n");
 
         assertEquals(expectedOutput, printedOutput);
+    }
+
+    @Test
+    void completeModule_prereqNotCompleted() {
+        ModuleMethodsController.addModule("CS1010",1,student);
+        ModuleMethodsController.addModule("CS2040C",2,student);
+        ModuleMethodsController.addModule("CS2113T",3,student);
+        completeModule(student,"CS2113T");
+        String printedOutput = outputStream.toString().trim();
+        String expectedOutput = "Prerequisite not met for CS2113T\n" +
+                "This module's prerequisites are [CS2040C]";
+
+        printedOutput = printedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
+
+        expectedOutput = expectedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
+
+        //We need this extra logic as addModule prints text as well
+        int index = printedOutput.indexOf("Prerequisite not met");
+        String targetOutputText = "";
+        if (index != -1) {
+            // Extract the text starting from the found index
+            targetOutputText = printedOutput.substring(index);
+        } else {
+            targetOutputText = "invalid";
+        }
+
+        assertEquals(expectedOutput,targetOutputText);
+    }
+
+    @Test
+    void completeModule_prereqSatisfied() {
+        ModuleMethodsController.addModule("CS1010",1,student);
+        ModuleMethodsController.addModule("CS2040C",2,student);
+        ModuleMethodsController.addModule("CS2113T",3,student);
+        completeModule(student,"CS1010");
+        String printedOutput = outputStream.toString().trim();
+        String expectedOutput = "Module Successfully Completed";
+
+        printedOutput = printedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
+
+        expectedOutput = expectedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
+
+        //We need this extra logic as addModule prints text as well
+        int index = printedOutput.indexOf("Module Successfully Completed");
+        String printedText = "";
+        if (index != -1) {
+            // Extract the text starting from the found index
+            printedText = printedOutput.substring(index);
+        } else {
+            printedText = "invalid";
+        }
+
+        assertEquals(expectedOutput,printedText);
+    }
+
+
+    @Test
+    void showModulesLeft() {
+    }
+
+    @Test
+    void addModule() {
+    }
+
+    @Test
+    void recommendScheduleToStudent() {
+    }
+
+    @Test
+    void deleteModule() {
+    }
+
+    @Test
+    void getRequiredModulesForStudent() {
     }
 
 

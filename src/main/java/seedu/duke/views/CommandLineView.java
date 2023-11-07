@@ -65,7 +65,15 @@ public class CommandLineView {
         }catch (InvalidPrereqException e){
             System.out.println(e.getMessage());
         }
+    }
 
+    public static void showPrereq(String module,String major){
+        try{
+            System.out.println("This module's prerequisites are "
+                    + getModulePrereqBasedOnCourse(module.toUpperCase(),major));
+        }catch (InvalidPrereqException e){
+            System.out.println(e.getMessage());
+        }
     }
     public static void displaySuccessfulAddMessage() {
         displayMessage("Module Successfully Added");

@@ -24,6 +24,7 @@ public class Module {
             throw new NullPointerException();
         }
         this.moduleCode = moduleCode;
+        this.moduleCredits = 4;
     }
 
     /**

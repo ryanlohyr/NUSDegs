@@ -3,6 +3,7 @@ package seedu.duke.models.schema;
 import seedu.duke.exceptions.FailPrereqException;
 import seedu.duke.exceptions.MissingModuleException;
 import seedu.duke.utils.Parser;
+import seedu.duke.utils.exceptions.InvalidPrereqException;
 import seedu.duke.views.WeeklyScheduleView;
 import seedu.duke.utils.errors.UserError;
 
@@ -10,6 +11,7 @@ import java.io.InvalidObjectException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
 import static seedu.duke.models.logic.DataRepository.getRequirements;
 import static seedu.duke.views.CommandLineView.displaySuccessfulCompleteMessage;
 import static seedu.duke.views.CommandLineView.displayUnsuccessfulCompleteMessage;
@@ -118,29 +120,24 @@ public class Student {
      *
      * @param moduleCode The code of the module to be completed.
      */
-    public void completeModuleSchedule(String moduleCode) throws InvalidObjectException {
-        //check prereq
-        if (schedule.canCompleteModule(moduleCode)) {
+    public void completeModuleSchedule(String moduleCode) throws InvalidObjectException,
+            FailPrereqException, InvalidPrereqException {
 
-            Module module = schedule.getModule(moduleCode);
+        Module module = schedule.getModule(moduleCode);
 
-            this.completedModuleCredits += module.getModuleCredits();
-            module.markModuleAsCompleted();
-            displaySuccessfulCompleteMessage();
+        ArrayList<String> modulePrereq = getModulePrereqBasedOnCourse(moduleCode,this.getMajor());
 
-        } else {
-            //print fail
-            displayUnsuccessfulCompleteMessage();
-            UserError.displayModuleAlreadyCompleted("UNFINISHED");
-            UserError.displayModuleAlreadyCompleted("HELP FINISH");
-        }
+        schedule.completeModule(module,modulePrereq);
+        this.completedModuleCredits += module.getModuleCredits();
+
+        displaySuccessfulCompleteMessage();
+
     }
-
-    //@@author ryanlohyr
     /**
      * Deletes a module with the specified module code. This method also updates the completed
      * module credits and removes the module from the planned modules list.
      *
+     * @author ryanlohyr
      * @param moduleCode The code of the module to be deleted.
      * @throws FailPrereqException If deleting the module fails due to prerequisite dependencies.
      */
