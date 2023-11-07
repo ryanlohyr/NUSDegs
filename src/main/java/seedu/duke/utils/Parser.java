@@ -199,7 +199,7 @@ public class Parser {
 
             break;
         }
-        case UserCommands.TIMETABLE_COMMAND: {
+        case UserCommandWord.TIMETABLE_COMMAND: {
             if (arguments.length < 1) {
                 UserError.emptyInputforPlannerCommand();
                 return false;

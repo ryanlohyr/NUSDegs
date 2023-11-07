@@ -1,8 +1,6 @@
 package seedu.duke.models.schema;
 
-import seedu.duke.exceptions.FailPrereqException;
 import seedu.duke.exceptions.InvalidModifyArgumentException;
-import seedu.duke.exceptions.MissingModuleException;
 import seedu.duke.utils.exceptions.MandatoryPrereqException;
 import seedu.duke.utils.exceptions.FailPrereqException;
 import seedu.duke.utils.exceptions.MissingModuleException;
@@ -298,6 +296,7 @@ public class Student {
             System.out.println("There are no modules in your current semester. Please add in modules, or generate" +
                     "using the 'recommend' command.");
         }
+        ArrayList<Module> currentSemModuleList = currentSemesterModules.getMainModuleList();
         currentSemesterModulesWeekly = new ArrayList<>();
         for (int i = 0; i < currentSemModuleList.size(); i++) {
             String currModuleCode = currentSemModuleList.get(i).getModuleCode();
