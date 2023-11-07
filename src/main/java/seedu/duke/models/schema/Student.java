@@ -143,7 +143,9 @@ public class Student {
         try{
             Module module = schedule.getModule(moduleCode);
             schedule.deleteModule(moduleCode);
-            this.completedModuleCredits -= module.getModuleCredits();
+            if(module.getCompletionStatus()){
+                this.completedModuleCredits -= module.getModuleCredits();
+            }
         }catch (InvalidObjectException e) {
             throw new MissingModuleException(e.getMessage());
         }
