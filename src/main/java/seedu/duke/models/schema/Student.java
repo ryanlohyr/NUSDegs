@@ -219,10 +219,10 @@ public class Student {
     public void setCurrentSemesterModules() {
         try {
             int[] yearAndSem = Parser.parseStudentYear(year);
-            System.out.println(Arrays.toString(yearAndSem));
+        //    System.out.println(Arrays.toString(yearAndSem));
             int currSem = ((yearAndSem[0] - 1) * 2) + yearAndSem[1];
             int[] modulesPerSem = schedule.getModulesPerSem();
-            System.out.println(Arrays.toString(modulesPerSem));
+        //    System.out.println(Arrays.toString(modulesPerSem));
             ModuleList modulesPlanned = schedule.getModulesPlanned();
             // schedule.printMainModuleList();
             // System.out.println("-------------------------------");
@@ -242,6 +242,7 @@ public class Student {
                 //          System.out.println(modulesInSchedule.get(i).getModuleCode());
             }
             ArrayList<Module> toprint = currentSemesterModules.getMainModuleList();
+            System.out.println("List of modules in current semester: ");
             for (int i = 0; i < toprint.size(); i++) {
                 System.out.println(toprint.get(i).getModuleCode());
             }
@@ -280,12 +281,12 @@ public class Student {
         switch (argument) {
             case "SHOW": {
                 System.out.println("we in show");
-                WeeklyScheduleView.printWeeklySchedule(currentSemesterModulesWeekly);
+                WeeklyScheduleView.printWeeklySchedule(student.currentSemesterModulesWeekly);
                 break;
             }
             case "MODIFY": {
                 System.out.println("we in modify");
-                modifyCommands();
+                modifyCommands(student);
                 break;
             }
             default: {
@@ -294,12 +295,12 @@ public class Student {
         }
     }
 
-    public void modifyCommands() {
+    public void modifyCommands(Student student) {
         Scanner in = new Scanner(System.in);
         System.out.println("Which current module do you want to modify?");
         String moduleCode = in.nextLine().trim();
         // yes, module existss
-        if (!isExistInCurrentSemesterModules(moduleCode, currentSemesterModulesWeekly)) {
+        if (!isExistInCurrentSemesterModules(moduleCode, student.currentSemesterModulesWeekly)) {
             System.out.println("sorry that module doesn't exist in current semesters");
             return;
         }
@@ -309,8 +310,8 @@ public class Student {
         String userInput = in.nextLine().trim();
         System.out.println(userInput);
         // pass in the ModuleWeekly element from currentSemester
-        ModuleWeekly moduleWeeklyToModify = getModuleWeekly(moduleCode, currentSemesterModulesWeekly);
-        parser(userInput, moduleWeeklyToModify);
+        ModuleWeekly moduleWeeklyToModify = getModuleWeekly(moduleCode, student.currentSemesterModulesWeekly);
+        parser(userInput, moduleWeeklyToModify, student);
 
     }
 
@@ -335,7 +336,7 @@ public class Student {
         return false;
     }
 
-    public static void parser(String userInput, ModuleWeekly moduleCode) {
+    public static void parser(String userInput, ModuleWeekly moduleweekly, Student student) {
         int startIndexOfStart = userInput.indexOf("/time");
         String command = userInput.substring(0, startIndexOfStart).trim().toUpperCase();
         if (!command.equals("LECTURE") &&
@@ -346,15 +347,20 @@ public class Student {
         }
         switch (command) {
             case "LECTURE": {
-                moduleCode.addLecture(parserDay(userInput), parserTime(userInput), parserDuration(userInput));
+                System.out.println("lect happens");
+                System.out.println(parserDay(userInput));
+                System.out.println(parserTime(userInput));
+                System.out.println(parserDuration(userInput));
+                moduleweekly.addLecture(parserDay(userInput), parserTime(userInput), parserDuration(userInput));
                 break;
             }
             case "TUTORIAL": {
-                moduleCode.addTutorial(parserDay(userInput), parserTime(userInput), parserDuration(userInput));
+                System.out.println("tut happens");
+                moduleweekly.addTutorial(parserDay(userInput), parserTime(userInput), parserDuration(userInput));
                 break;
             }
             case "LAB": {
-                moduleCode.addLab(parserDay(userInput), parserTime(userInput), parserDuration(userInput));
+                moduleweekly.addLab(parserDay(userInput), parserTime(userInput), parserDuration(userInput));
                 break;
             }
             default: {
@@ -406,12 +412,10 @@ public class Student {
                         "this format: /lecture 1 /time 10 /day tuesday");
                 String lessonInput = in.nextLine().trim();
                 currentSemesterModulesWeekly.get
-            } */
+            }
         }
     }
 
-
-    /*
     int startIndexOfTutorialStartTime = userNewInput.indexOf("/tutorial");
                         int startIndexOfLectureStartTime = userNewInput.indexOf("/lecture");
                         int startIndexOfLabStartTime = userNewInput.indexOf("/lab");
