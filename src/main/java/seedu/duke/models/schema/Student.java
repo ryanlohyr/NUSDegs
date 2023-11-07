@@ -286,7 +286,7 @@ public class Student {
         setCurrentSemesterModulesWeekly();
         String argument = userInput.substring(userInput.indexOf("planner") + 7).trim().toUpperCase();
         if (argument.equals("SHOW")) {
-            if (!checkValidTime(student)) {
+            if (checkIfValidTime(student)) {
                 WeeklyScheduleView.printWeeklySchedule(currentSemesterModulesWeekly);
             }
         }
@@ -318,32 +318,31 @@ public class Student {
                         }
      */
 
-    public boolean checkValidTime(Student student) {
+    public boolean checkIfValidTime(Student student) {
         for (int i = 0; i < currentSemesterModulesWeekly.size(); i++) {
             if (currentSemesterModulesWeekly.get(i).getLectureTime() == 0) {
                 System.out.println("PLEASE INSERT VALID TIME FOR LECTURE TIME FOR " +
-                        currentSemesterModulesWeekly.get(i)
-                                .getModuleCode());
-                return true;
+                        currentSemesterModulesWeekly.get(i).getModuleCode());
+                return false;
             }
             if (currentSemesterModulesWeekly.get(i).getTutorialTime() == 0) {
                 System.out.println("PLEASE INSERT VALID TIME FOR TUTORIAL TIME FOR " +
                         currentSemesterModulesWeekly.get(i)
                                 .getModuleCode());
-                return true;
+                return false;
             }
             if (currentSemesterModulesWeekly.get(i).getLabTime() == 0) {
                 System.out.println("PLEASE INSERT VALID TIME FOR LAB TIME FOR " + currentSemesterModulesWeekly.get(i)
                         .getModuleCode());
-                return true;
+                return false;
             }
             if (!currentSemesterModulesWeekly.get(i).getDay().isEmpty()) {
                 System.out.println("PLEASE INSERT VALID DAY FOR " + currentSemesterModulesWeekly.get(i)
                         .getModuleCode());
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     public ArrayList<ModuleWeekly> getCurrentSemesterModulesWeekly() {
