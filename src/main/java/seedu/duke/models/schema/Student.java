@@ -5,7 +5,6 @@ import seedu.duke.exceptions.MissingModuleException;
 import seedu.duke.utils.Parser;
 import seedu.duke.utils.exceptions.InvalidPrereqException;
 import seedu.duke.views.WeeklyScheduleView;
-import seedu.duke.utils.errors.UserError;
 
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
@@ -14,7 +13,6 @@ import java.util.Arrays;
 import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
 import static seedu.duke.models.logic.DataRepository.getRequirements;
 import static seedu.duke.views.CommandLineView.displaySuccessfulCompleteMessage;
-import static seedu.duke.views.CommandLineView.displayUnsuccessfulCompleteMessage;
 
 /**
  * The Student class represents a student with a name, major, and module schedule.

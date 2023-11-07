@@ -15,7 +15,13 @@ import java.util.ArrayList;
 import static seedu.duke.controllers.ModuleServiceController.chooseToAddToSchedule;
 import static seedu.duke.models.logic.Api.doesModuleExist;
 import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
-import static seedu.duke.views.CommandLineView.*;
+import static seedu.duke.views.CommandLineView.displayMessage;
+import static seedu.duke.views.CommandLineView.displaySuccessfulAddMessage;
+import static seedu.duke.views.CommandLineView.showPrereq;
+import static seedu.duke.views.CommandLineView.displaySuccessfulDeleteMessage;
+
+
+
 import static seedu.duke.views.MajorRequirementsView.printRequiredModules;
 
 import static seedu.duke.views.ModuleInfoView.printModuleStringArray;
@@ -86,7 +92,7 @@ public class ModuleMethodsController {
         } catch (InvalidObjectException | IllegalArgumentException e) {
             displayMessage(e.getMessage());
         } catch (FailPrereqException f) {
-            showPrereqCEG(module);
+            showPrereq(module, student.getMajor());
             displayMessage(f.getMessage());
         }
     }
@@ -126,7 +132,7 @@ public class ModuleMethodsController {
         } catch (InvalidObjectException e) {
             assert false;
         } catch (FailPrereqException e) {
-            displayMessage(e.getMessage());
+            displayMessage("Prerequisites not completed for " + moduleCode);
             showPrereq(moduleCode, student.getMajor());
         } catch (InvalidPrereqException e) {
             throw new RuntimeException(e);

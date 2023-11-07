@@ -6,15 +6,23 @@ import seedu.duke.utils.exceptions.InvalidPrereqException;
 
 import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
 
+/**
+ * The CommandLineView class provides methods to display messages and user prompts in the command line interface.
+ * It also includes a method to show prerequisites for a given module based on the course and major.
+ */
 public class CommandLineView {
 
     public static void displayWelcome(){
-        String logo = " ____        _        \n"
-                + "|  _ \\ _   _| | _____ \n"
-                + "| | | | | | | |/ / _ \\\n"
-                + "| |_| | |_| |   <  __/\n"
-                + "|____/ \\__,_|_|\\_\\___|\n";
-        System.out.println("Hello from\n" + logo);
+        String logo = "  _____       _                 __  __        _____      _              _       _      \n"
+                + " |  __ \\     | |               |  \\/  |      / ____|    | |            | |     | |     \n"
+                + " | |  | | ___| |__  _   _  __ _| \\  / |_   _| (___   ___| |__   ___  __| |_   _| | ___ \n"
+                + " | |  | |/ _ \\ '_ \\| | | |/ _` | |\\/| | | | |\\___ \\ / __| '_ \\ / _ \\/ _` | | | | |/ _ \\\n"
+                + " | |__| |  __/ |_) | |_| | (_| | |  | | |_| |____) | (__| | | |  __/ (_| | |_| | |  __/\n"
+                + " |_____/ \\___|_.__/ \\__,_|\\__, |_|  |_|\\__, |_____/ \\___|_| |_|\\___|\\__,_|\\__,_|_|\\___|\n"
+                + "                           __/ |        __/ |                                          \n"
+                + "                          |___/        |___/                                           ";
+        System.out.println("Hey there CS and CEG Students! Welcome to ");
+        System.out.println(logo);
     }
 
     public static void displayGoodbye(){
@@ -58,15 +66,12 @@ public class CommandLineView {
         }
     }
 
-    public static void showPrereqCEG(String module) {
-        try{
-            System.out.println("This module's prerequisites are "
-                    + getModulePrereqBasedOnCourse(module.toUpperCase(),"CEG"));
-        }catch (InvalidPrereqException e){
-            System.out.println(e.getMessage());
-        }
-    }
-
+    /**
+     * Displays the prerequisites for a given module based on the course and major.
+     *
+     * @param module The module for which prerequisites need to be displayed.
+     * @param major The major or course associated with the module.
+     */
     public static void showPrereq(String module,String major){
         try{
             System.out.println("This module's prerequisites are "

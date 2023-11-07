@@ -5,7 +5,6 @@ import seedu.duke.exceptions.MissingModuleException;
 import seedu.duke.utils.exceptions.InvalidPrereqException;
 
 import java.io.InvalidObjectException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -291,7 +290,9 @@ public class Schedule {
         return modulesPlanned.getModule(moduleCode);
     }
 
-    public void completeModule(Module module, ArrayList<String> modulePrereq) throws FailPrereqException, InvalidObjectException {
+    public void completeModule(Module module, ArrayList<String> modulePrereq) throws
+            FailPrereqException,
+            InvalidObjectException {
         //we will slice from semester 0 to 1 semester before the target module,
         //we will then check if the modules in the pre req array are
         //we need to determine the semester of the module
@@ -320,10 +321,10 @@ public class Schedule {
 
 
 
-//        System.out.println(partialModulesPlannedArray);
-//        if(!satisfiesAllPrereq(moduleCode, partialModulesPlanned)){
-//            throw new IllegalArgumentException("Please select a valid module");
-//        }
+        //        System.out.println(partialModulesPlannedArray);
+        //        if(!satisfiesAllPrereq(moduleCode, partialModulesPlanned)){
+        //            throw new IllegalArgumentException("Please select a valid module");
+        //        }
 
         module.markModuleAsCompleted();
 
