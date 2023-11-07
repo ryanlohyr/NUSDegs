@@ -14,7 +14,7 @@ public class UserCommand implements UserCommandWord {
 
     private String userInput;
     private String commandWord;
-    private String[] arguments;
+    private static String[] arguments;
     private boolean isValid;
 
     private CommandManager commandManager;
@@ -42,25 +42,39 @@ public class UserCommand implements UserCommandWord {
         }
     }
 
+    public UserCommand() {
+        userInput = null;
+        commandWord = null;
+        arguments = null;
+        isValid = false;
+    }
+
     public boolean isValid() {
         return isValid;
     }
 
-    public static String getUserInput() {
+    public String getUserInput() {
         return userInput;
     }
 
-    public static String getCommandWord() {
+    public String getCommandWord() {
         return commandWord;
     }
 
-    public static String[] getArguments() {
+    public String[] getArguments() {
         return arguments;
     }
 
     @Override
     public boolean equals(Object obj) {
         return super.equals(obj);
+    }
+
+    public boolean isBye() {
+        if (commandWord == null) {
+            return false;
+        }
+        return this.commandWord.equals(UserCommandWord.EXIT_COMMAND);
     }
 /*
     public void processCommand(Student student) {

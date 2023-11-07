@@ -5,6 +5,7 @@ import seedu.duke.models.schema.*;
 import seedu.duke.models.logic.Api;
 import seedu.duke.utils.Parser;
 import seedu.duke.utils.errors.UserError;
+import seedu.duke.views.WeeklyScheduleView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -99,9 +100,12 @@ public class ModulePlannerController {
     public void handleUserInputTillExitCommand() {
 
         Scanner in = new Scanner(System.in);
-        UserCommand currentUserCommand = new UserCommand(in.nextLine());
-        if (currentUserCommand.isValid()) {
-            processCommand(UserCommand.getCommandWord(), UserCommand.getArguments(),UserCommand.getUserInput());
+        UserCommand currentUserCommand = new UserCommand();
+        while (!currentUserCommand.isBye()) {
+            currentUserCommand = new UserCommand(in.nextLine());
+            if (currentUserCommand.isValid() && !currentUserCommand.isBye()) {
+                processCommand(currentUserCommand.getCommandWord(), currentUserCommand.getArguments(), currentUserCommand.getUserInput());
+            }
         }
 
         //String userInput = null;
