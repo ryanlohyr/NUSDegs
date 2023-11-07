@@ -183,7 +183,7 @@ public class Parser {
 
             break;
         }
-        case UserCommands.PLANNER_COMMAND: {
+        case UserCommands.TIMETABLE_COMMAND: {
             if (arguments.length < 1) {
                 UserError.emptyInputforPlannerCommand();
                 return false;
@@ -219,6 +219,26 @@ public class Parser {
         char semValue = yearAndSem.charAt(4);
         int sem = Character.getNumericValue(semValue);
         return new int[]{year, sem};
+    }
+
+    public static String parserDayForModify(String userInput) {
+        int startIndexOfDay = userInput.indexOf("/day");
+        String day = userInput.substring(startIndexOfDay + 4).trim();
+        return day;
+    }
+
+    public static int parserTimeForModify(String userInput) {
+        int startIndexOfTime = userInput.indexOf("/time");
+        int startIndexOfDuration = userInput.indexOf("/duration");
+        String time = userInput.substring(startIndexOfTime + 5, startIndexOfDuration).trim();
+        return Integer.parseInt(time);
+    }
+
+    public static int parserDurationForModify(String userInput) {
+        int startIndexOfDay = userInput.indexOf("/day");
+        int startIndexOfDuration = userInput.indexOf("/duration");
+        String time = userInput.substring(startIndexOfDuration + 9, startIndexOfDay).trim();
+        return Integer.parseInt(time);
     }
 
 }
