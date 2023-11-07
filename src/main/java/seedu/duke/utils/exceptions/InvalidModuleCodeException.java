@@ -1,4 +1,4 @@
-package seedu.duke.exceptions;
+package seedu.duke.utils.exceptions;
 
 /**
  * This class represents a custom exception that is thrown when an invalid module is encountered.

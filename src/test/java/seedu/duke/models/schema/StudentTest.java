@@ -1,9 +1,10 @@
 package seedu.duke.models.schema;
 
 import org.junit.jupiter.api.Test;
-import seedu.duke.exceptions.FailPrereqException;
-import seedu.duke.exceptions.MandatoryPrereqException;
-import seedu.duke.exceptions.MissingModuleException;
+
+import seedu.duke.utils.exceptions.FailPrereqException;
+import seedu.duke.utils.exceptions.MandatoryPrereqException;
+import seedu.duke.utils.exceptions.MissingModuleException;
 
 import java.io.InvalidObjectException;
 import java.util.ArrayList;

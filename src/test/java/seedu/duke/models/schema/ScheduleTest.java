@@ -3,9 +3,10 @@ package seedu.duke.models.schema;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import seedu.duke.exceptions.FailPrereqException;
-import seedu.duke.exceptions.MandatoryPrereqException;
-import seedu.duke.exceptions.MissingModuleException;
+
+import seedu.duke.utils.exceptions.FailPrereqException;
+import seedu.duke.utils.exceptions.MandatoryPrereqException;
+import seedu.duke.utils.exceptions.MissingModuleException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -106,7 +107,7 @@ class ScheduleTest {
     //failure scenario 3: String containing valid module, module in schedule
     //module is prerequisite of modules ahead--> throws MandatoryPrereqException
     @Test
-    void deleteModuleTest_MandatoryPrereq_expectException() {
+    void deleteModuleTest_mandatoryPrereq_expectException() {
         Schedule schedule = new Schedule("CS1010 CS2040C", new int[]{1, 1, 0, 0, 0, 0, 0, 0});
         assertThrows(MandatoryPrereqException.class, () -> schedule.deleteModule("CS1010"));
     }

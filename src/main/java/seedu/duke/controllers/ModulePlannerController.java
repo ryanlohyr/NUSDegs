@@ -14,8 +14,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
-import static seedu.duke.controllers.ModuleMethodsController.*;
+import static seedu.duke.controllers.ModuleMethodsController.computePace;
+import static seedu.duke.controllers.ModuleMethodsController.showModulesLeft;
 import static seedu.duke.controllers.ModuleServiceController.validateMajorInput;
+import static seedu.duke.controllers.ModuleMethodsController.determinePrereq;
+import static seedu.duke.controllers.ModuleMethodsController.recommendScheduleToStudent;
+import static seedu.duke.controllers.ModuleMethodsController.addModule;
+import static seedu.duke.controllers.ModuleMethodsController.deleteModule;
+import static seedu.duke.controllers.ModuleMethodsController.shiftModule;
+import static seedu.duke.controllers.ModuleMethodsController.completeModule;
+import static seedu.duke.controllers.ModuleMethodsController.getRequiredModulesForStudent;
+
 import static seedu.duke.views.CommandLineView.displayWelcome;
 import static seedu.duke.views.CommandLineView.displayReady;
 import static seedu.duke.views.CommandLineView.displayGoodbye;
