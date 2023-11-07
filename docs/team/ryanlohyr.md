@@ -65,7 +65,7 @@ was required in order to make the optimisations.
 
 ### Reviews/mentoring contributions: 
 
-- PRs reviewed ([#152](https://github.com/AY2324S1-CS2113-T17-4/tp/pull/152))
+- PRs reviewed ([#152](https://github.com/AY2324S1-CS2113-T17-4/tp/pull/152), [#154](https://github.com/AY2324S1-CS2113-T17-4/tp/pull/154#pullrequestreview-1718105780))
 
 ### Contributions beyond the project team: 
 

@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
-import seedu.duke.exceptions.FailPrereqException;
+import seedu.duke.utils.exceptions.FailPrereqException;
 import seedu.duke.models.schema.Schedule;
 import seedu.duke.models.schema.Student;
 
@@ -20,9 +20,12 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static seedu.duke.controllers.ModuleMethodsController.computePace;
 import static seedu.duke.controllers.ModuleMethodsController.determinePrereq;
-import static seedu.duke.views.CommandLineView.displayMessage;
+import static seedu.duke.controllers.ModuleMethodsController.completeModule;
 import static seedu.duke.views.CommandLineView.displaySuccessfulAddMessage;
-import static seedu.duke.views.CommandLineView.showPrereqCEG;
+import static seedu.duke.views.CommandLineView.displayMessage;
+import static seedu.duke.views.CommandLineView.showPrereq;
+
+
 
 class ModuleMethodsControllerTest {
     private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -151,7 +154,7 @@ class ModuleMethodsControllerTest {
         } catch (InvalidObjectException | IllegalArgumentException e) {
             displayMessage(e.getMessage());
         } catch (FailPrereqException f) {
-            showPrereqCEG(moduleCode);
+            showPrereq(moduleCode,student.getMajor());
             displayMessage(f.getMessage());
         }
         String printedOutput = outputStream.toString().trim();
@@ -190,7 +193,7 @@ class ModuleMethodsControllerTest {
         } catch (InvalidObjectException | IllegalArgumentException e) {
             displayMessage(e.getMessage());
         } catch (FailPrereqException f) {
-            showPrereqCEG(moduleCode);
+            showPrereq(moduleCode,student.getMajor());
             displayMessage(f.getMessage());
         }
         String printedOutput = outputStream.toString().trim();
@@ -223,7 +226,7 @@ class ModuleMethodsControllerTest {
         } catch (InvalidObjectException | IllegalArgumentException e) {
             displayMessage(e.getMessage());
         } catch (FailPrereqException f) {
-            showPrereqCEG(moduleCode);
+            showPrereq(moduleCode,student.getMajor());
             displayMessage(f.getMessage());
         }
         String printedOutput = outputStream.toString().trim();
@@ -236,7 +239,7 @@ class ModuleMethodsControllerTest {
                 .replaceAll("\r\n", "\n")
                 .replaceAll("\r", "\n");
         assertFalse(doesModuleExist);
-        assertEquals(printedOutput, expectedOutput);
+        assertEquals(expectedOutput, printedOutput);
     }
 
     @Test
@@ -313,6 +316,88 @@ class ModuleMethodsControllerTest {
                 .replaceAll("\r", "\n");
 
         assertEquals(expectedOutput, printedOutput);
+    }
+
+    @Test
+    void completeModule_prereqNotCompleted() {
+        ModuleMethodsController.addModule("CS1010",1,student);
+        ModuleMethodsController.addModule("CS2040C",2,student);
+        ModuleMethodsController.addModule("CS2113T",3,student);
+        completeModule(student,"CS2113T");
+        String printedOutput = outputStream.toString().trim();
+        String expectedOutput = "Prerequisites not completed for CS2113T\n" +
+                "This module's prerequisites are [CS2040C]";
+
+        printedOutput = printedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
+
+        expectedOutput = expectedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
+
+        //We need this extra logic as addModule prints text as well
+        int index = printedOutput.indexOf("Prerequisites not completed for");
+        String targetOutputText = "";
+        if (index != -1) {
+            // Extract the text starting from the found index
+            targetOutputText = printedOutput.substring(index);
+        } else {
+            targetOutputText = "invalid";
+        }
+
+        assertEquals(expectedOutput,targetOutputText);
+    }
+
+    @Test
+    void completeModule_prereqSatisfied() {
+        ModuleMethodsController.addModule("CS1010",1,student);
+        ModuleMethodsController.addModule("CS2040C",2,student);
+        ModuleMethodsController.addModule("CS2113T",3,student);
+        completeModule(student,"CS1010");
+        String printedOutput = outputStream.toString().trim();
+        String expectedOutput = "Module Successfully Completed";
+
+        printedOutput = printedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
+
+        expectedOutput = expectedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
+
+        //We need this extra logic as addModule prints text as well
+        int index = printedOutput.indexOf("Module Successfully Completed");
+        String printedText = "";
+        if (index != -1) {
+            // Extract the text starting from the found index
+            printedText = printedOutput.substring(index);
+        } else {
+            printedText = "invalid";
+        }
+
+        assertEquals(expectedOutput,printedText);
+    }
+
+
+    @Test
+    void showModulesLeft() {
+    }
+
+    @Test
+    void addModule() {
+    }
+
+    @Test
+    void recommendScheduleToStudent() {
+    }
+
+    @Test
+    void deleteModule() {
+    }
+
+    @Test
+    void getRequiredModulesForStudent() {
     }
 
 

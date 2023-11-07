@@ -2,8 +2,8 @@ package seedu.duke;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import seedu.duke.exceptions.InvalidModuleCodeException;
-import seedu.duke.exceptions.InvalidModuleException;
+import seedu.duke.utils.exceptions.InvalidModuleCodeException;
+import seedu.duke.utils.exceptions.InvalidModuleException;
 import seedu.duke.models.logic.Api;
 
 import java.util.Objects;

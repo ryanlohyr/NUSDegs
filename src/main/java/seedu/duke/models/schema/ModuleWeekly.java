@@ -2,7 +2,7 @@ package seedu.duke.models.schema;
 
 
 import org.json.simple.JSONArray;
-import seedu.duke.exceptions.InvalidModuleCodeException;
+import seedu.duke.utils.exceptions.InvalidModuleCodeException;
 import seedu.duke.models.logic.Api;
 
 import java.util.ArrayList;

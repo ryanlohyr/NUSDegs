@@ -1,7 +1,7 @@
 package seedu.duke.models.schema;
 
-import seedu.duke.exceptions.FailPrereqException;
-import seedu.duke.exceptions.MissingModuleException;
+import seedu.duke.utils.exceptions.FailPrereqException;
+import seedu.duke.utils.exceptions.MissingModuleException;
 import seedu.duke.utils.exceptions.InvalidPrereqException;
 
 import java.io.InvalidObjectException;
@@ -29,6 +29,7 @@ public class Schedule {
 
     private HashMap<String, Module> completedModules;
 
+    //DO NOT USE PREREQ MAP, ONLY USED FOR OPTIMISING RECOMMENDED SCHEDULE FUNCTION
     private HashMap<String, ArrayList<String>> prereqMap;
 
     /*
@@ -289,8 +290,46 @@ public class Schedule {
         return modulesPlanned.getModule(moduleCode);
     }
 
-    public boolean canCompleteModule(String moduleCode) {
-        return true;
+    public void completeModule(Module module, ArrayList<String> modulePrereq) throws
+            FailPrereqException,
+            InvalidObjectException {
+        //we will slice from semester 0 to 1 semester before the target module,
+        //we will then check if the modules in the pre req array are
+        //we need to determine the semester of the module
+        String moduleCode = module.getModuleCode();
+        int targetIndex = modulesPlanned.getIndexByString(moduleCode);
+        int targetSem = 1;
+        int moduleCount = modulesPerSem[0];
+
+        while ((moduleCount - 1) < targetIndex) {
+            moduleCount += modulesPerSem[targetSem];
+            targetSem += 1;
+        }
+
+        List<String> partialModulesPlannedArray = modulesPlanned.getModuleCodes().subList(0, (moduleCount));
+        //we need to get the pre requisites of the module,
+        //for each prerequissite, we need to locate the module, check if its completed
+        //if not completed, throw error
+        if(modulePrereq == null){
+            modulePrereq = new ArrayList<>();
+        }
+        for(String currModule: modulePrereq){
+            if(partialModulesPlannedArray.contains(currModule) && !getModule(currModule).getCompletionStatus()){
+                throw new FailPrereqException(moduleCode);
+            }
+        }
+
+
+
+        //        System.out.println(partialModulesPlannedArray);
+        //        if(!satisfiesAllPrereq(moduleCode, partialModulesPlanned)){
+        //            throw new IllegalArgumentException("Please select a valid module");
+        //        }
+
+        module.markModuleAsCompleted();
+
+
+
     }
 
     /**
