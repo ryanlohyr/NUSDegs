@@ -76,6 +76,10 @@ public class CommandLineView {
 
     }
 
+    public static void displaySuccessfulShiftMessage() {
+        displayMessage("Module Successfully Shifted");
+    }
+
     public static void displaySuccessfulCompleteMessage() {
         displayMessage("Module Successfully Completed");
     }

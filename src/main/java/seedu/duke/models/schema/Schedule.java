@@ -1,6 +1,7 @@
 package seedu.duke.models.schema;
 
 import seedu.duke.exceptions.FailPrereqException;
+import seedu.duke.exceptions.MandatoryPrereqException;
 import seedu.duke.exceptions.MissingModuleException;
 import seedu.duke.utils.exceptions.InvalidPrereqException;
 
@@ -214,7 +215,7 @@ public class Schedule {
      * @throws FailPrereqException If the module to be deleted is a prerequisite for other modules in the schedule.
      * @throws IllegalArgumentException If the provided module code is not valid, the module is not in the schedule
      */
-    public void deleteModule(String module) throws FailPrereqException, MissingModuleException {
+    public void deleteModule(String module) throws MandatoryPrereqException, MissingModuleException {
 
         int targetIndex = modulesPlanned.getIndexByString(module);
 
@@ -245,8 +246,8 @@ public class Schedule {
         for(String fulfilledModule: requirementsFulfilledFromModule ){
             //over here we check if the semesters in front of us contain a module in fulfilled module
             if(modulesAheadArray.contains(fulfilledModule)){
-                throw new FailPrereqException("Unable to delete module. This module is a prerequisite for "
-                        + fulfilledModule);
+                throw new MandatoryPrereqException("Unable to delete module. " +
+                        "This module is a mandatory prerequisite for " + fulfilledModule);
             }
         }
 
@@ -287,7 +288,7 @@ public class Schedule {
     }
 
     public void shiftModule(String module, int targetSem) throws IllegalArgumentException,
-            FailPrereqException, MissingModuleException, InvalidObjectException {
+            FailPrereqException, MandatoryPrereqException, MissingModuleException, InvalidObjectException {
 
         if (targetSem < 1 || targetSem > MAXIMUM_SEMESTERS) {
             throw new IllegalArgumentException("Please select an integer from 1 to 8 for semester selection");
@@ -328,19 +329,12 @@ public class Schedule {
                 if (satisfiesAllPrereq(module, plannedModules)) {
                     //module shifting will be here
 
-                    Module moduleToBeDeleted = getModule(module);
+                    Module moduleToBeShifted = getModule(module);
 
-                    //Store completion status to update new module
-                    boolean isCompleted = moduleToBeDeleted.getCompletionStatus();
-
-                    modulesPlanned.deleteModule(moduleToBeDeleted);
+                    modulesPlanned.deleteModule(moduleToBeShifted);
                     modulesPerSem[originalSem - 1] -= 1;
 
-                    Module newModule =new Module(module);
-                    if (isCompleted) {
-                        newModule.markModuleAsCompleted();
-                    }
-                    modulesPlanned.addModule(indexToAdd, newModule);
+                    modulesPlanned.addModule(indexToAdd, moduleToBeShifted);
                     modulesPerSem[targetSem - 1] += 1;
                     return;
                 }
@@ -359,20 +353,20 @@ public class Schedule {
 
         List<String> modulesAheadArray;
 
-        int modulesAheadStartIndex = 0;
-        int modulesAheadEndIndex= 0;
+        int modulesAheadFromIndex = 0;
+        int modulesAheadToIndex= 0;
 
         for (int i = 1; i < originalSem + 1; i++) {
-            modulesAheadStartIndex += this.modulesPerSem[i - 1];
+            modulesAheadFromIndex += this.modulesPerSem[i - 1];
         }
 
         for (int i = 1; i < targetSem + 1; i++) {
-            modulesAheadEndIndex += this.modulesPerSem[i - 1];
+            modulesAheadToIndex += this.modulesPerSem[i - 1];
         }
 
         try {
             modulesAheadArray = modulesPlanned.getModuleCodes()
-                    .subList(modulesAheadStartIndex, modulesAheadEndIndex + 1);
+                    .subList(modulesAheadFromIndex, modulesAheadToIndex);
         } catch (IndexOutOfBoundsException | IllegalArgumentException e) {
             modulesAheadArray = new ArrayList<>();
         }
@@ -380,26 +374,19 @@ public class Schedule {
         for(String fulfilledModule: requirementsFulfilledFromModule ){
             //over here we check if the semesters in front of us contain a module in fulfilled module
             if(modulesAheadArray.contains(fulfilledModule)){
-                throw new FailPrereqException("Unable to delete module. This module is a prerequisite for "
-                        + fulfilledModule);
+                throw new MandatoryPrereqException("Unable to shift module. " +
+                        "This module is a mandatory prerequisite for " + fulfilledModule);
             }
         }
 
         //module shifting will be here
 
-        Module moduleToBeDeleted = getModule(module);
+        Module moduleToBeShifted = getModule(module);
 
-        //Store completion status to update new module
-        boolean isCompleted = moduleToBeDeleted.getCompletionStatus();
-
-        modulesPlanned.deleteModule(moduleToBeDeleted);
+        modulesPlanned.deleteModule(moduleToBeShifted);
         modulesPerSem[originalSem - 1] -= 1;
 
-        Module newModule =new Module(module);
-        if (isCompleted) {
-            newModule.markModuleAsCompleted();
-        }
-        modulesPlanned.addModule(indexToAdd, newModule);
+        modulesPlanned.addModule(indexToAdd - 1, moduleToBeShifted);
         modulesPerSem[targetSem - 1] += 1;
     }
 

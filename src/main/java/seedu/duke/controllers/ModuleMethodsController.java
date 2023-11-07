@@ -1,6 +1,7 @@
 package seedu.duke.controllers;
 
 import seedu.duke.exceptions.FailPrereqException;
+import seedu.duke.exceptions.MandatoryPrereqException;
 import seedu.duke.exceptions.MissingModuleException;
 import seedu.duke.models.schema.Module;
 import seedu.duke.models.schema.Student;
@@ -15,11 +16,8 @@ import java.util.ArrayList;
 import static seedu.duke.controllers.ModuleServiceController.chooseToAddToSchedule;
 import static seedu.duke.models.logic.Api.doesModuleExist;
 import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
+import static seedu.duke.views.CommandLineView.*;
 import static seedu.duke.views.MajorRequirementsView.printRequiredModules;
-import static seedu.duke.views.CommandLineView.displayMessage;
-import static seedu.duke.views.CommandLineView.displaySuccessfulAddMessage;
-import static seedu.duke.views.CommandLineView.showPrereqCEG;
-import static seedu.duke.views.CommandLineView.displaySuccessfulDeleteMessage;
 
 import static seedu.duke.views.ModuleInfoView.printModuleStringArray;
 
@@ -106,8 +104,22 @@ public class ModuleMethodsController {
             student.deleteModuleSchedule(module);
             displaySuccessfulDeleteMessage();
             student.printSchedule();
-        } catch (MissingModuleException | FailPrereqException e) {
+        } catch (MissingModuleException | MandatoryPrereqException e) {
             displayMessage(e.getMessage());
+        }
+    }
+
+    public static void shiftModule(String module, int targetSem, Student student) {
+        try {
+            student.shiftModuleSchedule(module, targetSem);
+            displaySuccessfulShiftMessage();
+            student.printSchedule();
+        } catch (InvalidObjectException | IllegalArgumentException | MissingModuleException |
+                 MandatoryPrereqException e) {
+            displayMessage(e.getMessage());
+        } catch (FailPrereqException f) {
+            showPrereqCEG(module);
+            displayMessage(f.getMessage());
         }
     }
 
