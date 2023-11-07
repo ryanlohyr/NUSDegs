@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class WeeklyScheduleViewTest {
-/*
+
 
     private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
@@ -51,20 +51,6 @@ class WeeklyScheduleViewTest {
         assertTrue(printedOutput.startsWith(
                 "-------------------------------------------------------------------------------------------------"));
         //assertTrue(false);
-
-    }
-*/
-    @Test
-    void testPrintWeeklySchedule() {
-        ArrayList<ModuleWeekly> currentSemesterModules = new ArrayList<ModuleWeekly>();
-
-        ModuleWeekly testModule = new ModuleWeekly("CS1231");
-        testModule.addLecture("Monday", 13, 2);
-        testModule.addTutorial("Monday", 11, 1);
-        testModule.addLab("Monday", 9, 2);
-        testModule.addLab("Tuesday", 9, 2);
-        currentSemesterModules.add(testModule);
-        WeeklyScheduleView.printWeeklySchedule(currentSemesterModules);
 
     }
 

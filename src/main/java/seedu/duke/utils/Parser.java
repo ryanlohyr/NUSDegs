@@ -187,6 +187,7 @@ public class Parser {
                 UserError.emptyInputforPlannerCommand();
                 return false;
             }
+            break;
             // add check for modules that are in the current sem
             // if argument[1] is !show or in currSemModules, return false
         }

@@ -1,7 +1,6 @@
 package seedu.duke.models.schema;
 
 import seedu.duke.exceptions.FailPrereqException;
-import seedu.duke.utils.Parser;
 import seedu.duke.exceptions.MissingModuleException;
 import seedu.duke.utils.exceptions.InvalidPrereqException;
 
@@ -85,6 +84,10 @@ public class Schedule {
     public ModuleList getModulesPlanned() {
         return modulesPlanned;
     }
+
+    public int[] getModulesPerSem() {
+        return modulesPerSem;
+    };
 
     /**
      * Adds a recommended schedule list to the current schedule, updating completion statuses if needed.
