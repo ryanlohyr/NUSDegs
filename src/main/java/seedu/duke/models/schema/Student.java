@@ -8,6 +8,7 @@ import seedu.duke.views.WeeklyScheduleView;
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Scanner;
 
 import static seedu.duke.models.logic.DataRepository.getRequirements;
 
@@ -276,10 +277,136 @@ public class Student {
         setCurrentSemesterModules();
         setCurrentSemesterModulesWeekly();
         String argument = userInput.substring(userInput.indexOf("planner") + 7).trim().toUpperCase();
-        if (argument.equals("SHOW")) {
-            if (!checkValidTime(student)) {
+        switch (argument) {
+            case "SHOW": {
+                System.out.println("we in show");
                 WeeklyScheduleView.printWeeklySchedule(currentSemesterModulesWeekly);
+                break;
             }
+            case "MODIFY": {
+                System.out.println("we in modify");
+                modifyCommands();
+                break;
+            }
+            default: {
+                System.out.println("we in default of planner command");
+            }
+        }
+    }
+
+    public void modifyCommands() {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Which current module do you want to modify?");
+        String moduleCode = in.nextLine().trim();
+        // yes, module existss
+        if (!isExistInCurrentSemesterModules(moduleCode, currentSemesterModulesWeekly)) {
+            System.out.println("sorry that module doesn't exist in current semesters");
+            return;
+        }
+        System.out.println("Ok that module exists. Enter what you would like to change in this way " +
+                "(lecture, tutorial, lab) . " +
+                "lecture /time 4 /duration 3 /day tuesday");
+        String userInput = in.nextLine().trim();
+        System.out.println(userInput);
+        // pass in the ModuleWeekly element from currentSemester
+        ModuleWeekly moduleWeeklyToModify = getModuleWeekly(moduleCode, currentSemesterModulesWeekly);
+        parser(userInput, moduleWeeklyToModify);
+
+    }
+
+    public static ModuleWeekly getModuleWeekly(String moduleCode,
+                                               ArrayList<ModuleWeekly> currentSemesterModulesWeekly) {
+        for (ModuleWeekly module : currentSemesterModulesWeekly) {
+            if (module.getModuleCode().equals(moduleCode)) {
+                return module;
+            }
+        }
+        return null;
+    }
+
+    // if true, it exists
+    public static boolean isExistInCurrentSemesterModules(String moduleCode,
+                                                          ArrayList<ModuleWeekly> currentSemesterModulesWeekly) {
+        for (ModuleWeekly module : currentSemesterModulesWeekly) {
+            if (module.getModuleCode().equals(moduleCode)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static void parser(String userInput, ModuleWeekly moduleCode) {
+        int startIndexOfStart = userInput.indexOf("/time");
+        String command = userInput.substring(0, startIndexOfStart).trim().toUpperCase();
+        if (!command.equals("LECTURE") &&
+                !command.equals("TUTORIAL") &&
+                !command.equals("LAB")) {
+            System.out.println("Not a valid command. Please try again!");
+            return;
+        }
+        switch (command) {
+            case "LECTURE": {
+                moduleCode.addLecture(parserDay(userInput), parserTime(userInput), parserDuration(userInput));
+                break;
+            }
+            case "TUTORIAL": {
+                moduleCode.addTutorial(parserDay(userInput), parserTime(userInput), parserDuration(userInput));
+                break;
+            }
+            case "LAB": {
+                moduleCode.addLab(parserDay(userInput), parserTime(userInput), parserDuration(userInput));
+                break;
+            }
+            default: {
+                System.out.println("we in default");
+            }
+        }
+    }
+
+    public static String parserDay(String userInput) {
+        int startIndexOfDay = userInput.indexOf("/day");
+        String day = userInput.substring(startIndexOfDay + 4).trim();
+        return day;
+    }
+
+    public static int parserTime(String userInput) {
+        int startIndexOfTime = userInput.indexOf("/time");
+        int startIndexOfDuration = userInput.indexOf("/duration");
+        String time = userInput.substring(startIndexOfTime + 5, startIndexOfDuration).trim();
+        return Integer.parseInt(time);
+    }
+
+    public static int parserDuration(String userInput) {
+        int startIndexOfDay = userInput.indexOf("/day");
+        int startIndexOfDuration = userInput.indexOf("/duration");
+        String time = userInput.substring(startIndexOfDuration + 9, startIndexOfDay).trim();
+        return Integer.parseInt(time);
+    }
+/*
+            Scanner in = new Scanner(System.in);
+            String userInput;
+            do {
+                System.out.println("Enter 'planner show' to display your timetable, enter 'planner modify'," +
+                        " to modify your module timings");
+                userInput = in.nextLine().trim();
+            } while (!parser.checkPlannerCommandInput(userInput));
+            student.setName(userInput);
+
+
+        } else if (argument.equals("MODIFY")) {
+            Scanner in = new Scanner(System.in);
+            String userNewInput = in.nextLine().trim();
+            do {
+                System.out.println("Enter 'planner show' to display your timetable, enter 'planner modify'," +
+                        " to modify your module timings");
+                userInput = in.nextLine().trim();
+            } while (!parser.checkPlannerCommandInput(userInput));
+            if (currentSemesterModules.existsByCode(userNewInput)) {
+                System.out.println("ok module exists. Enter the lesson you would like to change using " +
+                        "this format: /lecture 1 /time 10 /day tuesday");
+                String lessonInput = in.nextLine().trim();
+                currentSemesterModulesWeekly.get
+            } */
         }
     }
 
@@ -307,7 +434,7 @@ public class Student {
                             currentSemesterModulesWeekly.get(i).setLabTime(Integer.parseInt(lab.trim()));
                             currentSemesterModulesWeekly.get(i).setTutorialTime(Integer.parseInt(tutorial.trim()));
                         }
-     */
+
 
     public boolean checkValidTime(Student student) {
         for (int i = 0; i < currentSemesterModulesWeekly.size(); i++) {
@@ -336,7 +463,7 @@ public class Student {
         }
         return false;
     }
-
+*/
     public ArrayList<ModuleWeekly> getCurrentSemesterModulesWeekly() {
         return currentSemesterModulesWeekly;
     }
