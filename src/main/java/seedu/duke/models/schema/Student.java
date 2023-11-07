@@ -4,12 +4,15 @@ import seedu.duke.exceptions.FailPrereqException;
 import seedu.duke.exceptions.MissingModuleException;
 import seedu.duke.utils.Parser;
 import seedu.duke.views.WeeklyScheduleView;
+import seedu.duke.utils.errors.UserError;
 
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import static seedu.duke.models.logic.DataRepository.getRequirements;
+import static seedu.duke.views.CommandLineView.displaySuccessfulCompleteMessage;
+import static seedu.duke.views.CommandLineView.displayUnsuccessfulCompleteMessage;
 
 /**
  * The Student class represents a student with a name, major, and module schedule.
@@ -73,10 +76,6 @@ public class Student {
         return completedModuleCredits;
     }
 
-
-
-
-
     /**
      * Retrieves the name of the student.
      *
@@ -120,11 +119,21 @@ public class Student {
      * @param moduleCode The code of the module to be completed.
      */
     public void completeModuleSchedule(String moduleCode) throws InvalidObjectException {
+        //check prereq
+        if (schedule.canCompleteModule(moduleCode)) {
 
-        Module module = schedule.getModule(moduleCode);
+            Module module = schedule.getModule(moduleCode);
 
-        this.completedModuleCredits += module.getModuleCredits();
-        module.markModuleAsCompleted();
+            this.completedModuleCredits += module.getModuleCredits();
+            module.markModuleAsCompleted();
+            displaySuccessfulCompleteMessage();
+
+        } else {
+            //print fail
+            displayUnsuccessfulCompleteMessage();
+            UserError.displayModuleAlreadyCompleted("UNFINISHED");
+            UserError.displayModuleAlreadyCompleted("HELP FINISH");
+        }
     }
 
     //@@author ryanlohyr
@@ -141,7 +150,7 @@ public class Student {
 
 
     //@@author janelleenqi
-    public Module existModuleSchedule(String moduleCode) throws MissingModuleException {
+    public Module getModuleFromSchedule(String moduleCode) throws MissingModuleException {
         try {
             return schedule.getModule(moduleCode);
         } catch (InvalidObjectException e) {
@@ -277,7 +286,7 @@ public class Student {
         setCurrentSemesterModulesWeekly();
         String argument = userInput.substring(userInput.indexOf("planner") + 7).trim().toUpperCase();
         if (argument.equals("SHOW")) {
-            if (!checkValidTime(student)) {
+            if (checkIfValidTime(student)) {
                 WeeklyScheduleView.printWeeklySchedule(currentSemesterModulesWeekly);
             }
         }
@@ -309,32 +318,31 @@ public class Student {
                         }
      */
 
-    public boolean checkValidTime(Student student) {
+    public boolean checkIfValidTime(Student student) {
         for (int i = 0; i < currentSemesterModulesWeekly.size(); i++) {
             if (currentSemesterModulesWeekly.get(i).getLectureTime() == 0) {
                 System.out.println("PLEASE INSERT VALID TIME FOR LECTURE TIME FOR " +
-                        currentSemesterModulesWeekly.get(i)
-                                .getModuleCode());
-                return true;
+                        currentSemesterModulesWeekly.get(i).getModuleCode());
+                return false;
             }
             if (currentSemesterModulesWeekly.get(i).getTutorialTime() == 0) {
                 System.out.println("PLEASE INSERT VALID TIME FOR TUTORIAL TIME FOR " +
                         currentSemesterModulesWeekly.get(i)
                                 .getModuleCode());
-                return true;
+                return false;
             }
             if (currentSemesterModulesWeekly.get(i).getLabTime() == 0) {
                 System.out.println("PLEASE INSERT VALID TIME FOR LAB TIME FOR " + currentSemesterModulesWeekly.get(i)
                         .getModuleCode());
-                return true;
+                return false;
             }
             if (!currentSemesterModulesWeekly.get(i).getDay().isEmpty()) {
                 System.out.println("PLEASE INSERT VALID DAY FOR " + currentSemesterModulesWeekly.get(i)
                         .getModuleCode());
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     public ArrayList<ModuleWeekly> getCurrentSemesterModulesWeekly() {

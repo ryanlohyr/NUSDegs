@@ -104,13 +104,24 @@ public class WeeklyScheduleView {
                 if (weeklyTask.get(i).isEmpty()) {
                     printToJustify(columnWidth);
                 } else {
+
                     String currentTask = weeklyTask.get(i).get(0); //get 1st task
+                    String[] words = currentTask.split(" ");
                     if (currentTask.length() < columnWidth) {
                         print(currentTask);
                         printToJustify(columnWidth - currentTask.length());
                         weeklyTask.get(i).remove(0);
+                    } else if (words[0].length() > columnWidth) {
+                        //split word
+                        try {
+                            String columnWidthLengthWord = words[0].substring(0, 10);
+                            String remainingWord = words[0].substring(11);
+                            print(columnWidthLengthWord);
+                            weeklyTask.get(i).set(0, remainingWord); //update currentTask
+                        } catch (IndexOutOfBoundsException e) {
+                            print(words[0]);
+                        }
                     } else {
-                        String[] words = currentTask.split(" ");
                         int columnWidthLeft = columnWidth;
 
                         int j = 0;
@@ -118,7 +129,7 @@ public class WeeklyScheduleView {
                             print(words[j]);
                             //print(String.valueOf(words[j].length())); //troubleshooting
                             columnWidthLeft -= words[j].length();
-                            words[j] = "";
+                            words[j] = ""; //???
                             j += 1;
                         }
                         //print(String.valueOf(columnWidthLeft)); //troubleshooting

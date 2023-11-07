@@ -15,12 +15,11 @@ import java.util.ArrayList;
 import static seedu.duke.controllers.ModuleServiceController.chooseToAddToSchedule;
 import static seedu.duke.models.logic.Api.doesModuleExist;
 import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
-import static seedu.duke.models.logic.MajorRequirements.printRequiredModules;
+import static seedu.duke.views.MajorRequirementsView.printRequiredModules;
 import static seedu.duke.views.CommandLineView.displayMessage;
 import static seedu.duke.views.CommandLineView.displaySuccessfulAddMessage;
 import static seedu.duke.views.CommandLineView.showPrereqCEG;
 import static seedu.duke.views.CommandLineView.displaySuccessfulDeleteMessage;
-import static seedu.duke.views.CommandLineView.displaySuccessfulCompleteMessage;
 
 import static seedu.duke.views.ModuleInfoView.printModuleStringArray;
 
@@ -116,17 +115,19 @@ public class ModuleMethodsController {
     //ModuleList modulesPlanned, CompletePreqs addModulePreqs) {
     public static void completeModule(Student student, String moduleCode) {
         try {
-            Module module = student.existModuleSchedule(moduleCode);
+            Module module = student.getModuleFromSchedule(moduleCode);
+
             if (module.getCompletionStatus()) {
                 UserError.displayModuleAlreadyCompleted(module.getModuleCode());
             } else {
+
                 student.completeModuleSchedule(moduleCode);
-                displaySuccessfulCompleteMessage();
+                //displaySuccessfulCompleteMessage();
             }
 
         } catch (MissingModuleException e) {
             displayMessage(e.getMessage());
-            UserError.invalidAddFormat();
+            //UserError.invalidAddFormat();
 
         } catch (InvalidObjectException e) {
             assert false;
