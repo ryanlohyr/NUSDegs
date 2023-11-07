@@ -1,7 +1,7 @@
 package seedu.duke.controllers;
 
-import seedu.duke.exceptions.FailPrereqException;
-import seedu.duke.exceptions.MissingModuleException;
+import seedu.duke.utils.exceptions.FailPrereqException;
+import seedu.duke.utils.exceptions.MissingModuleException;
 import seedu.duke.models.schema.Module;
 import seedu.duke.models.schema.Student;
 import seedu.duke.utils.Parser;

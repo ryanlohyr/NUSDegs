@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
-import seedu.duke.exceptions.FailPrereqException;
+import seedu.duke.utils.exceptions.FailPrereqException;
 import seedu.duke.models.schema.Schedule;
 import seedu.duke.models.schema.Student;
 

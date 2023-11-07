@@ -1,7 +1,7 @@
 package seedu.duke.models.schema;
 
-import seedu.duke.exceptions.FailPrereqException;
-import seedu.duke.exceptions.MissingModuleException;
+import seedu.duke.utils.exceptions.FailPrereqException;
+import seedu.duke.utils.exceptions.MissingModuleException;
 import seedu.duke.utils.exceptions.InvalidPrereqException;
 
 import java.io.InvalidObjectException;
