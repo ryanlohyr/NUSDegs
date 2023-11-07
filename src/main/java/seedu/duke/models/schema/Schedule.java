@@ -106,6 +106,7 @@ public class Schedule {
             //Sub list as we only want modules before the current target semester
             List<String> currentSemestersModules = scheduleToAdd.subList(indexToAdd, indexToAdd + currentIndexOfMod);
             ArrayList<String> currModulesPrereq = prereqMap.get(module);
+
             //now we check if the modules prereq is contained on current line
             for(String currModule:currentSemestersModules){
                 if(currModulesPrereq.contains(currModule)){
