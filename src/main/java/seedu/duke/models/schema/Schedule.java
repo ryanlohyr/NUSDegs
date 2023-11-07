@@ -186,11 +186,11 @@ public class Schedule {
         }
 
         //Sub list as we only want modules before the current target semester
-        List<String> plannedModulesArray = modulesPlanned.getModuleCodes().subList(0, (indexToAdd));
-        ModuleList plannedModules = new ModuleList(String.join(" ", plannedModulesArray));
+        List<String> previousModulesArray = modulesPlanned.getModuleCodes().subList(0, (indexToAdd));
+        ModuleList previousModules = new ModuleList(String.join(" ", previousModulesArray));
 
         try {
-            if (satisfiesAllPrereq(module, plannedModules)) {
+            if (satisfiesAllPrereq(module, previousModules)) {
                 //module initialization will be here
 
                 modulesPlanned.addModule(indexToAdd, new Module(module));
@@ -212,11 +212,11 @@ public class Schedule {
      */
     public void deleteModule(String module) throws FailPrereqException, MissingModuleException {
 
-        if (!doesModuleExist(module)) {
+        int targetIndex = modulesPlanned.getIndexByString(module);
+
+        if (targetIndex == -1) {
             throw new MissingModuleException("Module does not exist in schedule");
         }
-
-        int targetIndex = modulesPlanned.getIndexByString(module);
 
         int targetSem = 1;
         int moduleCount = modulesPerSem[0];
@@ -280,6 +280,123 @@ public class Schedule {
 
         //        modulesPerSem[targetSem - 1] -= 1;
         //
+    }
+
+    public void shiftModule(String module, int targetSem) throws IllegalArgumentException,
+            FailPrereqException, MissingModuleException, InvalidObjectException {
+
+        if (targetSem < 1 || targetSem > MAXIMUM_SEMESTERS) {
+            throw new IllegalArgumentException("Please select an integer from 1 to 8 for semester selection");
+        }
+
+        int originalIndex = modulesPlanned.getIndexByString(module);
+
+        if (originalIndex == -1) {
+            throw new MissingModuleException("Module does not exist in schedule");
+        }
+
+        int originalSem = 1;
+        int moduleCount = modulesPerSem[0];
+
+        while ((moduleCount - 1) < originalIndex) {
+            moduleCount += modulesPerSem[originalSem];
+            originalSem += 1;
+        }
+
+        int indexToAdd = 0;
+        for (int i = 1; i < targetSem; i++) {
+            indexToAdd += this.modulesPerSem[i - 1];
+        }
+
+        // User input sem that module is already in
+        if (originalSem == targetSem) {
+            throw new IllegalArgumentException("Module is already in semester " + targetSem);
+        }
+
+        // If shifting module earlier
+        if (originalSem > targetSem) {
+
+            //Sub list as we only want modules before the current target semester
+            List<String> plannedModulesArray = modulesPlanned.getModuleCodes().subList(0, (indexToAdd));
+            ModuleList plannedModules = new ModuleList(String.join(" ", plannedModulesArray));
+
+            try {
+                if (satisfiesAllPrereq(module, plannedModules)) {
+                    //module shifting will be here
+
+                    Module moduleToBeDeleted = getModule(module);
+
+                    //Store completion status to update new module
+                    boolean isCompleted = moduleToBeDeleted.getCompletionStatus();
+
+                    modulesPlanned.deleteModule(moduleToBeDeleted);
+                    modulesPerSem[originalSem - 1] -= 1;
+
+                    Module newModule =new Module(module);
+                    if (isCompleted) {
+                        newModule.markModuleAsCompleted();
+                    }
+                    modulesPlanned.addModule(indexToAdd, newModule);
+                    modulesPerSem[targetSem - 1] += 1;
+                    return;
+                }
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("Please select a valid module");
+            } catch (InvalidObjectException e) {
+                throw new InvalidObjectException("Module does not exist in the schedule.");
+            }
+            throw new FailPrereqException("Unable to shift module as prerequisites will not be satisfied for: "
+                    + module);
+        }
+
+        // If shifting module later
+
+        ArrayList<String> requirementsFulfilledFromModule = getModuleFulfilledRequirements(module);
+
+        List<String> modulesAheadArray;
+
+        int modulesAheadStartIndex = 0;
+        int modulesAheadEndIndex= 0;
+
+        for (int i = 1; i < originalSem + 1; i++) {
+            modulesAheadStartIndex += this.modulesPerSem[i - 1];
+        }
+
+        for (int i = 1; i < targetSem + 1; i++) {
+            modulesAheadEndIndex += this.modulesPerSem[i - 1];
+        }
+
+        try {
+            modulesAheadArray = modulesPlanned.getModuleCodes()
+                    .subList(modulesAheadStartIndex, modulesAheadEndIndex + 1);
+        } catch (IndexOutOfBoundsException | IllegalArgumentException e) {
+            modulesAheadArray = new ArrayList<>();
+        }
+
+        for(String fulfilledModule: requirementsFulfilledFromModule ){
+            //over here we check if the semesters in front of us contain a module in fulfilled module
+            if(modulesAheadArray.contains(fulfilledModule)){
+                throw new FailPrereqException("Unable to delete module. This module is a prerequisite for "
+                        + fulfilledModule);
+            }
+        }
+
+        //module shifting will be here
+
+        Module moduleToBeDeleted = getModule(module);
+
+        //Store completion status to update new module
+        boolean isCompleted = moduleToBeDeleted.getCompletionStatus();
+
+        modulesPlanned.deleteModule(moduleToBeDeleted);
+        modulesPerSem[originalSem - 1] -= 1;
+
+        Module newModule =new Module(module);
+        if (isCompleted) {
+            newModule.markModuleAsCompleted();
+        }
+        modulesPlanned.addModule(indexToAdd, newModule);
+        modulesPerSem[targetSem - 1] += 1;
     }
 
     public Module getModule(String moduleCode) throws InvalidObjectException {
