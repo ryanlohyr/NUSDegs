@@ -11,6 +11,7 @@ public class MajorRequirementsView {
             printRequiredModulesCS();
             return;
         default:
+            displayMessage("");
             return;
         }
     }
@@ -18,7 +19,6 @@ public class MajorRequirementsView {
     public static void printRequiredModulesCEG() { //60 char
         displayMessage(
             "#=============================================================#\n" +
-                    "=================================" +
             "║   Modular Requirements for CEG                       Units  ║\n" +
             "#=============================================================#\n" +
             "+-------------------------------------------------------------+\n" +
