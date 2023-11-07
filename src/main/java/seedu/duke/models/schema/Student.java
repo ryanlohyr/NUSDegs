@@ -140,7 +140,16 @@ public class Student {
      * @throws FailPrereqException If deleting the module fails due to prerequisite dependencies.
      */
     public void deleteModuleSchedule(String moduleCode) throws FailPrereqException, MissingModuleException {
-        schedule.deleteModule(moduleCode);
+        try{
+            Module module = schedule.getModule(moduleCode);
+            schedule.deleteModule(moduleCode);
+            this.completedModuleCredits -= module.getModuleCredits();
+        }catch (InvalidObjectException e) {
+            throw new MissingModuleException(e.getMessage());
+        }
+
+
+
     }
 
 
