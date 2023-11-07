@@ -2,6 +2,7 @@ package seedu.duke.views;
 
 
 import seedu.duke.models.schema.CommandManager;
+import seedu.duke.utils.exceptions.InvalidPrereqException;
 
 import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
 
@@ -58,8 +59,13 @@ public class CommandLineView {
     }
 
     public static void showPrereqCEG(String module) {
-        System.out.println("This module's prerequisites are "
-                + getModulePrereqBasedOnCourse(module.toUpperCase(),"CEG"));
+        try{
+            System.out.println("This module's prerequisites are "
+                    + getModulePrereqBasedOnCourse(module.toUpperCase(),"CEG"));
+        }catch (InvalidPrereqException e){
+            System.out.println(e.getMessage());
+        }
+
     }
     public static void displaySuccessfulAddMessage() {
         displayMessage("Module Successfully Added");
@@ -69,6 +75,11 @@ public class CommandLineView {
         displayMessage("Module Successfully Deleted");
 
     }
+
+    public static void displaySuccessfulCompleteMessage() {
+        displayMessage("Module Successfully Completed");
+    }
+
 
     /**
      * Display a message to the command line view.

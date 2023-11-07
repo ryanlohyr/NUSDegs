@@ -170,40 +170,43 @@ public class Student {
     /**
      * Completes a module with the specified module code.
      *
-     * @author ryanlohyr
      * @param moduleCode The code of the module to be completed.
      */
-    public void completeModuleSchedule(String moduleCode) {
-        for (Module module : schedule.getModulesPlanned().getMainModuleList()) {
-            if (module.getModuleCode().equals(moduleCode)) {
-                this.completedModuleCredits += module.getModuleCredits();
-                module.markModuleAsCompleted();
-                return;
-            }
-        }
+    public void completeModuleSchedule(String moduleCode) throws InvalidObjectException {
+
+        Module module = schedule.getModule(moduleCode);
+
+        this.completedModuleCredits += module.getModuleCredits();
+        module.markModuleAsCompleted();
     }
 
-
+    //@@author ryanlohyr
     /**
      * Deletes a module with the specified module code. This method also updates the completed
      * module credits and removes the module from the planned modules list.
      *
-     * @author ryanlohyr
      * @param moduleCode The code of the module to be deleted.
      * @throws FailPrereqException If deleting the module fails due to prerequisite dependencies.
      */
     public void deleteModuleSchedule(String moduleCode) throws FailPrereqException, MissingModuleException {
         schedule.deleteModule(moduleCode);
-        Module module;
+    }
+
+
+    //@@author janelleenqi
+    public Module existModuleSchedule(String moduleCode) throws MissingModuleException {
         try {
-            module = schedule.getModule(moduleCode);
+            return schedule.getModule(moduleCode);
         } catch (InvalidObjectException e) {
             throw new MissingModuleException(moduleCode + " is not in Modules Planner.");
         }
-        completedModuleCredits -= module.getModuleCredits();
-        schedule.getModulesPlanned().deleteModule(module);
     }
 
+    public boolean completionStatusModuleSchedule(Module module) {
+        return module.getCompletionStatus();
+    }
+
+    //@@author
     public String getYear() {
         return year;
     }
@@ -231,6 +234,15 @@ public class Student {
         majorModuleCodes = getRequirements(major);
     }
 
+    /**
+     * Retrieves the module codes that are left to be completed in the major's curriculum.
+     *
+     * This method compares the list of major module codes with the list of completed module codes
+     * in the current schedule. It returns a list of module codes that are still left to be completed
+     * as per the major's curriculum.
+     *
+     * @return An ArrayList of Strings representing module codes that are left to be completed.
+     */
     public ArrayList<String> getModuleCodesLeft () {
         ArrayList<String> moduleCodesLeft = new ArrayList<String>();
         ArrayList<String> completedModuleCodes = schedule.getModulesPlanned().getModulesCompleted();

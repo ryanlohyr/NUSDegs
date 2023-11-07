@@ -43,7 +43,7 @@ public class ModuleServiceController {
         printModuleStringArray(scheduleToAdd);
         displayMessage("Here you go!");
         displayMessage("Taking the modules in this order will ensure a prerequisite worry free uni life!");
-        displayMessage("Do you want to add this to your draft schedule? " +
+        displayMessage("Do you want to add this to your schedule planner? " +
                 "(This will overwrite your current schedule!)");
         displayMessage("Please input 'Y' or 'N'");
 
@@ -55,9 +55,29 @@ public class ModuleServiceController {
         }
 
         if (userInput.equals("Y")) {
+            displayMessage("Do you want to keep your completion statuses?");
+            displayMessage("Please input 'Y' or 'N'");
+
+            String userInputForCompletion = in.nextLine();
+
+            while (!userInputForCompletion.equals("N") && !userInputForCompletion.equals(("Y"))) {
+                displayMessage("Invalid input, please choose Y/N");
+                userInputForCompletion = in.nextLine();
+            }
+
             displayMessage("Hold on, this may take a while......");
-            student.getSchedule().addRecommendedScheduleListToSchedule(scheduleToAdd);
+
+            Boolean keep;
+            if (userInputForCompletion.equals("Y")) {
+                keep = true;
+            } else {
+                keep = false;
+            }
+            student.getSchedule().addRecommendedScheduleListToSchedule(scheduleToAdd, keep);
+            displayMessage("Here is your schedule planner!");
             student.getSchedule().printMainModuleList();
+            displayMessage("Happy degree planning!");
+
 
         } else {
             displayHelp();

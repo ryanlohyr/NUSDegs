@@ -14,14 +14,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
-import static seedu.duke.controllers.ModuleMethodsController.determinePrereq;
 import static seedu.duke.controllers.ModuleMethodsController.showModulesLeft;
 import static seedu.duke.controllers.ModuleMethodsController.computePace;
-import static seedu.duke.controllers.ModuleMethodsController.getRequiredModulesForStudent;
-import static seedu.duke.controllers.ModuleMethodsController.canCompleteModule;
-import static seedu.duke.controllers.ModuleMethodsController.deleteModule;
-import static seedu.duke.controllers.ModuleMethodsController.addModule;
+import static seedu.duke.controllers.ModuleMethodsController.determinePrereq;
 import static seedu.duke.controllers.ModuleMethodsController.recommendScheduleToStudent;
+import static seedu.duke.controllers.ModuleMethodsController.addModule;
+import static seedu.duke.controllers.ModuleMethodsController.deleteModule;
+import static seedu.duke.controllers.ModuleMethodsController.completeModule;
+import static seedu.duke.controllers.ModuleMethodsController.getRequiredModulesForStudent;
+
 import static seedu.duke.utils.Parser.parseArguments;
 import static seedu.duke.utils.Parser.parseCommand;
 import static seedu.duke.controllers.ModuleServiceController.validateMajorInput;
@@ -137,7 +138,7 @@ public class ModulePlannerController {
             break;
         }
         case UserCommands.PACE_COMMAND: {
-            computePace(arguments, student.getCurrentModuleCredits());
+            computePace(arguments, student.getCurrentModuleCredits(), student.getYear());
             break;
         }
         case UserCommands.PREREQUISITE_COMMAND: {
@@ -169,9 +170,9 @@ public class ModulePlannerController {
         case UserCommands.COMPLETE_MODULE_COMMAND: {
             String module = arguments[0].toUpperCase();
             //to add to user completed module
-            if (canCompleteModule(arguments, student.getMajorModuleCodes(), addModulePreqs)) {
-                student.completeModuleSchedule(module);
-            }
+
+            completeModule(student, module);
+
             break;
         }
         case UserCommands.REQUIRED_MODULES_COMMAND: {

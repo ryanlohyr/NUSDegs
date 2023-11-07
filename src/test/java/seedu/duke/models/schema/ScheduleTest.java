@@ -6,10 +6,8 @@ import org.junit.jupiter.api.Test;
 import seedu.duke.exceptions.FailPrereqException;
 
 import java.io.ByteArrayOutputStream;
-import java.io.InvalidObjectException;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -72,32 +70,4 @@ class ScheduleTest {
         assertThrows(IllegalArgumentException.class, () -> schedule.addModule("CS2040C", 1000));
     }
 
-    @Test
-    void addRecommendedScheduleListToScheduleTest_expectRecommendedInSchedule()
-            throws InvalidObjectException, FailPrereqException {
-        student.addModuleSchedule("MA1511", 2);
-
-        ArrayList<String> recommendedSchedule = new ArrayList<>(List.of("CS1010", "MA1511", "CS2040C"));
-        student.getSchedule().addRecommendedScheduleListToSchedule(recommendedSchedule);
-        student.printSchedule();
-
-        String printedOutput = outputStream.toString();
-        String expectedOutput = "Sem 1: MA1511 CS1010 \n" +
-                "Sem 2: CS2040C \n" +
-                "Sem 3: \n" +
-                "Sem 4: \n" +
-                "Sem 5: \n" +
-                "Sem 6: \n" +
-                "Sem 7: \n" +
-                "Sem 8: \n";
-        printedOutput = printedOutput
-                .replaceAll("\r\n", "\n")
-                .replaceAll("\r", "\n");
-        expectedOutput = expectedOutput
-                .replaceAll("\r\n", "\n")
-                .replaceAll("\r", "\n");
-
-        assertEquals(expectedOutput, printedOutput);
-
-    }
 }

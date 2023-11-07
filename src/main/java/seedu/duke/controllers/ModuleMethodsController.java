@@ -2,9 +2,11 @@ package seedu.duke.controllers;
 
 import seedu.duke.exceptions.FailPrereqException;
 import seedu.duke.exceptions.MissingModuleException;
-import seedu.duke.models.logic.CompletePreqs;
+import seedu.duke.models.schema.Module;
 import seedu.duke.models.schema.Student;
 import seedu.duke.utils.Parser;
+import seedu.duke.utils.errors.UserError;
+import seedu.duke.utils.exceptions.InvalidPrereqException;
 import seedu.duke.views.CommandLineView;
 
 import java.io.InvalidObjectException;
@@ -14,11 +16,12 @@ import static seedu.duke.controllers.ModuleServiceController.chooseToAddToSchedu
 import static seedu.duke.models.logic.Api.doesModuleExist;
 import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
 import static seedu.duke.models.logic.MajorRequirements.printRequiredModules;
-import static seedu.duke.models.logic.ScheduleGenerator.generateRecommendedSchedule;
 import static seedu.duke.views.CommandLineView.displayMessage;
 import static seedu.duke.views.CommandLineView.displaySuccessfulAddMessage;
 import static seedu.duke.views.CommandLineView.showPrereqCEG;
 import static seedu.duke.views.CommandLineView.displaySuccessfulDeleteMessage;
+import static seedu.duke.views.CommandLineView.displaySuccessfulCompleteMessage;
+
 import static seedu.duke.views.ModuleInfoView.printModuleStringArray;
 
 /**
@@ -32,27 +35,32 @@ import static seedu.duke.views.ModuleInfoView.printModuleStringArray;
  * @author ryanlohyr
  */
 public class ModuleMethodsController {
+
+
     /**
      * Computes and displays the recommended pace for completing remaining module credits until graduation.
      *
      * @author ryanlohyr
      * @param arguments              An array of strings containing academic year and semester information.
      * @param completedModuleCredits The number of module credits already completed by the user.
-     *
      */
-    static void computePace(String[] arguments, int completedModuleCredits) {
+    static void computePace(String[] arguments, int completedModuleCredits, String currentAcademicYear) {
         int totalCreditsToGraduate = 160;
         int creditsLeft = totalCreditsToGraduate - completedModuleCredits;
         boolean argumentProvided = arguments.length != 0;
-        if (!argumentProvided) {
-            displayMessage("You currently have " + creditsLeft + " MCs till graduation");
-            return;
-        }
-        if (!Parser.isValidAcademicYear(arguments[0])) {
+
+        String[] parts = currentAcademicYear.split("/");;
+
+        //if the user provided a argument and it was invalid
+        if (argumentProvided && !Parser.isValidAcademicYear(arguments[0])) {
             return;
         }
 
-        String[] parts = arguments[0].split("/");
+        //if user provided argument, we will use this to calculate pace instead
+        if(argumentProvided) {
+            parts = arguments[0].split("/");
+        }
+
         String year = parts[0].toUpperCase();
         String semester = parts[1].toUpperCase();
 
@@ -69,6 +77,7 @@ public class ModuleMethodsController {
     }
 
     public static void showModulesLeft(ArrayList<String> moduleCodes) {
+        displayMessage("Modules Left: ");
         printModuleStringArray(moduleCodes);
     }
 
@@ -88,7 +97,8 @@ public class ModuleMethodsController {
 
     public static void recommendScheduleToStudent(Student student) {
         CommandLineView.displayMessage("Hold on a sec! Generating your recommended schedule <3....");
-        ArrayList<String> recommendedSchedule = generateRecommendedSchedule(student.getMajor());
+        //to refactor
+        ArrayList<String> recommendedSchedule = student.getSchedule().generateRecommendedSchedule(student.getMajor());
         chooseToAddToSchedule(student, recommendedSchedule);
     }
 
@@ -102,36 +112,62 @@ public class ModuleMethodsController {
         }
     }
 
+    //public static boolean canCompleteModule(String[] arguments, ArrayList<String> majorModuleCodes,
+    //ModuleList modulesPlanned, CompletePreqs addModulePreqs) {
+    public static void completeModule(Student student, String moduleCode) {
+        try {
+            Module module = student.existModuleSchedule(moduleCode);
+            if (module.getCompletionStatus()) {
+                UserError.displayModuleAlreadyCompleted(module.getModuleCode());
+            } else {
+                student.completeModuleSchedule(moduleCode);
+                displaySuccessfulCompleteMessage();
+            }
 
-    public static boolean canCompleteModule(String[] arguments, ArrayList<String> majorModuleCodes,
-            CompletePreqs addModulePreqs) {
+        } catch (MissingModuleException e) {
+            displayMessage(e.getMessage());
+            UserError.invalidAddFormat();
 
-        if (addModulePreqs.checkModInput(arguments, majorModuleCodes)) {
-            String moduleCompleted = arguments[0].toUpperCase();
-            addModulePreqs.getUnlockedMods(moduleCompleted);
-            addModulePreqs.printUnlockedMods(moduleCompleted);
-
-            return true;
+        } catch (InvalidObjectException e) {
+            assert false;
         }
-        return false;
     }
+
+
 
     public static void getRequiredModulesForStudent(String major) {
         printRequiredModules(major);
     }
 
+    /**
+     * Determines and displays the prerequisites of a module for a given major.
+     *
+     * This method determines the prerequisites of a module based on the provided module code and major.
+     * It checks if the module exists, retrieves its prerequisites, and displays them if they are available.
+     * If the module does not exist, or if there are any issues with retrieving prerequisites, appropriate
+     * messages are displayed.
+     * @author ryanlohyr
+     * @param moduleCode The module code for which prerequisites need to be determined.
+     * @param major      The major for which the prerequisites are determined.
+     */
     public static void determinePrereq(String moduleCode, String major) {
         boolean exist = doesModuleExist(moduleCode);
 
         if (!exist) {
             return;
         }
+        ArrayList<String> prereq;
+        try{
+            prereq = getModulePrereqBasedOnCourse(moduleCode, major);
+        } catch (InvalidPrereqException e) {
+            displayMessage(e.getMessage());
+            return;
+        }
 
-        ArrayList<String> prereq = getModulePrereqBasedOnCourse(moduleCode, major);
         if (prereq == null || prereq.isEmpty()) {
             displayMessage("Module " + moduleCode + " has no prerequisites.");
-        } else {
-            displayMessage(prereq);
+        }else{
+            printModuleStringArray(prereq);
         }
     }
 }

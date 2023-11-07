@@ -23,22 +23,30 @@ public class Module {
         if (moduleCode.isEmpty()) {
             throw new NullPointerException();
         }
-        try {
-            JSONObject response = getFullModuleInfo(moduleCode);
+        this.moduleCode = moduleCode;
+    }
 
-            assert response != null: "Response from NUSMods API is null";
-            assert !response.isEmpty(): "Response Object is empty";
-            this.moduleCode = moduleCode;
-            this.isCompleted = false;
-            this.moduleDescription = (String) response.get("description");
-            this.moduleName = (String) response.get("title");
-            try{
-                this.moduleCredits = (Integer) response.get("moduleCredit");
-            }catch (ClassCastException e){
-                this.moduleCredits = 4;
-            }
-        } catch (RuntimeException e) {
-            throw e;
+    /**
+     * Loads module information from the NUSMods API and populates the fields of this object.
+     *
+     * This method sends a request to the NUSMods API to retrieve module information and
+     * then populates the fields of the current object with the received data. The fields
+     * include module description, module name, module credits, and completion status.
+     *
+     *
+     */
+    public void loadNUSModsAPI(){
+        JSONObject response = getFullModuleInfo(moduleCode);
+        assert response != null: "Response from NUSMods API is null";
+        assert !response.isEmpty(): "Response Object is empty";
+
+        this.isCompleted = false;
+        this.moduleDescription = (String) response.get("description");
+        this.moduleName = (String) response.get("title");
+        try{
+            this.moduleCredits = (Integer) response.get("moduleCredit");
+        }catch (ClassCastException e){
+            this.moduleCredits = 4;
         }
     }
 
@@ -71,9 +79,15 @@ public class Module {
         return this.moduleCode;
     }
 
+    public boolean equals(Module module) {
+        return this.moduleCode.equals(module.moduleCode);
+    }
 
 
-
+    @Override
+    public String toString() {
+        return this.moduleCode;
+    }
 
 
 }
