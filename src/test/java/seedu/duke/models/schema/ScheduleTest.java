@@ -3,7 +3,7 @@ package seedu.duke.models.schema;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import seedu.duke.exceptions.FailPrereqException;
+import seedu.duke.utils.exceptions.FailPrereqException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;

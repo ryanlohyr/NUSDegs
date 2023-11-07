@@ -18,8 +18,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import seedu.duke.exceptions.InvalidModuleCodeException;
-import seedu.duke.exceptions.InvalidModuleException;
+import seedu.duke.utils.exceptions.InvalidModuleCodeException;
+import seedu.duke.utils.exceptions.InvalidModuleException;
 import seedu.duke.models.schema.Major;
 import seedu.duke.models.schema.ModuleList;
 
