@@ -19,7 +19,8 @@ public class SemesterPlannerView {
             print("Sem " + (i + 1) + ":   ");
             for (int j = 0; j < modulesPerSem[i]; j++) {
                 Module currentModule = modulesPlanned.getModuleByIndex(moduleCounter);
-                print(getCompletionStatusForPrinting(currentModule) + " " + currentModule + "   ");
+                String stringToPrint = getCompletionStatusForPrinting(currentModule) + " " + currentModule + "   ";
+                System.out.printf("%-15s", stringToPrint);
                 moduleCounter++;
             }
             println();

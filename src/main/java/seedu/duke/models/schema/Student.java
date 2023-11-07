@@ -134,7 +134,8 @@ public class Student {
         try {
             return schedule.getModule(moduleCode);
         } catch (InvalidObjectException e) {
-            throw new MissingModuleException(moduleCode + " is not in Modules Planner.");
+            throw new MissingModuleException(moduleCode + " is not in Modules Planner. " +
+                    "Please add the module to your schedule first!");
         }
     }
 
