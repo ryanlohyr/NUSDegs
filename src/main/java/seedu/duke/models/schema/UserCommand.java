@@ -20,10 +20,10 @@ import static seedu.duke.controllers.ModuleMethodsController.getRequiredModulesF
 
 public class UserCommand implements UserCommandWord {
 
-    private String userInput;
-    private String commandWord;
-    private String[] arguments;
-    private boolean isValid;
+    private final String userInput;
+    private final String commandWord;
+    private final String[] arguments;
+    private final boolean isValid;
 
     private CommandManager commandManager;
 
