@@ -316,7 +316,7 @@ public class Student {
     public void printCurrentSemesterModulesWeekly(Student student) {
         for (ModuleWeekly moduleweekly : student.currentSemesterModulesWeekly) {
             System.out.println(moduleweekly.getModuleCode());
-            ArrayList<Event> weeklyschedule = moduleweekly.getWeeklySchedule();
+            ArrayList<Event> weeklyschedule = moduleweekly.getWeeklyTimetable();
             if (weeklyschedule.isEmpty()) {
                 System.out.println("aint nothin here");
             }
