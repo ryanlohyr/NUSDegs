@@ -33,6 +33,7 @@ public class CommandManager {
                 new Command("add", "Adds module to the schedule planner."),
                 new Command("delete", "Deletes module from the schedule planner."),
                 new Command("shift", "Shifts module in the schedule planner."),
+                new Command("clear", "Clears all schedule planner and completion data."),
 
                 new Command("complete", "Marks a module as complete on schedule planner."),
                 new Command("left", "Displays a list of remaining modules."),

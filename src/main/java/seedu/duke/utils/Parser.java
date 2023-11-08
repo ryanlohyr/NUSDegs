@@ -133,6 +133,7 @@ public class Parser {
             break;
         }
         case UserCommandWord.VIEW_SCHEDULE_COMMAND:
+        case UserCommandWord.CLEAR_SCHEDULE_COMMAND:
         case UserCommandWord.RECOMMEND_COMMAND: {
             if (arguments.length > 0) {
                 return false;
