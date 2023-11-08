@@ -25,23 +25,30 @@ public class CommandManager {
                 new Command("required", "Displays the full requirements for your major."),
                 new Command("recommend", "Displays a recommended schedule based on a keyword."),
 
-                new Command("search", "search for modules to take based on keyword"),
-                new Command("info", "Displays information about a specific module."),
-                new Command("prereq", "Displays the prerequisites for a specific module."),
+                new Command("search", "KEYWORD",
+                        "Searches for modules to take based on keyword"),
+                new Command("info", "COMMAND MODULE_CODE",
+                        "Displays information about a specific module."),
+                new Command("prereq", "MODULE_CODE",
+                        "Displays the prerequisites for a specific module."),
 
                 new Command("schedule", "Shows schedule planner"),
-                new Command("add", "Adds module to the schedule planner."),
-                new Command("delete", "Deletes module from the schedule planner."),
-                new Command("shift", "Shifts module in the schedule planner."),
+                new Command("add", "MODULE_CODE SEMESTER",
+                        "Adds module to the schedule planner."),
+                new Command("delete", "MODULE_CODE",
+                        "Deletes module from the schedule planner."),
+                new Command("shift", "MODULE_CODE SEMESTER",
+                        "Shifts module in the schedule planner."),
                 new Command("clear", "Clears all schedule planner and completion data."),
 
-                new Command("complete", "Marks a module as complete on schedule planner."),
+                new Command("complete", "MODULE_CODE",
+                        "Marks a module as complete on schedule planner."),
                 new Command("left", "Displays a list of remaining modules."),
-                new Command("pace", "Computes and displays your graduation pace."),
+                new Command("pace", "[CURRENT_SEMESTER]", "Computes and displays your graduation pace."),
 
-                new Command("timetable", "Displays a grid containing this semester's classes"),
+                new Command("timetable", "Display a grid containing this semester's classes"),
 
-                new Command("Bye", "Exits the program.")));
+                new Command("Bye", "Exit the program.")));
     }
 
 

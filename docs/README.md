@@ -2,6 +2,7 @@
 background-image: linear-gradient(to right, #370505, #5b2829, #814c4c, #a97171, #d19999);">
     <img src="https://picsum.photos/320" alt="Header Image">
 </h1>
+# NUSDegs
 
 # NUS Degs
 
