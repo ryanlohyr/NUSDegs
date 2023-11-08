@@ -27,7 +27,7 @@ public class Student {
 
     private static boolean intitialise;
     private static int counter;
-    public ArrayList<ModuleWeekly> currentSemesterModulesWeekly;
+//    public ArrayList<ModuleWeekly> currentSemesterModulesWeekly;
     private String name;
     private String major;
     private Schedule schedule;
@@ -35,11 +35,7 @@ public class Student {
     private int completedModuleCredits;
     private ArrayList<String> majorModuleCodes;
     private ModuleList currentSemesterModules;
-
-
-
-
-
+    private Timetable timetable;
 
     /**
      * Constructs a student with a name, major, and module schedule.
@@ -53,6 +49,7 @@ public class Student {
         this.major = major;
         this.schedule = schedule;
         this.year = null;
+        this.timetable = Timetable.timetable;
         counter++;
     }
 
@@ -63,6 +60,7 @@ public class Student {
         this.name = null;
         this.major = null;
         this.schedule = new Schedule();
+        this.timetable = Timetable.timetable;
         this.year = null;
     }
 
@@ -220,8 +218,6 @@ public class Student {
     }
 
 
-    // ------------------ everything below this should be in seperate planner class ---------------------------
-    // will update in the next PR
 
     /**
      * Retrieves the module codes that are left to be completed in the major's curriculum.
@@ -256,6 +252,10 @@ public class Student {
         this.schedule.printMainModuleList();
     }
 
+    // ------------------ everything below this should be in seperate planner class ---------------------------
+    // will update in the next PR
+
+
     /**
      * Sets the current semester modules for the student based on their year and semester.
      *
@@ -263,9 +263,12 @@ public class Student {
      */
     public void setCurrentSemesterModules() {
         try {
+            //gets year
             int[] yearAndSem = Parser.parseStudentYear(year);
             int currSem = ((yearAndSem[0] - 1) * 2) + yearAndSem[1];
+            // int array that contains module per semester
             int[] modulesPerSem = schedule.getModulesPerSem();
+            // modules planned for all sems
             ModuleList modulesPlanned = schedule.getModulesPlanned();
             int numberOfModulesInCurrSem = modulesPerSem[currSem - 1];
             int numberOfModulesCleared = 0;
@@ -274,7 +277,10 @@ public class Student {
             }
             int startIndex = numberOfModulesCleared;
             int endIndex = startIndex + numberOfModulesInCurrSem;
+            // initialise modules planned for all semesters in an array list<Module>
             ArrayList<Module> modulesInSchedule = modulesPlanned.getMainModuleList();
+            // add the modules in current semester into class variable ModuleList,
+            // why not in just an array list<Module> though?
             currentSemesterModules = new ModuleList();
             for (int i = startIndex; i < endIndex; i++) {
                 currentSemesterModules.addModule(modulesInSchedule.get(i));
@@ -286,25 +292,41 @@ public class Student {
         }
     }
 
+
     /**
      * Sets the current semester modules with each module as a ModuleWeekly class.
      *
      * @author @rohitcube
      */
     public void setCurrentSemesterModulesWeekly() {
+        // checks if class variable into which I added the modules in current semester is empty
+        // if empty, means the user didn't plan or add any modules into the thing
         if (currentSemesterModules.getMainModuleList().isEmpty()) {
             System.out.println("There are no modules in your current semester. Please add in modules, or generate" +
                     "using the 'recommend' command.");
+            return;
         }
+        // Ok the current sem modules are back in an array list<Module>
+        // so the point of putting it in the module list was to check whether empty
         ArrayList<Module> currentSemModuleList = currentSemesterModules.getMainModuleList();
-        currentSemesterModulesWeekly = new ArrayList<>();
+        // new arrayList<moduleweekly> is instantiated
+        ArrayList<ModuleWeekly> currentSemesterModulesWeekly = timetable.getCurrentSemesterModulesWeekly();
+        // moduleweekly added with module code  into arrayList<moduleweekly>
         for (int i = 0; i < currentSemModuleList.size(); i++) {
             String currModuleCode = currentSemModuleList.get(i).getModuleCode();
+            if (isExistInCurrentSemesterModules(currModuleCode, currentSemesterModulesWeekly)) {
+                continue;
+            }
             ModuleWeekly currModule = new ModuleWeekly(currModuleCode);
-            currentSemesterModulesWeekly.add(currModule);
+        //    currentSemesterModulesWeekly.add(currModule);
+            timetable.addToCurrentSemesterModulesWeekly(currModule);
         }
+        // new: i want this to go into the timetable class
+        // assuming student class has a timetable as a variable
+        // and timetable is a singleton so there is only one instance of it
+        //
     }
-
+    /*
     public void printCurrentSemesterModulesWeekly(Student student) {
         for (ModuleWeekly moduleweekly : student.currentSemesterModulesWeekly) {
             System.out.println(moduleweekly.getModuleCode());
@@ -318,6 +340,7 @@ public class Student {
             }
         }
     }
+    */
 
     /**
      * Executes 'show' or 'modify' subcommands under the timetable command.
@@ -327,6 +350,8 @@ public class Student {
      */
     public void timetableShowOrModify(Student student, String userInput) {
         try {
+            // a way of doing this where I don't reset the thing everytime it goes
+            // into it
             while (!intitialise) {
                 student.setCurrentSemesterModules();
                 student.setCurrentSemesterModulesWeekly();
@@ -335,11 +360,11 @@ public class Student {
             String argument = userInput.substring(userInput.indexOf("timetable") + 9).trim().toUpperCase();
             switch (argument) {
             case "SHOW": {
-                WeeklyScheduleView.printWeeklySchedule(currentSemesterModulesWeekly);
+                WeeklyScheduleView.printWeeklySchedule(timetable.getCurrentSemesterModulesWeekly());
                 break;
             }
             case "MODIFY": {
-                student.modifyTimetable(student);
+                timetable.modifyTimetable(student);
                 break;
             }
             default: {
@@ -353,92 +378,7 @@ public class Student {
         }
     }
 
-    /**
-     * Modifies the timetable for the specified student based on user input.
-     * @author @rohitcube
-     * @param student The student object.
-     * @throws InvalidModifyArgumentException If an invalid argument is provided.
-     */
-    public void modifyTimetable(Student student) throws InvalidModifyArgumentException {
-        try {
-            System.out.println("List of modules in current semester: ");
-            for (int i = 0; i < currentSemesterModulesWeekly.size(); i++) {
-                System.out.println(currentSemesterModulesWeekly.get(i).getModuleCode());
-            }
-            Scanner in = new Scanner(System.in);
-            System.out.println("Which current module do you want to modify?");
-            String moduleCode = in.nextLine().trim();
-            if (!isExistInCurrentSemesterModules(moduleCode, student.currentSemesterModulesWeekly)) {
-                System.out.println("Sorry that module doesn't exist in current semesters");
-                return;
-            }
-            System.out.println("Ok that module exists. Enter what you would like to change in this way " +
-                    "(lecture, tutorial, lab):\n " +
-                    "[lecture /time 12 /duration 3 /day Tuesday], time range of values: 8-20");
-            String userInput = in.nextLine().trim();
-            // pass in the ModuleWeekly element from currentSemester
-            int indexOfModuleWeeklyToModify = getIndexOfModuleWeekly(moduleCode, student.currentSemesterModulesWeekly);
-            processModifyArguments(userInput, indexOfModuleWeeklyToModify, student);
-        } catch (InvalidModifyArgumentException e) {
-            throw new InvalidModifyArgumentException();
-        }
-    }
 
-    /**
-     * Processes the modify arguments provided by the user and updates the module schedule accordingly.
-     * @author @rohitcube
-     * @param userInput     The user input specifying the modification.
-     * @param indexOfModule The index of the ModuleWeekly object to be modified.
-     * @param student       The student object.
-     * @throws InvalidModifyArgumentException If an invalid argument is provided.
-     */
-    public void processModifyArguments(String userInput, int indexOfModule, Student student)
-            throws InvalidModifyArgumentException {
-        try {
-            int startIndexOfStart = userInput.indexOf("/time");
-            String command = userInput.substring(0, startIndexOfStart).trim().toUpperCase();
-            if (!command.equals("LECTURE") &&
-                    !command.equals("TUTORIAL") &&
-                    !command.equals("LAB")) {
-                System.out.println("Not a valid command. Please try again!");
-                return;
-            }
-            if (parserTimeForModify(userInput) < 8 || parserTimeForModify(userInput) > 20) {
-                System.out.println("Not a valid time. Please try again!");
-                return;
-            }
-            if (parserDurationForModify(userInput) < 1 ||
-                    parserDurationForModify(userInput) > 20 - parserTimeForModify(userInput)) {
-                System.out.println("Not a valid duration. Please try again!");
-                return;
-            }
-            switch (command) {
-            case "LECTURE": {
-                student.currentSemesterModulesWeekly.get(indexOfModule).addLecture(parserDayForModify(userInput),
-                        parserTimeForModify(userInput), parserDurationForModify(userInput));
-                WeeklyScheduleView.printWeeklySchedule(currentSemesterModulesWeekly);
-                break;
-            }
-            case "TUTORIAL": {
-                student.currentSemesterModulesWeekly.get(indexOfModule).addTutorial(parserDayForModify(userInput),
-                        parserTimeForModify(userInput), parserDurationForModify(userInput));
-                WeeklyScheduleView.printWeeklySchedule(currentSemesterModulesWeekly);
-                break;
-            }
-            case "LAB": {
-                student.currentSemesterModulesWeekly.get(indexOfModule).addLab(parserDayForModify(userInput),
-                        parserTimeForModify(userInput), parserDurationForModify(userInput));
-                WeeklyScheduleView.printWeeklySchedule(currentSemesterModulesWeekly);
-                break;
-            }
-            default: {
-                System.out.println("Invalid Command. Please try again!");
-            }
-            }
-        } catch (IndexOutOfBoundsException e) {
-            throw new InvalidModifyArgumentException();
-        }
-    }
 
     /**
      * Retrieves the ModuleWeekly object for a given module code.
@@ -491,10 +431,6 @@ public class Student {
             }
         }
         return false;
-    }
-
-    public ArrayList<ModuleWeekly> getCurrentSemesterModulesWeekly() {
-        return currentSemesterModulesWeekly;
     }
 
     public ModuleList getCurrentSemesterModules() {
