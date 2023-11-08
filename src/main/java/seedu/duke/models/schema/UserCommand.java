@@ -4,10 +4,20 @@ import seedu.duke.models.logic.Api;
 import seedu.duke.utils.Parser;
 import seedu.duke.utils.errors.UserError;
 
-import static seedu.duke.controllers.ModuleMethodsController.*;
 import static seedu.duke.utils.Parser.parseArguments;
 import static seedu.duke.utils.Parser.parseCommand;
 import static seedu.duke.views.CommandLineView.printListOfCommands;
+
+import static seedu.duke.controllers.ModuleMethodsController.computePace;
+import static seedu.duke.controllers.ModuleMethodsController.showModulesLeft;
+import static seedu.duke.controllers.ModuleMethodsController.determinePrereq;
+import static seedu.duke.controllers.ModuleMethodsController.recommendScheduleToStudent;
+import static seedu.duke.controllers.ModuleMethodsController.addModule;
+import static seedu.duke.controllers.ModuleMethodsController.deleteModule;
+import static seedu.duke.controllers.ModuleMethodsController.shiftModule;
+import static seedu.duke.controllers.ModuleMethodsController.clearSchedule;
+import static seedu.duke.controllers.ModuleMethodsController.completeModule;
+import static seedu.duke.controllers.ModuleMethodsController.getRequiredModulesForStudent;
 
 public class UserCommand implements UserCommandWord {
 
