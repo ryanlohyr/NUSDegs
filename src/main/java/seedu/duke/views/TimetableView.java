@@ -7,8 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static seedu.duke.views.UserGuideView.addGuide;
+import static seedu.duke.views.UserGuideView.timetableModifyGuide;
 
-public class WeeklyScheduleView {
+public class TimetableView {
     private static final int columnWidth = 11;
     //private static final int singleColumnWidth = 60;
 
@@ -40,18 +41,27 @@ public class WeeklyScheduleView {
         print(String.format("%-" + number + "s", ""));
     }
 
+
+    public static void printToJustify(String string, int number) {
+        print(String.format("%-" + number + "s", string));
+    }
+
     //ideally a function that can be called in Student
-    public static void printWeeklySchedule(ArrayList<ModuleWeekly> currentSemesterModules) {
+    public static void printTimetable(ArrayList<ModuleWeekly> currentSemesterModules) {
+        if (currentSemesterModules.isEmpty()) {
+            return;
+        }
+
         //List(by days) of TaskList (modules, event type, time)
         List<ArrayList<String>> weeklyScheduleByDay = createDailyEvents(currentSemesterModules);
 
         if (!eventsExist(weeklyScheduleByDay)) {
             //no event error statement
-            println("Weekly Schedule is unavailable because you have not added any lectures/tutorials/labs yet.");
-            addGuide("To use your Timetable, ");
+            timetableModifyGuide("Modules in your current sem have no lessons yet.");
             return;
         }
-        //printDayHeader();
+
+        printTimetableHeader();
         for (int day = 0; day < days.length; day++) { //8-9am index 0, 7-8pm index 11
             if (weeklyScheduleByDay.get(day).isEmpty()) {
                 continue;
@@ -76,7 +86,17 @@ public class WeeklyScheduleView {
         return weeklyScheduleByDay;
     }
 
+    public static void printTimetableHeader() {
+        printlnHorizontalLine();
 
+        printVerticalLine();
+        printToJustify("DAY", dayColumnWidth);
+
+        printVerticalLine();
+        printToJustify("TIMETABLE", eventColumnWidth);
+
+        printlnVerticalLine();
+    }
     public static void printCurrentDayEvents(ArrayList<String> taskList, int day) {
         boolean isFirstLine = true;
         while (!taskList.isEmpty()) {
@@ -134,7 +154,7 @@ public class WeeklyScheduleView {
     }
 
     //ideally a function that can be called in Student
-    public static void printOldWeeklySchedule(ArrayList<ModuleWeekly> currentSemesterModules) {
+    public static void printWeeklySchedule(ArrayList<ModuleWeekly> currentSemesterModules) {
         // 8am to 8pm, Monday to Sunday
         // Convert current semester modules (ArrayList<Module>, ModuleList)
         // to weeklySchedule, "2D array" of ArrayList of Event (List<List<ArrayList<Event>>>, ArrayList<String>[][])
