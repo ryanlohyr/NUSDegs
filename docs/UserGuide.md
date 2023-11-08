@@ -22,6 +22,7 @@ It's a comprehensive tool for efficient and successful degree completion.
 - Add module to schedule planner: `add`
 - Delete module from schedule planner: `delete`
 - Shift module in schedule planner: `shift`
+- Clear all modules from schedule planner: `clear`
 - Complete a module in your schedule planner: `complete`
 - View modules left for graduation: `left`
 - Check current pace to graduate: `pace`
@@ -122,14 +123,13 @@ Shows the user their current schedule planner
 
 Format: `schedule`
 
-The input does not take into account any arguments after the command word. E.g. `schedule` and `schedule 1`
+* The input does not take into account any arguments after the command word. E.g. `schedule` and `schedule 1`
 will output the same thing.
 
 ### View recommended schedule based on course: `recommend`
 Based on the course, we will provide an recommended schedules that is sorted based on prerequisites.
 
 Format: `recommend MAJOR_CODE`
-
 The input is not case-sensitive. E.g. CEG or ceg is shown (Currently only works for CEG)
 
 User input:
@@ -190,6 +190,22 @@ Example of usage:
 
 `shift CS1010 2`
 
+### Clear all modules from schedule planner: `clear`
+Deletes every module in the module schedule planner. User will be prompted to confirm this action as this command cannot
+be undone.
+
+Format: `clear`
+
+* The input does not take into account any arguments after the command word. E.g. `clear` and `clear 1`
+will output the same thing.
+
+Example of usage:
+
+`clear`
+
+* Expected outcome:
+![img.png](photos/clear_outcome.png)
+
 ### Complete a module: `complete`
 Completes a module (Completes a module in your schedule planner).
 
@@ -204,6 +220,8 @@ User input:
 
 Expected outcome:
 `Mod completed: MA1511`
+
+###
 
 ### Checking modules left: `left`
 Displays the modules left, which are the modules required for the user's major that have not been completed.

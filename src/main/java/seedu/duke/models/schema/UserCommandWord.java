@@ -10,6 +10,7 @@ public interface UserCommandWord {
     String ADD_MODULE_COMMAND = "add";
     String DELETE_MODULE_COMMAND = "delete";
     String SHIFT_MODULE_COMMAND = "shift";
+    String CLEAR_SCHEDULE_COMMAND = "clear";
     String VIEW_SCHEDULE_COMMAND = "schedule";
     String COMPLETE_MODULE_COMMAND = "complete";
     String REQUIRED_MODULES_COMMAND = "required";

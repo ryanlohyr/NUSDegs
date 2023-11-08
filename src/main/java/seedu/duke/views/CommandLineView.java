@@ -101,6 +101,13 @@ public class CommandLineView {
         displayMessage("Module Successfully Shifted");
     }
 
+    public static void displaySuccessfulClearMessage() {
+        displayMessage("Schedule successfully cleared");
+    }
+
+    public static void displayUnsuccessfulClearMessage() {
+        displayMessage("Clear schedule operation cancelled");
+    }
     public static void displaySuccessfulCompleteMessage() {
         displayMessage("Module Successfully Completed");
     }

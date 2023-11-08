@@ -24,6 +24,7 @@ import static seedu.duke.controllers.ModuleMethodsController.deleteModule;
 import static seedu.duke.controllers.ModuleMethodsController.shiftModule;
 import static seedu.duke.controllers.ModuleMethodsController.completeModule;
 import static seedu.duke.controllers.ModuleMethodsController.getRequiredModulesForStudent;
+import static seedu.duke.controllers.ModuleMethodsController.clearSchedule;
 
 import static seedu.duke.views.CommandLineView.displayWelcome;
 import static seedu.duke.views.CommandLineView.displayReady;
@@ -154,6 +155,10 @@ public class ModulePlannerController {
         }
         case UserCommandWord.VIEW_SCHEDULE_COMMAND: {
             student.printSchedule();
+            break;
+        }
+        case UserCommandWord.CLEAR_SCHEDULE_COMMAND: {
+            clearSchedule(student);
             break;
         }
         case UserCommandWord.COMPLETE_MODULE_COMMAND: {

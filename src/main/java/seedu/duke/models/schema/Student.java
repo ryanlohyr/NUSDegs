@@ -198,6 +198,12 @@ public class Student {
         this.schedule.shiftModule(moduleCode, targetSem);
     }
 
+    public void clearAllModulesFromSchedule() {
+        //Replaces current schedule with new schedule
+        this.schedule = new Schedule();
+        this.completedModuleCredits = 0;
+    }
+
     //@@author janelleenqi
     public Module getModuleFromSchedule(String moduleCode) throws MissingModuleException {
         try {
