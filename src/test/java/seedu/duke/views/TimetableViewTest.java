@@ -31,12 +31,27 @@ class TimetableViewTest {
     void printTimetableTest_cs1231Lessons_expectSortedTimetable() {
         ArrayList<ModuleWeekly> currentSemesterModules = new ArrayList<ModuleWeekly>();
 
-        ModuleWeekly testModule = new ModuleWeekly("CS1231");
-        testModule.addLecture("Monday", 13, 2);
-        testModule.addTutorial("Thursday", 11, 1);
-        testModule.addLab("Monday", 9, 2);
+        ModuleWeekly firstTestModule = new ModuleWeekly("CS1231");
+        firstTestModule.addLecture("Wednesday", 12, 2);
+        firstTestModule.addTutorial("Thursday", 14, 2);
 
-        currentSemesterModules.add(testModule);
+        ModuleWeekly secondTestModule = new ModuleWeekly("ES2631");
+        secondTestModule.addLecture("sunday", 11, 1);
+        secondTestModule.addTutorial("friday", 14, 2);
+
+        ModuleWeekly thirdTestModule = new ModuleWeekly("EE2026");
+        thirdTestModule.addLecture("thurSDay", 11, 2);
+        thirdTestModule.addTutorial("WEDNESday", 17, 1);
+        thirdTestModule.addLab("wednESDAY", 9, 3);
+
+        ModuleWeekly fourthTestModule = new ModuleWeekly("CS2113");
+        fourthTestModule.addLecture("FRIDAY", 16, 2);
+        fourthTestModule.addTutorial("THURSDAY", 17, 1);
+
+        currentSemesterModules.add(firstTestModule);
+        currentSemesterModules.add(secondTestModule);
+        currentSemesterModules.add(thirdTestModule);
+        currentSemesterModules.add(fourthTestModule);
         TimetableView.printTimetable(currentSemesterModules);
 
         String printedOutput = outputStream.toString();
@@ -47,10 +62,18 @@ class TimetableViewTest {
         String expectedOutput = "------------------------------------------------------------\n" +
                 "| DAY       | TIMETABLE                                    |\n" +
                 "------------------------------------------------------------\n" +
-                "| Monday    | CS1231 Lab (9am-11am)                        |\n" +
-                "|           | CS1231 Lecture (1pm-3pm)                     |\n" +
+                "| Wednesday | EE2026 Lab (9am-12pm)                        |\n" +
+                "|           | CS1231 Lecture (12pm-2pm)                    |\n" +
+                "|           | EE2026 Tutorial (5pm-6pm)                    |\n" +
                 "------------------------------------------------------------\n" +
-                "| Thursday  | CS1231 Tutorial (11am-12pm)                  |\n" +
+                "| Thursday  | EE2026 Lecture (11am-1pm)                    |\n" +
+                "|           | CS1231 Tutorial (2pm-4pm)                    |\n" +
+                "|           | CS2113 Tutorial (5pm-6pm)                    |\n" +
+                "------------------------------------------------------------\n" +
+                "| Friday    | ES2631 Tutorial (2pm-4pm)                    |\n" +
+                "|           | CS2113 Lecture (4pm-6pm)                     |\n" +
+                "------------------------------------------------------------\n" +
+                "| Sunday    | ES2631 Lecture (11am-12pm)                   |\n" +
                 "------------------------------------------------------------\n";
         expectedOutput = expectedOutput
                 .replaceAll("\r\n", "\n")
