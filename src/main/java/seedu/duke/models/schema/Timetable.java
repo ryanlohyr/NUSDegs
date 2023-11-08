@@ -51,6 +51,11 @@ public class Timetable {
     public void modifyTimetable(Student student) throws seedu.duke.exceptions.InvalidModifyArgumentException {
         try {
             System.out.println("List of modules in current semester: ");
+            if (currentSemesterModulesWeekly.isEmpty()) {
+                System.out.println("There are no modules in your current semester. " +
+                        "Please add in modules, or generate using the 'recommend' command.");
+                return;
+            }
             for (int i = 0; i < currentSemesterModulesWeekly.size(); i++) {
                 System.out.println(currentSemesterModulesWeekly.get(i).getModuleCode());
             }

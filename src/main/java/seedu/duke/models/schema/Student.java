@@ -252,10 +252,6 @@ public class Student {
         this.schedule.printMainModuleList();
     }
 
-    // ------------------ everything below this should be in seperate planner class ---------------------------
-    // will update in the next PR
-
-
     /**
      * Sets the current semester modules for the student based on their year and semester.
      *
@@ -350,13 +346,8 @@ public class Student {
      */
     public void timetableShowOrModify(Student student, String userInput) {
         try {
-            // a way of doing this where I don't reset the thing everytime it goes
-            // into it
-            while (!intitialise) {
-                student.setCurrentSemesterModules();
-                student.setCurrentSemesterModulesWeekly();
-                intitialise = true;
-            }
+            student.setCurrentSemesterModules();
+            student.setCurrentSemesterModulesWeekly();
             String argument = userInput.substring(userInput.indexOf("timetable") + 9).trim().toUpperCase();
             switch (argument) {
             case "SHOW": {
