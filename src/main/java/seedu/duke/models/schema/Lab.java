@@ -27,4 +27,8 @@ public class Lab extends Event{
         return "Lab";
     }
 
+    @Override
+    public String toString() {
+        return super.toString() + " " + getEventType() + " " + getTime(getStartTime(), getDuration());
+    }
 }

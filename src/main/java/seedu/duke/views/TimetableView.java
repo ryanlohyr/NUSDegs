@@ -86,11 +86,16 @@ public class TimetableView {
         }
 
         // create a List (by days) of EventList (modules, event type, time)
-        List<ArrayList<String>> weeklyTimetableByDay = createDailyEvents(currentSemesterModules);
+        List<ArrayList<Event>> weeklyTimetableByDay = createDailyEvents(currentSemesterModules);
 
         if (!eventsExist(weeklyTimetableByDay)) {
             printTimetableModifyGuide("Modules in your current sem have no lessons yet.");
             return;
+        }
+
+        // sort EventList by time
+        for (ArrayList<Event> currentDayEvents : weeklyTimetableByDay) {
+            sortByTime(currentDayEvents);
         }
 
         // print timetable
@@ -112,18 +117,39 @@ public class TimetableView {
      * @param currentSemesterModules List of ModuleWeekly objects.
      * @return A list of daily events.
      */
-    public static List<ArrayList<String>> createDailyEvents(ArrayList<ModuleWeekly> currentSemesterModules) {
+    public static List<ArrayList<Event>> createDailyEvents(ArrayList<ModuleWeekly> currentSemesterModules) {
         // List with 7 empty ArrayList
-        List<ArrayList<String>> weeklyTimetableByDay = initialiseOneDList();
+        List<ArrayList<Event>> weeklyTimetableByDay = initialiseOneDList();
 
         // Add events as string for all modules to weeklyTimetableByDay
         for (ModuleWeekly module : currentSemesterModules) {
             for (Event event : module.getWeeklyTimetable()) {
-                addToWeeklyTimetableByDay(weeklyTimetableByDay, event.getDay(), event.getStartTime(),
-                        event.getDuration(), module.getModuleCode(), event.getEventType());
+                addToWeeklyTimetableByDay(weeklyTimetableByDay, event);
+                        //event.getDay(), event.getStartTime(),
+                        //event.getDuration(), module.getModuleCode(), event.getEventType());
             }
         }
         return weeklyTimetableByDay;
+    }
+
+    public static void sortByTime(ArrayList<Event> currentDayEvents) {
+        // bubble sort O(n^2)
+        for (int index = 0; index < currentDayEvents.size(); index++) {
+            int bubbleIndex = index;
+            while (bubbleIndex > 0) {
+                Event unsortedEvent = currentDayEvents.get(bubbleIndex);
+                Event sortedEvent = currentDayEvents.get(bubbleIndex - 1);
+                if (unsortedEvent.isEarlierThan(sortedEvent)) {
+                    // swap
+                    currentDayEvents.set(bubbleIndex, sortedEvent);
+                    currentDayEvents.set(bubbleIndex - 1, unsortedEvent);
+                    bubbleIndex--;
+                } else {
+                    break;
+                }
+            }
+        }
+
     }
 
     /**
@@ -147,12 +173,12 @@ public class TimetableView {
      * @param eventList List of events for the current day.
      * @param day      The index of the day.
      */
-    public static void printCurrentDayEvents(ArrayList<String> eventList, int day) {
+    public static void printCurrentDayEvents(ArrayList<Event> eventList, int day) {
         // Need to print day for first line
         boolean isFirstLine = true;
 
         while (!eventList.isEmpty()) {
-            String currentEvent = eventList.get(0);
+            Event currentEvent = eventList.get(0);
             printCurrentDayOneEvent(currentEvent, day, isFirstLine);
             eventList.remove(0);
             isFirstLine = false;
@@ -162,13 +188,13 @@ public class TimetableView {
     /**
      * Prints one line of events for the current day.
      *
-     * @param currentEvent The events for the current day.
+     * //@param currentEvent The events for the current day.
      * @param day         The index of the day.
      * @param isFirstLine Whether it is the first line.
      */
-    public static void printCurrentDayOneEvent(String currentEvent, int day, boolean isFirstLine) {
-
-        while (!currentEvent.isEmpty()) {
+    public static void printCurrentDayOneEvent(Event event, int day, boolean isFirstLine) {
+        String currentEventDetails = event.toString();
+        while (!currentEventDetails.isEmpty()) {
 
             printVerticalLine();
 
@@ -185,29 +211,29 @@ public class TimetableView {
             printVerticalLine();
 
             // if currentEvent is too long
-            if (currentEvent.length() > eventColumnWidth) {
-                String[] words = currentEvent.split(" ");
+            if (currentEventDetails.length() > eventColumnWidth) {
+                String[] words = currentEventDetails.split(" ");
                 int eventColumnWidthLeft = eventColumnWidth;
                 int currentWordIndex = 0;
 
                 while (eventColumnWidthLeft > words[currentWordIndex].length()) {
                     print(words[currentWordIndex] + " ");
-                    eventColumnWidthLeft -= words[currentWordIndex].length() + 1;
+                    eventColumnWidthLeft -= (words[currentWordIndex] + " ").length();
                     currentWordIndex++;
                 }
                 printToJustify(eventColumnWidthLeft);
 
                 String wordNotPrintedYet = words[currentWordIndex];
-                int indexNotPrintedYet = currentEvent.indexOf(wordNotPrintedYet);
-                currentEvent = currentEvent.substring(indexNotPrintedYet);
+                int indexNotPrintedYet = currentEventDetails.indexOf(wordNotPrintedYet);
+                currentEventDetails = currentEventDetails.substring(indexNotPrintedYet);
                 printlnVerticalLine();
                 continue;
             }
 
             // currentEvent can be printed
-            print(currentEvent);
-            printToJustify(eventColumnWidth - currentEvent.length());
-            currentEvent = "";
+            print(currentEventDetails);
+            printToJustify(eventColumnWidth - currentEventDetails.length());
+            currentEventDetails = "";
             printlnVerticalLine();
         }
     }
@@ -392,11 +418,11 @@ public class TimetableView {
      *
      * @return A list of daily events.
      */
-    public static List<ArrayList<String>> initialiseOneDList() {
-        List<ArrayList<String>> parentList = new ArrayList<>();
+    public static List<ArrayList<Event>> initialiseOneDList() {
+        List<ArrayList<Event>> parentList = new ArrayList<>();
 
         for (int j = 0; j < 7; j++) { //7 days
-            ArrayList<String> childList = new ArrayList<String>();
+            ArrayList<Event> childList = new ArrayList<Event>();
             fillAndSet(j, childList, parentList);
             parentList.add(childList);
         }
@@ -436,17 +462,19 @@ public class TimetableView {
      * Adds an event to the daily schedule for a specific day, start time, and duration.
      *
      * @param list      List of daily events.
-     * @param day       Index of the day.
-     * @param startTime Start time of the event.
-     * @param duration  Duration of the event.
-     * @param moduleCode Code of the module.
-     * @param eventType  Type of the event.
+     //* @param day       Index of the day.
+     //* @param startTime Start time of the event.
+     //* @param duration  Duration of the event.
+     //* @param moduleCode Code of the module.
+     //* @param eventType  Type of the event.
      */
-    public static void addToWeeklyTimetableByDay(List<ArrayList<String>> list, int day, int startTime, int duration,
-                                                String moduleCode, String eventType) {
+    public static void addToWeeklyTimetableByDay(List<ArrayList<Event>> list, Event event) {
+                                                 //int day, int startTime, int duration,
+                                                //String moduleCode, String eventType) {
 
-        ArrayList<String> childList = list.get(day);
-        childList.add(moduleCode + " " + eventType + " " + getTime(startTime, duration));
+        ArrayList<Event> childList = list.get(event.getDay());
+        //childList.add(moduleCode + " " + eventType + " " + getTime(startTime, duration));
+        childList.add(event);
     }
 
     /**
@@ -455,8 +483,8 @@ public class TimetableView {
      * @param weeklyTimetableByDay List of daily events.
      * @return True if events exist for any day, false otherwise.
      */
-    public static boolean eventsExist(List<ArrayList<String>> weeklyTimetableByDay) {
-        for (ArrayList<String> currentDayEvents : weeklyTimetableByDay) {
+    public static boolean eventsExist(List<ArrayList<Event>> weeklyTimetableByDay) {
+        for (ArrayList<Event> currentDayEvents : weeklyTimetableByDay) {
             if (!currentDayEvents.isEmpty()) {
                 // true if at least 1 event exists in weeklyTimetable
                 return true;

@@ -28,7 +28,7 @@ class TimetableViewTest {
     }
 
     @Test
-    void printTimetableTest_cs1231Lessons_expectTimetable() {
+    void printTimetableTest_cs1231Lessons_expectSortedTimetable() {
         ArrayList<ModuleWeekly> currentSemesterModules = new ArrayList<ModuleWeekly>();
 
         ModuleWeekly testModule = new ModuleWeekly("CS1231");
@@ -47,8 +47,8 @@ class TimetableViewTest {
         String expectedOutput = "------------------------------------------------------------\n" +
                 "| DAY       | TIMETABLE                                    |\n" +
                 "------------------------------------------------------------\n" +
-                "| Monday    | CS1231 Lecture (1pm-3pm)                     |\n" +
-                "|           | CS1231 Lab (9am-11am)                        |\n" +
+                "| Monday    | CS1231 Lab (9am-11am)                        |\n" +
+                "|           | CS1231 Lecture (1pm-3pm)                     |\n" +
                 "------------------------------------------------------------\n" +
                 "| Thursday  | CS1231 Tutorial (11am-12pm)                  |\n" +
                 "------------------------------------------------------------\n";
@@ -60,7 +60,7 @@ class TimetableViewTest {
 
         //assertTrue(false);
     }
-    /*
+
     @Test
     void printTimetableTest_noModuleWeekly_expectNothing() {
         ArrayList<ModuleWeekly> currentSemesterModules = new ArrayList<ModuleWeekly>();
@@ -80,5 +80,5 @@ class TimetableViewTest {
 
         //assertTrue(false);
     }
-    */
+
 }
