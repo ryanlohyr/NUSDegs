@@ -44,6 +44,9 @@ public class RequiredFeatureTest {
 
         // Capture the printed output
         String printedOutput = outputStream.toString().trim();
+        printedOutput = printedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
 
         // Assert the printed output matches the expected value
         String expectedOutput = "#==========================================================#\n" +
@@ -103,6 +106,9 @@ public class RequiredFeatureTest {
                 "+----------------------------------------------------------+\n" +
                 "│   Unrestricted Electives                          40     │\n" +
                 "+----------------------------------------------------------+";
+        expectedOutput = expectedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
 
         assertEquals(expectedOutput, printedOutput);
     }
@@ -119,6 +125,9 @@ public class RequiredFeatureTest {
 
         // Capture the printed output
         String printedOutput = outputStream.toString().trim();
+        printedOutput = printedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
 
         // Assert the printed output matches the expected value
         String expectedOutput = "#==========================================================#\n" +
@@ -176,6 +185,9 @@ public class RequiredFeatureTest {
                 "+----------------------------------------------------------+\n" +
                 "│   Unrestricted Electives                          40     │\n" +
                 "+----------------------------------------------------------+";
+        expectedOutput = expectedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
 
         assertEquals(expectedOutput, printedOutput);
     }

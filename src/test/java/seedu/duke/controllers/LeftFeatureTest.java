@@ -43,6 +43,9 @@ public class LeftFeatureTest {
 
         // Capture the printed output
         String printedOutput = outputStream.toString().trim();
+        printedOutput = printedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
 
         // Assert the printed output matches the expected value
         String expectedOutput = "Modules Left: \n" +
@@ -53,6 +56,9 @@ public class LeftFeatureTest {
                 "21. CG2111A    22. CS1231     23. CG2023     24. CG2027     25. CG2028     \n" +
                 "26. CG2271     27. ST2334     28. CS2040C    29. CS2113     30. EE2026     \n" +
                 "31. EE4204";
+        expectedOutput = expectedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
 
         assertEquals(expectedOutput, printedOutput);
     }
@@ -81,6 +87,9 @@ public class LeftFeatureTest {
 
         // Capture the printed output
         String printedOutput = outputStream.toString().trim();
+        printedOutput = printedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
 
         // Assert the printed output matches the expected value
         String expectedOutput = "Modules Left: \n" +
@@ -90,6 +99,9 @@ public class LeftFeatureTest {
                 "16. CG4002     17. MA1508E    18. EG2401A    19. CP3880     20. CG2111A    \n" +
                 "21. CS1231     22. CG2023     23. CG2027     24. CG2028     25. CG2271     \n" +
                 "26. ST2334     27. CS2040C    28. CS2113     29. EE2026     30. EE4204";
+        expectedOutput = expectedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
 
         assertEquals(expectedOutput, printedOutput);
     }
