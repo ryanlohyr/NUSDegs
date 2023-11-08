@@ -152,6 +152,7 @@ public class ModulePlannerController {
             break;
         }
         case UserCommandWord.VIEW_SCHEDULE_COMMAND: {
+//            getStudentSchedule();
             student.printSchedule();
             break;
         }
