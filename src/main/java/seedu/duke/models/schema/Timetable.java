@@ -1,6 +1,5 @@
 package seedu.duke.models.schema;
 
-import seedu.duke.utils.Parser;
 import seedu.duke.views.WeeklyScheduleView;
 
 import java.util.ArrayList;
@@ -11,9 +10,10 @@ import static seedu.duke.utils.Parser.parserTimeForModify;
 import static seedu.duke.utils.Parser.parserDurationForModify;
 public class Timetable {
 
+    public static Timetable timetable = new Timetable();
+
     private ArrayList <ModuleWeekly> currentSemesterModulesWeekly;
 
-    public static Timetable timetable = new Timetable();
 
     private Timetable() {
         currentSemesterModulesWeekly = new ArrayList<>();
@@ -110,27 +110,27 @@ public class Timetable {
                 return;
             }
             switch (command) {
-                case "LECTURE": {
-                    timetable.currentSemesterModulesWeekly.get(indexOfModule).addLecture(parserDayForModify(userInput),
-                            parserTimeForModify(userInput), parserDurationForModify(userInput));
-                    WeeklyScheduleView.printWeeklySchedule(currentSemesterModulesWeekly);
-                    break;
-                }
-                case "TUTORIAL": {
-                    timetable.currentSemesterModulesWeekly.get(indexOfModule).addTutorial(parserDayForModify(userInput),
-                            parserTimeForModify(userInput), parserDurationForModify(userInput));
-                    WeeklyScheduleView.printWeeklySchedule(currentSemesterModulesWeekly);
-                    break;
-                }
-                case "LAB": {
-                    timetable.currentSemesterModulesWeekly.get(indexOfModule).addLab(parserDayForModify(userInput),
-                            parserTimeForModify(userInput), parserDurationForModify(userInput));
-                    WeeklyScheduleView.printWeeklySchedule(currentSemesterModulesWeekly);
-                    break;
-                }
-                default: {
-                    System.out.println("Invalid Command. Please try again!");
-                }
+            case "LECTURE": {
+                timetable.currentSemesterModulesWeekly.get(indexOfModule).addLecture(parserDayForModify(userInput),
+                        parserTimeForModify(userInput), parserDurationForModify(userInput));
+                WeeklyScheduleView.printWeeklySchedule(currentSemesterModulesWeekly);
+                break;
+            }
+            case "TUTORIAL": {
+                timetable.currentSemesterModulesWeekly.get(indexOfModule).addTutorial(parserDayForModify(userInput),
+                        parserTimeForModify(userInput), parserDurationForModify(userInput));
+                WeeklyScheduleView.printWeeklySchedule(currentSemesterModulesWeekly);
+                break;
+            }
+            case "LAB": {
+                timetable.currentSemesterModulesWeekly.get(indexOfModule).addLab(parserDayForModify(userInput),
+                        parserTimeForModify(userInput), parserDurationForModify(userInput));
+                WeeklyScheduleView.printWeeklySchedule(currentSemesterModulesWeekly);
+                break;
+            }
+            default: {
+                System.out.println("Invalid Command. Please try again!");
+            }
             }
         } catch (IndexOutOfBoundsException e) {
             throw new seedu.duke.exceptions.InvalidModifyArgumentException();

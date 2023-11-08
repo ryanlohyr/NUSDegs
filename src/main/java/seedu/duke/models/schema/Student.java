@@ -11,13 +11,9 @@ import seedu.duke.views.WeeklyScheduleView;
 
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
 import static seedu.duke.models.logic.DataRepository.getRequirements;
-import static seedu.duke.utils.Parser.parserDayForModify;
-import static seedu.duke.utils.Parser.parserTimeForModify;
-import static seedu.duke.utils.Parser.parserDurationForModify;
 import static seedu.duke.views.CommandLineView.displaySuccessfulCompleteMessage;
 
 /**
@@ -27,7 +23,6 @@ public class Student {
 
     private static boolean intitialise;
     private static int counter;
-//    public ArrayList<ModuleWeekly> currentSemesterModulesWeekly;
     private String name;
     private String major;
     private Schedule schedule;
@@ -323,29 +318,10 @@ public class Student {
                 continue;
             }
             ModuleWeekly currModule = new ModuleWeekly(currModuleCode);
-        //    currentSemesterModulesWeekly.add(currModule);
             timetable.addToCurrentSemesterModulesWeekly(currModule);
         }
-        // new: i want this to go into the timetable class
-        // assuming student class has a timetable as a variable
-        // and timetable is a singleton so there is only one instance of it
-        //
     }
-    /*
-    public void printCurrentSemesterModulesWeekly(Student student) {
-        for (ModuleWeekly moduleweekly : student.currentSemesterModulesWeekly) {
-            System.out.println(moduleweekly.getModuleCode());
-            ArrayList<Event> weeklyschedule = moduleweekly.getWeeklySchedule();
-            if (weeklyschedule.isEmpty()) {
-                System.out.println("aint nothin here");
-            }
-            for (int i = 0; i < weeklyschedule.size(); i++) {
-                System.out.println(weeklyschedule.get(i).getEventType());
-                System.out.println(weeklyschedule.get(i).getStartTime());
-            }
-        }
-    }
-    */
+
 
     /**
      * Executes 'show' or 'modify' subcommands under the timetable command.
