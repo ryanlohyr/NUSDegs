@@ -586,15 +586,39 @@ public class Api {
         if (keyword.isEmpty()) {
             return new JSONArray();
         }
+        String[] wordsInKeyword = keyword.split(" ");
+        for (int i = 0; i < wordsInKeyword.length; i++) {
+            wordsInKeyword[i] = capitalizeFirstLetter(wordsInKeyword[i]);
+            System.out.println(wordsInKeyword[i]);
+        }
+        String keywordToSearch = String.join(" ", wordsInKeyword);
+        System.out.println(keywordToSearch);
         for (Object moduleObject : moduleList) {
             JSONObject module = (JSONObject) moduleObject; // Cast to JSONObject
             String title = (String) module.get("title");
-            if (title.contains(keyword)) {
+            if (title.contains(keywordToSearch)) {
                 modulesContainingKeyword.add(module);
                 //not sure how to resolve this yellow line
             }
         }
         return modulesContainingKeyword;
+    }
+
+    /**
+     * Capitalizes the first letter of a given string.
+     *
+     * @author rohitcube
+     * @param input The input string.
+     * @return A new string with the first letter capitalized, or the original string if it is null or empty.
+     */
+    public static String capitalizeFirstLetter(String input) {
+        if (input == null || input.isEmpty()) {
+            return input;
+        }
+        StringBuilder result = new StringBuilder(input.length());
+        result.append(Character.toUpperCase(input.charAt(0)));
+        result.append(input.substring(1));
+        return result.toString();
     }
 
     /**

@@ -26,7 +26,6 @@ public class Event {
         return eventByHour;
     }
 
-
     public int getStartTime() {
         return startTime;
     }

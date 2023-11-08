@@ -178,8 +178,8 @@ public class ModulePlannerController {
             printListOfCommands(commandManager);
             break;
         }
-        case UserCommandWord.PLANNER_COMMAND: {
-            student.plannerCommand(student, userInput);
+        case UserCommandWord.TIMETABLE_COMMAND: {
+            student.timetableShowOrModify(student, userInput);
             break;
         }
         default: {

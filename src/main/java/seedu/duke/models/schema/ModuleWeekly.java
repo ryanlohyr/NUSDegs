@@ -20,9 +20,6 @@ public class ModuleWeekly extends Module {
     private String day;
     private ArrayList<Event> lessons = new ArrayList<Event>();
 
-
-
-
     public ModuleWeekly(String moduleCode, int lectureTime, int tutorialTime,
                         int labTime) throws NullPointerException, RuntimeException {
         super(moduleCode);

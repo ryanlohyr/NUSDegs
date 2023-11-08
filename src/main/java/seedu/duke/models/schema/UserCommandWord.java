@@ -16,6 +16,6 @@ public interface UserCommandWord {
     String INFO_COMMAND = "info";
     String SEARCH_MODULE_COMMAND = "search";
     String HELP_COMMAND = "help";
-    String PLANNER_COMMAND = "planner";
+    String TIMETABLE_COMMAND = "timetable";
 }
 
