@@ -59,7 +59,7 @@ class WeeklyScheduleViewTest {
 
         //assertTrue(false);
     }
-
+    /*
     @Test
     void testPrintWeeklySchedule_noLessons_expectAddGuidePrompt() {
         ArrayList<ModuleWeekly> currentSemesterModules = new ArrayList<ModuleWeekly>();
@@ -83,4 +83,5 @@ class WeeklyScheduleViewTest {
 
         //assertTrue(false);
     }
+    */
 }

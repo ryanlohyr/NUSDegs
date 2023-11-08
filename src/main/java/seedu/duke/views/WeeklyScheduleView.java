@@ -6,7 +6,7 @@ import seedu.duke.models.schema.ModuleWeekly;
 import java.util.ArrayList;
 import java.util.List;
 
-import static seedu.duke.views.UserGuideView.addGuide;
+//import static seedu.duke.views.UserGuideView.addGuide;
 
 public class WeeklyScheduleView {
     private static final int columnWidth = 11;
@@ -47,8 +47,8 @@ public class WeeklyScheduleView {
 
         if (!eventsExist(weeklyScheduleByDay)) {
             //no event error statement
-            println("Weekly Schedule is unavailable because you have not added any lectures/tutorials/labs yet.");
-            addGuide("To use your Timetable, ");
+            println("Weekly Schedule is unavailable because you have not added any lectures/tutorials/labs yet.\n" +
+                    "To add classes your Timetable, please enter 'timetable modify'\n");
             return;
         }
         //printDayHeader();
