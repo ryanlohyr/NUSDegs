@@ -172,7 +172,7 @@ public class TimetableView {
      * Prints events for the current day.
      *
      * @param eventList List of events for the current day.
-     * @param day      The index of the day.
+     * @param day       The index of the day.
      */
     public static void printCurrentDayEvents(ArrayList<Event> eventList, int day) {
         // Need to print day for first line
