@@ -64,6 +64,14 @@ public class ScheduleFeatureTest {
                 "Sem 7:   \n" +
                 "Sem 8:";
 
+        printedOutput = printedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
+
+        expectedOutput = expectedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
+
         assertEquals(expectedOutput, printedOutput);
     }
 
