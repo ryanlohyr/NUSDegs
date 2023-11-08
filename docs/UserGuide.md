@@ -49,8 +49,9 @@ User input:
 `required`
 
 - Expected outcome:
-  ![ss_required_ceg_1.png](screenshots%2Fss_required_ceg_1.png)
-  ![ss_required_ceg_2.png](screenshots%2Fss_required_ceg_2.png)
+
+<img src="screenshots/ss_required_ceg_1.png" alt="Image" width="300">
+<img src="screenshots/ss_required_ceg_2.png" alt="Image" width="300">
 
 
 Example of usage 1: (user's major is CS)
@@ -59,9 +60,11 @@ User input:
 `required`
 
 - Expected outcome:
-![ss_required_cs_1.png](screenshots%2Fss_required_cs_1.png)
-![ss_required_cs_2.png](screenshots%2Fss_required_cs_2.png)
-- 
+
+<img src="screenshots/ss_required_cs_1.png" alt="Image" width="300">
+<img src="screenshots/ss_required_cs_2.png" alt="Image" width="300">
+
+
 ### View module prerequisites:`prereq`
 Based on the module selected, we will show what prerequisites the course has.
 
@@ -81,7 +84,7 @@ User input
 
 Assuming the user is from Computer Engineering
 
-![ss_left_ceg.png](screenshots%2Fss_prereq.jpeg)
+<img src="screenshots/ss_prereq.jpeg" alt="Image" width="300">
 
 
 ### Searching for a module by title: `search`
