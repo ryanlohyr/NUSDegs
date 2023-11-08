@@ -52,6 +52,11 @@ public class UserError {
         System.out.println("Please enter a valid command after the info command. (E.g description, workload, all)");
     }
 
+    public static void emptyModuleForInfoCommand(String infoCommand) {
+        System.out.println("Empty module detected. Please enter a valid module after the info " + infoCommand +
+                " command.");
+    }
+
     public static void emptyKeywordforSearchCommand() {
         System.out.println("Empty input detected. Please enter a valid keyword after the search command.");
     }
@@ -60,9 +65,9 @@ public class UserError {
         System.out.println("Oops! Your search results came up empty. Please try searching with different keywords.");
     }
 
-    public static void emptyInputforPlannerCommand() {
-        System.out.println("Empty input detected. Please enter a valid input after the planner command." +
-                " (E.g show, (moduleCode)");
+    public static void emptyInputforTimetableCommand() {
+        System.out.println("Empty input detected. Please enter a valid input after the timetable command. " +
+                "(E.g. show, modify)");
     }
     public static void emptyMajor() {
         System.out.println("Major has not been provided yet.");

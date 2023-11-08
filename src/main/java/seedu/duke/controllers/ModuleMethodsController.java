@@ -78,17 +78,12 @@ public class ModuleMethodsController {
                 + "Recommended Pace: " + creditsPerSem + "MCs per sem until graduation");
     }
 
-    public static void showModulesLeft(ArrayList<String> moduleCodes) {
+    public static void showModulesLeft(ArrayList<String> moduleCodesLeft) {
         //add parser.IsInputVal
         //boolean validInput = Parser.isValidInputForCommand(commandWord, arguments);
         displayMessage("Modules Left: ");
-        printModuleStringArray(moduleCodes);
+        printModuleStringArray(moduleCodesLeft);
     }
-
-    //    public static void getStudentSchedule(student){
-    //
-    //    }
-
 
     public static void addModule(String module, int targetSem, Student student) {
         try {

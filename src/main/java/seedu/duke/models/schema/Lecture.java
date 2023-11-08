@@ -26,4 +26,9 @@ public class Lecture extends Event{
     public String getEventType() {
         return "Lecture";
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + " " + getEventType() + " " + getTime(getStartTime(), getDuration());
+    }
 }

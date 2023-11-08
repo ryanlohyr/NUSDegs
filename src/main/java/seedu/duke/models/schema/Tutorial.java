@@ -22,15 +22,14 @@ public class Tutorial extends Event {
         return tutorialByHour;
     }
 
-    /*
-    @Override
-    public String toString() {
-        return "tutorial";
-    }
-     */
 
     @Override
     public String getEventType() {
         return "Tutorial";
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + " " + getEventType() + " " + getTime(getStartTime(), getDuration());
     }
 }

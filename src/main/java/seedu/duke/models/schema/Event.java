@@ -1,8 +1,11 @@
 package seedu.duke.models.schema;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Event {
+    private static final List<String> days = List.of("monday", "tuesday", "wednesday", "thursday", "friday",
+            "saturday", "sunday");
     private String day;
     private int startTime;
     private int duration;
@@ -35,24 +38,12 @@ public class Event {
     }
 
     public int getDay() {
-        switch (day) {
-        case "Monday":
-            return 0;
-        case "Tuesday":
-            return 1;
-        case "Wednesday":
-            return 2;
-        case "Thursday":
-            return 3;
-        case "Friday":
-            return 4;
-        case "Saturday":
-            return 5;
-        case "Sunday":
-            return 6;
-        default:
+        String lowercaseDay = day.toLowerCase();
+        if (!days.contains(lowercaseDay)) {
             return -1;
         }
+
+        return days.indexOf(lowercaseDay);
     }
 
     public String getEventType() {
@@ -64,4 +55,87 @@ public class Event {
     }
 
 
+    /**
+     * Calculates the time range for a given time period and duration.
+     *
+     * @param timePeriod The starting time period.
+     * @param duration   The duration of the event.
+     * @return A string representing the time range.
+     */
+    public static String getTime(int timePeriod, int duration) {
+        String startTime = getTime(timePeriod);
+        String endTime = getTime(timePeriod + duration);
+
+        // time is outside 8am-8pm
+        if (startTime.isEmpty() || endTime.isEmpty()) {
+            return "";
+        }
+
+        return "(" + startTime + "-" + endTime + ")";
+    }
+
+    /**
+     * Gets the time string for the given time period.
+     *
+     * @param timePeriod Index of the time period.
+     * @return A string representing the time.
+     */
+    public static String getTime(int timePeriod) {
+        if (8 <= timePeriod && timePeriod <= 11) {
+            return (timePeriod) + "am";
+        } else if (timePeriod == 12) {
+            return (timePeriod) + "pm";
+        } else if (13 <= timePeriod && timePeriod <= 19) {
+            return (timePeriod - 12) + "pm";
+        } else {
+            // time is outside 8am-8pm
+            return "";
+        }
+    }
+
+    public boolean isEarlierThan(Event event) {
+        // compare startTime
+        if (this.startTime < event.getStartTime()) {
+            return true;
+        }
+        if (this.startTime > event.getStartTime()) {
+            return false;
+        }
+
+        // same startTime, compare duration
+        if (this.duration < event.getDuration()) {
+            return true;
+        }
+        if (this.duration > event.getDuration()) {
+            return false;
+        }
+
+        int currentCharIndex = 0;
+        while (currentCharIndex < this.moduleCode.length() && currentCharIndex < event.getModuleCode().length()) {
+            // same startTime & duration, compare moduleCode characters
+            if (this.moduleCode.charAt(currentCharIndex) < event.getModuleCode().charAt(currentCharIndex)) {
+                return true;
+            }
+            if (this.moduleCode.charAt(currentCharIndex) > event.getModuleCode().charAt(currentCharIndex)) {
+                return false;
+            }
+            currentCharIndex++;
+        }
+
+        // same startTime & duration, compare moduleCode length (shorter is earlier)
+        if (this.moduleCode.length() < event.getModuleCode().length()) {
+            return true;
+        }
+        if (this.moduleCode.length() > event.getModuleCode().length()) {
+            return true;
+        }
+
+        // difference in Lecture, Tutorial, Lab
+        return false; // no swap in bubble sort
+    }
+
+    @Override
+    public String toString() {
+        return moduleCode;
+    }
 }
