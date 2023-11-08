@@ -64,7 +64,7 @@ public class Timetable {
             }
             Scanner in = new Scanner(System.in);
             System.out.println("Which current module do you want to modify? (ENTER MODULE CODE)");
-            String moduleCode = in.nextLine().trim();
+            String moduleCode = in.nextLine().trim().toUpperCase();
             if (!isExistInCurrentSemesterModules(moduleCode, timetable.currentSemesterModulesWeekly)) {
                 System.out.println("Sorry that module doesn't exist in current semesters");
                 return;

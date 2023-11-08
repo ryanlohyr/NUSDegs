@@ -1,5 +1,12 @@
-# Developer Guide
+<h1 style="text-align: center; 
+background-image: linear-gradient(to right, #370505, #5b2829, #814c4c, #a97171, #d19999);">
+    <img src="https://picsum.photos/320" alt="Header Image">
+</h1>
 
+<h1>
+<span style="background-image: linear-gradient(to right, #9b2614, #b70036, #c3006b, #ac00b2, #002cff);
+-webkit-background-clip: text; color: transparent;">Developer Guide</span>
+</h1>
 ## Acknowledgements
 
 {list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
