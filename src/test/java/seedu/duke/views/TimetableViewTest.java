@@ -37,10 +37,9 @@ class TimetableViewTest {
         testModule.addLab("Monday", 9, 2);
 
         currentSemesterModules.add(testModule);
-
         TimetableView.printTimetable(currentSemesterModules);
-        String printedOutput = outputStream.toString();
 
+        String printedOutput = outputStream.toString();
         printedOutput = printedOutput
                 .replaceAll("\r\n", "\n")
                 .replaceAll("\r", "\n");
@@ -53,7 +52,6 @@ class TimetableViewTest {
                 "------------------------------------------------------------\n" +
                 "| Thursday  | CS1231 Tutorial (11am-12pm)                  |\n" +
                 "------------------------------------------------------------\n";
-
         expectedOutput = expectedOutput
                 .replaceAll("\r\n", "\n")
                 .replaceAll("\r", "\n");
@@ -66,17 +64,14 @@ class TimetableViewTest {
     @Test
     void printTimetableTest_noModuleWeekly_expectNothing() {
         ArrayList<ModuleWeekly> currentSemesterModules = new ArrayList<ModuleWeekly>();
-
         TimetableView.printTimetable(currentSemesterModules);
-        String printedOutput = outputStream.toString();
 
+        String printedOutput = outputStream.toString();
         printedOutput = printedOutput
                 .replaceAll("\r\n", "\n")
                 .replaceAll("\r", "\n");
 
-        String expectedOutput =
-                "";
-
+        String expectedOutput = "";
         expectedOutput = expectedOutput
                 .replaceAll("\r\n", "\n")
                 .replaceAll("\r", "\n");

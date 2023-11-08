@@ -106,8 +106,9 @@ public class ModulePlannerController {
         while (!currentUserCommand.isBye()) {
             currentUserCommand = new UserCommand(in.nextLine());
             if (currentUserCommand.isValid() && !currentUserCommand.isBye()) {
-                processCommand(currentUserCommand.getCommandWord(), currentUserCommand.getArguments(),
-                        currentUserCommand.getUserInput());
+                currentUserCommand.processCommand(student);
+                //processCommand(currentUserCommand.getCommandWord(), currentUserCommand.getArguments(),
+                //        currentUserCommand.getUserInput());
             }
         }
         in.close();

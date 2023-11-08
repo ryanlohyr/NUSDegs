@@ -253,7 +253,7 @@ public class Schedule {
             }
         }
 
-        modulesPlanned.deleteModulebyCode(module);
+        modulesPlanned.deleteModuleByCode(module);
 
         modulesPerSem[targetSem - 1] -= 1;
 
