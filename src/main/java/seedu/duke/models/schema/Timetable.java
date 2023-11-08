@@ -1,6 +1,6 @@
 package seedu.duke.models.schema;
 
-import seedu.duke.views.WeeklyScheduleView;
+import seedu.duke.views.TimetableView;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -34,7 +34,7 @@ public class Timetable {
     public void printCurrentSemesterModulesWeekly(Student student) {
         for (ModuleWeekly moduleweekly : currentSemesterModulesWeekly) {
             System.out.println(moduleweekly.getModuleCode());
-            ArrayList<Event> weeklyschedule = moduleweekly.getWeeklySchedule();
+            ArrayList<Event> weeklyschedule = moduleweekly.getWeeklyTimetable();
             if (weeklyschedule.isEmpty()) {
                 System.out.println("aint nothin here");
             }
@@ -113,19 +113,19 @@ public class Timetable {
             case "LECTURE": {
                 timetable.currentSemesterModulesWeekly.get(indexOfModule).addLecture(parserDayForModify(userInput),
                         parserTimeForModify(userInput), parserDurationForModify(userInput));
-                WeeklyScheduleView.printWeeklySchedule(currentSemesterModulesWeekly);
+                TimetableView.printTimetable(currentSemesterModulesWeekly);
                 break;
             }
             case "TUTORIAL": {
                 timetable.currentSemesterModulesWeekly.get(indexOfModule).addTutorial(parserDayForModify(userInput),
                         parserTimeForModify(userInput), parserDurationForModify(userInput));
-                WeeklyScheduleView.printWeeklySchedule(currentSemesterModulesWeekly);
+                TimetableView.printTimetable(currentSemesterModulesWeekly);
                 break;
             }
             case "LAB": {
                 timetable.currentSemesterModulesWeekly.get(indexOfModule).addLab(parserDayForModify(userInput),
                         parserTimeForModify(userInput), parserDurationForModify(userInput));
-                WeeklyScheduleView.printWeeklySchedule(currentSemesterModulesWeekly);
+                TimetableView.printTimetable(currentSemesterModulesWeekly);
                 break;
             }
             default: {

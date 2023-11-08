@@ -16,7 +16,7 @@ import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
 import static seedu.duke.models.logic.DataRepository.getRequirements;
 import static seedu.duke.views.CommandLineView.displaySuccessfulCompleteMessage;
 import static seedu.duke.views.UserGuideView.addOrRecommendGuide;
-import static seedu.duke.views.UserGuideView.timetableModifySuccessful;
+//import static seedu.duke.views.UserGuideView.timetableModifySuccessful;
 
 /**
  * The Student class represents a student with a name, major, and module schedule.
@@ -346,7 +346,7 @@ public class Student {
             String argument = userInput.substring(userInput.indexOf("timetable") + 9).trim().toUpperCase();
             switch (argument) {
             case "SHOW": {
-                WeeklyScheduleView.printWeeklySchedule(timetable.getCurrentSemesterModulesWeekly());
+                TimetableView.printTimetable(timetable.getCurrentSemesterModulesWeekly());
                 break;
             }
             case "MODIFY": {
