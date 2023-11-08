@@ -13,6 +13,7 @@ import java.io.InvalidObjectException;
 import java.util.ArrayList;
 
 import static seedu.duke.controllers.ModuleServiceController.chooseToAddToSchedule;
+import static seedu.duke.controllers.ModuleServiceController.isConfirmedToClearSchedule;
 import static seedu.duke.models.logic.Api.doesModuleExist;
 import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
 import static seedu.duke.views.CommandLineView.displayMessage;
@@ -20,6 +21,8 @@ import static seedu.duke.views.CommandLineView.displaySuccessfulAddMessage;
 import static seedu.duke.views.CommandLineView.showPrereq;
 import static seedu.duke.views.CommandLineView.displaySuccessfulDeleteMessage;
 import static seedu.duke.views.CommandLineView.displaySuccessfulShiftMessage;
+import static seedu.duke.views.CommandLineView.displaySuccessfulClearMessage;
+import static seedu.duke.views.CommandLineView.displayUnsuccessfulClearMessage;
 import static seedu.duke.views.MajorRequirementsView.printRequiredModules;
 import static seedu.duke.views.ModuleInfoView.printModuleStringArray;
 
@@ -43,7 +46,7 @@ public class ModuleMethodsController {
      * @param arguments              An array of strings containing academic year and semester information.
      * @param completedModuleCredits The number of module credits already completed by the user.
      */
-    static void computePace(String[] arguments, int completedModuleCredits, String currentAcademicYear) {
+    public static void computePace(String[] arguments, int completedModuleCredits, String currentAcademicYear) {
         int totalCreditsToGraduate = 160;
         int creditsLeft = totalCreditsToGraduate - completedModuleCredits;
         boolean argumentProvided = arguments.length != 0;
@@ -76,9 +79,15 @@ public class ModuleMethodsController {
     }
 
     public static void showModulesLeft(ArrayList<String> moduleCodes) {
+        //add parser.IsInputVal
+        //boolean validInput = Parser.isValidInputForCommand(commandWord, arguments);
         displayMessage("Modules Left: ");
         printModuleStringArray(moduleCodes);
     }
+
+    //    public static void getStudentSchedule(student){
+    //
+    //    }
 
 
     public static void addModule(String module, int targetSem, Student student) {
@@ -123,6 +132,15 @@ public class ModuleMethodsController {
             showPrereq(module, student.getMajor());
             displayMessage(f.getMessage());
         }
+    }
+
+    public static void clearSchedule(Student student) {
+        if (isConfirmedToClearSchedule()) {
+            student.clearAllModulesFromSchedule();
+            displaySuccessfulClearMessage();
+            return;
+        }
+        displayUnsuccessfulClearMessage();
     }
 
     //public static boolean canCompleteModule(String[] arguments, ArrayList<String> majorModuleCodes,

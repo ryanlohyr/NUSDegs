@@ -194,8 +194,10 @@ public class Schedule {
         try {
             if (satisfiesAllPrereq(moduleCode, partialModulesPlanned)) {
                 //module initialization will be here
-
-                Module newModule = new Module(moduleCode);
+                Module newModule = completedModules.get(moduleCode);
+                if (newModule == null) {
+                    newModule = new Module(moduleCode);
+                }
                 modulesPlanned.addModule(indexToAdd, newModule);
                 modulesPerSem[targetSem - 1] += 1;
 
@@ -251,7 +253,7 @@ public class Schedule {
             }
         }
 
-        modulesPlanned.deleteModulebyCode(module);
+        modulesPlanned.deleteModuleByCode(module);
 
         modulesPerSem[targetSem - 1] -= 1;
 

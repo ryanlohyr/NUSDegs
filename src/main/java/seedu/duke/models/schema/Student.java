@@ -7,7 +7,7 @@ import seedu.duke.utils.exceptions.MissingModuleException;
 
 import seedu.duke.utils.Parser;
 import seedu.duke.utils.exceptions.InvalidPrereqException;
-import seedu.duke.views.WeeklyScheduleView;
+import seedu.duke.views.TimetableView;
 
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
 import static seedu.duke.models.logic.DataRepository.getRequirements;
 import static seedu.duke.views.CommandLineView.displaySuccessfulCompleteMessage;
+import static seedu.duke.views.UserGuideView.addOrRecommendGuide;
+import static seedu.duke.views.UserGuideView.timetableModifySuccessful;
 
 /**
  * The Student class represents a student with a name, major, and module schedule.
@@ -189,6 +191,12 @@ public class Student {
         this.schedule.shiftModule(moduleCode, targetSem);
     }
 
+    public void clearAllModulesFromSchedule() {
+        //Replaces current schedule with new schedule
+        this.schedule = new Schedule();
+        this.completedModuleCredits = 0;
+    }
+
     //@@author janelleenqi
     public Module getModuleFromSchedule(String moduleCode) throws MissingModuleException {
         try {
@@ -254,10 +262,8 @@ public class Student {
      */
     public void setCurrentSemesterModules() {
         try {
-            //gets year
-            int[] yearAndSem = Parser.parseStudentYear(year);
-            int currSem = ((yearAndSem[0] - 1) * 2) + yearAndSem[1];
-            // int array that contains module per semester
+            int currSem = getCurrentSem();
+
             int[] modulesPerSem = schedule.getModulesPerSem();
             // modules planned for all sems
             ModuleList modulesPlanned = schedule.getModulesPlanned();
@@ -283,6 +289,10 @@ public class Student {
         }
     }
 
+    public int getCurrentSem() {
+        int[] yearAndSem = Parser.parseStudentYear(year);
+        return ((yearAndSem[0] - 1) * 2) + yearAndSem[1];
+    }
 
     /**
      * Sets the current semester modules with each module as a ModuleWeekly class.
@@ -293,8 +303,8 @@ public class Student {
         // checks if class variable into which I added the modules in current semester is empty
         // if empty, means the user didn't plan or add any modules into the thing
         if (currentSemesterModules.getMainModuleList().isEmpty()) {
-            System.out.println("There are no modules in your current semester. Please add in modules, or generate" +
-                    "using the 'recommend' command.");
+            int currentSem = getCurrentSem();
+            addOrRecommendGuide("Your current sem has no modules yet.", currentSem);
             return;
         }
         // Ok the current sem modules are back in an array list<Module>

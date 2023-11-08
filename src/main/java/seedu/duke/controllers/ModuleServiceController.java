@@ -88,6 +88,7 @@ public class ModuleServiceController {
         displayMessage("Happy degree planning!");
 
     }
+
     /**
      * Retrieves and prints the required modules for a specified major.
      * <p>
@@ -102,4 +103,20 @@ public class ModuleServiceController {
         printRequiredModules(major);
     }
 
+    public static boolean isConfirmedToClearSchedule() {
+
+        Scanner in = new Scanner(System.in);
+        displayMessage("Are you sure you want to clear your schedule? " +
+                "This action cannot be undone!");
+        displayMessage("Please input 'Y' or 'N'");
+
+        String userInput = in.nextLine();
+
+        while (!userInput.equals("N") && !userInput.equals(("Y"))) {
+            displayMessage("Invalid input, please choose Y/N");
+            userInput = in.nextLine();
+        }
+
+        return userInput.equals("Y");
+    }
 }

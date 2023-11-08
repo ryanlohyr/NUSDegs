@@ -22,6 +22,7 @@ It's a comprehensive tool for efficient and successful degree completion.
 - Add module to schedule planner: `add`
 - Delete module from schedule planner: `delete`
 - Shift module in schedule planner: `shift`
+- Clear all modules from schedule planner: `clear`
 - Complete a module in your schedule planner: `complete`
 - View modules left for graduation: `left`
 - Check current pace to graduate: `pace`
@@ -53,8 +54,8 @@ User input:
 `required`
 
 - Expected outcome:
-![ss_required_cs_1.png](photos%2Fss_required_cs_1.png)
-![ss_required_cs_2.png](photos%2Fss_required_cs_2.png)
+![ss_required_cs_1.png](screenshots%2Fss_required_cs_1.png)
+![ss_required_cs_2.png](screenshots%2Fss_required_cs_2.png)
 - 
 ### View module prerequisites:`prereq`
 Based on the module selected, we will show what prerequisites the course has.
@@ -63,7 +64,7 @@ Based on the module selected, we will show what prerequisites the course has.
 - Since NUS has the concept of preclusions, when prerequisites are shown, it is shown based on the degree of the current 
 user.
 
-- If the module is not a requisite of the students major, we will only show one preclusion as a prerequisite 
+- If the module is not a requisite of the students major, we will only show one preclusion as a prerequisite
 
 Format: `prepreq MODULE_CODE`
 
@@ -122,23 +123,29 @@ Shows the user their current schedule planner
 
 Format: `schedule`
 
-The input does not take into account any arguments after the command word. E.g. `schedule` and `schedule 1`
-will output the same thing.
+The input does not take accept any arguments after the command word.
+
+User Input: `schedule`
+
+Expected outcome(if user has not inputted any modules):
+
+![schedule.jpg](photos%2Fschedule.jpeg)
 
 ### View recommended schedule based on course: `recommend`
 Based on the course, we will provide an recommended schedules that is sorted based on prerequisites.
 
 Format: `recommend MAJOR_CODE`
-
 The input is not case-sensitive. E.g. CEG or ceg is shown (Currently only works for CEG)
 
 User input:
 `recommend`
 
 Expected outcome:
+
 ![recommendedSchedule.jpg](photos%2FrecommendSchedule.jpeg)
 
 If the user enters `Y`, the recommended schedule will be added to their schedule
+
 ![recommendedSchedule.jpg](screenshots%2Fadd_recommend.jpeg)
 
 
@@ -190,6 +197,19 @@ Example of usage:
 
 `shift CS1010 2`
 
+### Clear all modules from schedule planner: `clear`
+Deletes every module in the module schedule planner. User will be prompted to confirm this action as this command cannot
+be undone.
+
+Format: `clear`
+
+Example of usage:
+
+`clear`
+
+* Expected outcome:
+![img.png](photos/clear_outcome.png)
+
 ### Complete a module: `complete`
 Completes a module (Completes a module in your schedule planner).
 
@@ -204,6 +224,8 @@ User input:
 
 Expected outcome:
 `Mod completed: MA1511`
+
+###
 
 ### Checking modules left: `left`
 Displays the modules left, which are the modules required for the user's major that have not been completed.
@@ -234,14 +256,13 @@ The user can see how many MCs are left and how much time is left to complete the
 Format: `pace`
 
 if no argument is given, we will take the year that you have initially inputted.
-User input
 
 if an argument is given, we will take the academic year given and calculate the pace based on that.
 
 User input:
 `pace y1/s1`
 
-Expected outcome: assuming 0MCs were done in semester one
+Expected outcome: assuming 0 modular credits were done in semester one
 ![pace.jpg](photos%2Fpace.jpeg)
 
 ## FAQ
