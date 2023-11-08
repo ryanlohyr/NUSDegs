@@ -1,8 +1,11 @@
 package seedu.duke.models.schema;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Event {
+    private static final List<String> days = List.of("monday", "tuesday", "wednesday", "thursday", "friday",
+            "saturday", "sunday");
     private String day;
     private int startTime;
     private int duration;
@@ -35,24 +38,12 @@ public class Event {
     }
 
     public int getDay() {
-        switch (day) {
-        case "Monday":
-            return 0;
-        case "Tuesday":
-            return 1;
-        case "Wednesday":
-            return 2;
-        case "Thursday":
-            return 3;
-        case "Friday":
-            return 4;
-        case "Saturday":
-            return 5;
-        case "Sunday":
-            return 6;
-        default:
+        String lowercaseDay = day.toLowerCase();
+        if (!days.contains(lowercaseDay)) {
             return -1;
         }
+
+        return days.indexOf(lowercaseDay);
     }
 
     public String getEventType() {
@@ -62,6 +53,4 @@ public class Event {
     public String getModuleCode() {
         return moduleCode;
     }
-
-
 }

@@ -157,7 +157,7 @@ public class UserCommand implements UserCommandWord {
             break;
         }
         case UserCommandWord.TIMETABLE_COMMAND: {
-            student.timetableShowOrModify(student, userInput);
+            student.timetableShowOrModify(arguments[0]);
             break;
         }
         default: {

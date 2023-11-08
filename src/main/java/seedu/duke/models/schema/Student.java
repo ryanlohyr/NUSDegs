@@ -336,13 +336,12 @@ public class Student {
     /**
      * Executes 'show' or 'modify' subcommands under the timetable command.
      * @author @rohitcube
-     * @param student   The student object.
      * @param userInput The user input specifying whether to show or modify the timetable.
      */
-    public void timetableShowOrModify(Student student, String userInput) {
+    public void timetableShowOrModify(String userInput) {
         try {
-            student.setCurrentSemesterModules();
-            student.setCurrentSemesterModulesWeekly();
+            this.setCurrentSemesterModules();
+            this.setCurrentSemesterModulesWeekly();
             String argument = userInput.substring(userInput.indexOf("timetable") + 9).trim().toUpperCase();
             switch (argument) {
             case "SHOW": {
@@ -350,7 +349,7 @@ public class Student {
                 break;
             }
             case "MODIFY": {
-                timetable.modifyTimetable(student);
+                timetable.modifyTimetable(this);
                 break;
             }
             default: {

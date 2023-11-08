@@ -60,9 +60,9 @@ public class UserError {
         System.out.println("Oops! Your search results came up empty. Please try searching with different keywords.");
     }
 
-    public static void emptyInputforPlannerCommand() {
-        System.out.println("Empty input detected. Please enter a valid input after the planner command." +
-                " (E.g show, (moduleCode)");
+    public static void emptyInputforTimetableCommand() {
+        System.out.println("Empty input detected. Please enter a valid input after the timetable command. " +
+                "(E.g. show, modify)");
     }
     public static void emptyMajor() {
         System.out.println("Major has not been provided yet.");

@@ -30,7 +30,7 @@ public class Parser {
      * @return An array of arguments from the input string.
      */
     public static String[] parseArguments(String userInput){
-        if(userInput.equals(" ")){
+        if(userInput.trim().isEmpty()){
             return  null;
         }
         String[] keywords = userInput.split(" ");
@@ -205,7 +205,7 @@ public class Parser {
         }
         case UserCommandWord.TIMETABLE_COMMAND: {
             if (arguments.length < 1) {
-                UserError.emptyInputforPlannerCommand();
+                UserError.emptyInputforTimetableCommand();
                 return false;
             }
             break;
