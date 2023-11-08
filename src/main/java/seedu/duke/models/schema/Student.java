@@ -336,9 +336,9 @@ public class Student {
     public void timetableShowOrModify(Student student, String userInput) {
         try {
             //while (!intitialise) {
-                student.setCurrentSemesterModules();
-                student.setCurrentSemesterModulesWeekly();
-                //intitialise = true;
+            student.setCurrentSemesterModules();
+            student.setCurrentSemesterModulesWeekly();
+            //intitialise = true;
             //}
             String argument = userInput.substring(userInput.indexOf("timetable") + 9).trim().toUpperCase();
             switch (argument) {
