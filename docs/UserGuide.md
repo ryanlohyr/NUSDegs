@@ -90,12 +90,16 @@ Example of usage:
 
 `search n/Darwinian`
 
-- Expected outcome:
+- Expected outcome:\
+  _________________________________________\
   These are the modules that contain your keyword in the title:
-
+  
+  Title: Junior Seminar: The Darwinian Revolution
+  Module Code: UTC1102B\
+  _________________________________________\
+- 
 ### Get information about a module: `info`
-Get information about a module using the info command, followed by one of the commands 'description', 'workload'
-and 'all'.
+Get information about a module using the info command, followed by the command 'description'.
 
 Format: `info n/command n/moduleCode`
 
@@ -110,13 +114,6 @@ Example of usage:
 - Expected outcome: This course introduces the necessary skills for systematic and rigorous development of software 
 systems. It covers requirements, design, implementation, quality assurance, and project management aspects of small-to-medium size multi-person software projects. The course uses the Object Oriented Programming paradigm. Students of this course will receive hands-on practice of tools commonly used in the industry, such as test automation tools, build automation tools, and code revisioning tools will be covered.
 
-`info workload CS2113`
-
-- Expected outcome: "[2,1,0,3,4]"
-
-`info all`
-
-- Expected outcome: Displays module title and module code of all available modules
 
 ### View schedule planner: `schedule`
 Shows the user their current schedule planner
@@ -265,6 +262,46 @@ User input:
 Expected outcome: assuming 0 modular credits were done in semester one
 ![pace.jpg](photos%2Fpace.jpeg)
 
+### View Weekly Timetable: `timetable show`
+
+Timetable view displays lectures, tutorials and classes for each module in the student's current semester. 
+
+Format: `timetable show`
+
+if no argument lectures, tutorials and classes are input, program will display this: 
+![Screenshot 2023-11-09 at 12.10.17 AM.png](..%2F..%2FDownloads%2FScreenshot%202023-11-09%20at%2012.10.17%20AM.png)
+
+User input:
+`timetable show`
+
+Expected outcome: when GESS1000 has a lecture at 11 on Tuesday and CS2101 has a tutorial at 10 on Monday.
+![Screenshot 2023-11-09 at 12.06.12 AM.png](..%2F..%2FDownloads%2FScreenshot%202023-11-09%20at%2012.06.12%20AM.png)
+
+
+### Modify Weekly Timetable: `timetable modify`
+
+Add lectures, tutorials and classes for each module in the student's current semester.
+
+Format: `timetable modify`
+
+![Screenshot 2023-11-09 at 12.01.18 AM.png](..%2F..%2FDownloads%2FScreenshot%202023-11-09%20at%2012.01.18%20AM.png)
+
+if no modules are scheduled for current semester, program will display this:
+![Screenshot 2023-11-09 at 12.10.17 AM.png](..%2F..%2FDownloads%2FScreenshot%202023-11-09%20at%2012.10.17%20AM.png)
+
+User input:
+`timetable modify`
+
+Expected outcome: when GESS1000 has a lecture at 12 for 3 hours
+on Tuesday and CS2101 has a tutorial at 10 for 1 on Monday.
+![Screenshot 2023-11-09 at 12.05.56 AM.png](..%2F..%2FDownloads%2FScreenshot%202023-11-09%20at%2012.05.56%20AM.png)
+
+
+
+
+
+
+
 ## FAQ
 
 **Q**: How do I transfer my data to another computer? 
@@ -274,18 +311,20 @@ Expected outcome: assuming 0 modular credits were done in semester one
 ## Command Summary
 Note: if a argument is wrapped with `[]` it means that it is optional. 
 
-| **Command**                                | **Format**                            |
-|--------------------------------------------|---------------------------------------|
-| View Help                                  | `help`                                |
-| View modules left for graduation           | `left`                                | 
-| Check prerequisite for a module            | `prereq <MODULE_CODE>`                | 
-| Search for modules based on keywords       | `placeholder`                         | 
-| View info about a module                   | `placeholder`                         | 
-| View modules required for major            | `required`                            | 
-| View schedule planner                      | `schedule`                            | 
-| Recommend a schedule based on major        | `recommend`                           | 
-| Add module to schedule planner             | `add <MODULE_CODE> <SEMESTER_NUMBER>` | 
-| Delete module from schedule planner        | `delete <MODULE_CODE>`                |
-| Complete a module in your schedule planner | `complete <MODULE_CODE>`              |
-| Check current pace to graduate             | `pace [<MODULE_CODE>]`                | 
+| **Command**                                       | **Format**                            |
+|---------------------------------------------------|---------------------------------------|
+| View Help                                         | `help`                                |
+| View modules left for graduation                  | `left`                                | 
+| Check prerequisite for a module                   | `prereq <MODULE_CODE>`                | 
+| Search for modules based on keywords              | `search <keywords>`                   | 
+| View info about a module                          | `info description <MODULE_CODE>`      | 
+| View modules required for major                   | `required`                            | 
+| View schedule planner                             | `schedule`                            | 
+| Recommend a schedule based on major               | `recommend`                           | 
+| Add module to schedule planner                    | `add <MODULE_CODE> <SEMESTER_NUMBER>` | 
+| Delete module from schedule planner               | `delete <MODULE_CODE>`                |
+| Complete a module in your schedule planner        | `complete <MODULE_CODE>`              |
+| Check current pace to graduate                    | `pace [<MODULE_CODE>]`                | 
+| Show weekly timetable                             | `timetable show`                      | 
+| Modify weekly timetable                           | `timetable modify`                    |
 
