@@ -7,7 +7,7 @@ import java.util.HashMap;
 import static seedu.duke.views.ModuleInfoView.printModuleArray;
 
 /**
- * A class representing a list of modules and providing operations to manage them.
+ * The ModuleList class represents a list of modules and provides various methods for managing modules.
  */
 public class ModuleList {
     private ArrayList<Module> mainModuleList;
@@ -20,26 +20,26 @@ public class ModuleList {
     }
 
     /**
-     * Constructs a ModuleList from a space-separated string of modules.
+     * Constructs a ModuleList from a space-separated string of moduleCodes.
      *
-     * @param modules A space-separated string of module codes.
+     * @param moduleCodes A space-separated string of module codes.
      */
 
-    public ModuleList(String modules) {
+    public ModuleList(String moduleCodes) {
         this();
-        if (modules == null || modules.isEmpty()) {
+        if (moduleCodes == null || moduleCodes.isEmpty()) {
             return;
         }
 
-        String[] moduleArray = modules.split(" ");
+        String[] moduleArray = moduleCodes.split(" ");
 
-        for (String module : moduleArray) {
+        for (String moduleCode : moduleArray) {
             try {
-                mainModuleList.add(new Module(module));
+                mainModuleList.add(new Module(moduleCode));
 
             } catch (NullPointerException e) {
-                System.out.println("null pointer");
                 //fail
+                System.out.println("null pointer");
             }
         }
     }
@@ -47,7 +47,6 @@ public class ModuleList {
     /**
      * Retrieves the list of modules.
      *
-     * @author janelleenqi
      * @return The ArrayList containing the modules.
      */
     public ArrayList<Module> getMainModuleList() {
@@ -55,6 +54,11 @@ public class ModuleList {
         return mainModuleList;
     }
 
+    /**
+     * Retrieves the list of module codes from the modules in the mainModuleList.
+     *
+     * @return The ArrayList containing module codes.
+     */
     public ArrayList<String> getModuleCodes() {
         ArrayList<String> moduleCodes = new ArrayList<>();
         for (Module module: mainModuleList){
@@ -63,6 +67,11 @@ public class ModuleList {
         return moduleCodes;
     }
 
+    /**
+     * Retrieves the list of module codes for completed modules from the main module list.
+     *
+     * @return The ArrayList containing module codes of completed modules.
+     */
     public ArrayList<String> getModulesCompleted(){
         ArrayList<String> completedModuleCodes = new ArrayList<>();
         for (Module module: mainModuleList){
@@ -83,8 +92,15 @@ public class ModuleList {
         return newModuleList;
     }
 
+    /**
+     * Creates and returns a new HashMap containing completed modules from the main module list, indexed by module code.
+     *
+     * @return A HashMap containing completed modules indexed by module code.
+     */
     public HashMap<String, Module> newHashMapOfCompleted(){
         HashMap<String, Module> completedModules = new HashMap<String, Module>();
+
+        // add modules to HashMap<String, Module> for easy retrieval
         for (Module module: mainModuleList){
             if (module.getCompletionStatus()) {
                 completedModules.put(module.getModuleCode(), module);
@@ -93,10 +109,21 @@ public class ModuleList {
         return completedModules;
     }
 
+    /**
+     * Adds a module to the main module list.
+     *
+     * @param module The module to be added.
+     */
     public void addModule (Module module) {
         mainModuleList.add(module);
     }
 
+    /**
+     * Adds a module to the main module list at the specified index.
+     *
+     * @param index  The index at which the module should be added.
+     * @param module The module to be added.
+     */
     public void addModule (int index, Module module) {
         mainModuleList.add(index, module);
     }
@@ -105,17 +132,30 @@ public class ModuleList {
         mainModuleList.set(index, module);
     }
 
-
+    /**
+     * Deletes a module from the main module list.
+     *
+     * @param module The module to be deleted.
+     */
     public void deleteModule (Module module) {
         mainModuleList.remove(module);
     }
 
-    public void deleteModulebyCode (String moduleCode) {
-        for (Module module: mainModuleList){
-            if (moduleCode.equals(module.getModuleCode())) {
-                deleteModule(module);
-                return;
-            }
+    /**
+     * Deletes a module from the main module list by its module code.
+     *
+     * This method attempts to retrieve the module with the specified module code and then deletes
+     * it from the main module list if found. If the module does not exist or if an exception is
+     * thrown during the process, the method returns without making any changes to the ModuleList.
+     *
+     * @param moduleCode The module code of the module to be deleted.
+     */
+    public void deleteModuleByCode (String moduleCode) {
+        try {
+            Module moduleToBeDeleted = getModule(moduleCode);
+            deleteModule(moduleToBeDeleted);
+        } catch (InvalidObjectException e) {
+            return;
         }
     }
 
@@ -136,11 +176,6 @@ public class ModuleList {
 
     /**
      * Checks if a module with the specified module code exists in the main module list.
-     *
-     * This method verifies the existence of a module in the main module list based on its module code.
-     * It returns true if a module with the provided module code is found in the list, and false if it
-     * does not exist. The method also throws an InvalidObjectException if the main module list or the
-     * module code is null.
      *
      * @param moduleCodeA The module code to check for in the main module list.
      * @return true if a module with the specified module code exists, false otherwise.
@@ -163,7 +198,13 @@ public class ModuleList {
         return false;
     }
 
-
+    /**
+     * Retrieves a module from the main module list by its module code.
+     *
+     * @param moduleCode The module code to search for.
+     * @return The module with the specified module code.
+     * @throws InvalidObjectException If the module does not exist.
+     */
     public Module getModule(String moduleCode) throws InvalidObjectException {
         for (Module module: mainModuleList) {
             if (moduleCode.equals(module.getModuleCode())) {
@@ -212,6 +253,12 @@ public class ModuleList {
         return -1;
     }
 
+    /**
+     * Retrieves a module from the main module list by its index.
+     *
+     * @param index The index of the module to retrieve.
+     * @return The module at the specified index.
+     */
     public Module getModuleByIndex(int index) {
         return this.mainModuleList.get(index);
     }

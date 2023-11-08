@@ -1,7 +1,17 @@
 package seedu.duke.views;
 
+/**
+ * The MajorRequirementsView class provides methods to print the required modules for specific majors.
+ */
 public class MajorRequirementsView {
 
+    /**
+     * Prints the required modules for a specified major.
+     *
+     * This method takes a major as input and prints the required modules for that major.
+     *
+     * @param major The major for which to print the required modules.
+     */
     public static void printRequiredModules(String major) {
         switch (major) {
         case "CEG":
@@ -11,11 +21,15 @@ public class MajorRequirementsView {
             printRequiredModulesCS();
             return;
         default:
+            // should not be reached, prints nothing
             displayMessage("");
             return;
         }
     }
 
+    /**
+     * Prints the required modules for the Computer Engineering (CEG) major.
+     */
     public static void printRequiredModulesCEG() { //60 char
         displayMessage(
             "#==========================================================#\n" +
@@ -77,8 +91,9 @@ public class MajorRequirementsView {
             "+----------------------------------------------------------+\n");
     }
 
-
-
+    /**
+     * Prints the required modules for the Computer Science (CS) major.
+     */
     public static void printRequiredModulesCS() {
         displayMessage(
             "#==========================================================#\n" +
@@ -138,6 +153,13 @@ public class MajorRequirementsView {
             "+----------------------------------------------------------+\n");
     }
 
+    /**
+     * Displays a message to the console.
+     *
+     * This method prints the specified object to the console.
+     *
+     * @param o The object to be displayed as a message.
+     */
     public static void displayMessage(Object o) {
         System.out.print(o);
     }

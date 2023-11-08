@@ -6,7 +6,7 @@ import seedu.duke.models.schema.ModuleWeekly;
 import java.util.ArrayList;
 import java.util.List;
 
-import static seedu.duke.views.UserGuideView.timetableModifyGuide;
+import static seedu.duke.views.UserGuideView.printTimetableModifyGuide;
 
 public class TimetableView {
     private static final int columnWidth = 11;
@@ -85,24 +85,23 @@ public class TimetableView {
             return;
         }
 
-        //List(by days) of TaskList (modules, event type, time)
-        List<ArrayList<String>> weeklyScheduleByDay = createDailyEvents(currentSemesterModules);
+        // create a List (by days) of EventList (modules, event type, time)
+        List<ArrayList<String>> weeklyTimetableByDay = createDailyEvents(currentSemesterModules);
 
-        if (!eventsExist(weeklyScheduleByDay)) {
-            //no event error statement
-            timetableModifyGuide("Modules in your current sem have no lessons yet.");
+        if (!eventsExist(weeklyTimetableByDay)) {
+            printTimetableModifyGuide("Modules in your current sem have no lessons yet.");
             return;
         }
 
+        // print timetable
         printTimetableHeader();
         for (int day = 0; day < days.length; day++) { //8-9am index 0, 7-8pm index 11
-            if (weeklyScheduleByDay.get(day).isEmpty()) {
+            if (weeklyTimetableByDay.get(day).isEmpty()) {
                 continue;
             }
 
-            //printRow(weeklyScheduleByTime.get(timePeriod), timePeriod, timePeriod == 11);
             printlnHorizontalLine();
-            printCurrentDayEvents(weeklyScheduleByDay.get(day), day);
+            printCurrentDayEvents(weeklyTimetableByDay.get(day), day);
         }
         printlnHorizontalLine();
     }
@@ -114,15 +113,17 @@ public class TimetableView {
      * @return A list of daily events.
      */
     public static List<ArrayList<String>> createDailyEvents(ArrayList<ModuleWeekly> currentSemesterModules) {
-        List<ArrayList<String>> weeklyScheduleByDay = initialiseOneDList();
+        // List with 7 empty ArrayList
+        List<ArrayList<String>> weeklyTimetableByDay = initialiseOneDList();
 
+        // Add events as string for all modules to weeklyTimetableByDay
         for (ModuleWeekly module : currentSemesterModules) {
-            for (Event event : module.getWeeklySchedule()) {
-                addToWeeklyScheduleByDay(weeklyScheduleByDay, event.getDay(), event.getStartTime() - 8,
+            for (Event event : module.getWeeklyTimetable()) {
+                addToWeeklyTimetableByDay(weeklyTimetableByDay, event.getDay(), event.getStartTime(),
                         event.getDuration(), module.getModuleCode(), event.getEventType());
             }
         }
-        return weeklyScheduleByDay;
+        return weeklyTimetableByDay;
     }
 
     /**
@@ -143,15 +144,17 @@ public class TimetableView {
     /**
      * Prints events for the current day.
      *
-     * @param taskList List of events for the current day.
+     * @param eventList List of events for the current day.
      * @param day      The index of the day.
      */
-    public static void printCurrentDayEvents(ArrayList<String> taskList, int day) {
+    public static void printCurrentDayEvents(ArrayList<String> eventList, int day) {
+        // Need to print day for first line
         boolean isFirstLine = true;
-        while (!taskList.isEmpty()) {
-            String currentTask = taskList.get(0);
-            printCurrentDayEventsOneLine(currentTask, day, isFirstLine);
-            taskList.remove(0);
+
+        while (!eventList.isEmpty()) {
+            String currentEvent = eventList.get(0);
+            printCurrentDayOneEvent(currentEvent, day, isFirstLine);
+            eventList.remove(0);
             isFirstLine = false;
         }
     }
@@ -159,53 +162,53 @@ public class TimetableView {
     /**
      * Prints one line of events for the current day.
      *
-     * @param currentTask The events for the current day.
+     * @param currentEvent The events for the current day.
      * @param day         The index of the day.
      * @param isFirstLine Whether it is the first line.
      */
-    public static void printCurrentDayEventsOneLine(String currentTask, int day, boolean isFirstLine) {
+    public static void printCurrentDayOneEvent(String currentEvent, int day, boolean isFirstLine) {
 
-        while (!currentTask.isEmpty()) {
-            //print day
+        while (!currentEvent.isEmpty()) {
+
+            printVerticalLine();
+
+            // print day
             if (isFirstLine) {
-                printVerticalLine();
                 print(days[day]);
                 printToJustify(dayColumnWidth - days[day].length());
-                printVerticalLine();
+
                 isFirstLine = false;
             } else {
-                printVerticalLine();
                 printToJustify(dayColumnWidth);
-                printVerticalLine();
             }
 
+            printVerticalLine();
 
-            //if line too long
-            if (currentTask.length() > eventColumnWidth) {
-                String[] words = currentTask.split(" ");
-                int singleColumnWidthLeft = eventColumnWidth;
+            // if currentEvent is too long
+            if (currentEvent.length() > eventColumnWidth) {
+                String[] words = currentEvent.split(" ");
+                int eventColumnWidthLeft = eventColumnWidth;
                 int currentWordIndex = 0;
 
-                while (singleColumnWidthLeft > words[currentWordIndex].length()) {
-                    print(words[currentWordIndex]);
-                    singleColumnWidthLeft -= words[currentWordIndex].length();
+                while (eventColumnWidthLeft > words[currentWordIndex].length()) {
+                    print(words[currentWordIndex] + " ");
+                    eventColumnWidthLeft -= words[currentWordIndex].length() + 1;
                     currentWordIndex++;
                 }
+                printToJustify(eventColumnWidthLeft);
 
-                printToJustify(singleColumnWidthLeft);
                 String wordNotPrintedYet = words[currentWordIndex];
-                int indexNotPrintedYet = currentTask.indexOf(wordNotPrintedYet);
-                currentTask = currentTask.substring(indexNotPrintedYet);
+                int indexNotPrintedYet = currentEvent.indexOf(wordNotPrintedYet);
+                currentEvent = currentEvent.substring(indexNotPrintedYet);
                 printlnVerticalLine();
                 continue;
             }
 
-            //line can be printed
-            print(currentTask);
-            printToJustify(eventColumnWidth - currentTask.length());
-            currentTask = "";
+            // currentEvent can be printed
+            print(currentEvent);
+            printToJustify(eventColumnWidth - currentEvent.length());
+            currentEvent = "";
             printlnVerticalLine();
-
         }
     }
 
@@ -334,7 +337,15 @@ public class TimetableView {
      * @return A string representing the time range.
      */
     public static String getTime(int timePeriod, int duration) {
-        return getTime(timePeriod) + "-" + getTime(timePeriod + duration);
+        String startTime = getTime(timePeriod);
+        String endTime = getTime(timePeriod + duration);
+
+        // time is outside 8am-8pm
+        if (startTime.isEmpty() || endTime.isEmpty()) {
+            return "";
+        }
+
+        return "(" + startTime + "-" + endTime + ")";
     }
 
     /**
@@ -344,16 +355,17 @@ public class TimetableView {
      * @return A string representing the time.
      */
     public static String getTime(int timePeriod) {
-        if (0 <= timePeriod && timePeriod <= 3) {
-            return (timePeriod + 8) + "am";
-        } else if (timePeriod == 4) {
-            return (4 + 8) + "pm";
-        } else if (5 <= timePeriod && timePeriod <= 11) {
-            return (timePeriod - 4) + "pm";
+        if (8 <= timePeriod && timePeriod <= 11) {
+            return (timePeriod) + "am";
+        } else if (timePeriod == 12) {
+            return (timePeriod) + "pm";
+        } else if (13 <= timePeriod && timePeriod <= 19) {
+            return (timePeriod - 12) + "pm";
+        } else {
+            // time is outside 8am-8pm
+            return "";
         }
-        return "";
     }
-
 
 
     /**
@@ -430,26 +442,26 @@ public class TimetableView {
      * @param moduleCode Code of the module.
      * @param eventType  Type of the event.
      */
-    public static void addToWeeklyScheduleByDay(List<ArrayList<String>> list, int day, int startTime, int duration,
+    public static void addToWeeklyTimetableByDay(List<ArrayList<String>> list, int day, int startTime, int duration,
                                                 String moduleCode, String eventType) {
 
         ArrayList<String> childList = list.get(day);
-        childList.add(moduleCode + " " + eventType + " (" + getTime(startTime, duration) + ")");
+        childList.add(moduleCode + " " + eventType + " " + getTime(startTime, duration));
     }
 
     /**
      * Checks if there are any events in the weekly schedule for each day.
      *
-     * @param weeklyScheduleByDay List of daily events.
+     * @param weeklyTimetableByDay List of daily events.
      * @return True if events exist for any day, false otherwise.
      */
-    public static boolean eventsExist(List<ArrayList<String>> weeklyScheduleByDay) {
-        for (ArrayList<String> currentDayEvents : weeklyScheduleByDay) {
+    public static boolean eventsExist(List<ArrayList<String>> weeklyTimetableByDay) {
+        for (ArrayList<String> currentDayEvents : weeklyTimetableByDay) {
             if (!currentDayEvents.isEmpty()) {
+                // true if at least 1 event exists in weeklyTimetable
                 return true;
             }
         }
         return false;
     }
-
 }

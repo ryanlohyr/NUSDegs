@@ -36,7 +36,7 @@ class MajorRequirementsViewTest {
                 .replaceAll("\r\n", "\n")
                 .replaceAll("\r", "\n");
 
-        String expected =
+        String expectedOutput =
                 "#==========================================================#\n" +
                         "║   Modular Requirements for CEG                    Units  ║\n" +
                         "#==========================================================#\n" +
@@ -94,12 +94,12 @@ class MajorRequirementsViewTest {
                         "+----------------------------------------------------------+\n" +
                         "│   Unrestricted Electives                          40     │\n" +
                         "+----------------------------------------------------------+\n";
-        expected = expected
+        expectedOutput = expectedOutput
                 .replaceAll("\r\n", "\n")
                 .replaceAll("\r", "\n");
 
         // Assert the printed output matches the expected value
-        assertEquals(expected, printedOutput);
+        assertEquals(expectedOutput, printedOutput);
 
         //assertTrue(false);
     }
@@ -118,7 +118,7 @@ class MajorRequirementsViewTest {
                 .replaceAll("\r\n", "\n")
                 .replaceAll("\r", "\n");
 
-        String expected = "#==========================================================#\n" +
+        String expectedOutput = "#==========================================================#\n" +
                 "║   Modular Requirements for CS                     Units  ║\n" +
                 "#==========================================================#\n" +
                 "+----------------------------------------------------------+\n" +
@@ -173,12 +173,12 @@ class MajorRequirementsViewTest {
                 "+----------------------------------------------------------+\n" +
                 "│   Unrestricted Electives                          40     │\n" +
                 "+----------------------------------------------------------+\n";
-        expected = expected
+        expectedOutput = expectedOutput
                 .replaceAll("\r\n", "\n")
                 .replaceAll("\r", "\n");
 
         // Assert the printed output matches the expected value
-        assertEquals(expected, printedOutput);
+        assertEquals(expectedOutput, printedOutput);
 
         //assertTrue(false);
     }
@@ -193,8 +193,8 @@ class MajorRequirementsViewTest {
                 .replaceAll("\r\n", "\n")
                 .replaceAll("\r", "\n");
 
-        String expected = "";
-        assertEquals(expected, printedOutput);
+        String expectedOutput = "";
+        assertEquals(expectedOutput, printedOutput);
     }
 
     @Test
@@ -207,7 +207,7 @@ class MajorRequirementsViewTest {
                 .replaceAll("\r\n", "\n")
                 .replaceAll("\r", "\n");
 
-        String expected =
+        String expectedOutput =
                 "#==========================================================#\n" +
                         "║   Modular Requirements for CEG                    Units  ║\n" +
                         "#==========================================================#\n" +
@@ -265,12 +265,12 @@ class MajorRequirementsViewTest {
                         "+----------------------------------------------------------+\n" +
                         "│   Unrestricted Electives                          40     │\n" +
                         "+----------------------------------------------------------+\n";
-        expected = expected
+        expectedOutput = expectedOutput
                 .replaceAll("\r\n", "\n")
                 .replaceAll("\r", "\n");
 
         // Assert the printed output matches the expected value
-        assertEquals(expected, printedOutput);
+        assertEquals(expectedOutput, printedOutput);
 
         //assertTrue(false);
     }
