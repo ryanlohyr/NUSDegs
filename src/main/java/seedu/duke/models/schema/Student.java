@@ -7,7 +7,7 @@ import seedu.duke.utils.exceptions.MissingModuleException;
 
 import seedu.duke.utils.Parser;
 import seedu.duke.utils.exceptions.InvalidPrereqException;
-import seedu.duke.views.WeeklyScheduleView;
+import seedu.duke.views.TimetableView;
 
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
@@ -19,6 +19,8 @@ import static seedu.duke.utils.Parser.parserDayForModify;
 import static seedu.duke.utils.Parser.parserTimeForModify;
 import static seedu.duke.utils.Parser.parserDurationForModify;
 import static seedu.duke.views.CommandLineView.displaySuccessfulCompleteMessage;
+import static seedu.duke.views.UserGuideView.addOrRecommendGuide;
+import static seedu.duke.views.UserGuideView.timetableModifySuccessful;
 
 /**
  * The Student class represents a student with a name, major, and module schedule.
@@ -263,8 +265,8 @@ public class Student {
      */
     public void setCurrentSemesterModules() {
         try {
-            int[] yearAndSem = Parser.parseStudentYear(year);
-            int currSem = ((yearAndSem[0] - 1) * 2) + yearAndSem[1];
+            int currSem = getCurrentSem();
+
             int[] modulesPerSem = schedule.getModulesPerSem();
             ModuleList modulesPlanned = schedule.getModulesPlanned();
             int numberOfModulesInCurrSem = modulesPerSem[currSem - 1];
@@ -286,6 +288,11 @@ public class Student {
         }
     }
 
+    public int getCurrentSem() {
+        int[] yearAndSem = Parser.parseStudentYear(year);
+        return ((yearAndSem[0] - 1) * 2) + yearAndSem[1];
+    }
+
     /**
      * Sets the current semester modules with each module as a ModuleWeekly class.
      *
@@ -293,9 +300,10 @@ public class Student {
      */
     public void setCurrentSemesterModulesWeekly() {
         if (currentSemesterModules.getMainModuleList().isEmpty()) {
-            System.out.println("There are no modules in your current semester. Please add in modules, or generate" +
-                    "using the 'recommend' command.");
+            int currentSem = getCurrentSem();
+            addOrRecommendGuide("Your current sem has no modules yet.", currentSem);
         }
+
         ArrayList<Module> currentSemModuleList = currentSemesterModules.getMainModuleList();
         currentSemesterModulesWeekly = new ArrayList<>();
         for (int i = 0; i < currentSemModuleList.size(); i++) {
@@ -308,7 +316,7 @@ public class Student {
     public void printCurrentSemesterModulesWeekly(Student student) {
         for (ModuleWeekly moduleweekly : student.currentSemesterModulesWeekly) {
             System.out.println(moduleweekly.getModuleCode());
-            ArrayList<Event> weeklyschedule = moduleweekly.getWeeklySchedule();
+            ArrayList<Event> weeklyschedule = moduleweekly.getWeeklyTimetable();
             if (weeklyschedule.isEmpty()) {
                 System.out.println("aint nothin here");
             }
@@ -327,15 +335,15 @@ public class Student {
      */
     public void timetableShowOrModify(Student student, String userInput) {
         try {
-            while (!intitialise) {
-                student.setCurrentSemesterModules();
-                student.setCurrentSemesterModulesWeekly();
-                intitialise = true;
-            }
+            //while (!intitialise) {
+            student.setCurrentSemesterModules();
+            student.setCurrentSemesterModulesWeekly();
+            //intitialise = true;
+            //}
             String argument = userInput.substring(userInput.indexOf("timetable") + 9).trim().toUpperCase();
             switch (argument) {
             case "SHOW": {
-                WeeklyScheduleView.printWeeklySchedule(currentSemesterModulesWeekly);
+                TimetableView.printTimetable(currentSemesterModulesWeekly);
                 break;
             }
             case "MODIFY": {
@@ -367,7 +375,7 @@ public class Student {
             }
             Scanner in = new Scanner(System.in);
             System.out.println("Which current module do you want to modify?");
-            String moduleCode = in.nextLine().trim();
+            String moduleCode = in.nextLine().trim().toUpperCase();
             if (!isExistInCurrentSemesterModules(moduleCode, student.currentSemesterModulesWeekly)) {
                 System.out.println("Sorry that module doesn't exist in current semesters");
                 return;
@@ -379,6 +387,7 @@ public class Student {
             // pass in the ModuleWeekly element from currentSemester
             int indexOfModuleWeeklyToModify = getIndexOfModuleWeekly(moduleCode, student.currentSemesterModulesWeekly);
             processModifyArguments(userInput, indexOfModuleWeeklyToModify, student);
+            timetableModifySuccessful();
         } catch (InvalidModifyArgumentException e) {
             throw new InvalidModifyArgumentException();
         }
@@ -416,19 +425,19 @@ public class Student {
             case "LECTURE": {
                 student.currentSemesterModulesWeekly.get(indexOfModule).addLecture(parserDayForModify(userInput),
                         parserTimeForModify(userInput), parserDurationForModify(userInput));
-                WeeklyScheduleView.printWeeklySchedule(currentSemesterModulesWeekly);
+                TimetableView.printTimetable(currentSemesterModulesWeekly);
                 break;
             }
             case "TUTORIAL": {
                 student.currentSemesterModulesWeekly.get(indexOfModule).addTutorial(parserDayForModify(userInput),
                         parserTimeForModify(userInput), parserDurationForModify(userInput));
-                WeeklyScheduleView.printWeeklySchedule(currentSemesterModulesWeekly);
+                TimetableView.printTimetable(currentSemesterModulesWeekly);
                 break;
             }
             case "LAB": {
                 student.currentSemesterModulesWeekly.get(indexOfModule).addLab(parserDayForModify(userInput),
                         parserTimeForModify(userInput), parserDurationForModify(userInput));
-                WeeklyScheduleView.printWeeklySchedule(currentSemesterModulesWeekly);
+                TimetableView.printTimetable(currentSemesterModulesWeekly);
                 break;
             }
             default: {

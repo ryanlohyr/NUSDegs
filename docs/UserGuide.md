@@ -53,8 +53,8 @@ User input:
 `required`
 
 - Expected outcome:
-![ss_required_cs_1.png](photos%2Fss_required_cs_1.png)
-![ss_required_cs_2.png](photos%2Fss_required_cs_2.png)
+![ss_required_cs_1.png](screenshots%2Fss_required_cs_1.png)
+![ss_required_cs_2.png](screenshots%2Fss_required_cs_2.png)
 - 
 ### View module prerequisites:`prereq`
 Based on the module selected, we will show what prerequisites the course has.

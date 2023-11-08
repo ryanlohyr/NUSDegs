@@ -43,7 +43,7 @@ public class ModuleMethodsController {
      * @param arguments              An array of strings containing academic year and semester information.
      * @param completedModuleCredits The number of module credits already completed by the user.
      */
-    static void computePace(String[] arguments, int completedModuleCredits, String currentAcademicYear) {
+    public static void computePace(String[] arguments, int completedModuleCredits, String currentAcademicYear) {
         int totalCreditsToGraduate = 160;
         int creditsLeft = totalCreditsToGraduate - completedModuleCredits;
         boolean argumentProvided = arguments.length != 0;
