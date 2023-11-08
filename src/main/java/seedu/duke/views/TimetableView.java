@@ -6,7 +6,6 @@ import seedu.duke.models.schema.ModuleWeekly;
 import java.util.ArrayList;
 import java.util.List;
 
-import static seedu.duke.views.UserGuideView.addGuide;
 import static seedu.duke.views.UserGuideView.timetableModifyGuide;
 
 public class TimetableView {
@@ -17,36 +16,70 @@ public class TimetableView {
     private static final int eventColumnWidth = 45;
     private static final String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
 
+    /**
+     * Prints the given output without a new line.
+     *
+     * @param output The string to be printed.
+     */
     public static void print(String output) {
         System.out.print(output);
     }
 
+    /**
+     * Prints the given output with a new line.
+     *
+     * @param output The string to be printed.
+     */
     public static void println(String output) {
         System.out.println(output);
     }
 
+    /**
+     * Prints a horizontal line as a separator in the console.
+     */
     public static void printlnHorizontalLine() {
         println("------------------------------------------------------------");
     }
 
+    /**
+     * Prints a vertical line as a separator in the console.
+     */
     public static void printVerticalLine() {
         System.out.print("| ");
     }
 
+    /**
+     * Prints a vertical line followed by a new line.
+     */
     public static void printlnVerticalLine() {
         System.out.println("|");
     }
 
+    /**
+     * Prints spaces to justify the output to the given width.
+     *
+     * @param number The width for justification.
+     */
     public static void printToJustify(int number) {
         print(String.format("%-" + number + "s", ""));
     }
 
 
+    /**
+     * Prints a string with spaces to justify it to the given width.
+     *
+     * @param string The string to be printed.
+     * @param number The width for justification.
+     */
     public static void printToJustify(String string, int number) {
         print(String.format("%-" + number + "s", string));
     }
 
-    //ideally a function that can be called in Student
+    /**
+     * Prints the timetable for the given list of ModuleWeekly objects.
+     *
+     * @param currentSemesterModules List of ModuleWeekly objects.
+     */
     public static void printTimetable(ArrayList<ModuleWeekly> currentSemesterModules) {
         if (currentSemesterModules.isEmpty()) {
             return;
@@ -74,6 +107,12 @@ public class TimetableView {
         printlnHorizontalLine();
     }
 
+    /**
+     * Creates a list of daily events for the given list of ModuleWeekly objects.
+     *
+     * @param currentSemesterModules List of ModuleWeekly objects.
+     * @return A list of daily events.
+     */
     public static List<ArrayList<String>> createDailyEvents(ArrayList<ModuleWeekly> currentSemesterModules) {
         List<ArrayList<String>> weeklyScheduleByDay = initialiseOneDList();
 
@@ -86,6 +125,9 @@ public class TimetableView {
         return weeklyScheduleByDay;
     }
 
+    /**
+     * Prints the timetable header.
+     */
     public static void printTimetableHeader() {
         printlnHorizontalLine();
 
@@ -97,6 +139,13 @@ public class TimetableView {
 
         printlnVerticalLine();
     }
+
+    /**
+     * Prints events for the current day.
+     *
+     * @param taskList List of events for the current day.
+     * @param day      The index of the day.
+     */
     public static void printCurrentDayEvents(ArrayList<String> taskList, int day) {
         boolean isFirstLine = true;
         while (!taskList.isEmpty()) {
@@ -107,6 +156,13 @@ public class TimetableView {
         }
     }
 
+    /**
+     * Prints one line of events for the current day.
+     *
+     * @param currentTask The events for the current day.
+     * @param day         The index of the day.
+     * @param isFirstLine Whether it is the first line.
+     */
     public static void printCurrentDayEventsOneLine(String currentTask, int day, boolean isFirstLine) {
 
         while (!currentTask.isEmpty()) {
@@ -154,6 +210,7 @@ public class TimetableView {
     }
 
     //ideally a function that can be called in Student
+    /*
     public static void printWeeklySchedule(ArrayList<ModuleWeekly> currentSemesterModules) {
         // 8am to 8pm, Monday to Sunday
         // Convert current semester modules (ArrayList<Module>, ModuleList)
@@ -198,7 +255,6 @@ public class TimetableView {
 
     public static void printRow(List<ArrayList<String>> hourSchedule, int timePeriod, boolean lastLine) {
         //header & 7 days
-
 
         //save a copy
         //List<String>[] weeklyTask = new List<String>[8];
@@ -267,11 +323,26 @@ public class TimetableView {
         }
 
     }
+    */
 
+
+    /**
+     * Calculates the time range for a given time period and duration.
+     *
+     * @param timePeriod The starting time period.
+     * @param duration   The duration of the event.
+     * @return A string representing the time range.
+     */
     public static String getTime(int timePeriod, int duration) {
         return getTime(timePeriod) + "-" + getTime(timePeriod + duration);
     }
 
+    /**
+     * Gets the time string for the given time period.
+     *
+     * @param timePeriod Index of the time period.
+     * @return A string representing the time.
+     */
     public static String getTime(int timePeriod) {
         if (0 <= timePeriod && timePeriod <= 3) {
             return (timePeriod + 8) + "am";
@@ -285,6 +356,14 @@ public class TimetableView {
 
 
 
+    /**
+     * Fills and sets an object at a specific index in a list, creating intermediate objects if needed.
+     *
+     * @param index  Index where the object should be placed.
+     * @param object Object to be placed.
+     * @param list   List where the object should be placed.
+     * @param <T>    Type of the object.
+     */
     public static <T> void fillAndSet(int index, T object, List<T> list) {
         if (index > (list.size() - 1)) {
             for (int i = list.size(); i < index; i++) {
@@ -296,6 +375,11 @@ public class TimetableView {
         }
     }
 
+    /**
+     * Initializes a one-dimensional list for daily events.
+     *
+     * @return A list of daily events.
+     */
     public static List<ArrayList<String>> initialiseOneDList() {
         List<ArrayList<String>> parentList = new ArrayList<>();
 
@@ -308,6 +392,7 @@ public class TimetableView {
         return parentList;
     }
 
+    /*
     public static List<List<ArrayList<String>>> initialiseTwoDList() {
         List<List<ArrayList<String>>> grandparentList = new ArrayList<>();
         for (int i = 0; i < 12; i++) { //12 time periods
@@ -324,6 +409,7 @@ public class TimetableView {
     }
 
 
+
     public static void addToWeeklyScheduleByTime(int indexParent, int indexChild, String eventName,
                                                  List<List<ArrayList<String>>> listOfList) {
         //"2D" array
@@ -331,7 +417,19 @@ public class TimetableView {
         ArrayList<String> childList = parentList.get(indexChild);
         childList.add(eventName);
     }
+    */
 
+
+    /**
+     * Adds an event to the daily schedule for a specific day, start time, and duration.
+     *
+     * @param list      List of daily events.
+     * @param day       Index of the day.
+     * @param startTime Start time of the event.
+     * @param duration  Duration of the event.
+     * @param moduleCode Code of the module.
+     * @param eventType  Type of the event.
+     */
     public static void addToWeeklyScheduleByDay(List<ArrayList<String>> list, int day, int startTime, int duration,
                                                 String moduleCode, String eventType) {
 
@@ -339,6 +437,12 @@ public class TimetableView {
         childList.add(moduleCode + " " + eventType + " (" + getTime(startTime, duration) + ")");
     }
 
+    /**
+     * Checks if there are any events in the weekly schedule for each day.
+     *
+     * @param weeklyScheduleByDay List of daily events.
+     * @return True if events exist for any day, false otherwise.
+     */
     public static boolean eventsExist(List<ArrayList<String>> weeklyScheduleByDay) {
         for (ArrayList<String> currentDayEvents : weeklyScheduleByDay) {
             if (!currentDayEvents.isEmpty()) {
