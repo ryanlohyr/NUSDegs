@@ -19,8 +19,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static seedu.duke.controllers.ModuleMethodsController.computePace;
-import static seedu.duke.controllers.ModuleMethodsController.determinePrereq;
 import static seedu.duke.views.CommandLineView.displayMessage;
 import static seedu.duke.controllers.ModuleMethodsController.completeModule;
 import static seedu.duke.controllers.ModuleMethodsController.showModulesLeft;
@@ -132,6 +130,109 @@ class ModuleMethodsControllerTest {
                 .replaceAll("\r\n", "\n")
                 .replaceAll("\r", "\n");
 
+        assertEquals(expectedOutput, printedOutput);
+    }
+
+    @Test
+    void testPrereq_addValidModuleToStudent() throws InvalidObjectException {
+
+        String moduleCode = "EG1311";
+        int targetSem = 1;
+        boolean doesModuleExist = false;
+        try {
+            student.addModuleSchedule(moduleCode, targetSem);
+            displaySuccessfulAddMessage();
+            student.printSchedule();
+            Schedule currentSchedule = student.getSchedule();
+            doesModuleExist = currentSchedule.getModulesPlanned().existsByCode(moduleCode);
+        } catch (InvalidObjectException | IllegalArgumentException e) {
+            displayMessage(e.getMessage());
+        } catch (FailPrereqException f) {
+            showPrereq(moduleCode,student.getMajor());
+            displayMessage(f.getMessage());
+        }
+        String printedOutput = outputStream.toString().trim();
+        String expectedOutput = "Module Successfully Added\n" +
+                "Sem 1:   X EG1311       \n" +
+                "Sem 2:   \n" +
+                "Sem 3:   \n" +
+                "Sem 4:   \n" +
+                "Sem 5:   \n" +
+                "Sem 6:   \n" +
+                "Sem 7:   \n" +
+                "Sem 8:";
+        printedOutput = printedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
+        expectedOutput = expectedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
+
+        assertEquals(expectedOutput, printedOutput);
+
+        assertTrue(doesModuleExist);
+    }
+
+    @Test
+    void testPrereq_addInValidModuleToStudent() throws InvalidObjectException {
+        String moduleCode = "eEG1311";
+        int targetSem = 1;
+        boolean doesModuleExist = false;
+        try {
+            student.addModuleSchedule(moduleCode, targetSem);
+            displaySuccessfulAddMessage();
+            student.printSchedule();
+            Schedule currentSchedule = student.getSchedule();
+            doesModuleExist = currentSchedule.getModulesPlanned().existsByCode(moduleCode);
+        } catch (InvalidObjectException | IllegalArgumentException e) {
+            displayMessage(e.getMessage());
+        } catch (FailPrereqException f) {
+            showPrereq(moduleCode,student.getMajor());
+            displayMessage(f.getMessage());
+        }
+        String printedOutput = outputStream.toString().trim();
+        String expectedOutput = "Invalid Module Name\n" +
+                "Please select a valid module";
+
+        printedOutput = printedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
+        expectedOutput = expectedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
+
+        assertEquals(printedOutput, expectedOutput);
+        assertFalse(doesModuleExist);
+
+    }
+
+    @Test
+    void testPrereq_addInvalidModuleToStudent() throws InvalidObjectException {
+        String moduleCode = "CS2113";
+        int targetSem = 1;
+        boolean doesModuleExist = false;
+        try {
+            student.addModuleSchedule(moduleCode, targetSem);
+            displaySuccessfulAddMessage();
+            student.printSchedule();
+            Schedule currentSchedule = student.getSchedule();
+            doesModuleExist = currentSchedule.getModulesPlanned().existsByCode(moduleCode);
+        } catch (InvalidObjectException | IllegalArgumentException e) {
+            displayMessage(e.getMessage());
+        } catch (FailPrereqException f) {
+            showPrereq(moduleCode,student.getMajor());
+            displayMessage(f.getMessage());
+        }
+        String printedOutput = outputStream.toString().trim();
+        String expectedOutput = "This module's prerequisites are [CS2040C]\n" +
+                "Unable to add module as prerequisites not satisfied for: CS2113";
+        printedOutput = printedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
+        expectedOutput = expectedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
+        assertFalse(doesModuleExist);
         assertEquals(expectedOutput, printedOutput);
     }
 

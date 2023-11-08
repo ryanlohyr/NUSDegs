@@ -4,19 +4,21 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import seedu.duke.models.schema.Student;
+import seedu.duke.models.schema.UserCommand;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static seedu.duke.controllers.ModuleMethodsController.completeModule;
 
 public class RecommendedScheduleFeatureTest {
     private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
 
     private Student student = new Student();
+    private UserCommand currentUserCommand = new UserCommand();
+    private String commandToTest = "recommend";
 
     @BeforeEach
     public void setUpStreams() {

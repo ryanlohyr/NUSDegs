@@ -82,9 +82,9 @@ public class ModuleMethodsController {
         printModuleStringArray(moduleCodes);
     }
 
-//    public static void getStudentSchedule(student){
-//
-//    }
+    //    public static void getStudentSchedule(student){
+    //
+    //    }
 
 
     public static void addModule(String module, int targetSem, Student student) {

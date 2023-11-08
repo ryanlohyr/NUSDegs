@@ -4,25 +4,25 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import seedu.duke.models.schema.Student;
+import seedu.duke.models.schema.UserCommand;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static seedu.duke.controllers.ModuleMethodsController.computePace;
 
 public class PaceFeatureTest {
     private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
 
     private Student student = new Student();
-
+    private UserCommand currentUserCommand = new UserCommand();
     @BeforeEach
     public void setUpStreams() {
         this.student = new Student();
         student.setName("Ryan Loh");
         student.setFirstMajor("CEG");
-        student.setYear("Y3/S2");
+        student.setYear("Y1/S2");
         System.setOut(new PrintStream(outputStream));
 
     }
@@ -33,35 +33,45 @@ public class PaceFeatureTest {
     }
 
     @Test
-    void computePaceWithoutArgument() {
-        String[] userInput = {};
-        int creditsCompleted = 60;
-        computePace(userInput, creditsCompleted, student.getYear());
+    void computePaceInvalidArgument() {
+        String userInput = "pace year2 sem1";
+        currentUserCommand = new UserCommand(userInput);
+        if (currentUserCommand.isValid() && !currentUserCommand.isBye()) {
+            currentUserCommand.processCommand(student);
+        }
+
         // Capture the printed output
         String printedOutput = outputStream.toString().trim();
         // Assert the printed output matches the expected value
-        String expectedOutput = "You have 100MCs for 2 semesters. Recommended Pace: 50MCs per sem until graduation";
+        String expectedOutput = "Needs to be in format of Y2/S1";
 
         assertEquals(expectedOutput,printedOutput);
     }
 
     @Test
-    void computePaceInvalidArgument() {
-        String[] userInput = {"y2s1"};
-        int creditsLeft = 60;
-        computePace(userInput, creditsLeft,student.getYear());
+    void computePaceWithoutArgument() {
+
+        String userInput = "pace";
+        currentUserCommand = new UserCommand(userInput);
+        if (currentUserCommand.isValid() && !currentUserCommand.isBye()) {
+            currentUserCommand.processCommand(student);
+        }
         // Capture the printed output
         String printedOutput = outputStream.toString().trim();
         // Assert the printed output matches the expected value
-        assertEquals("Needs to be in format of Y2/S1", printedOutput);
+        String expectedOutput = "You have 160MCs for 6 semesters. Recommended Pace: 27MCs per sem until graduation";
+
+        assertEquals(expectedOutput,printedOutput);
     }
+
 
     @Test
     void computePaceInvalidSemester() {
-        String[] userInput = {"y2/s10"};
-        int creditsLeft = 60;
-        String studentsCurrYear = "y1/s2";
-        computePace(userInput, creditsLeft,studentsCurrYear);
+        String userInput = "pace y2/s10";
+        currentUserCommand = new UserCommand(userInput);
+        if (currentUserCommand.isValid() && !currentUserCommand.isBye()) {
+            currentUserCommand.processCommand(student);
+        }
         // Capture the printed output
         String printedOutput = outputStream.toString().trim();
         // Assert the printed output matches the expected value
@@ -70,10 +80,11 @@ public class PaceFeatureTest {
 
     @Test
     void computePaceInvalidYear() {
-        String[] userInput = {"y20/s1"};
-        int creditsLeft = 60;
-        String studentsCurrYear = "y1/s2";
-        computePace(userInput, creditsLeft,studentsCurrYear);
+        String userInput = "pace y0/s1";
+        currentUserCommand = new UserCommand(userInput);
+        if (currentUserCommand.isValid() && !currentUserCommand.isBye()) {
+            currentUserCommand.processCommand(student);
+        }
         // Capture the printed output
         String printedOutput = outputStream.toString().trim();
         // Assert the printed output matches the expected value
@@ -82,13 +93,15 @@ public class PaceFeatureTest {
 
     @Test
     void computePaceValidYear() {
-        String[] userInput = {"y2/s1"};
-        int creditsLeft = 60;
-        String studentsCurrYear = "y1/s2";
-        computePace(userInput, creditsLeft,studentsCurrYear);
+        String userInput = "pace y3/s2";
+        currentUserCommand = new UserCommand(userInput);
+        if (currentUserCommand.isValid() && !currentUserCommand.isBye()) {
+            currentUserCommand.processCommand(student);
+        }
+
         // Capture the printed output
         String printedOutput = outputStream.toString().trim();
-        String line = "You have 100MCs for 5 semesters. Recommended Pace: 20MCs per sem until graduation";
+        String line = "You have 160MCs for 2 semesters. Recommended Pace: 80MCs per sem until graduation";
         // Assert the printed output matches the expected value
         assertEquals(printedOutput, line);
     }

@@ -5,8 +5,6 @@ import seedu.duke.models.schema.Student;
 import seedu.duke.models.schema.ModuleList;
 import seedu.duke.models.schema.CommandManager;
 import seedu.duke.models.schema.UserCommand;
-import seedu.duke.models.schema.UserCommandWord;
-import seedu.duke.models.logic.Api;
 import seedu.duke.utils.Parser;
 
 import java.util.ArrayList;
@@ -14,23 +12,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
-import static seedu.duke.controllers.ModuleMethodsController.computePace;
-import static seedu.duke.controllers.ModuleMethodsController.showModulesLeft;
 import static seedu.duke.controllers.ModuleServiceController.validateMajorInput;
-import static seedu.duke.controllers.ModuleMethodsController.determinePrereq;
-import static seedu.duke.controllers.ModuleMethodsController.recommendScheduleToStudent;
-import static seedu.duke.controllers.ModuleMethodsController.addModule;
-import static seedu.duke.controllers.ModuleMethodsController.deleteModule;
-import static seedu.duke.controllers.ModuleMethodsController.shiftModule;
-import static seedu.duke.controllers.ModuleMethodsController.completeModule;
-import static seedu.duke.controllers.ModuleMethodsController.getRequiredModulesForStudent;
 
 import static seedu.duke.views.CommandLineView.displayWelcome;
 import static seedu.duke.views.CommandLineView.displayReady;
 import static seedu.duke.views.CommandLineView.displayGoodbye;
 import static seedu.duke.views.CommandLineView.displayGetMajor;
 import static seedu.duke.views.CommandLineView.displayGetYear;
-import static seedu.duke.views.CommandLineView.printListOfCommands;
 
 public class ModulePlannerController {
     private final Parser parser;
@@ -106,90 +94,88 @@ public class ModulePlannerController {
             currentUserCommand = new UserCommand(in.nextLine());
             if (currentUserCommand.isValid() && !currentUserCommand.isBye()) {
                 currentUserCommand.processCommand(student);
-                //processCommand(currentUserCommand.getCommandWord(), currentUserCommand.getArguments(),
-                //        currentUserCommand.getUserInput());
             }
         }
         in.close();
     }
 
-    private void processCommand(String command, String[] arguments, String userInput) {
-        switch (command) {
-        case UserCommandWord.LEFT_COMMAND: {
-            showModulesLeft(student.getModuleCodesLeft());
-            break;
-        }
-        case UserCommandWord.PACE_COMMAND: {
-            computePace(arguments, student.getCurrentModuleCredits(), student.getYear());
-            break;
-        }
-        case UserCommandWord.PREREQUISITE_COMMAND: {
-            String module = arguments[0];
-            determinePrereq(module.toUpperCase(), student.getMajor()); //to convert "CEG" to dynamic course
-            break;
-        }
-        case UserCommandWord.RECOMMEND_COMMAND: {
-            recommendScheduleToStudent(student);
-            break;
-        }
-        case UserCommandWord.ADD_MODULE_COMMAND: {
-            String module = arguments[0].toUpperCase();
-            int targetSem = Integer.parseInt(arguments[1]);
-
-            addModule(module, targetSem, student);
-            break;
-        }
-        case UserCommandWord.DELETE_MODULE_COMMAND: {
-            String module = arguments[0].toUpperCase();
-
-            deleteModule(module,student);
-            break;
-        }
-        case UserCommandWord.SHIFT_MODULE_COMMAND: {
-            String module = arguments[0].toUpperCase();
-            int targetSem = Integer.parseInt(arguments[1]);
-
-            shiftModule(module, targetSem, student);
-            break;
-        }
-        case UserCommandWord.VIEW_SCHEDULE_COMMAND: {
-//            getStudentSchedule();
-            student.printSchedule();
-            break;
-        }
-        case UserCommandWord.COMPLETE_MODULE_COMMAND: {
-            String module = arguments[0].toUpperCase();
-            //to add to user completed module
-            completeModule(student, module);
-
-            break;
-        }
-        case UserCommandWord.REQUIRED_MODULES_COMMAND: {
-            getRequiredModulesForStudent(student.getMajor());
-            break;
-        }
-        case UserCommandWord.INFO_COMMAND: {
-            Api.infoCommands(arguments[0], userInput);
-            break;
-        }
-        case UserCommandWord.SEARCH_MODULE_COMMAND: {
-            Api.searchCommand(userInput);
-            break;
-        }
-        case UserCommandWord.HELP_COMMAND: {
-            printListOfCommands(commandManager);
-            break;
-        }
-        case UserCommandWord.TIMETABLE_COMMAND: {
-            student.timetableShowOrModify(student, userInput);
-            break;
-        }
-        default: {
-            break;
-        }
-        }
-
-    }
+    //    private void processCommand(String command, String[] arguments, String userInput) {
+    //        switch (command) {
+    //        case UserCommandWord.LEFT_COMMAND: {
+    //            showModulesLeft(student.getModuleCodesLeft());
+    //            break;
+    //        }
+    //        case UserCommandWord.PACE_COMMAND: {
+    //            computePace(arguments, student.getCurrentModuleCredits(), student.getYear());
+    //            break;
+    //        }
+    //        case UserCommandWord.PREREQUISITE_COMMAND: {
+    //            String module = arguments[0];
+    //            determinePrereq(module.toUpperCase(), student.getMajor()); //to convert "CEG" to dynamic course
+    //            break;
+    //        }
+    //        case UserCommandWord.RECOMMEND_COMMAND: {
+    //            recommendScheduleToStudent(student);
+    //            break;
+    //        }
+    //        case UserCommandWord.ADD_MODULE_COMMAND: {
+    //            String module = arguments[0].toUpperCase();
+    //            int targetSem = Integer.parseInt(arguments[1]);
+    //
+    //            addModule(module, targetSem, student);
+    //            break;
+    //        }
+    //        case UserCommandWord.DELETE_MODULE_COMMAND: {
+    //            String module = arguments[0].toUpperCase();
+    //
+    //            deleteModule(module,student);
+    //            break;
+    //        }
+    //        case UserCommandWord.SHIFT_MODULE_COMMAND: {
+    //            String module = arguments[0].toUpperCase();
+    //            int targetSem = Integer.parseInt(arguments[1]);
+    //
+    //            shiftModule(module, targetSem, student);
+    //            break;
+    //        }
+    //        case UserCommandWord.VIEW_SCHEDULE_COMMAND: {
+    ////            getStudentSchedule();
+    //            student.printSchedule();
+    //            break;
+    //        }
+    //        case UserCommandWord.COMPLETE_MODULE_COMMAND: {
+    //            String module = arguments[0].toUpperCase();
+    //            //to add to user completed module
+    //            completeModule(student, module);
+    //
+    //            break;
+    //        }
+    //        case UserCommandWord.REQUIRED_MODULES_COMMAND: {
+    //            getRequiredModulesForStudent(student.getMajor());
+    //            break;
+    //        }
+    //        case UserCommandWord.INFO_COMMAND: {
+    //            Api.infoCommands(arguments[0], userInput);
+    //            break;
+    //        }
+    //        case UserCommandWord.SEARCH_MODULE_COMMAND: {
+    //            Api.searchCommand(userInput);
+    //            break;
+    //        }
+    //        case UserCommandWord.HELP_COMMAND: {
+    //            printListOfCommands(commandManager);
+    //            break;
+    //        }
+    //        case UserCommandWord.TIMETABLE_COMMAND: {
+    //            student.timetableShowOrModify(student, userInput);
+    //            break;
+    //        }
+    //        default: {
+    //            break;
+    //        }
+    //        }
+    //
+    //    }
 
     /**
      * Add all mods that require prerequisites to a map storing the mod and a set of preqs

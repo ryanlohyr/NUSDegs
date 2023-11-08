@@ -4,10 +4,10 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import seedu.duke.models.schema.Student;
+import seedu.duke.models.schema.UserCommand;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -17,6 +17,8 @@ public class ScheduleFeatureTest {
     private final PrintStream originalOut = System.out;
 
     private Student student = new Student();
+    private UserCommand currentUserCommand = new UserCommand();
+    private String commandToTest = "schedule";
 
     @BeforeEach
     public void setUpStreams() {
@@ -25,6 +27,7 @@ public class ScheduleFeatureTest {
         student.setFirstMajor("CEG");
         student.setYear("Y3/S2");
         System.setOut(new PrintStream(outputStream));
+
 
     }
 
@@ -35,13 +38,44 @@ public class ScheduleFeatureTest {
 
     @Test
     void testViewScheduleInvalidInput() {
-
-        ArrayList<String> recommendedSchedule = student.getSchedule().generateRecommendedSchedule("CEG");
-        System.out.println(recommendedSchedule);
+        String argument = " extra argument";
+        currentUserCommand = new UserCommand(commandToTest + argument);
+        if (currentUserCommand.isValid() && !currentUserCommand.isBye()) {
+            currentUserCommand.processCommand(student);
+        }
         String printedOutput = outputStream.toString().trim();
-        String expectedOutput = "[GEA1000, MA1511, MA1512, DTK1234, GESS1000, CS1231, CS1010, GEN2000, EG2501," +
-                " EG1311, GEC1000, PF1101, CDE2000, IE2141, CG1111A, EG2401A, ES2631, ST2334, MA1508E, CG2023," +
-                " CG2111A, CS2040C, CG2027, EE2026, EE4204, EE2211, CG2271, CS2113, CG2028, CP3880, CG4002]";
+        String expectedOutput = "Invalid argument for command schedule";
+        assertEquals(expectedOutput, printedOutput);
+    }
+
+    @Test
+    void testViewScheduleValidInput() {
+        currentUserCommand = new UserCommand(commandToTest);
+        if (currentUserCommand.isValid() && !currentUserCommand.isBye()) {
+            currentUserCommand.processCommand(student);
+        }
+        String printedOutput = outputStream.toString().trim();
+        String expectedOutput = "Sem 1:   \n" +
+                "Sem 2:   \n" +
+                "Sem 3:   \n" +
+                "Sem 4:   \n" +
+                "Sem 5:   \n" +
+                "Sem 6:   \n" +
+                "Sem 7:   \n" +
+                "Sem 8:";
+
+        assertEquals(expectedOutput, printedOutput);
+    }
+
+    @Test
+    void testViewScheduleInValidCharacter() {
+        String argument = " ```";
+        currentUserCommand = new UserCommand(commandToTest + argument);
+        if (currentUserCommand.isValid() && !currentUserCommand.isBye()) {
+            currentUserCommand.processCommand(student);
+        }
+        String printedOutput = outputStream.toString().trim();
+        String expectedOutput = "Invalid argument for command schedule";
         assertEquals(expectedOutput, printedOutput);
     }
 
