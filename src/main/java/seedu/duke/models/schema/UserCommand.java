@@ -15,13 +15,12 @@ public class UserCommand implements UserCommandWord {
 
     private CommandManager commandManager;
 
-
     public UserCommand(String userInput) {
-        this.commandManager = new CommandManager();
         this.userInput = userInput;
         commandWord = parseCommand(userInput);
         arguments = parseArguments(userInput);
         isValid = true;
+        this.commandManager = new CommandManager();
 
         if (!commandManager.getListOfCommandNames().contains(commandWord)){
             UserError.displayInvalidInputCommand(commandWord);
