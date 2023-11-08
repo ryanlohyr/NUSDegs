@@ -141,9 +141,11 @@ User input:
 `recommend`
 
 Expected outcome:
+
 ![recommendedSchedule.jpg](photos%2FrecommendSchedule.jpeg)
 
 If the user enters `Y`, the recommended schedule will be added to their schedule
+
 ![recommendedSchedule.jpg](screenshots%2Fadd_recommend.jpeg)
 
 
