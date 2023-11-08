@@ -556,12 +556,14 @@ public class Api {
                     String description = Api.getDescription(moduleCode);
                     System.out.println(Api.wrapText(description, 100));
                 }
+                //UserError.emptyModuleForInfoCommand(command);
             } else if (command.equals("workload")) {
                 String moduleCode = userInput.substring(userInput.indexOf("workload") + 8).trim().toUpperCase();
                 if (!Api.getWorkload(moduleCode).isEmpty()) {
                     JSONArray workload = Api.getWorkload(moduleCode);
                     System.out.println(workload);
                 }
+                //UserError.emptyModuleForInfoCommand(command);
             } else {
                 UserError.invalidCommandforInfoCommand();
             }

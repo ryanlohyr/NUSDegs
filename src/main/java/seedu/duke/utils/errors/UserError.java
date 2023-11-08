@@ -52,6 +52,11 @@ public class UserError {
         System.out.println("Please enter a valid command after the info command. (E.g description, workload, all)");
     }
 
+    public static void emptyModuleForInfoCommand(String infoCommand) {
+        System.out.println("Empty module detected. Please enter a valid module after the info " + infoCommand +
+                " command.");
+    }
+
     public static void emptyKeywordforSearchCommand() {
         System.out.println("Empty input detected. Please enter a valid keyword after the search command.");
     }

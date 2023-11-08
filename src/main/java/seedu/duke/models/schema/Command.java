@@ -1,9 +1,10 @@
 package seedu.duke.models.schema;
 
 public class Command {
-    private String commandName;
-    private String description;
-    private String arguments;
+    private static final int justifyLength = 30;
+    private final String commandName;
+    private final String description;
+    private final String arguments;
     public Command(String commandName, String description) {
         this.commandName = commandName;
         this.description = description;
@@ -25,7 +26,7 @@ public class Command {
 
     @Override
     public String toString() {
-        int rightPadding = 50 - commandName.length() - arguments.length();
+        int rightPadding = justifyLength - commandName.length() - arguments.length();
         return commandName + " " + arguments + " ".repeat(rightPadding) + description;
     }
 }
