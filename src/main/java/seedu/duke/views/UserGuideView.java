@@ -28,7 +28,7 @@ public class UserGuideView {
         println("Alternatively, get the recommended schedule for your major: recommend");
     }
 
-    public static void timetableModifyGuide(String specificContext) {
+    public static void printTimetableModifyGuide(String specificContext) {
         println(specificContext);
         println("Please modify your lectures/tutorials/labs using this format: timetable modify");
     }

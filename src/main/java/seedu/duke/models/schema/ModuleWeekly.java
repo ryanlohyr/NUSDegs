@@ -142,7 +142,7 @@ public class ModuleWeekly extends Module {
     //functions to alter lessons
 
 
-    public ArrayList<Event> getWeeklySchedule() {
+    public ArrayList<Event> getWeeklyTimetable() {
         return lessons;
     }
 
