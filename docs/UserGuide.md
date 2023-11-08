@@ -9,7 +9,7 @@ It's a comprehensive tool for efficient and successful degree completion.
 ## Quick Start
 
 1. Ensure that you have Java 11 or above installed.
-1. Down the latest version of `NUSDegs` from [here](http://link.to/duke).
+2. Download the latest version of `NUSDegs` from [here](http://link.to/duke).
 
 ## Features
 - View help : `help`
@@ -31,14 +31,14 @@ It's a comprehensive tool for efficient and successful degree completion.
 
 To view a list of all possible commands, a brief description of their functionality and syntax.
 
-Format: `help`
+##### Format: `help`
 
 ### Getting a list of required modules:`required`
 Get an overview of required modules for the user's major
 
-Format: `required`
+##### Format: `required`
 
-Example of usage 1: (user's major is CEG)
+#### Example of usage 1: (user's major is CEG)
 
 User input:
 `required`
@@ -48,7 +48,7 @@ User input:
   ![ss_required_ceg_2.png](screenshots%2Fss_required_ceg_2.png)
 
 
-Example of usage 1: (user's major is CS)
+#### Example of usage 2: (user's major is CS)
 
 User input:
 `required`
@@ -56,7 +56,7 @@ User input:
 - Expected outcome:
 ![ss_required_cs_1.png](screenshots%2Fss_required_cs_1.png)
 ![ss_required_cs_2.png](screenshots%2Fss_required_cs_2.png)
-- 
+
 ### View module prerequisites:`prereq`
 Based on the module selected, we will show what prerequisites the course has.
 
@@ -66,15 +66,19 @@ user.
 
 - If the module is not a requisite of the students major, we will only show one preclusion as a prerequisite
 
-Format: `prepreq MODULE_CODE`
+##### Format: `prereq MODULE_CODE`
 
-The input is not case sensitive. E.g eg1311 or EG1311 is shown
+- The input is not case-sensitive. E.g. eg1311 or EG1311 is shown
 out
 
-User input
-`prepreq eg1311` 
+#### Example of Usage:
+
+User input:
+`prereq eg1311` 
 
 Assuming the user is from Computer Engineering
+
+- Expected Outcome
 
 ![ss_left_ceg.png](screenshots%2Fss_prereq.jpeg)
 
@@ -82,13 +86,14 @@ Assuming the user is from Computer Engineering
 ### Searching for a module by title: `search`
 Search for module title using a keyword.
 
-Format: `search n/KEYWORD`
+##### Format: `search KEYWORD`
 
 * The `KEYWORD` cannot be empty.
 
-Example of usage:
+#### Example of usage:
 
-`search n/Darwinian`
+User input:
+`search Darwinian`
 
 - Expected outcome:\
   _________________________________________\
@@ -101,47 +106,63 @@ Example of usage:
 ### Get information about a module: `info`
 Get information about a module using the info command, followed by the command 'description'.
 
-Format: `info n/command n/moduleCode`
+##### Format: `info COMMAND MODULE_CODE`
 
 
-* The `command` cannot be empty.
-* The `moduleCode` cannot be empty.
+* The `COMMAND` cannot be empty.
+* The `MODULE_CODE` cannot be empty.
 
-Example of usage:
+#### Examples of usage:
 
+User input:
 `info description CS2113`
 
 - Expected outcome: This course introduces the necessary skills for systematic and rigorous development of software 
-systems. It covers requirements, design, implementation, quality assurance, and project management aspects of small-to-medium size multi-person software projects. The course uses the Object Oriented Programming paradigm. Students of this course will receive hands-on practice of tools commonly used in the industry, such as test automation tools, build automation tools, and code revisioning tools will be covered.
+systems. It covers requirements, design, implementation, quality assurance, and project management aspects of 
+small-to-medium size multi-person software projects. The course uses the Object Oriented Programming paradigm. 
+Students of this course will receive hands-on practice of tools commonly used in the industry, such as test automation 
+tools, build automation tools, and code revisioning tools will be covered.
 
+User input:
+`info workload CS2113`
+
+- Expected outcome: "[2,1,0,3,4]"
+
+User input:
+`info all`
+
+- Expected outcome: Displays module title and module code of all available modules
 
 ### View schedule planner: `schedule`
 Shows the user their current schedule planner
 
-Format: `schedule`
+##### Format: `schedule`
 
-The input does not take accept any arguments after the command word.
+- The input does not accept any arguments after the command word.
 
-User Input: `schedule`
+#### Example of usage: 
 
-Expected outcome(if user has not inputted any modules):
+User input: `schedule`
+
+- Expected outcome(if user has not inputted any modules):
 
 ![schedule.jpg](photos%2Fschedule.jpeg)
 
 ### View recommended schedule based on course: `recommend`
-Based on the course, we will provide an recommended schedules that is sorted based on prerequisites.
+Based on the student's course, we will provide a recommended schedule that is sorted based on prerequisites.
 
-Format: `recommend MAJOR_CODE`
-The input is not case-sensitive. E.g. CEG or ceg is shown (Currently only works for CEG)
+##### Format: `recommend`
+
+#### Example of usage:
 
 User input:
 `recommend`
 
-Expected outcome:
+- Expected outcome:
 
 ![recommendedSchedule.jpg](photos%2FrecommendSchedule.jpeg)
 
-If the user enters `Y`, the recommended schedule will be added to their schedule
+- If the user enters `Y`, the recommended schedule will be added to their schedule
 
 ![recommendedSchedule.jpg](screenshots%2Fadd_recommend.jpeg)
 
@@ -150,13 +171,14 @@ If the user enters `Y`, the recommended schedule will be added to their schedule
 Opens the user's personalized module schedule planner and adds the chosen module to the semester specified by the user.
 Adding will not be allowed if the current schedule planner does not contain the required prerequisites.
 
-Format: `add MODULE SEMESTER`
+##### Format: `add MODULE_CODE SEMESTER`
 
-* `MODULE` cannot be empty and must be valid.
+* `MODULE_CODE` cannot be empty and must be valid.
 * `SEMESTER` cannot be empty and must be an integer between 1-8 inclusive.
 
-Example of usage:
+#### Example of usage:
 
+User input:
 `add CS1010 1`
 
 - Expected outcome:
@@ -167,13 +189,14 @@ Example of usage:
 Opens the user's personalized module schedule planner and deletes the chosen module. Deleting will not be allowed if
 the module to be deleted is a prerequisite of a module in later semesters on the schedule planner.
 
-Format: `delete MODULE`
+##### Format: `delete MODULE_CODE`
 
-* `MODULE` cannot be empty and must be valid.
-* `MODULE` must also be in the current schedule planner
+* `MODULE_CODE` cannot be empty and must be valid.
+* `MODULE_CODE` must also be in the current schedule planner
 
-Examples of usage:
+#### Examples of usage:
 
+User input:
 `delete CS1010` (Assume schedule is currently in the state from the example in `add`)
 
 - Expected outcome:
@@ -184,37 +207,41 @@ Examples of usage:
 Opens the user's personalized module schedule planner and shifts the chosen module to the semester specified by the 
 user. Shifting will not be allowed if it causes conflicts with other modules in the schedule planner.
 
-Format: `shift MODULE SEMESTER`
+##### Format: `shift MODULE_CODE SEMESTER`
 
-* `MODULE` cannot be empty and must be valid.
-* `MODULE` must also be in the current schedule planner
+* `MODULE_CODE` cannot be empty and must be valid.
+* `MODULE_CODE` must also be in the current schedule planner
 * `SEMESTER` cannot be empty and must be an integer between 1-8 inclusive.
 
-Example of usage:
+#### Example of usage:
 
+User input:
 `shift CS1010 2`
 
-### Clear all modules from schedule planner: `clear`
-Deletes every module in the module schedule planner. User will be prompted to confirm this action as this command cannot
-be undone.
+### Clear all schedule planner and completion data: `clear`
+Deletes every module in the module schedule planner and their completion data. The user will be prompted to confirm this
+action as this command cannot be undone.
 
-Format: `clear`
+##### Format: `clear`
 
-Example of usage:
+#### Example of usage:
 
+User input:
 `clear`
 
 * Expected outcome:
+
 ![img.png](photos/clear_outcome.png)
 
 ### Complete a module: `complete`
 Completes a module (Completes a module in your schedule planner).
 
-Note: the module you complete has to be first added in your schedule planner! 
+#### Note: 
+- The module you complete has to be first added in your schedule planner! 
 
-Format: `complete`
+##### Format: `complete MODULE_CODE`
 
-Example of usage 1: (scenario where user's selected major is CEG)
+#### Example of usage 1: (scenario where user's selected major is CEG)
 
 User input:
 `complete ma1511`
@@ -222,12 +249,10 @@ User input:
 Expected outcome:
 `Mod completed: MA1511`
 
-###
-
 ### Checking modules left: `left`
 Displays the modules left, which are the modules required for the user's major that have not been completed.
 
-Format: `left`
+#### Format: `left`
 
 Example of usage 1: (major is CEG, no modules completed)
 
@@ -235,9 +260,10 @@ User input:
 `left`
 
 - Expected outcome:
-  ![ss_left_ceg.png](screenshots%2Fss_left_ceg.jpeg)
 
-Example of usage 2: (major is CEG, CS1010 & GEC1000 are added and completed)
+![ss_left_ceg.png](screenshots%2Fss_left_ceg.jpeg)
+
+#### Example of usage 2: (major is CEG, CS1010 & GEC1000 are added and completed)
 
 User input:
 `left`
@@ -250,16 +276,20 @@ User input:
 Based on the modules that have been completed, t
 The user can see how many MCs are left and how much time is left to complete the required MCs.
 
-Format: `pace`
+#### Format: `pace`
 
-if no argument is given, we will take the year that you have initially inputted.
+#### Note:
+- If no argument is given, we will take the year that you have initially inputted.
 
-if an argument is given, we will take the academic year given and calculate the pace based on that.
+- If an argument is given, we will take the academic year given and calculate the pace based on that.
+
+#### Example of Usage:
 
 User input:
 `pace y1/s1`
 
-Expected outcome: assuming 0 modular credits were done in semester one
+- Expected outcome: assuming 0 modular credits were done in semester one
+
 ![pace.jpg](photos%2Fpace.jpeg)
 
 ### View Weekly Timetable: `timetable show`
@@ -309,22 +339,23 @@ on Tuesday and CS2101 has a tutorial at 10 for 1 on Monday.
 **A**: Currently, this feature is not included in NUSDegs.
 
 ## Command Summary
-Note: if a argument is wrapped with `[]` it means that it is optional. 
+Note: if an argument is wrapped with `[]` it means that it is optional. 
 
-| **Command**                                       | **Format**                            |
-|---------------------------------------------------|---------------------------------------|
-| View Help                                         | `help`                                |
-| View modules left for graduation                  | `left`                                | 
-| Check prerequisite for a module                   | `prereq <MODULE_CODE>`                | 
-| Search for modules based on keywords              | `search <keywords>`                   | 
-| View info about a module                          | `info description <MODULE_CODE>`      | 
-| View modules required for major                   | `required`                            | 
-| View schedule planner                             | `schedule`                            | 
-| Recommend a schedule based on major               | `recommend`                           | 
-| Add module to schedule planner                    | `add <MODULE_CODE> <SEMESTER_NUMBER>` | 
-| Delete module from schedule planner               | `delete <MODULE_CODE>`                |
-| Complete a module in your schedule planner        | `complete <MODULE_CODE>`              |
-| Check current pace to graduate                    | `pace [<MODULE_CODE>]`                | 
-| Show weekly timetable                             | `timetable show`                      | 
-| Modify weekly timetable                           | `timetable modify`                    |
-
+| **Command**                                    | **Format**                        |
+|------------------------------------------------|-----------------------------------|
+| View Help                                      | `help`                            |
+| View modules left for graduation               | `left`                            | 
+| Check prerequisite for a module                | `prereq MODULE_CODE`              | 
+| Search for modules based on keywords           | `search KEYWORD`                  | 
+| View info about a module                       | `info description <MODULE_CODE>`        | 
+| View modules required for major                | `required`                        | 
+| View schedule planner                          | `schedule`                        | 
+| Recommend a schedule based on major            | `recommend`                       | 
+| Add module to schedule planner                 | `add MODULE_CODE SEMESTER_NUMBER` | 
+| Delete module from schedule planner            | `delete MODULE_CODE`              |
+| Shift module in schedule planner               | `shift MODULE_CODE SEMESTER`      |
+| Clear all schedule planner and completion data | `clear`                           |
+| Complete a module in your schedule planner     | `complete MODULE_CODE`            |
+| Check current pace to graduate                 | `pace [CURRENT_SEMESTER]`         | 
+| Modify weekly timetable                        | `timetable modify`                |
+| Show weekly timetable                          | `timetable show`                  |

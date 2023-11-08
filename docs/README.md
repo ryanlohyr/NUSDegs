@@ -1,4 +1,4 @@
-# Duke
+# NUSDegs
 
 {Give product intro here}
 

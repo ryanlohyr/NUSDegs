@@ -69,9 +69,17 @@ public class CommandLineView {
     }
 
     public static void printListOfCommands(CommandManager commandManager) {
+        displayMessage("Here are all the commands currently available in NUSDegs!");
+        displayMessage("- Words in UPPER_CASE are the parameters to be supplied by the user.");
+        displayMessage("- Parameters in [] are optional.");
+        System.out.println();
         for (String command : commandManager.printListOfCommands()) {
             displayMessage(command);
         }
+        System.out.println();
+        String userGuideURL = "https://ay2324s1-cs2113-t17-4.github.io/tp/UserGuide.html";
+        displayMessage("For more information, please read our User Guide at this link:");
+        displayMessage(userGuideURL);
     }
 
     /**
