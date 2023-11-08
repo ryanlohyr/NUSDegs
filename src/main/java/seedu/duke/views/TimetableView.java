@@ -9,9 +9,6 @@ import java.util.List;
 import static seedu.duke.views.UserGuideView.printTimetableModifyGuide;
 
 public class TimetableView {
-    private static final int columnWidth = 11;
-    //private static final int singleColumnWidth = 60;
-
     private static final int dayColumnWidth = 10;
     private static final int eventColumnWidth = 45;
     private static final String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
