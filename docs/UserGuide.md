@@ -56,7 +56,7 @@ User input:
 - Expected outcome:
 ![ss_required_cs_1.png](screenshots%2Fss_required_cs_1.png)
 ![ss_required_cs_2.png](screenshots%2Fss_required_cs_2.png)
-- 
+
 ### View module prerequisites:`prereq`
 Based on the module selected, we will show what prerequisites the course has.
 
@@ -79,6 +79,7 @@ User input:
 Assuming the user is from Computer Engineering
 
 - Expected Outcome
+
 ![ss_left_ceg.png](screenshots%2Fss_prereq.jpeg)
 
 
@@ -140,6 +141,7 @@ Shows the user their current schedule planner
 User input: `schedule`
 
 - Expected outcome(if user has not inputted any modules):
+
 ![schedule.jpg](photos%2Fschedule.jpeg)
 
 ### View recommended schedule based on course: `recommend`
@@ -153,9 +155,11 @@ User input:
 `recommend`
 
 - Expected outcome:
+
 ![recommendedSchedule.jpg](photos%2FrecommendSchedule.jpeg)
 
 - If the user enters `Y`, the recommended schedule will be added to their schedule
+
 ![recommendedSchedule.jpg](screenshots%2Fadd_recommend.jpeg)
 
 
@@ -222,6 +226,7 @@ User input:
 `clear`
 
 * Expected outcome:
+
 ![img.png](photos/clear_outcome.png)
 
 ### Complete a module: `complete`
@@ -251,7 +256,8 @@ User input:
 `left`
 
 - Expected outcome:
-  ![ss_left_ceg.png](screenshots%2Fss_left_ceg.jpeg)
+
+![ss_left_ceg.png](screenshots%2Fss_left_ceg.jpeg)
 
 #### Example of usage 2: (major is CEG, CS1010 & GEC1000 are added and completed)
 
@@ -278,7 +284,8 @@ The user can see how many MCs are left and how much time is left to complete the
 User input:
 `pace y1/s1`
 
-Expected outcome: assuming 0 modular credits were done in semester one
+- Expected outcome: assuming 0 modular credits were done in semester one
+
 ![pace.jpg](photos%2Fpace.jpeg)
 
 ## FAQ
