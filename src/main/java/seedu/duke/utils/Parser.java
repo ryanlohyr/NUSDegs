@@ -16,7 +16,7 @@ public class Parser {
      * @return The main command from the input string.
      */
     public static String parseCommand(String userInput) {
-        if (userInput == null) {
+        if (userInput == null || userInput.equals(" ")) {
             return null;
         }
         String[] keywords = userInput.split(" ");
@@ -30,6 +30,9 @@ public class Parser {
      * @return An array of arguments from the input string.
      */
     public static String[] parseArguments(String userInput){
+        if(userInput.equals(" ")){
+            return  null;
+        }
         String[] keywords = userInput.split(" ");
         return Arrays.copyOfRange(keywords, 1, keywords.length);
     }
@@ -131,7 +134,6 @@ public class Parser {
         }
         case UserCommandWord.VIEW_SCHEDULE_COMMAND:
         case UserCommandWord.CLEAR_SCHEDULE_COMMAND:
-            break;
         case UserCommandWord.RECOMMEND_COMMAND: {
             if (arguments.length > 0) {
                 return false;

@@ -64,7 +64,7 @@ Based on the module selected, we will show what prerequisites the course has.
 - Since NUS has the concept of preclusions, when prerequisites are shown, it is shown based on the degree of the current 
 user.
 
-- If the module is not a requisite of the students major, we will only show one preclusion as a prerequisite 
+- If the module is not a requisite of the students major, we will only show one preclusion as a prerequisite
 
 Format: `prepreq MODULE_CODE`
 
@@ -123,8 +123,13 @@ Shows the user their current schedule planner
 
 Format: `schedule`
 
-* The input does not take into account any arguments after the command word. E.g. `schedule` and `schedule 1`
-will output the same thing.
+The input does not take accept any arguments after the command word.
+
+User Input: `schedule`
+
+Expected outcome(if user has not inputted any modules):
+
+![schedule.jpg](photos%2Fschedule.jpeg)
 
 ### View recommended schedule based on course: `recommend`
 Based on the course, we will provide an recommended schedules that is sorted based on prerequisites.
@@ -196,9 +201,6 @@ be undone.
 
 Format: `clear`
 
-* The input does not take into account any arguments after the command word. E.g. `clear` and `clear 1`
-will output the same thing.
-
 Example of usage:
 
 `clear`
@@ -252,14 +254,13 @@ The user can see how many MCs are left and how much time is left to complete the
 Format: `pace`
 
 if no argument is given, we will take the year that you have initially inputted.
-User input
 
 if an argument is given, we will take the academic year given and calculate the pace based on that.
 
 User input:
 `pace y1/s1`
 
-Expected outcome: assuming 0MCs were done in semester one
+Expected outcome: assuming 0 modular credits were done in semester one
 ![pace.jpg](photos%2Fpace.jpeg)
 
 ## FAQ

@@ -79,9 +79,15 @@ public class ModuleMethodsController {
     }
 
     public static void showModulesLeft(ArrayList<String> moduleCodes) {
+        //add parser.IsInputVal
+        //boolean validInput = Parser.isValidInputForCommand(commandWord, arguments);
         displayMessage("Modules Left: ");
         printModuleStringArray(moduleCodes);
     }
+
+    //    public static void getStudentSchedule(student){
+    //
+    //    }
 
 
     public static void addModule(String module, int targetSem, Student student) {

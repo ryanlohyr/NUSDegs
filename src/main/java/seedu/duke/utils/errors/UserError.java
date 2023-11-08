@@ -40,7 +40,7 @@ public class UserError {
     }
 
     public static void invalidShiftFormat() {
-        System.out.println("Please shift a module using this format: shift [module code] [semester]");
+        System.out.println("Please shift a module using this format: shift [module code] [semester to move to]");
     }
 
     public static void emptyInputforInfoCommand() {
