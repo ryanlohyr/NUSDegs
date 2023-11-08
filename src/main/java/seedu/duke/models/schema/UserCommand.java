@@ -31,22 +31,23 @@ public class UserCommand implements UserCommandWord {
         this.userInput = userInput;
         commandWord = parseCommand(userInput);
         arguments = parseArguments(userInput);
-        isValid = true;
         this.commandManager = new CommandManager();
 
         if (!commandManager.getListOfCommandNames().contains(commandWord)){
             UserError.displayInvalidInputCommand(commandWord);
             isValid = false;
-        } else {
-
-            boolean validInput = Parser.isValidInputForCommand(commandWord, arguments);
-
-            if (!validInput) {
-                UserError.displayInvalidMethodCommand(commandWord);
-                isValid = false;
-
-            }
+            return;
         }
+
+        boolean validArgument = Parser.isValidInputForCommand(commandWord, arguments);
+
+        if (!validArgument) {
+            UserError.displayInvalidMethodCommand(commandWord);
+            isValid = false;
+            return;
+        }
+
+        isValid = true;
     }
 
     public UserCommand() {
@@ -86,77 +87,77 @@ public class UserCommand implements UserCommandWord {
 
     public void processCommand(Student student) {
         switch (commandWord) {
-            case UserCommandWord.LEFT_COMMAND: {
-                showModulesLeft(student.getModuleCodesLeft());
-                break;
-            }
-            case UserCommandWord.PACE_COMMAND: {
-                computePace(arguments, student.getCurrentModuleCredits(), student.getYear());
-                break;
-            }
-            case UserCommandWord.PREREQUISITE_COMMAND: {
-                String module = arguments[0];
-                determinePrereq(module.toUpperCase(), student.getMajor()); //to convert "CEG" to dynamic course
-                break;
-            }
-            case UserCommandWord.RECOMMEND_COMMAND: {
-                recommendScheduleToStudent(student);
-                break;
-            }
-            case UserCommandWord.ADD_MODULE_COMMAND: {
-                String module = arguments[0].toUpperCase();
-                int targetSem = Integer.parseInt(arguments[1]);
+        case UserCommandWord.LEFT_COMMAND: {
+            showModulesLeft(student.getModuleCodesLeft());
+            break;
+        }
+        case UserCommandWord.PACE_COMMAND: {
+            computePace(arguments, student.getCurrentModuleCredits(), student.getYear());
+            break;
+        }
+        case UserCommandWord.PREREQUISITE_COMMAND: {
+            String module = arguments[0];
+            determinePrereq(module.toUpperCase(), student.getMajor()); //to convert "CEG" to dynamic course
+            break;
+        }
+        case UserCommandWord.RECOMMEND_COMMAND: {
+            recommendScheduleToStudent(student);
+            break;
+        }
+        case UserCommandWord.ADD_MODULE_COMMAND: {
+            String module = arguments[0].toUpperCase();
+            int targetSem = Integer.parseInt(arguments[1]);
 
-                addModule(module, targetSem, student);
-                break;
-            }
-            case UserCommandWord.DELETE_MODULE_COMMAND: {
-                String module = arguments[0].toUpperCase();
+            addModule(module, targetSem, student);
+            break;
+        }
+        case UserCommandWord.DELETE_MODULE_COMMAND: {
+            String module = arguments[0].toUpperCase();
 
-                deleteModule(module,student);
-                break;
-            }
-            case UserCommandWord.SHIFT_MODULE_COMMAND: {
-                String module = arguments[0].toUpperCase();
-                int targetSem = Integer.parseInt(arguments[1]);
+            deleteModule(module,student);
+            break;
+        }
+        case UserCommandWord.SHIFT_MODULE_COMMAND: {
+            String module = arguments[0].toUpperCase();
+            int targetSem = Integer.parseInt(arguments[1]);
 
-                shiftModule(module, targetSem, student);
-                break;
-            }
-            case UserCommandWord.VIEW_SCHEDULE_COMMAND: {
-                student.printSchedule();
-                break;
-            }
-            case UserCommandWord.COMPLETE_MODULE_COMMAND: {
-                String module = arguments[0].toUpperCase();
-                //to add to user completed module
-                completeModule(student, module);
+            shiftModule(module, targetSem, student);
+            break;
+        }
+        case UserCommandWord.VIEW_SCHEDULE_COMMAND: {
+            student.printSchedule();
+            break;
+        }
+        case UserCommandWord.COMPLETE_MODULE_COMMAND: {
+            String module = arguments[0].toUpperCase();
+            //to add to user completed module
+            completeModule(student, module);
 
-                break;
-            }
-            case UserCommandWord.REQUIRED_MODULES_COMMAND: {
-                getRequiredModulesForStudent(student.getMajor());
-                break;
-            }
-            case UserCommandWord.INFO_COMMAND: {
-                Api.infoCommands(arguments[0], userInput);
-                break;
-            }
-            case UserCommandWord.SEARCH_MODULE_COMMAND: {
-                Api.searchCommand(userInput);
-                break;
-            }
-            case UserCommandWord.HELP_COMMAND: {
-                printListOfCommands(commandManager);
-                break;
-            }
-            case UserCommandWord.TIMETABLE_COMMAND: {
-                student.timetableShowOrModify(student, userInput);
-                break;
-            }
-            default: {
-                break;
-            }
+            break;
+        }
+        case UserCommandWord.REQUIRED_MODULES_COMMAND: {
+            getRequiredModulesForStudent(student.getMajor());
+            break;
+        }
+        case UserCommandWord.INFO_COMMAND: {
+            Api.infoCommands(arguments[0], userInput);
+            break;
+        }
+        case UserCommandWord.SEARCH_MODULE_COMMAND: {
+            Api.searchCommand(userInput);
+            break;
+        }
+        case UserCommandWord.HELP_COMMAND: {
+            printListOfCommands(commandManager);
+            break;
+        }
+        case UserCommandWord.TIMETABLE_COMMAND: {
+            student.timetableShowOrModify(student, userInput);
+            break;
+        }
+        default: {
+            break;
+        }
         }
 
     }
