@@ -304,13 +304,22 @@ public class Student {
         }
         // Ok the current sem modules are back in an array list<Module>
         // so the point of putting it in the module list was to check whether empty
-        ArrayList<Module> currentSemModuleList = currentSemesterModules.getMainModuleList();
-        // new arrayList<moduleweekly> is instantiated
+        ArrayList<Module> newCurrentSemModuleList = currentSemesterModules.getMainModuleList();
+        // new arrayList<moduleweekly> is instantiated, USE THIS, USE THIS TO CHECK IF IT EXISTS THE OTHER WAY ROUND
         ArrayList<ModuleWeekly> currentSemesterModulesWeekly = timetable.getCurrentSemesterModulesWeekly();
         // moduleweekly added with module code  into arrayList<moduleweekly>
-        for (int i = 0; i < currentSemModuleList.size(); i++) {
-            String currModuleCode = currentSemModuleList.get(i).getModuleCode();
-            if (isExistInCurrentSemesterModules(currModuleCode, currentSemesterModulesWeekly)) {
+        for (int i = 0; i < currentSemesterModulesWeekly.size(); i++) {
+            ModuleWeekly currModule = currentSemesterModulesWeekly.get(i);
+            String currModuleCode = currModule.getModuleCode();
+            if (isExistInCurrentSemesterModule(currModuleCode, newCurrentSemModuleList)) {
+                continue;
+            }
+            timetable.removeFromCurrentSemesterModulesWeekly(currModule);
+        }
+
+        for (int i = 0; i < newCurrentSemModuleList.size(); i++) {
+            String currModuleCode = newCurrentSemModuleList.get(i).getModuleCode();
+            if (isExistInCurrentSemesterModuleWeekly(currModuleCode, currentSemesterModulesWeekly)) {
                 continue;
             }
             ModuleWeekly currModule = new ModuleWeekly(currModuleCode);
@@ -414,9 +423,19 @@ public class Student {
      * @param currentSemesterModulesWeekly The list of ModuleWeekly objects for the current semester.
      * @return true if the module exists, false otherwise.
      */
-    public static boolean isExistInCurrentSemesterModules(String moduleCode,
+    public static boolean isExistInCurrentSemesterModuleWeekly(String moduleCode,
                                                           ArrayList<ModuleWeekly> currentSemesterModulesWeekly) {
         for (ModuleWeekly module : currentSemesterModulesWeekly) {
+            if (module.getModuleCode().equals(moduleCode)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean isExistInCurrentSemesterModule(String moduleCode,
+                                                               ArrayList<Module> currentSemesterModulesWeekly) {
+        for (Module module : currentSemesterModulesWeekly) {
             if (module.getModuleCode().equals(moduleCode)) {
                 return true;
             }

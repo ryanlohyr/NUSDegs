@@ -73,7 +73,7 @@ class WeeklyScheduleViewTest {
 
         String expectedOutput =
                 "Weekly Schedule is unavailable because you have not added any lectures/tutorials/labs yet.\n" +
-                "To use your Timetable, please add a module using this format: add [module code] [semester]\n";
+                "To add classes your Timetable, please enter 'timetable modify'\n";
 
         expectedOutput = expectedOutput
                 .replaceAll("\r\n", "\n")

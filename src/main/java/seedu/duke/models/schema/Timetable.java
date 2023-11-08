@@ -23,10 +23,13 @@ public class Timetable {
         currentSemesterModulesWeekly.add(module);
     }
 
+    public void removeFromCurrentSemesterModulesWeekly(ModuleWeekly module) {
+        currentSemesterModulesWeekly.remove(module);
+    }
+
     public ArrayList<ModuleWeekly> getCurrentSemesterModulesWeekly() {
         return currentSemesterModulesWeekly;
     }
-
 
     public void printCurrentSemesterModulesWeekly(Student student) {
         for (ModuleWeekly moduleweekly : currentSemesterModulesWeekly) {
@@ -60,7 +63,7 @@ public class Timetable {
                 System.out.println(currentSemesterModulesWeekly.get(i).getModuleCode());
             }
             Scanner in = new Scanner(System.in);
-            System.out.println("Which current module do you want to modify?");
+            System.out.println("Which current module do you want to modify? (ENTER MODULE CODE)");
             String moduleCode = in.nextLine().trim();
             if (!isExistInCurrentSemesterModules(moduleCode, timetable.currentSemesterModulesWeekly)) {
                 System.out.println("Sorry that module doesn't exist in current semesters");
