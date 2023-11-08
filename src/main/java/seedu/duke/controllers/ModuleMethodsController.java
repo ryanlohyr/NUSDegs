@@ -129,7 +129,7 @@ public class ModuleMethodsController {
     }
 
     public static void clearSchedule(Student student) {
-        if(isConfirmedToClearSchedule()) {
+        if (isConfirmedToClearSchedule()) {
             student.clearAllModulesFromSchedule();
             displaySuccessfulClearMessage();
             return;
