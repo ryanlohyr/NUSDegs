@@ -48,10 +48,15 @@ class TimetableViewTest {
         fourthTestModule.addLecture("FRIDAY", 16, 2);
         fourthTestModule.addTutorial("THURSDAY", 17, 1);
 
+        ModuleWeekly overlappingModule = new ModuleWeekly("IE2141");
+        overlappingModule.addTutorial("wednesday", 11, 2);
+
         currentSemesterModules.add(firstTestModule);
         currentSemesterModules.add(secondTestModule);
         currentSemesterModules.add(thirdTestModule);
         currentSemesterModules.add(fourthTestModule);
+        currentSemesterModules.add(overlappingModule);
+
         TimetableView.printTimetable(currentSemesterModules);
 
         String printedOutput = outputStream.toString();
@@ -63,6 +68,7 @@ class TimetableViewTest {
                 "| DAY       | TIMETABLE                                    |\n" +
                 "------------------------------------------------------------\n" +
                 "| Wednesday | EE2026 Lab (9am-12pm)                        |\n" +
+                "|           | IE2141 Tutorial (11am-1pm)                   |\n" +
                 "|           | CS1231 Lecture (12pm-2pm)                    |\n" +
                 "|           | EE2026 Tutorial (5pm-6pm)                    |\n" +
                 "------------------------------------------------------------\n" +
