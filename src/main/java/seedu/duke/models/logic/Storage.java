@@ -70,6 +70,7 @@ public class Storage {
 
                 switch(splitParts[0]) {
 
+                // Happens once on the first line of txt file so that sorting subsequent modules is possible
                 case "ModulesPerSem":
                     String[] modulesPerSemStringArray = splitParts[1].split(",");
                     for (int i = 0; i < modulesPerSemArray.length; i++) {
@@ -79,9 +80,9 @@ public class Storage {
                 case "Module":
                     String module = splitParts[1];
                     int targetSemester = 1;
-                    int indexOfLastModuleOfSem = 0;
+                    int indexOfLastModuleOfSem = modulesPerSemArray[targetSemester - 1] - 1;
                     while (targetIndex > indexOfLastModuleOfSem) {
-                        indexOfLastModuleOfSem += modulesPerSemArray[targetSemester - 1];
+                        indexOfLastModuleOfSem += modulesPerSemArray[targetSemester];
                         targetSemester += 1;
                     }
 

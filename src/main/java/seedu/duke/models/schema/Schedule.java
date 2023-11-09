@@ -191,13 +191,15 @@ public class Schedule {
         }
 
         int indexToAdd = 0;
-        for (int i = 1; i < targetSem; i++) {
-            indexToAdd += this.modulesPerSem[i - 1];
+        int startIndexOfSem = 0;
+        for (int i = 0; i < targetSem; i++) {
+            startIndexOfSem = indexToAdd;
+            indexToAdd += this.modulesPerSem[i];
         }
 
         //Sub list as we only want modules before the current target semester
 
-        List<String> partialModulesPlannedArray = modulesPlanned.getModuleCodes().subList(0, (indexToAdd));
+        List<String> partialModulesPlannedArray = modulesPlanned.getModuleCodes().subList(0, (startIndexOfSem));
         ModuleList partialModulesPlanned = new ModuleList(String.join(" ", partialModulesPlannedArray));
 
         try {
