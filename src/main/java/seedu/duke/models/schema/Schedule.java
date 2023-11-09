@@ -52,6 +52,14 @@ public class Schedule {
         return currentSemesterModules;
     }
     */
+
+    public Schedule(ModuleList modulesPlanned, int[] modulesPerSem) {
+        this.modulesPerSem = modulesPerSem;
+        this.modulesPlanned = modulesPlanned;
+        completedModules = new HashMap<String, Module>();
+
+    }
+
     /**
      * Constructs a new `Schedule` with the provided modules and distribution across semesters.
      *

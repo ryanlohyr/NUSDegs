@@ -1,11 +1,14 @@
 package seedu.duke.controllers;
 
 import seedu.duke.models.logic.CompletePreqs;
+import seedu.duke.models.logic.Storage;
 import seedu.duke.models.schema.Student;
 import seedu.duke.models.schema.ModuleList;
 import seedu.duke.models.schema.CommandManager;
 import seedu.duke.models.schema.UserCommand;
 import seedu.duke.utils.Parser;
+import seedu.duke.utils.exceptions.CorruptedFileException;
+import seedu.duke.utils.exceptions.MissingFileException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,6 +29,7 @@ public class ModulePlannerController {
     private ModuleList modulesTaken;
     private CompletePreqs addModulePreqs;
     private CommandManager commandManager;
+    private Storage storage;
 
     public ModulePlannerController() {
         this.commandManager = new CommandManager();
@@ -70,6 +74,21 @@ public class ModulePlannerController {
             userInput = in.nextLine().trim();
         } while (!parser.checkNameInput(userInput, commandManager.getListOfCommandNames()));
         student.setName(userInput);
+
+        // Create storage file based on userName
+        storage = new Storage(userInput);
+        try {
+            System.out.println("Attempting to retrieve data from save file...");
+            student.setSchedule(storage.loadSchedule());
+            System.out.println("Data successfully retrieved!\n");
+        } catch (MissingFileException e) {
+            System.out.println("First time user, creating new save file...");
+            storage.createUserStorageFile();
+            System.out.println("File successfully created!\n");
+        } catch (CorruptedFileException e) {
+            System.out.println("It seems that your save file is corrupted and we are unable to retrieve any data.\n" +
+                    "Please continue using the application to create a new save file!\n");
+        }
 
         // Get and set student's major
         displayGetMajor(student.getName());
