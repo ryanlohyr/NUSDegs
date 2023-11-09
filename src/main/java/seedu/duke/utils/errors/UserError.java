@@ -68,8 +68,8 @@ public class UserError {
     }
 
     public static void emptyInputforTimetableCommand() {
-        System.out.println("Empty input detected. Please enter a valid input after the timetable command. " +
-                "(E.g. show, modify)");
+        System.out.println("Empty input detected. Please enter a valid argument after the timetable command. " +
+                "(E.g.timetable show, timetable modify)");
     }
     public static void emptyMajor() {
         System.out.println("Major has not been provided yet.");
