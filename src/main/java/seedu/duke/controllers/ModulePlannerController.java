@@ -91,7 +91,7 @@ public class ModulePlannerController {
         Scanner in = new Scanner(System.in);
         UserCommand currentUserCommand = new UserCommand();
         while (!currentUserCommand.isBye()) {
-            currentUserCommand = new UserCommand(in.nextLine());
+            currentUserCommand = new UserCommand(in.nextLine().replace("\r", ""));
             if (currentUserCommand.isValid() && !currentUserCommand.isBye()) {
                 currentUserCommand.processCommand(student);
             }
