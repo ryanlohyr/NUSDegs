@@ -191,6 +191,13 @@ Adding will not be allowed if the current schedule planner does not contain the 
 * `MODULE_CODE` cannot be empty and must be valid.
 * `SEMESTER` cannot be empty and must be an integer between 1-8 inclusive.
 
+##### Note:
+- We do not check for preclusion's.
+  E.g. If you have completed/added CS2040, and the prerequisite of a module you are trying to add is CS2040C,
+  although they are preclusion's of each other, you are required to satisfy CS2040C! (It is something 
+we hope to implement in the future!)
+
+
 #### Example of usage:
 
 User input:
@@ -208,6 +215,12 @@ the module to be deleted is a prerequisite of a module in later semesters on the
 
 * `MODULE_CODE` cannot be empty and must be valid.
 * `MODULE_CODE` must also be in the current schedule planner
+
+##### Note:
+- We do not check for preclusion's.
+E.g. If you have completed/added CS2040, and the prerequisite of a module you are trying to delete is CS2040C, 
+although they are preclusion's of each other, you are required to satisfy CS2040C! (It is something we hope to implement 
+in the future!)
 
 #### Examples of usage:
 
@@ -227,6 +240,12 @@ user. Shifting will not be allowed if it causes conflicts with other modules in 
 * `MODULE_CODE` cannot be empty and must be valid.
 * `MODULE_CODE` must also be in the current schedule planner
 * `SEMESTER` cannot be empty and must be an integer between 1-8 inclusive.
+
+##### Note:
+- We do not check for preclusion's.
+  E.g. If you have completed/added CS2040, and the prerequisite of a module you are trying to shift is CS2040C,
+  although they are preclusion's of each other, you are required to satisfy CS2040C! (It is something we hope to implement
+  in the future!)
 
 #### Example of usage:
 
@@ -252,7 +271,12 @@ User input:
 Completes a module (Completes a module in your schedule planner).
 
 #### Note: 
-- The module you complete has to be first added in your schedule planner! 
+- The module you complete has to be first added in your schedule planner!
+
+- We do not check for preclusion's.
+  E.g. If you have completed/added CS2040, and the prerequisite of a module you are trying to complete is CS2040C,
+  although they are preclusion's of each other, you are required to satisfy CS2040C! (It is something
+  we hope to implement in the future!)
 
 ##### Format: `complete MODULE_CODE`
 
@@ -297,6 +321,9 @@ The user can see how many MCs are left and how much time is left to complete the
 - If no argument is given, we will take the year that you have initially inputted.
 
 - If an argument is given, we will take the academic year given and calculate the pace based on that.
+
+- The current number of modular credits to complete is set to 160. However, this is something we do want to modify in 
+future to cater to our double degree friends!
 
 #### Example of Usage:
 

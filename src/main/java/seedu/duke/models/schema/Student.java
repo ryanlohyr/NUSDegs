@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
 
-import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
+import static seedu.duke.models.logic.Prerequisite.getModulePrereqBasedOnCourse;
 import static seedu.duke.models.logic.DataRepository.getRequirements;
 import static seedu.duke.utils.errors.HttpError.displaySocketError;
 import static seedu.duke.views.CommandLineView.displaySuccessfulCompleteMessage;
