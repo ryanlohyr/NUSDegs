@@ -10,6 +10,7 @@ import seedu.duke.utils.Parser;
 import seedu.duke.utils.exceptions.CorruptedFileException;
 import seedu.duke.utils.exceptions.MissingFileException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -63,6 +64,7 @@ public class ModulePlannerController {
         initialiseUser();
         displayReady();
         handleUserInputTillExitCommand();
+        saveStudentData();
         displayGoodbye();
     }
 
@@ -70,7 +72,7 @@ public class ModulePlannerController {
         Scanner in = new Scanner(System.in);
         String userInput;
         do {
-            System.out.println("Please enter your name: ");
+            System.out.println("Please enter your name (used to retrieve your save file): ");
             userInput = in.nextLine().trim();
         } while (!parser.checkNameInput(userInput, commandManager.getListOfCommandNames()));
         student.setName(userInput);
@@ -80,14 +82,14 @@ public class ModulePlannerController {
         try {
             System.out.println("Attempting to retrieve data from save file...");
             student.setSchedule(storage.loadSchedule());
-            System.out.println("Data successfully retrieved!\n");
+            System.out.println("Data successfully retrieved!");
         } catch (MissingFileException e) {
-            System.out.println("First time user, creating new save file...");
+            System.out.println("Save file does not exist, creating new save file...");
             storage.createUserStorageFile();
-            System.out.println("File successfully created!\n");
+            System.out.println("File successfully created!");
         } catch (CorruptedFileException e) {
             System.out.println("It seems that your save file is corrupted and we are unable to retrieve any data.\n" +
-                    "Please continue using the application to create a new save file!\n");
+                    "Please continue using the application to create a new save file!");
         }
 
         // Get and set student's major
@@ -116,6 +118,15 @@ public class ModulePlannerController {
             }
         }
         in.close();
+    }
+
+    public void saveStudentData() {
+        try {
+            storage.saveSchedule(student);
+            System.out.println("Data successfully saved in save file");
+        } catch (IOException e) {
+            System.out.println("Unable to save data.");
+        }
     }
 
     //    private void processCommand(String command, String[] arguments, String userInput) {

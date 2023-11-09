@@ -1,6 +1,8 @@
 package seedu.duke.models.logic;
 
+import seedu.duke.models.schema.ModuleList;
 import seedu.duke.models.schema.Schedule;
+import seedu.duke.models.schema.Student;
 import seedu.duke.utils.exceptions.CorruptedFileException;
 import seedu.duke.utils.exceptions.MissingFileException;
 
@@ -103,6 +105,38 @@ public class Storage {
 
     }
 
+    public void saveSchedule(Student student) throws IOException {
+
+        String scheduleFilePath = userDirectory + "/" + userName + "/" + "schedule.txt";
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(scheduleFilePath))) {
+
+            int[] modulesPerSemArray = student.getSchedule().getModulesPerSem();
+
+            StringBuilder modulesPerSemNumbers = new StringBuilder(Integer.toString(modulesPerSemArray[0]));
+            for (int i = 1; i < modulesPerSemArray.length; i++) {
+                modulesPerSemNumbers.append(",").append(modulesPerSemArray[i]);
+            }
+
+            // Write the new content to the file
+            writer.write("ModulesPerSem | " + modulesPerSemNumbers);
+            writer.newLine();
+
+            ModuleList modulesPlanned = student.getSchedule().getModulesPlanned();
+            int numberOfModules = student.getSchedule().getModulesPlanned().getMainModuleList().size();
+            String completionStatus;
+            for (int i = 0; i < numberOfModules; i++) {
+                String moduleCode = modulesPlanned.getModuleByIndex(i).getModuleCode();
+                if (modulesPlanned.getModuleByIndex(i).getCompletionStatus()) {
+                    completionStatus = "O";
+                } else {
+                    completionStatus = "X";
+                }
+                writer.write("Module | " + moduleCode + " | " + completionStatus);
+                writer.newLine();  // Move to the next line
+            }
+        }
+    }
 
 
 
