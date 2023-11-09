@@ -9,13 +9,15 @@ import seedu.duke.utils.Parser;
 import seedu.duke.utils.errors.UserError;
 import seedu.duke.utils.exceptions.InvalidPrereqException;
 
+import java.io.IOException;
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
 
 import static seedu.duke.controllers.ModuleServiceController.chooseToAddToSchedule;
 import static seedu.duke.controllers.ModuleServiceController.isConfirmedToClearSchedule;
 import static seedu.duke.models.logic.Api.doesModuleExist;
-import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
+import static seedu.duke.models.logic.Prerequisite.getModulePrereqBasedOnCourse;
+import static seedu.duke.utils.errors.HttpError.displaySocketError;
 import static seedu.duke.views.CommandLineView.displayMessage;
 import static seedu.duke.views.CommandLineView.displaySuccessfulAddMessage;
 import static seedu.duke.views.CommandLineView.showPrereq;
@@ -99,10 +101,17 @@ public class ModuleMethodsController {
     }
 
     public static void recommendScheduleToStudent(Student student) {
-        displayMessage("Hold on a sec! Generating your recommended schedule <3....");
-        //to refactor
-        ArrayList<String> recommendedSchedule = student.getSchedule().generateRecommendedSchedule(student.getMajor());
-        chooseToAddToSchedule(student, recommendedSchedule);
+        try{
+            displayMessage("Hold on a sec! Generating your recommended schedule <3....");
+            ArrayList<String> recommendedSchedule = student
+                    .getSchedule()
+                    .generateRecommendedSchedule(student.getMajor());
+            chooseToAddToSchedule(student, recommendedSchedule);
+        }catch (IOException e) {
+            displayMessage("Oh no, we could not generate your schedule");
+            displaySocketError();
+        }
+
     }
 
     public static void deleteModule(String module, Student student) {
@@ -112,6 +121,8 @@ public class ModuleMethodsController {
             student.printSchedule();
         } catch (MissingModuleException | MandatoryPrereqException e) {
             displayMessage(e.getMessage());
+        } catch (IOException e) {
+            displaySocketError();
         }
     }
 
@@ -126,6 +137,8 @@ public class ModuleMethodsController {
         } catch (FailPrereqException f) {
             showPrereq(module, student.getMajor());
             displayMessage(f.getMessage());
+        } catch (IOException e) {
+            displaySocketError();
         }
     }
 
@@ -193,6 +206,9 @@ public class ModuleMethodsController {
             prereq = getModulePrereqBasedOnCourse(moduleCode, major);
         } catch (InvalidPrereqException e) {
             displayMessage(e.getMessage());
+            return;
+        }catch (IOException e){
+            displaySocketError();
             return;
         }
 

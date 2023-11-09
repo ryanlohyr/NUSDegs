@@ -4,7 +4,10 @@ package seedu.duke.views;
 import seedu.duke.models.schema.CommandManager;
 import seedu.duke.utils.exceptions.InvalidPrereqException;
 
-import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
+import java.io.IOException;
+
+import static seedu.duke.models.logic.Prerequisite.getModulePrereqBasedOnCourse;
+import static seedu.duke.utils.errors.HttpError.displaySocketError;
 
 /**
  * The CommandLineView class provides methods to display messages and user prompts in the command line interface.
@@ -94,6 +97,8 @@ public class CommandLineView {
                     + getModulePrereqBasedOnCourse(module.toUpperCase(),major));
         }catch (InvalidPrereqException e){
             System.out.println(e.getMessage());
+        }catch (IOException e){
+            displaySocketError();
         }
     }
     public static void displaySuccessfulAddMessage() {

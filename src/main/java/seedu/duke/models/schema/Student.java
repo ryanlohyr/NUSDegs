@@ -9,11 +9,13 @@ import seedu.duke.utils.Parser;
 import seedu.duke.utils.exceptions.InvalidPrereqException;
 import seedu.duke.views.TimetableView;
 
+import java.io.IOException;
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
 
-import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
+import static seedu.duke.models.logic.Prerequisite.getModulePrereqBasedOnCourse;
 import static seedu.duke.models.logic.DataRepository.getRequirements;
+import static seedu.duke.utils.errors.HttpError.displaySocketError;
 import static seedu.duke.views.CommandLineView.displaySuccessfulCompleteMessage;
 import static seedu.duke.views.TimetableUserGuideView.addOrRecommendGuide;
 //import static seedu.duke.views.UserGuideView.timetableModifySuccessful;
@@ -155,15 +157,19 @@ public class Student {
      */
     public void completeModuleSchedule(String moduleCode) throws InvalidObjectException,
             FailPrereqException, InvalidPrereqException {
+        try{
+            Module module = schedule.getModule(moduleCode);
 
-        Module module = schedule.getModule(moduleCode);
+            ArrayList<String> modulePrereq = getModulePrereqBasedOnCourse(moduleCode,this.getMajor());
 
-        ArrayList<String> modulePrereq = getModulePrereqBasedOnCourse(moduleCode,this.getMajor());
+            schedule.completeModule(module,modulePrereq);
+            this.completedModuleCredits += module.getModuleCredits();
 
-        schedule.completeModule(module,modulePrereq);
-        this.completedModuleCredits += module.getModuleCredits();
+            displaySuccessfulCompleteMessage();
+        } catch (IOException e) {
+            displaySocketError();
+        }
 
-        displaySuccessfulCompleteMessage();
 
     }
     /**
@@ -174,7 +180,10 @@ public class Student {
      * @param moduleCode The code of the module to be deleted.
      * @throws MandatoryPrereqException If deleting the module fails due to prerequisite dependencies.
      */
-    public void deleteModuleSchedule(String moduleCode) throws MandatoryPrereqException, MissingModuleException {
+    public void deleteModuleSchedule(String moduleCode) throws
+            MandatoryPrereqException,
+            MissingModuleException,
+            IOException {
         try{
             Module module = schedule.getModule(moduleCode);
             schedule.deleteModule(moduleCode);
@@ -187,7 +196,7 @@ public class Student {
     }
 
     public void shiftModuleSchedule(String moduleCode, int targetSem) throws IllegalArgumentException,
-            FailPrereqException, MissingModuleException, InvalidObjectException, MandatoryPrereqException {
+            FailPrereqException, MissingModuleException, IOException, MandatoryPrereqException {
         this.schedule.shiftModule(moduleCode, targetSem);
     }
 

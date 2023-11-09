@@ -51,7 +51,7 @@ public class UserError {
     }
 
     public static void invalidCommandforInfoCommand() {
-        System.out.println("Please enter a valid command after the info command. (E.g description, workload, all)");
+        System.out.println("Please enter a valid command after the info command. (E.g description, workload)");
     }
 
     public static void emptyModuleForInfoCommand(String infoCommand) {

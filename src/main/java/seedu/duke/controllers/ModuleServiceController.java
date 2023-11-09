@@ -46,7 +46,7 @@ public class ModuleServiceController {
                 "(This will overwrite your current schedule!)");
         displayMessage("Please input 'Y' or 'N'");
 
-        String userInput = in.nextLine().replace("\r", "");
+        String userInput = in.nextLine().replace("\r", "").toUpperCase();
 
         while (!userInput.equals("N") && !userInput.equals(("Y"))) {
             displayMessage("Invalid input, please choose Y/N");
@@ -81,11 +81,15 @@ public class ModuleServiceController {
         //        } else {
         //            displayHelp();
         //        }
+        if(userInput.equals("Y")){
+            student.getSchedule().addRecommendedScheduleListToSchedule(scheduleToAdd, true);
+            displayMessage("Here is your schedule planner!");
+            student.getSchedule().printMainModuleList();
+            displayMessage("Happy degree planning!");
+        }else{
+            displayMessage("Okay, we will not put it in your schedule.");
+        }
 
-        student.getSchedule().addRecommendedScheduleListToSchedule(scheduleToAdd, true);
-        displayMessage("Here is your schedule planner!");
-        student.getSchedule().printMainModuleList();
-        displayMessage("Happy degree planning!");
 
     }
 
@@ -110,7 +114,7 @@ public class ModuleServiceController {
                 "This action cannot be undone!");
         displayMessage("Please input 'Y' or 'N'");
 
-        String userInput = in.nextLine();
+        String userInput = in.nextLine().toUpperCase();
 
         while (!userInput.equals("N") && !userInput.equals(("Y"))) {
             displayMessage("Invalid input, please choose Y/N");

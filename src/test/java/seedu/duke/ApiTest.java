@@ -6,6 +6,7 @@ import seedu.duke.utils.exceptions.InvalidModuleCodeException;
 import seedu.duke.utils.exceptions.InvalidModuleException;
 import seedu.duke.models.logic.Api;
 
+import java.io.IOException;
 import java.util.Objects;
 
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ApiTest {
     @Test
-    void testGetModuleInfo_shouldReturnTrueForCS2113() {
+    void testGetModuleInfo_shouldReturnTrueForCS2113() throws IOException {
         String correctModuleInfo = "\"description\":\"This course introduces the necessary skills for systematic " +
                 "and rigorous development of software systems. It covers";
         String moduleCode = "CS2113";
