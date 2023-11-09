@@ -283,7 +283,7 @@ public class TimetableView {
      * @param event Event to be added.
      */
     public static void addToWeeklyTimetableByDay(List<ArrayList<Event>> list, Event event) {
-        ArrayList<Event> childList = list.get(event.getDay());
+        ArrayList<Event> childList = list.get(event.getDayInt());
         childList.add(event);
     }
 
