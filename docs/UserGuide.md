@@ -325,7 +325,17 @@ Expected outcome: when GESS1000 has a lecture at 11 on Tuesday and CS2101 has a 
 
 ### Modify Weekly Timetable: `timetable modify`
 
-Add lectures, tutorials and classes for each module in the student's current semester.
+Add lectures, tutorials and classes for a module in the student's current semester. When the command is entered 
+the program prompts the user to enter the <module code> of the module they wish to modify. 
+
+The subcommands that the user may enter after they have selected the module code are:
+
+`clear` - Clears all lessons added to the selected module
+
+`[lecture/tutorial/lab] /time [int] /duration [int] /day [day]` - Adds a lecture at 11 for 1 hour on Tuesday
+
+Example:
+`lecture /time 11 /duration 1 /day Tuesday` - Adds a lecture at 11 for 1 hour on Tuesday
 
 Format: `timetable modify`
 
