@@ -145,12 +145,6 @@ public class ModuleWeekly extends Module {
         }
     }
 
-    public void clearLessons() {
-        lessons.clear();
-    }
-
-
-
     public void getDuration(String moduleCode) {
         JSONArray workloadCurrModule = null;
         try {
