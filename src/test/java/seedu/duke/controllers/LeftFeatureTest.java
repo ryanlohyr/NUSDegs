@@ -65,7 +65,6 @@ public class LeftFeatureTest {
 
     @Test
     void testLeftFeature_completedSomeNoPrereqModules_expectPrintLeft() {
-        System.setOut(originalOut);
 
         String[] completeUserInputs = {"add cs1010 1", "add dtk1234 2", "complete cs1010", "complete"};
         int currentIndex = 0;
@@ -76,8 +75,6 @@ public class LeftFeatureTest {
             currentIndex ++;
             currentUserCommand = new UserCommand(completeUserInputs[currentIndex]);
         }
-
-        System.setOut(new PrintStream(outputStream));
 
         String userInput = "left";
         currentUserCommand = new UserCommand(userInput);
@@ -91,7 +88,13 @@ public class LeftFeatureTest {
                 .replaceAll("\r\n", "\n")
                 .replaceAll("\r", "\n");
 
-        // Assert the printed output matches the expected value
+        // To exclude printedOutput from add and complete features
+        int indexLeftOutput = printedOutput.indexOf("Modules Left: ");
+        if (indexLeftOutput != -1) {
+            // Extract the text starting from the found index
+            printedOutput = printedOutput.substring(indexLeftOutput);
+        }
+
         String expectedOutput = "Modules Left: \n" +
                 "1. CG1111A     2. MA1511      3. MA1512      4. GESS1000    5. GEC1000     \n" +
                 "6. GEN2000     7. ES2631      8. GEA1000     9. DTK1234     10. EG1311     \n" +
@@ -102,6 +105,7 @@ public class LeftFeatureTest {
         expectedOutput = expectedOutput
                 .replaceAll("\r\n", "\n")
                 .replaceAll("\r", "\n");
+
 
         assertEquals(expectedOutput, printedOutput);
     }
