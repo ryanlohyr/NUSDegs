@@ -319,8 +319,8 @@ if no lectures, tutorials and classes exist , program will display this:
 User input:
 `timetable show`
 
-Expected outcome: when GESS1000 has a lecture at 11 on Tuesday and CS2101 has a tutorial at 10 on Monday.
-
+Expected outcome: when CS2101 has a lecture at 12 on Tuesday and ES2660 has a lecture at 12 on Friday.
+![ss_timetable_show_nomodules.png](screenshots%2Fss_timetable_show_nomodules.png)
 
 ### Modify Weekly Timetable: `timetable modify`
 
@@ -328,20 +328,19 @@ Add lectures, tutorials and classes for a specific module in the student's curre
 User will be asked
 to input the module code, and then can use the following subcommands: 
 
-`clear` - 
+`clear` - Clears all lessons in the selected module in current semester
 
+`[lecture/tutorial/lab] /time [int] /duration [int] /day [String]` - Command to add a lecture/tutorial/lab
+and to specify its details (time, duration, day)
 
 if no modules are scheduled for current semester, program will display this:
-![ss_timetable_nomodules.png](screenshots%2Fss_timetable_nomodules.png)
+
 User input:
 `timetable modify`
 
-Expected outcome: when GESS1000 has a lecture at 12 for 3 hours
-on Tuesday and CS2101 has a tutorial at 10 for 1 on Monday.
-![ss_timetable_show_1.png](screenshots%2Fss_timetable_show_1.png)
-
-
-
+Expected outcome: when GESS1000 has a lecture at 3 for 3 hours
+on Tuesday and CS2101 has a lecture at 12 for 3 hours on Tuesday.
+![ss_timetable_3.png](screenshots%2Fss_timetable_3.png)
 
 
 
