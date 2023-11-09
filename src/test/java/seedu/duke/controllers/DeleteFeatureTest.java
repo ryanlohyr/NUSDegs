@@ -112,4 +112,51 @@ public class DeleteFeatureTest {
 
         assertEquals(expectedOutput, printedOutput);
     }
+
+    @Test
+    void testDeleteFeature_deleteUnknownArgument_expectErrorMessage() {
+        String userInput = "delete faiwefioawlefiuawef";
+        currentUserCommand = new UserCommand(userInput);
+        if (currentUserCommand.isValid() && !currentUserCommand.isBye()) {
+            currentUserCommand.processCommand(student);
+        }
+
+        // Capture the printed output
+        String printedOutput = outputStream.toString().trim();
+        printedOutput = printedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
+
+        // Assert the printed output matches the expected value
+        String expectedOutput = "Module does not exist in schedule";
+        expectedOutput = expectedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
+
+        assertEquals(expectedOutput, printedOutput);
+    }
+
+    @Test
+    void testDeleteFeature_noArguments_expectErrorMessage() {
+        String userInput = "delete";
+        currentUserCommand = new UserCommand(userInput);
+        if (currentUserCommand.isValid() && !currentUserCommand.isBye()) {
+            currentUserCommand.processCommand(student);
+        }
+
+        // Capture the printed output
+        String printedOutput = outputStream.toString().trim();
+        printedOutput = printedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
+
+        // Assert the printed output matches the expected value
+        String expectedOutput = "Please delete a module using this format: delete [module code]\n" +
+                "Invalid argument for command delete";
+        expectedOutput = expectedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
+
+        assertEquals(expectedOutput, printedOutput);
+    }
 }
