@@ -1,5 +1,7 @@
 package seedu.duke.utils.errors;
 
+import seedu.duke.models.schema.Event;
+
 public class UserError {
     public static void invalidInput(){
         System.out.println("Invalid Input provided");
@@ -83,6 +85,10 @@ public class UserError {
 
     public static void displayModuleAlreadyCompleted(String moduleCode){
         System.out.printf("%s has already been marked as completed.%n", moduleCode);
+    }
+
+    public static void displayLessonAlreadyAdded(Event event){
+        System.out.printf("%s is already in your timetable.%n", event);
     }
 
 }
