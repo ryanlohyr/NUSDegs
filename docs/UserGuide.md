@@ -293,7 +293,7 @@ User input:
 `complete ma1511`
 
 Expected outcome:
-`Mod completed: MA1511`
+`Module Successfully Completed`
 
 ### Checking modules left: `left`
 Displays the modules left, which are the modules required for the user's major that have not been completed.
