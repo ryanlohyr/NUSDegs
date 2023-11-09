@@ -145,10 +145,6 @@ public class ModuleWeekly extends Module {
         }
     }
 
-    public void clearLessons() {
-        lessons.clear();
-    }
-
     public void getDuration(String moduleCode) {
         JSONArray workloadCurrModule = null;
         try {
@@ -172,6 +168,9 @@ public class ModuleWeekly extends Module {
 
     //functions to alter lessons
 
+    public void clearLessons() {
+        lessons.clear();
+    }
 
     public ArrayList<Event> getWeeklyTimetable() {
         return lessons;
