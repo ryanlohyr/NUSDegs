@@ -124,8 +124,7 @@ public class InfoFeatureTest {
         printedOutput = printedOutput
                 .replaceAll("\r\n", "\n")
                 .replaceAll("\r", "\n");
-        String expectedOutput = "Please enter a valid command after the info command. " +
-                "(E.g description, workload, all)\n" +
+        String expectedOutput = "Please enter a valid command after the info command. (E.g description, workload)\n" +
                 "Invalid argument for command info";
         expectedOutput = expectedOutput
                 .replaceAll("\r\n", "\n")

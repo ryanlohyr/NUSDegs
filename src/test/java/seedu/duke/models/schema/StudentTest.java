@@ -6,7 +6,7 @@ import seedu.duke.utils.exceptions.FailPrereqException;
 import seedu.duke.utils.exceptions.MandatoryPrereqException;
 import seedu.duke.utils.exceptions.MissingModuleException;
 
-import java.io.InvalidObjectException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -45,7 +45,7 @@ public class StudentTest {
 
     @Test
     void deleteModuleScheduleTest_moduleExists_expectDelete()
-            throws InvalidObjectException, MandatoryPrereqException, MissingModuleException, FailPrereqException {
+            throws IOException, MandatoryPrereqException, MissingModuleException, FailPrereqException {
         Student student = new Student();
         student.addModuleSchedule("CS1010", 1);
         student.deleteModuleSchedule("CS1010");

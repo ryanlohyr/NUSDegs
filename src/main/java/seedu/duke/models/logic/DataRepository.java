@@ -20,18 +20,8 @@ public class DataRepository {
      * @throws RuntimeException If the specified major requirements file is not found.
      */
     public static ArrayList<String> getRequirements(String major) {
-        try {
-            String fileName = String.format("src/main/java/seedu/duke/models/data/%sRequirementsModuleCodes", major);
-            File f = new File(fileName);
-            if (!f.exists()) {
-                String[] courseArray = determineRequirements(major);
-
-                return new ArrayList<>(Arrays.asList(courseArray));
-            }
-            return processCourseFile(f);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        String[] courseArray = determineRequirements(major);
+        return new ArrayList<>(Arrays.asList(courseArray));
     }
 
     /**
@@ -67,7 +57,7 @@ public class DataRepository {
 
         String[] csCourseArray = {
             "CS1101S", "ES2660", "GEC1000", "GEA1000", "GESS1000",
-            "GEN2000", "IS1108", "CS1231S", "CS2030S", "CS2040S",
+            "GEN2000", "IS1108", "CS1231S", "CS2030", "CS2040S",
             "CS2100", "CS2101", "CS2103T", "CS2106", "CS2109S",
             "CS3230", "MA1521", "MA1522", "ST2334", "CP3880"
         };

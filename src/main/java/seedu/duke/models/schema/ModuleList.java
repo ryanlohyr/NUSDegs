@@ -211,7 +211,7 @@ public class ModuleList {
                 return module;
             }
         }
-        throw new InvalidObjectException("Module does not exist.");
+        throw new InvalidObjectException("Module does not exist, please add it in your schedule.");
     }
 
     public Module getModule(Module module) throws InvalidObjectException {

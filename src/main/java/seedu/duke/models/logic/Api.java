@@ -2,10 +2,10 @@ package seedu.duke.models.logic;
 
 import java.io.IOException;
 import java.io.InvalidObjectException;
-import java.net.HttpURLConnection;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.HttpURLConnection;
+import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -20,10 +20,10 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import seedu.duke.utils.exceptions.InvalidModuleCodeException;
 import seedu.duke.utils.exceptions.InvalidModuleException;
-import seedu.duke.models.schema.Major;
 import seedu.duke.models.schema.ModuleList;
 
 import static seedu.duke.models.logic.DataRepository.getRequirements;
+import static seedu.duke.utils.errors.HttpError.displaySocketError;
 
 import seedu.duke.utils.Parser;
 import seedu.duke.utils.errors.UserError;
@@ -31,17 +31,17 @@ import seedu.duke.utils.exceptions.InvalidPrereqException;
 import seedu.duke.views.ModuleInfoView;
 
 
-
 public class Api {
 
     /**
      * Retrieves the prerequisite tree for a module specified by its code.
+     *
      * @author ryanlohyr
      * @param moduleCode The code of the module for which prerequisites are to be retrieved.
      * @return A JSON object representing the prerequisite tree for the module. The prerequisite tree can be in one of
      *
      */
-    private static JSONObject getModulePrereqTree(String moduleCode) {
+    private static JSONObject getModulePrereqTree(String moduleCode) throws IOException {
         JSONObject fullModuleInfo = getFullModuleInfo(moduleCode);
         if (fullModuleInfo == null) {
             return null;
@@ -99,7 +99,7 @@ public class Api {
 
         map.put("MA1511", emptyList);
 
-        map.put("CS1231S",emptyList);
+        map.put("CS1231S", emptyList);
 
         map.put("MA1512", emptyList);
 
@@ -130,11 +130,11 @@ public class Api {
      * @return A JSONObject containing module information.
      *
      */
-    public static JSONObject getFullModuleInfo(String moduleCode) throws RuntimeException {
+    public static JSONObject getFullModuleInfo(String moduleCode) throws RuntimeException, IOException {
         try {
             // Regex pattern to match only letters and numbers
             String regexPattern = "^[a-zA-Z0-9]+$";
-            if (!moduleCode.matches(regexPattern)){
+            if (!moduleCode.matches(regexPattern)) {
                 throw new InvalidModuleException();
             }
             String url = "https://api.nusmods.com/v2/2023-2024/modules/" + moduleCode + ".json";
@@ -148,11 +148,9 @@ public class Api {
             JSONParser parser = new JSONParser();
             return (JSONObject) parser.parse(responseBody);
         } catch (ParseException e) {
-            //to be replaced with more robust error class in the future
             System.out.println("Invalid Module Name");
         } catch (IOException | InterruptedException e) {
-            System.out.println("Invalid Module Name");
-            throw new RuntimeException("java.net.ConnectException", e);
+            throw new IOException(e);
         } catch (URISyntaxException e) {
             //to be replaced with more robust error class in the future
             System.out.println("Sorry, there was an error with" +
@@ -174,9 +172,13 @@ public class Api {
      * @return The name of the module.
      */
     public static String getModuleName(String moduleCode) {
-        JSONObject fullModuleInfo = getFullModuleInfo(moduleCode);
-        assert fullModuleInfo != null;
-        return (String) fullModuleInfo.get("title");
+        try {
+            JSONObject fullModuleInfo = getFullModuleInfo(moduleCode);
+            assert fullModuleInfo != null;
+            return (String) fullModuleInfo.get("title");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -188,17 +190,21 @@ public class Api {
      *
      */
     public static String getDescription(String moduleCode) throws InvalidModuleException, InvalidModuleCodeException {
-        JSONObject moduleInfo = getFullModuleInfo(moduleCode);
-        if (moduleInfo == null) {
-            throw new InvalidModuleCodeException();
+        try {
+            JSONObject moduleInfo = getFullModuleInfo(moduleCode);
+            if (moduleInfo == null) {
+                throw new InvalidModuleCodeException();
+            }
+            return (String) moduleInfo.get("description");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        return (String) moduleInfo.get("description");
     }
 
 
     /**
      * Wraps a long input string into multiple lines at a specified wrap index.
-     *
+     * <p>
      * This method takes an input string and wraps it into multiple lines by inserting newline
      * characters at or before the specified wrap index. It ensures that the words are not split,
      * and the text remains readable.
@@ -232,7 +238,6 @@ public class Api {
 
     /**
      * Retrieves the workload information for a module based on its module code.
-     *
      * @author rohitcube
      * @param moduleCode The module code to retrieve workload information for.
      * @return A JSONArray containing workload details.
@@ -247,23 +252,24 @@ public class Api {
             return (JSONArray) moduleInfo.get("workload");
         } catch (NullPointerException e) {
             throw new InvalidModuleCodeException();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
     /**
      * Retrieves the requirements the module fulfills
-     *
      * @author rohitcube
      * @param moduleCode The module code to retrieve workload information for.
      * @return A JSONArray containing workload details.
      *
      */
-    public static ArrayList<String> getModuleFulfilledRequirements(String moduleCode) {
+    public static ArrayList<String> getModuleFulfilledRequirements(String moduleCode) throws IOException {
         try {
             JSONObject moduleInfo = getFullModuleInfo(moduleCode);
             ArrayList<String> fulfilledArray = new ArrayList<>();
             ArrayList<String> response = (ArrayList<String>) moduleInfo.get("fulfillRequirements");
-            if(response != null){
+            if (response != null) {
                 fulfilledArray = response;
             }
 
@@ -275,7 +281,6 @@ public class Api {
 
     /**
      * Recursively flattens and processes a list of module prerequisites.
-     *
      * @author ryanlohyr
      * @param major              The major or program for which prerequisites are being flattened.
      * @param prerequisites      An ArrayList to store the flattened prerequisites.
@@ -305,7 +310,7 @@ public class Api {
                     }
                     //if this is the last item and the module also part of the courseRequirements, we add it anw
                     if (currRequisite.equals("or") && counter == (lengthOfModulePreReqArray - 1)
-                            && !courseRequirements.contains((formattedModule))){
+                            && !courseRequirements.contains((formattedModule))) {
                         prerequisites.add(formattedModule);
                         return;
                     }
@@ -319,7 +324,7 @@ public class Api {
                         ArrayList<ArrayList<Objects>> initial = (ArrayList<ArrayList<Objects>>) moduleJSON.get("nOf");
                         ArrayList<Objects> formattedInitial = initial.get(1);
                         flattenPrereq(major, prerequisites, formattedInitial, courseRequirements, key);
-                    }else{
+                    } else {
                         String key = (String) moduleJSON.keySet().toArray()[0];
 
                         ArrayList<Objects> initial = (ArrayList<Objects>) moduleJSON.get(key);
@@ -340,19 +345,13 @@ public class Api {
     /**
      * Retrieves the prerequisite array for a module specified by its code and also taking into account the degree
      * requirements of the course.
-     *
      * @author ryanlohyr
      * @param moduleCode The code of the module for which prerequisites are to be retrieved.
      * @return A JSONObject representing the prerequisite tree for the module or NULL if no prerequisites are specified.
      *
      */
     public static ArrayList<String> getModulePrereqBasedOnCourse(String moduleCode, String major)
-            throws InvalidPrereqException {
-        try {
-            Major.valueOf(major.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            System.out.println("Invalid Major Provided");
-        }
+            throws InvalidPrereqException, IOException {
 
         //Modules that has prerequisites incorrectly identified by NUSMods
         if (isModuleException(moduleCode)) {
@@ -370,15 +369,12 @@ public class Api {
         ArrayList<String> prerequisites = new ArrayList<>();
 
         ArrayList<Objects> initial = (ArrayList<Objects>) modulePrereqTree.get(key);
-
-        try{
+        try {
             flattenPrereq(major, prerequisites, initial, getRequirements(major), key);
-        }catch(ClassCastException e){
+        } catch (ClassCastException e) {
             throw new InvalidPrereqException(moduleCode);
         }
-
         return prerequisites;
-
     }
 
     /**
@@ -388,8 +384,13 @@ public class Api {
      * @return `true` if the module exists, `false` if the module does not exist.
      */
     public static boolean doesModuleExist(String moduleCode) {
-        JSONObject moduleInfo = getFullModuleInfo(moduleCode);
-        return (!(moduleInfo == null));
+        try {
+            JSONObject moduleInfo = getFullModuleInfo(moduleCode);
+            return (!(moduleInfo == null));
+        } catch (IOException e) {
+            displaySocketError();
+            return false;
+        }
     }
 
     /**
@@ -402,32 +403,34 @@ public class Api {
      */
     public static boolean satisfiesAllPrereq(String moduleCode, ModuleList completedModules)
             throws IllegalArgumentException {
+        try {
+            if (!doesModuleExist(moduleCode)) {
+                throw new IllegalArgumentException("Invalid module code");
+            }
 
-        if (!doesModuleExist(moduleCode)) {
-            throw new IllegalArgumentException("Invalid module code");
+            JSONObject modulePrereqTree = getModulePrereqTree(moduleCode);
+
+            if (modulePrereqTree == null) {
+                return true;
+            }
+
+            String key = (String) modulePrereqTree.keySet().toArray()[0];
+            ArrayList<Objects> initial = (ArrayList<Objects>) modulePrereqTree.get(key);
+
+            //Modules that has prerequisites incorrectly identified by NUSMods
+            if (isModuleException(moduleCode)) {
+                JSONObject exceptionPrereqTree = new JSONObject();
+                ArrayList<String> requirementList = getExemptedPrerequisite(moduleCode);
+                exceptionPrereqTree.put("and", requirementList);
+
+                key = (String) exceptionPrereqTree.keySet().toArray()[0];
+                initial = (ArrayList<Objects>) exceptionPrereqTree.get(key);
+            }
+
+            return checkPrereq(initial, key, completedModules);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-
-        JSONObject modulePrereqTree = getModulePrereqTree(moduleCode);
-
-        if (modulePrereqTree == null) {
-            return true;
-        }
-
-        String key = (String) modulePrereqTree.keySet().toArray()[0];
-        ArrayList<Objects> initial = (ArrayList<Objects>) modulePrereqTree.get(key);
-
-        //Modules that has prerequisites incorrectly identified by NUSMods
-        if (isModuleException(moduleCode)) {
-            JSONObject exceptionPrereqTree = new JSONObject();
-            ArrayList<String> requirementList = getExemptedPrerequisite(moduleCode);
-            exceptionPrereqTree.put("and", requirementList);
-
-            key = (String) exceptionPrereqTree.keySet().toArray()[0];
-            initial = (ArrayList<Objects>) exceptionPrereqTree.get(key);
-        }
-
-        return checkPrereq(initial, key, completedModules);
-
     }
 
     /**
@@ -442,7 +445,7 @@ public class Api {
             ArrayList<Objects> modulePrereqArray,
             String currRequisite,
             ModuleList completedModules) {
-        try{
+        try {
             if (currRequisite.equals("or")) {
                 for (Object module : modulePrereqArray) {
                     if (module instanceof String) {
@@ -502,7 +505,7 @@ public class Api {
                 }
                 return true;
             }
-        }catch(ClassCastException e){
+        } catch (ClassCastException e) {
             System.out.println("Error checking prereq for this module");
             return false;
         }
@@ -511,7 +514,6 @@ public class Api {
 
     /**
      * Retrieves a list of modules from an external API and returns it as a JSONArray.
-     *
      * @author rohitcube
      * @return A JSONArray containing module information.
      * @throws RuntimeException If there is an issue with the HTTP request or JSON parsing.
@@ -528,7 +530,7 @@ public class Api {
                     " the provided URL: " + e.getMessage());
             throw new RuntimeException(e);
         } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
+            displaySocketError();
         } catch (ParseException e) {
             //to be replaced with more robust error class in the future
             System.out.println("Sorry, the JSON object could not be parsed");
@@ -537,11 +539,9 @@ public class Api {
     }
 
 
-
     /**
      * Executes commands based on user input for module information retrieval.
      * Supports commands: "description", "workload", "all".
-     *
      * @author rohitcube
      * @param command   The command provided by the user.
      * @param userInput The user input string containing the command and module code (if applicable).
@@ -568,15 +568,14 @@ public class Api {
                 UserError.invalidCommandforInfoCommand();
             }
         } catch (InvalidModuleException e) {
-          //  System.out.println("Invalid entry" + e.getMessage());
+            //  System.out.println("Invalid entry" + e.getMessage());
         } catch (InvalidModuleCodeException e) {
-          //  System.out.println(e.getMessage());
+            //  System.out.println(e.getMessage());
         }
     }
 
     /**
      * Searches for modules containing a specified keyword in their title within a given module list.
-     *
      * @author rohitcube
      * @param keyword    The keyword to search for.
      * @param moduleList The list of modules to search within.
@@ -606,10 +605,10 @@ public class Api {
 
     /**
      * Capitalizes the first letter of a given string.
-     *
      * @author rohitcube
      * @param input The input string.
      * @return A new string with the first letter capitalized, or the original string if it is null or empty.
+     *
      */
     public static String capitalizeFirstLetter(String input) {
         if (input == null || input.isEmpty()) {
@@ -623,7 +622,7 @@ public class Api {
 
     /**
      * Performs a module search and displays the results.
-     *
+     * <p>
      * This method takes a user input string, extracts keywords from it, performs a search using
      * the API, and displays the results in a structured format.
      *
