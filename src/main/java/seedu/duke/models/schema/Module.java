@@ -13,6 +13,7 @@ public class Module {
     private String moduleDescription;
     private String moduleCode;
     private int moduleCredits;
+    private boolean isModularCreditsLoaded;
     private boolean isCompleted;
 
     /**
@@ -27,7 +28,7 @@ public class Module {
             throw new NullPointerException();
         }
         this.moduleCode = moduleCode;
-        this.moduleCredits = 4;
+        this.isModularCreditsLoaded = false;
     }
 
     /**
@@ -68,11 +69,31 @@ public class Module {
     }
 
     /**
-     * Gets the credits of this module.
+     * Retrieves the modular credits for a module.
+     * This method fetches the modular credits for a module by calling the NUSMods API.
+     * If the modular credits have already been loaded, it returns the cached value.
+     * If not, it makes an API call to get the full module information and extracts the modular credits.
+     * In case of a ClassCastException (edge case when module has no credits), a default value of 4 credits is set.
+     * Handles IOException by displaying a socket error message.
      *
-     * @return The number of credits for this module.
+     * @return The number of modular credits for the module.
+     *
      */
     public int getModuleCredits() {
+        if(this.isModularCreditsLoaded){
+            return this.moduleCredits;
+        }
+        try {
+            JSONObject response = getFullModuleInfo(moduleCode);
+            assert response != null: "Response from NUSMods API is null";
+            assert !response.isEmpty(): "Response Object is empty";
+            this.moduleCredits = (Integer) response.get("moduleCredit");
+            this.isModularCreditsLoaded = true;
+        }catch (ClassCastException e){
+            this.moduleCredits = 4;
+        }catch (IOException e){
+            displaySocketError();
+        }
         return this.moduleCredits;
     }
 
