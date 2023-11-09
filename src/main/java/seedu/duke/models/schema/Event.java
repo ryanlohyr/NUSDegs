@@ -93,6 +93,22 @@ public class Event {
         }
     }
 
+    public boolean equals(Event event) {
+        if (this.startTime != event.getStartTime()) {
+            return false;
+        }
+
+        if (this.duration != event.getDuration()) {
+            return false;
+        }
+
+        if (!this.moduleCode.equals(event.getModuleCode())) {
+            return false;
+        }
+
+        return true;
+    }
+
     public boolean isEarlierThan(Event event) {
         // compare startTime
         if (this.startTime < event.getStartTime()) {

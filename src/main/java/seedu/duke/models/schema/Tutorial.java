@@ -29,6 +29,21 @@ public class Tutorial extends Event {
     }
 
     @Override
+    public boolean equals(Event event) {
+        boolean isSameEvent = super.equals(event);
+
+        if (!isSameEvent) {
+            return false;
+        }
+
+        if (!this.getEventType().equals(event.getEventType())) {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
     public String toString() {
         return super.toString() + " " + getEventType() + " " + getTime(getStartTime(), getDuration());
     }

@@ -4,6 +4,7 @@ package seedu.duke.models.schema;
 import org.json.simple.JSONArray;
 import seedu.duke.utils.exceptions.InvalidModuleCodeException;
 import seedu.duke.models.logic.Api;
+import seedu.duke.utils.errors.UserError;
 
 import java.util.ArrayList;
 
@@ -106,16 +107,42 @@ public class ModuleWeekly extends Module {
         this.tutorialDuration = tutorialDuration;
     }
 
+    public boolean exists(Event newEvent) {
+        for (Event existingEvent : lessons) {
+            if (newEvent.equals(existingEvent)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean canAddToTimetable(Event event) {
+        if (this.exists(event)) {
+            UserError.displayLessonAlreadyAdded(event);
+            return false;
+        }
+        return true;
+    }
+
     public void addLecture(String day, int time, int duration) {
-        lessons.add(new Lecture(day, time, duration, moduleCode));
+        Event newLecture = new Lecture(day, time, duration, moduleCode);
+        if (canAddToTimetable(newLecture)) {
+            lessons.add(newLecture);
+        }
     }
 
     public void addTutorial(String day, int time, int duration) {
-        lessons.add(new Tutorial(day, time, duration, moduleCode));
+        Event newTutorial = new Tutorial(day, time, duration, moduleCode);
+        if (canAddToTimetable(newTutorial)) {
+            lessons.add(newTutorial);
+        }
     }
 
     public void addLab(String day, int time, int duration) {
-        lessons.add(new Lab(day, time, duration, moduleCode));
+        Event newLab = new Lab(day, time, duration, moduleCode);
+        if (canAddToTimetable(newLab)) {
+            lessons.add(newLab);
+        }
     }
 
     public void getDuration(String moduleCode) {
