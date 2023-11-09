@@ -64,7 +64,7 @@ public class Api {
             JSONParser parser = new JSONParser();
             return (JSONObject) parser.parse(responseBody);
         } catch (ParseException e) {
-            System.out.println("Invalid Module Name");
+            //System.out.println("Invalid Module Name");
         } catch (IOException | InterruptedException e) {
             throw new IOException(e);
         } catch (URISyntaxException e) {
