@@ -117,7 +117,7 @@ User input:
   Title: Junior Seminar: The Darwinian Revolution
   Module Code: UTC1102B\
   _________________________________________\
-- 
+
 ### Get information about a module: `info`
 Get information about a module using the info command, followed by the command 'description'.
 
