@@ -8,11 +8,21 @@ import seedu.duke.utils.exceptions.MissingModuleException;
 
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class StudentTest {
+
+    @Test
+    void clearAllModulesFromScheduleTest_expectEmptySchedule() {
+        Student student = new Student();
+        Schedule schedule = new Schedule("CS1231S MA1511", new int[]{2, 0, 0, 0, 0, 0, 0, 0});
+        student.setSchedule(schedule);
+        student.clearAllModulesFromSchedule();
+        assertTrue(student.getSchedule().getModulesPlanned().getMainModuleList().isEmpty());
+    }
 
     //success scenario: difference (not working)
     @Test
