@@ -37,7 +37,7 @@ public class Event {
         return duration;
     }
 
-    public int getDay() {
+    public int getDayInt() {
         String lowercaseDay = day.toLowerCase();
         if (!days.contains(lowercaseDay)) {
             return -1;
@@ -94,6 +94,10 @@ public class Event {
     }
 
     public boolean equals(Event event) {
+        if (this.getDayInt() != event.getDayInt()) {
+            return false;
+        }
+
         if (this.startTime != event.getStartTime()) {
             return false;
         }
