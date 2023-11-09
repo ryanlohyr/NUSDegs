@@ -4,7 +4,6 @@ import seedu.duke.models.schema.Major;
 import seedu.duke.models.schema.UserCommandWord;
 import seedu.duke.utils.errors.UserError;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
