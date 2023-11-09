@@ -591,10 +591,8 @@ public class Api {
         String[] wordsInKeyword = keyword.split(" ");
         for (int i = 0; i < wordsInKeyword.length; i++) {
             wordsInKeyword[i] = capitalizeFirstLetter(wordsInKeyword[i]);
-            System.out.println(wordsInKeyword[i]);
         }
         String keywordToSearch = String.join(" ", wordsInKeyword);
-        System.out.println(keywordToSearch);
         for (Object moduleObject : moduleList) {
             JSONObject module = (JSONObject) moduleObject; // Cast to JSONObject
             String title = (String) module.get("title");
