@@ -84,7 +84,7 @@ public class Event {
             return (timePeriod) + "am";
         } else if (timePeriod == 12) {
             return (timePeriod) + "pm";
-        } else if (13 <= timePeriod && timePeriod <= 19) {
+        } else if (13 <= timePeriod && timePeriod <= 20) {
             return (timePeriod - 12) + "pm";
         } else {
             // time is outside 8am-8pm

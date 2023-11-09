@@ -1,51 +1,83 @@
 package seedu.duke.models.schema;
 
-import seedu.duke.utils.Parser;
-import seedu.duke.utils.errors.UserError;
+import seedu.duke.utils.exceptions.InvalidTimetableUserCommandException;
 
-import static seedu.duke.utils.Parser.parseArguments;
-import static seedu.duke.utils.Parser.parseCommand;
+//import seedu.duke.utils.Parser.parseArgumentsTimetableModify;
+
+//import java.io.InvalidObjectException;
+
 
 public class TimetableUserCommand {
 
+    private static final String ERROR_INVALID_NUMBER_OF_ARGUMENTS = "Invalid Number of Arguments";
+    private static final String ERROR_MODULE_DOES_NOT_EXIST = " does not exist in your schedule.";
+
+    private static final int NUMBER_OF_ARGUMENTS_EXIT = 1;
+    private static final int NUMBER_OF_ARGUMENTS_CLEAR = 2;
+    private static final int NUMBER_OF_ARGUMENTS_LESSON = 5;
+
     //private final String userTimetableInput;
-    private final String commandWord;
-    private final String[] arguments;
-    private final boolean isValid;
+    //private final String commandWord;
+    private String[] arguments;
+    private Student student;
+    //private final boolean isValid;
 
 
-    public TimetableUserCommand(String userTimetableInput) {
-        //this.userTimetableInput = userTimetableInput;
-        commandWord = parseCommand(userTimetableInput);
-        if (commandWord == null) {
+    public TimetableUserCommand(Student student, String userTimetableInput)
+            throws InvalidTimetableUserCommandException {
+        this.student = student;
+        cutArguments();
+        //cleanArguments();
+    }
 
+    private void cutArguments() throws InvalidTimetableUserCommandException {
+        String[] cutArguments = new String[NUMBER_OF_ARGUMENTS_LESSON];
+
+        int currentIndex = 0;
+        for (int i = 0; i < arguments.length; i++) {
+            if (arguments[i].isEmpty()) {
+                continue;
+            }
+            try {
+                cutArguments[currentIndex] = arguments[i].strip();
+                currentIndex++;
+            } catch (IndexOutOfBoundsException e) {
+                // too many arguments
+                throw new InvalidTimetableUserCommandException(ERROR_INVALID_NUMBER_OF_ARGUMENTS);
+            }
         }
-        arguments = parseArguments(userTimetableInput);
 
-        /*
-        //if (!commandManager.getListOfCommandNames().contains(commandWord)){
-            UserError.displayInvalidInputCommand(commandWord);
-            isValid = false;
-            return;
-        //}
+        if (currentIndex == NUMBER_OF_ARGUMENTS_EXIT || currentIndex == NUMBER_OF_ARGUMENTS_CLEAR ||
+                currentIndex == NUMBER_OF_ARGUMENTS_LESSON) {
+            arguments = cutArguments;
+        }
 
-        //boolean validArgument = Parser.isValidInputForCommand(commandWord, arguments);
-
-        //if (!validArgument) {
-            UserError.displayInvalidMethodCommand(commandWord);
-            isValid = false;
-            return;
-        //}
-
-         */
-
-        isValid = true;
+        // invalid number of arguments
+        throw new InvalidTimetableUserCommandException(ERROR_INVALID_NUMBER_OF_ARGUMENTS);
     }
 
-    public TimetableUserCommand() {
-        //userInput = null;
-        commandWord = null;
-        arguments = null;
-        isValid = false;
+    /*
+    private void cleanArguments() throws InvalidTimetableUserCommandException {
+    // ROHIT HERE!!
+    // check module exist in student modulesPlanned current sem
+    try {
+        student.getModulesPlanned().existsByCode(arguments[0]);
+    } catch (InvalidObjectException e) {
+        throw new InvalidTimetableUserCommandException(arguments[0] + ERROR_MODULE_DOES_NOT_EXIST);
     }
+    //String[] cleanArguments = new String[NUMBER_OF_ARGUMENTS_LESSON];
+
+
+    }
+    */
+
+    /*
+    ROHIT
+    public void processTimetableCommand()
+    */
+
+    public String[] getArguments() {
+        return arguments;
+    }
+
 }

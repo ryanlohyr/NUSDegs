@@ -33,6 +33,16 @@ public class TimetableUserGuideView {
         println("Please modify your lectures/tutorials/labs using this format: timetable modify");
     }
 
+    public static void printTTModifyDetailedLessonGuide(String specificContext) {
+        println(specificContext);
+        println("Timetable Modify Mode: [moduleCode] [lessonType] [startTime] [duration] [day]");
+        println("lessonType - lecture, tutorial, lab");
+        println("startTime - integer from 8 to 20 (representing 8am to 8pm)");
+        println("duration - time in hours");
+        println("day - eg. monday, tuesday, wednesday");
+    }
+
+
     public static void timetableModifySuccessful() {
         println("Your timetable has been successfully modified!");
         println("Continue to " + getTimetableShowGuide().toLowerCase());

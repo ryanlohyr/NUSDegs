@@ -274,13 +274,11 @@ public class Student {
             }
             int startIndex = numberOfModulesCleared;
             int endIndex = startIndex + numberOfModulesInCurrSem;
-            // initialise modules planned for all semesters in an array list<Module>
-            ArrayList<Module> modulesInSchedule = modulesPlanned.getMainModuleList();
-            // add the modules in current semester into class variable ModuleList,
-            // why not in just an array list<Module> though?
+
+            // add the modules in current semester into ModuleList currentSemesterModules
             currentSemesterModules = new ModuleList();
             for (int i = startIndex; i < endIndex; i++) {
-                currentSemesterModules.addModule(modulesInSchedule.get(i));
+                currentSemesterModules.addModule(modulesPlanned.getModuleByIndex(i));
             }
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.print("why array out of bounds bruh");
@@ -432,6 +430,7 @@ public class Student {
     public ModuleList getCurrentSemesterModules() {
         return currentSemesterModules;
     }
+
 
 
 }

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Parser {
+    public static final String DELIMITER = " ";
 
     /**
      * Parses a user input string to extract and return the main command.
@@ -38,6 +39,7 @@ public class Parser {
         String[] keywords = userInput.split(" ");
         return Arrays.copyOfRange(keywords, 1, keywords.length);
     }
+
 
     /**
      * Checks if the given academic year input is valid.
