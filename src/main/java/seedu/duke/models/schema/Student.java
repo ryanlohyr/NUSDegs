@@ -172,7 +172,7 @@ public class Student {
      *
      * @author ryanlohyr
      * @param moduleCode The code of the module to be deleted.
-     * @throws FailPrereqException If deleting the module fails due to prerequisite dependencies.
+     * @throws MandatoryPrereqException If deleting the module fails due to prerequisite dependencies.
      */
     public void deleteModuleSchedule(String moduleCode) throws MandatoryPrereqException, MissingModuleException {
         try{
@@ -182,7 +182,7 @@ public class Student {
                 this.completedModuleCredits -= module.getModuleCredits();
             }
         }catch (InvalidObjectException e) {
-            throw new MissingModuleException(e.getMessage());
+            throw new MissingModuleException("Module does not exist in schedule");
         }
     }
 

@@ -214,8 +214,8 @@ public class Schedule {
      * Deletes a module from the schedule by its module code.
      *
      * @param module The module code to be deleted from the schedule.
-     * @throws FailPrereqException If the module to be deleted is a prerequisite for other modules in the schedule.
-     * @throws IllegalArgumentException If the provided module code is not valid, the module is not in the schedule
+     * @throws MandatoryPrereqException If the module to be deleted is a prerequisite for other modules in the schedule.
+     * @throws MissingModuleException If the provided module code is not valid, the module is not in the schedule
      */
     public void deleteModule(String module) throws MandatoryPrereqException, MissingModuleException {
 
