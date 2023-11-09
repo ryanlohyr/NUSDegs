@@ -195,8 +195,7 @@ public class Parser {
                 UserError.emptyInputforInfoCommand();
                 return false;
             }
-            if (!arguments[0].equals("description") && !arguments[0].equals("workload")
-                    && !arguments[0].equals("all") && !arguments[0].equals("requirements")) {
+            if (!arguments[0].equals("description")) {
                 UserError.invalidCommandforInfoCommand();
                 return false;
             }
