@@ -71,7 +71,7 @@ public class Timetable {
             }
             System.out.println("Ok that module exists. Enter what you would like to change in this way " +
                     "(lecture, tutorial, lab):\n " +
-                    "[lecture /time 12 /duration 3 /day Tuesday], time range of values: 8-20");
+                    "[lecture /time 12 /duration 3 /day Tuesday], OR to clear all lessons, enter [clear]");
             String userInput = in.nextLine().trim();
             // pass in the ModuleWeekly element from currentSemester
             int indexOfModuleWeeklyToModify = getIndexOfModuleWeekly(moduleCode, currentSemesterModulesWeekly);
