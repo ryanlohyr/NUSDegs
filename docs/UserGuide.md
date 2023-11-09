@@ -39,11 +39,19 @@ It's a comprehensive tool for efficient and successful degree completion.
 - View modules left for graduation: `left`
 - Check current pace to graduate: `pace`
 
+Note: Between arguments, only spaces are allowed.
+
 ### Viewing help: `help`
 
 To view a list of all possible commands, a brief description of their functionality and syntax.
 
 ##### Format: `help`
+
+User input:
+`help`
+
+- Expected outcome:
+![ss_help.png](screenshots%2Fss_help.png)
 
 ### Getting a list of required modules:`required`
 Get an overview of required modules for the user's major
@@ -204,8 +212,7 @@ User input:
 `add CS1010 1`
 
 - Expected outcome:
-
-![](photos/add_outcome.png)
+![ss_add_cs1010_1.png](screenshots%2Fss_add_cs1010_1.png)
 
 ### Delete module from schedule planner: `delete`
 Opens the user's personalized module schedule planner and deletes the chosen module. Deleting will not be allowed if
@@ -286,7 +293,7 @@ User input:
 `complete ma1511`
 
 Expected outcome:
-`Mod completed: MA1511`
+`Module Successfully Completed`
 
 ### Checking modules left: `left`
 Displays the modules left, which are the modules required for the user's major that have not been completed.
@@ -308,7 +315,8 @@ User input:
 `left`
 
 - Expected outcome:
-  ![ss_left_ceg_completed.png](screenshots%2Fss_left_ceg_completed.png)
+
+![ss_left_ceg_completed.png](screenshots%2Fss_left_ceg_completed.png)
 
 ### Check current pace to graduate: `pace`
 
@@ -380,7 +388,7 @@ on Tuesday and CS2101 has a lecture at 12 for 3 hours on Tuesday.
 
 **Q**: What do I need to run this application? 
 
-**A**: Your computer requires **Internet Acesss and Java 11** to run the application. 
+**A**: Your computer requires **Internet Access and Java 11** to run the application. 
 The operating system (Windows, macOS or Linux), doesn't matter.
 
 **Q**: How is the `pace` function calculated?
