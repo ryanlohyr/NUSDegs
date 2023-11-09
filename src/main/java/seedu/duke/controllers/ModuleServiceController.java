@@ -46,11 +46,11 @@ public class ModuleServiceController {
                 "(This will overwrite your current schedule!)");
         displayMessage("Please input 'Y' or 'N'");
 
-        String userInput = in.nextLine();
+        String userInput = in.nextLine().replace("\r", "");
 
         while (!userInput.equals("N") && !userInput.equals(("Y"))) {
             displayMessage("Invalid input, please choose Y/N");
-            userInput = in.nextLine();
+            userInput = in.nextLine().replace("\r", "");
         }
 
         //        if (userInput.equals("Y")) {
