@@ -54,7 +54,6 @@ public class Event {
         return moduleCode;
     }
 
-
     /**
      * Calculates the time range for a given time period and duration.
      *
