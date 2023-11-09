@@ -64,15 +64,15 @@ public class Timetable {
             }
             Scanner in = new Scanner(System.in);
             System.out.println("Which current module do you want to modify? (ENTER MODULE CODE)");
-            String moduleCode = in.nextLine().trim().toUpperCase();
+            String moduleCode = in.nextLine().trim().toUpperCase().replace("\r", "");
             if (!isExistInCurrentSemesterModules(moduleCode, timetable.currentSemesterModulesWeekly)) {
                 System.out.println("Sorry that module doesn't exist in current semesters");
                 return;
             }
             System.out.println("Ok that module exists. Enter what you would like to change in this way " +
                     "(lecture, tutorial, lab):\n " +
-                    "[lecture /time 12 /duration 3 /day Tuesday], OR to clear all lessons, enter [clear]");
-            String userInput = in.nextLine().trim();
+                    "[lecture /time 12 /duration 3 /day Tuesday], time range of values: 8-20");
+            String userInput = in.nextLine().trim().replace("\r", "");
             // pass in the ModuleWeekly element from currentSemester
             int indexOfModuleWeeklyToModify = getIndexOfModuleWeekly(moduleCode, currentSemesterModulesWeekly);
             processModifyArguments(userInput, indexOfModuleWeeklyToModify, student);
@@ -92,28 +92,14 @@ public class Timetable {
     public void processModifyArguments(String userInput, int indexOfModule, Student student)
             throws seedu.duke.exceptions.InvalidModifyArgumentException {
         try {
-            if (!userInput.contains("/time") && userInput.trim().equalsIgnoreCase("CLEAR")) {
-                timetable.currentSemesterModulesWeekly.get(indexOfModule).clearLessons();
-                TimetableView.printTimetable(currentSemesterModulesWeekly);
-                System.out.println("All lessons for selected module are cleared.");
-                return;
-            }
             int startIndexOfStart = userInput.indexOf("/time");
             String command = userInput.substring(0, startIndexOfStart).trim().toUpperCase();
             if (!command.equals("LECTURE") &&
                     !command.equals("TUTORIAL") &&
-                    !command.equals("LAB") && !command.equals("CLEAR")) {
+                    !command.equals("LAB")) {
                 System.out.println("Not a valid command. Please try again!");
                 return;
             }
-            /*
-            if (command.equals("CLEAR")) {
-                timetable.currentSemesterModulesWeekly.get(indexOfModule).clearLessons();
-                TimetableView.printTimetable(currentSemesterModulesWeekly);
-                System.out.println("All lessons for selected module are cleared.");
-                return;
-
-             */
             if (parserTimeForModify(userInput) < 8 || parserTimeForModify(userInput) > 20) {
                 System.out.println("Not a valid time. Please try again!");
                 return;

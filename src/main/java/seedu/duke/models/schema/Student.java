@@ -342,7 +342,7 @@ public class Student {
         try {
             this.setCurrentSemesterModules();
             this.setCurrentSemesterModulesWeekly();
-            argument = argument.trim().toUpperCase();
+            argument = argument.trim().toUpperCase().replace("\r", "");
             switch (argument) {
             case "SHOW": {
                 TimetableView.printTimetable(timetable.getCurrentSemesterModulesWeekly());
