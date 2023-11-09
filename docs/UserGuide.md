@@ -324,11 +324,13 @@ Expected outcome: when GESS1000 has a lecture at 11 on Tuesday and CS2101 has a 
 
 ### Modify Weekly Timetable: `timetable modify`
 
-Add lectures, tutorials and classes for each module in the student's current semester.
+Add lectures, tutorials and classes for a specific module in the student's current semester. 
+User will be asked
+to input the module code, and then can use the following subcommands: 
 
-Format: `timetable modify`
+`clear` - 
 
-![ss_timetable_modify_listofmodules.png](screenshots%2Fss_timetable_modify_listofmodules.png)
+
 if no modules are scheduled for current semester, program will display this:
 ![ss_timetable_nomodules.png](screenshots%2Fss_timetable_nomodules.png)
 User input:
