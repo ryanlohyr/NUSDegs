@@ -106,7 +106,6 @@ public class LeftFeatureTest {
                 .replaceAll("\r\n", "\n")
                 .replaceAll("\r", "\n");
 
-
         assertEquals(expectedOutput, printedOutput);
     }
 }
