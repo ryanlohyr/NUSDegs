@@ -23,6 +23,8 @@ public class Parser {
         return keywords[0];
     }
 
+    //public static String parseTimetable
+
     /**
      * Excludes the command and extracts and returns an array of arguments from a user input string.
      * @author ryanlohyr
@@ -31,7 +33,7 @@ public class Parser {
      */
     public static String[] parseArguments(String userInput){
         if(userInput.trim().isEmpty()){
-            return  null;
+            return null;
         }
         String[] keywords = userInput.split(" ");
         return Arrays.copyOfRange(keywords, 1, keywords.length);

@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
 import static seedu.duke.models.logic.DataRepository.getRequirements;
 import static seedu.duke.views.CommandLineView.displaySuccessfulCompleteMessage;
-import static seedu.duke.views.UserGuideView.addOrRecommendGuide;
+import static seedu.duke.views.TimetableUserGuideView.addOrRecommendGuide;
 //import static seedu.duke.views.UserGuideView.timetableModifySuccessful;
 
 /**
@@ -339,6 +339,7 @@ public class Student {
      * @param argument The user input specifying whether to show or modify the timetable.
      */
     public void timetableShowOrModify(String argument) {
+
         try {
             this.setCurrentSemesterModules();
             this.setCurrentSemesterModulesWeekly();

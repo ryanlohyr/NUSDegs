@@ -1,6 +1,6 @@
 package seedu.duke.views;
 
-public class UserGuideView {
+public class TimetableUserGuideView {
 
     public static void print(String output) {
         System.out.print(output + " ");
@@ -35,6 +35,12 @@ public class UserGuideView {
 
     public static void timetableModifySuccessful() {
         println("Your timetable has been successfully modified!");
+        println("Continue to " + getTimetableShowGuide().toLowerCase());
+        println("Continue to " + getTimetableModifyGuide().toLowerCase());
+    }
+
+    public static void timetableModeIncorrectUserInput() {
+        println("Invalid user input in Timetable-Modify-Mode.");
         println("Continue to " + getTimetableShowGuide().toLowerCase());
         println("Continue to " + getTimetableModifyGuide().toLowerCase());
     }

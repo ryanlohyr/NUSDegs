@@ -54,6 +54,7 @@ public class Timetable {
      * @throws seedu.duke.exceptions.InvalidModifyArgumentException If an invalid argument is provided.
      */
     public void modifyTimetable(Student student) throws seedu.duke.exceptions.InvalidModifyArgumentException {
+        //verify accepted timetableuser command
         try {
             System.out.println("List of modules in current semester: ");
             if (currentSemesterModulesWeekly.isEmpty()) {
