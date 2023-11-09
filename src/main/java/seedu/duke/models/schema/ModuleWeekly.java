@@ -118,6 +118,8 @@ public class ModuleWeekly extends Module {
         lessons.add(new Lab(day, time, duration, moduleCode));
     }
 
+
+
     public void getDuration(String moduleCode) {
         JSONArray workloadCurrModule = null;
         try {
@@ -141,6 +143,9 @@ public class ModuleWeekly extends Module {
 
     //functions to alter lessons
 
+    public void clearLessons() {
+        lessons.clear();
+    }
 
     public ArrayList<Event> getWeeklyTimetable() {
         return lessons;

@@ -92,14 +92,28 @@ public class Timetable {
     public void processModifyArguments(String userInput, int indexOfModule, Student student)
             throws seedu.duke.exceptions.InvalidModifyArgumentException {
         try {
+            if (!userInput.contains("/time") && userInput.trim().equalsIgnoreCase("CLEAR")) {
+                timetable.currentSemesterModulesWeekly.get(indexOfModule).clearLessons();
+                TimetableView.printTimetable(currentSemesterModulesWeekly);
+                System.out.println("All lessons for selected module are cleared.");
+                return;
+            }
             int startIndexOfStart = userInput.indexOf("/time");
             String command = userInput.substring(0, startIndexOfStart).trim().toUpperCase();
             if (!command.equals("LECTURE") &&
                     !command.equals("TUTORIAL") &&
-                    !command.equals("LAB")) {
+                    !command.equals("LAB") && !command.equals("CLEAR")) {
                 System.out.println("Not a valid command. Please try again!");
                 return;
             }
+            /*
+            if (command.equals("CLEAR")) {
+                timetable.currentSemesterModulesWeekly.get(indexOfModule).clearLessons();
+                TimetableView.printTimetable(currentSemesterModulesWeekly);
+                System.out.println("All lessons for selected module are cleared.");
+                return;
+
+             */
             if (parserTimeForModify(userInput) < 8 || parserTimeForModify(userInput) > 20) {
                 System.out.println("Not a valid time. Please try again!");
                 return;
