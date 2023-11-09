@@ -6,7 +6,7 @@ import seedu.duke.utils.exceptions.InvalidPrereqException;
 
 import java.io.IOException;
 
-import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
+import static seedu.duke.models.logic.Prerequisite.getModulePrereqBasedOnCourse;
 import static seedu.duke.utils.errors.HttpError.displaySocketError;
 
 /**

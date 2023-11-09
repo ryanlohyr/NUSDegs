@@ -6,7 +6,7 @@ import seedu.duke.models.schema.ModuleWeekly;
 import java.util.ArrayList;
 import java.util.List;
 
-import static seedu.duke.views.UserGuideView.printTimetableModifyGuide;
+import static seedu.duke.views.TimetableUserGuideView.printTimetableModifyGuide;
 
 public class TimetableView {
     private static final int dayColumnWidth = 10;

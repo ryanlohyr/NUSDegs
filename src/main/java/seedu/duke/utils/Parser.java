@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Parser {
+    public static final String DELIMITER = " ";
 
     /**
      * Parses a user input string to extract and return the main command.
@@ -16,12 +17,15 @@ public class Parser {
      * @return The main command from the input string.
      */
     public static String parseCommand(String userInput) {
-        if (userInput == null || userInput.equals(" ")) {
+        if (userInput == null || userInput.isEmpty()) {
             return null;
         }
-        String[] keywords = userInput.split(" ");
+        String[] keywords = userInput.split(DELIMITER);
+
         return keywords[0];
     }
+
+    //public static String parseTimetable
 
     /**
      * Excludes the command and extracts and returns an array of arguments from a user input string.
@@ -30,12 +34,14 @@ public class Parser {
      * @return An array of arguments from the input string.
      */
     public static String[] parseArguments(String userInput){
-        if(userInput.trim().isEmpty()){
-            return  null;
+        if (userInput.isEmpty()){
+            return null;
         }
-        String[] keywords = userInput.split(" ");
+        String[] keywords = userInput.split(DELIMITER);
+
         return Arrays.copyOfRange(keywords, 1, keywords.length);
     }
+
 
     /**
      * Checks if the given academic year input is valid.
@@ -119,15 +125,31 @@ public class Parser {
     /**
      * Checks the validity of user input based on the provided command and words array.
      *
-     * @param command The command provided by the user.
+     * @param commandWord The command provided by the user.
      * @param arguments   An array of words parsed from the user input.
      * @return        True if the input is valid, false otherwise.
      */
-    public static boolean isValidInputForCommand(String command, String[] arguments) {
-        switch (command) {
+    public static boolean isValidInputForCommand(String commandWord, String[] arguments) {
+        int argumentsCounter = 0;
+
+        //shift forward available arguments
+        if (arguments != null) {
+            for (int i = 0; i < arguments.length; i++) {
+                if (arguments[i].isEmpty()) {
+                    continue;
+                }
+                arguments[argumentsCounter] = arguments[i];
+                argumentsCounter++;
+            }
+        }
+
+
+        int addOrShiftIndex = 1;
+
+        switch (commandWord) {
         case UserCommandWord.COMPLETE_MODULE_COMMAND:
         case UserCommandWord.PREREQUISITE_COMMAND: {
-            if (arguments.length < 1) {
+            if (argumentsCounter < 1) {
                 return false;
             }
             break;
@@ -135,16 +157,16 @@ public class Parser {
         case UserCommandWord.VIEW_SCHEDULE_COMMAND:
         case UserCommandWord.CLEAR_SCHEDULE_COMMAND:
         case UserCommandWord.RECOMMEND_COMMAND: {
-            if (arguments.length > 0) {
+            if (argumentsCounter > 0) {
                 return false;
             }
             break;
         }
         case UserCommandWord.SET_MAJOR_COMMAND: {
-            if (arguments.length == 0) {
+            if (argumentsCounter == 0) {
                 return true;
             }
-            if (arguments.length > 1) {
+            if (argumentsCounter > 1) {
                 UserError.invalidMajorFormat();
                 return false;
             }
@@ -157,8 +179,15 @@ public class Parser {
             }
             break;
         }
+        case UserCommandWord.LEFT_COMMAND:
+        case UserCommandWord.REQUIRED_MODULES_COMMAND: {
+            if (argumentsCounter == 0) {
+                return true;
+            }
+            return false;
+        }
         case UserCommandWord.ADD_MODULE_COMMAND: {
-            if (arguments.length != 2) {
+            if (argumentsCounter != 2) {
                 UserError.invalidAddFormat();
                 return false;
             }
@@ -167,18 +196,21 @@ public class Parser {
             } catch (NumberFormatException e) {
                 UserError.invalidSemester();
                 return false;
+            } catch (IndexOutOfBoundsException e) {
+                UserError.invalidAddFormat();
+                return false;
             }
             break;
         }
         case UserCommandWord.DELETE_MODULE_COMMAND: {
-            if (arguments.length != 1) {
+            if (argumentsCounter != 1) {
                 UserError.invalidDeleteFormat();
                 return false;
             }
             break;
         }
         case UserCommandWord.SHIFT_MODULE_COMMAND: {
-            if (arguments.length != 2) {
+            if (argumentsCounter != 2) {
                 UserError.invalidShiftFormat();
                 return false;
             }
@@ -187,11 +219,14 @@ public class Parser {
             } catch (NumberFormatException e) {
                 UserError.invalidSemester();
                 return false;
+            } catch (IndexOutOfBoundsException e) {
+                UserError.invalidShiftFormat();
+                return false;
             }
             break;
         }
         case UserCommandWord.INFO_COMMAND: {
-            if (arguments.length < 1) {
+            if (argumentsCounter < 1) {
                 UserError.emptyInputforInfoCommand();
                 return false;
             }
@@ -203,7 +238,7 @@ public class Parser {
             break;
         }
         case UserCommandWord.TIMETABLE_COMMAND: {
-            if (arguments.length < 1) {
+            if (argumentsCounter < 1) {
                 UserError.emptyInputforTimetableCommand();
                 return false;
             }

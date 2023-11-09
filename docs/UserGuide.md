@@ -39,11 +39,19 @@ It's a comprehensive tool for efficient and successful degree completion.
 - View modules left for graduation: `left`
 - Check current pace to graduate: `pace`
 
+Note: Between arguments, only spaces are allowed.
+
 ### Viewing help: `help`
 
 To view a list of all possible commands, a brief description of their functionality and syntax.
 
 ##### Format: `help`
+
+User input:
+`help`
+
+- Expected outcome:
+![ss_help.png](screenshots%2Fss_help.png)
 
 ### Getting a list of required modules:`required`
 Get an overview of required modules for the user's major
@@ -191,14 +199,20 @@ Adding will not be allowed if the current schedule planner does not contain the 
 * `MODULE_CODE` cannot be empty and must be valid.
 * `SEMESTER` cannot be empty and must be an integer between 1-8 inclusive.
 
+##### Note:
+- We do not check for preclusion's.
+  E.g. If you have completed/added CS2040, and the prerequisite of a module you are trying to add is CS2040C,
+  although they are preclusion's of each other, you are required to satisfy CS2040C! (It is something 
+we hope to implement in the future!)
+
+
 #### Example of usage:
 
 User input:
 `add CS1010 1`
 
 - Expected outcome:
-
-![](photos/add_outcome.png)
+![ss_add_cs1010_1.png](screenshots%2Fss_add_cs1010_1.png)
 
 ### Delete module from schedule planner: `delete`
 Opens the user's personalized module schedule planner and deletes the chosen module. Deleting will not be allowed if
@@ -208,6 +222,12 @@ the module to be deleted is a prerequisite of a module in later semesters on the
 
 * `MODULE_CODE` cannot be empty and must be valid.
 * `MODULE_CODE` must also be in the current schedule planner
+
+##### Note:
+- We do not check for preclusion's.
+E.g. If you have completed/added CS2040, and the prerequisite of a module you are trying to delete is CS2040C, 
+although they are preclusion's of each other, you are required to satisfy CS2040C! (It is something we hope to implement 
+in the future!)
 
 #### Examples of usage:
 
@@ -227,6 +247,12 @@ user. Shifting will not be allowed if it causes conflicts with other modules in 
 * `MODULE_CODE` cannot be empty and must be valid.
 * `MODULE_CODE` must also be in the current schedule planner
 * `SEMESTER` cannot be empty and must be an integer between 1-8 inclusive.
+
+##### Note:
+- We do not check for preclusion's.
+  E.g. If you have completed/added CS2040, and the prerequisite of a module you are trying to shift is CS2040C,
+  although they are preclusion's of each other, you are required to satisfy CS2040C! (It is something we hope to implement
+  in the future!)
 
 #### Example of usage:
 
@@ -252,7 +278,12 @@ User input:
 Completes a module (Completes a module in your schedule planner).
 
 #### Note: 
-- The module you complete has to be first added in your schedule planner! 
+- The module you complete has to be first added in your schedule planner!
+
+- We do not check for preclusion's.
+  E.g. If you have completed/added CS2040, and the prerequisite of a module you are trying to complete is CS2040C,
+  although they are preclusion's of each other, you are required to satisfy CS2040C! (It is something
+  we hope to implement in the future!)
 
 ##### Format: `complete MODULE_CODE`
 
@@ -262,7 +293,7 @@ User input:
 `complete ma1511`
 
 Expected outcome:
-`Mod completed: MA1511`
+`Module Successfully Completed`
 
 ### Checking modules left: `left`
 Displays the modules left, which are the modules required for the user's major that have not been completed.
@@ -284,7 +315,8 @@ User input:
 `left`
 
 - Expected outcome:
-  ![ss_left_ceg_completed.png](screenshots%2Fss_left_ceg_completed.png)
+
+![ss_left_ceg_completed.png](screenshots%2Fss_left_ceg_completed.png)
 
 ### Check current pace to graduate: `pace`
 
@@ -297,6 +329,9 @@ The user can see how many MCs are left and how much time is left to complete the
 - If no argument is given, we will take the year that you have initially inputted.
 
 - If an argument is given, we will take the academic year given and calculate the pace based on that.
+
+- The current number of modular credits to complete is set to 160. However, this is something we do want to modify in 
+future to cater to our double degree friends!
 
 #### Example of Usage:
 
@@ -353,7 +388,7 @@ on Tuesday and CS2101 has a lecture at 12 for 3 hours on Tuesday.
 
 **Q**: What do I need to run this application? 
 
-**A**: Your computer requires **Internet Acesss and Java 11** to run the application. 
+**A**: Your computer requires **Internet Access and Java 11** to run the application. 
 The operating system (Windows, macOS or Linux), doesn't matter.
 
 **Q**: How is the `pace` function calculated?

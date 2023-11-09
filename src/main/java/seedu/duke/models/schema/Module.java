@@ -13,6 +13,8 @@ public class Module {
     private String moduleDescription;
     private String moduleCode;
     private int moduleCredits;
+
+    private boolean isModularCreditsLoaded;
     private boolean isCompleted;
 
     /**
@@ -28,7 +30,9 @@ public class Module {
         }
         this.moduleCode = moduleCode;
         this.moduleCredits = 4;
+        this.isModularCreditsLoaded = false;
     }
+
 
     /**
      * Loads module information from the NUSMods API and populates the fields of this object.
@@ -68,11 +72,33 @@ public class Module {
     }
 
     /**
-     * Gets the credits of this module.
+     * Retrieves the modular credits for a module.
+     * This method fetches the modular credits for a module by calling the NUSMods API.
+     * If the modular credits have already been loaded, it returns the cached value.
+     * If not, it makes an API call to get the full module information and extracts the modular credits.
+     * In case of a ClassCastException (edge case when module has no credits), a default value of 4 credits is set.
+     * Handles IOException by displaying a socket error message.
+     * @Author ryanlohyr
+     * @return The number of modular credits for the module.
      *
-     * @return The number of credits for this module.
      */
     public int getModuleCredits() {
+        if(this.isModularCreditsLoaded){
+            return this.moduleCredits;
+        }
+        try {
+            JSONObject response = getFullModuleInfo(moduleCode);
+            assert response != null: "Response from NUSMods API is null";
+            assert !response.isEmpty(): "Response Object is empty";
+            this.moduleCredits = Integer.parseInt((String) response.get("moduleCredit"));
+            this.isModularCreditsLoaded = true;
+        }catch (ClassCastException e){
+            System.out.println("Sorry there was issue retrieving the MCs");
+            return -1;
+        }catch (IOException e){
+            displaySocketError();
+            return -1;
+        }
         return this.moduleCredits;
     }
 

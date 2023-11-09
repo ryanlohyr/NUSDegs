@@ -12,9 +12,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Queue;
 import java.util.LinkedList;
-import static seedu.duke.models.logic.Api.getModulePrereqBasedOnCourse;
+import static seedu.duke.models.logic.Prerequisite.getModulePrereqBasedOnCourse;
 import static seedu.duke.models.logic.Api.getModuleFulfilledRequirements;
-import static seedu.duke.models.logic.Api.satisfiesAllPrereq;
+import static seedu.duke.models.logic.Prerequisite.satisfiesAllPrereq;
 import static seedu.duke.models.logic.DataRepository.getRequirements;
 import static seedu.duke.views.SemesterPlannerView.printSemesterPlanner;
 
