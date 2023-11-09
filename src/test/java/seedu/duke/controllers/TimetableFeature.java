@@ -3,13 +3,19 @@ package seedu.duke.controllers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Test;
 import seedu.duke.models.schema.Student;
+import seedu.duke.models.schema.TimetableUserCommand;
 import seedu.duke.models.schema.UserCommand;
+import seedu.duke.utils.exceptions.InvalidTimetableUserCommandException;
 
 //import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 //import java.io.InputStream;
 import java.io.PrintStream;
+import java.util.Arrays;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 //import java.util.Scanner;
 
 //import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -107,4 +113,19 @@ public class TimetableFeature {
     }
 
     */
+
+
+
+    @Test
+    void usercommandTest() throws InvalidTimetableUserCommandException {
+        String userInput = "cs1010 clear 3 4 5";
+            TimetableUserCommand timetableUserCommand = new TimetableUserCommand(student, userInput);
+            String[] arguments = timetableUserCommand.getArguments();
+            timetableUserCommand.printArguments();
+            for (String argument : arguments) {
+                System.out.println(argument);
+            }
+            assertEquals("", Arrays.toString(timetableUserCommand.getArguments()));
+
+    }
 }

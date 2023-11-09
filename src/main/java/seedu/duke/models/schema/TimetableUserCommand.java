@@ -26,6 +26,7 @@ public class TimetableUserCommand {
     public TimetableUserCommand(Student student, String userTimetableInput)
             throws InvalidTimetableUserCommandException {
         this.student = student;
+        arguments = userTimetableInput.split(" ");
         cutArguments();
         //cleanArguments();
     }
@@ -50,6 +51,7 @@ public class TimetableUserCommand {
         if (currentIndex == NUMBER_OF_ARGUMENTS_EXIT || currentIndex == NUMBER_OF_ARGUMENTS_CLEAR ||
                 currentIndex == NUMBER_OF_ARGUMENTS_LESSON) {
             arguments = cutArguments;
+            return;
         }
 
         // invalid number of arguments
@@ -80,4 +82,15 @@ public class TimetableUserCommand {
         return arguments;
     }
 
+    public void printArguments() {
+        for (String argument : arguments) {
+            System.out.println(argument);
+        }
+    }
 }
+
+
+
+   // }
+
+

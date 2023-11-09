@@ -6,9 +6,7 @@ import seedu.duke.views.TimetableView;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import static seedu.duke.utils.Parser.parserDayForModify;
-import static seedu.duke.utils.Parser.parserTimeForModify;
-import static seedu.duke.utils.Parser.parserDurationForModify;
+import static seedu.duke.utils.Parser.*;
 import static seedu.duke.views.CommandLineView.displayMessage;
 import static seedu.duke.views.TimetableUserGuideView.printTTModifyDetailedLessonGuide;
 
@@ -35,6 +33,9 @@ public class Timetable {
         return currentSemesterModulesWeekly;
     }
 
+    public void modify(Student student) {
+
+    }
     public void printCurrentSemesterModulesWeekly(Student student) {
         for (ModuleWeekly moduleweekly : currentSemesterModulesWeekly) {
             System.out.println(moduleweekly.getModuleCode());
@@ -241,6 +242,65 @@ public class Timetable {
             }
         }
         return false;
+    }
+
+    public void modify(String[] arguments) {
+        // the check for number of valid arguments is already done
+        // not putting in empty checks
+        if (arguments.length == 1) {
+            if (!arguments[0].strip().equalsIgnoreCase("EXIT")) {
+                System.out.println("incorrect command");
+                return;
+            }
+        }
+        if (arguments.length == 2) {
+            String moduleCode = arguments[0];
+            if (!isExistInCurrentSemesterModules(moduleCode, currentSemesterModulesWeekly)) {
+                System.out.println("module not in sem");
+                return;
+            }
+            if (arguments[1].strip().equalsIgnoreCase("clear")) {
+                System.out.println("module not in sem");
+                return;
+            }
+        }
+        if (arguments.length == 5) {
+            String moduleCode = arguments[0];
+            String lessonType = arguments[1].strip();
+            String timeString = arguments[2];
+            String durationString = arguments[3];
+            String day = arguments[4];
+            if (!isExistInCurrentSemesterModules(moduleCode, currentSemesterModulesWeekly)) {
+                System.out.println("module not in sem");
+                return;
+            }
+            if (!isValidLessonType(lessonType)) {
+                System.out.println("Invalid lesson type");
+                return;
+            }
+            if (!isStringInteger(timeString)) {
+                System.out.println("Input for time is not an integer");
+                return;
+            }
+            int time = Integer.parseInt(timeString);
+            if (time < 8 || time > 20) {
+                System.out.println("Time not within the valid range. Please try again!");
+                return;
+            }
+            if (!isStringInteger(durationString)) {
+                System.out.println("Input for duration is not an integer");
+                return;
+            }
+            int duration = Integer.parseInt(durationString);
+            if (duration < 1 || duration > 20 - time) {
+                System.out.println("Input for duration exceeds valid hours on the timetable");
+                return;
+            }
+            if (!isDayValid(day)) {
+                System.out.println("Invalid input for day.");
+                return;
+            }
+        }
     }
 
 

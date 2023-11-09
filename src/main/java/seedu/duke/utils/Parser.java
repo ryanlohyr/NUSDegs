@@ -264,4 +264,32 @@ public class Parser {
         return Integer.parseInt(time);
     }
 
+    public static boolean isValidLessonType(String userInput) {
+        String lowerCaseInput = userInput.toLowerCase();
+        return lowerCaseInput.equals("lecture") ||
+                lowerCaseInput.equals("tutorial") ||
+                lowerCaseInput.equals("lab");
+    }
+
+    public static boolean isStringInteger(String input) {
+        try {
+            Integer.parseInt(input);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    public static boolean isDayValid(String day) {
+        String uppercaseDay = day.toUpperCase();
+        return uppercaseDay.equals("MONDAY") ||
+                uppercaseDay.equals("TUESDAY") ||
+                uppercaseDay.equals("WEDNESDAY") ||
+                uppercaseDay.equals("THURSDAY") ||
+                uppercaseDay.equals("FRIDAY") ||
+                uppercaseDay.equals("SATURDAY") ||
+                uppercaseDay.equals("SUNDAY");
+    }
+
+
 }
