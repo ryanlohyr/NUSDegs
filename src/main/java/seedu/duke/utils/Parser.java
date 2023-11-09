@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Parser {
+    public static final String DELIMITER = " ";
 
     /**
      * Parses a user input string to extract and return the main command.
@@ -23,6 +24,8 @@ public class Parser {
         return keywords[0];
     }
 
+    //public static String parseTimetable
+
     /**
      * Excludes the command and extracts and returns an array of arguments from a user input string.
      * @author ryanlohyr
@@ -31,11 +34,12 @@ public class Parser {
      */
     public static String[] parseArguments(String userInput){
         if(userInput.trim().isEmpty()){
-            return  null;
+            return null;
         }
         String[] keywords = userInput.split(" ");
         return Arrays.copyOfRange(keywords, 1, keywords.length);
     }
+
 
     /**
      * Checks if the given academic year input is valid.

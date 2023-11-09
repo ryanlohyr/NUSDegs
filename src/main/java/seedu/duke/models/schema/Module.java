@@ -30,6 +30,7 @@ public class Module {
         this.moduleCredits = 4;
     }
 
+
     /**
      * Loads module information from the NUSMods API and populates the fields of this object.
      *

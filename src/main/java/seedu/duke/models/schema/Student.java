@@ -17,7 +17,7 @@ import static seedu.duke.models.logic.Prerequisite.getModulePrereqBasedOnCourse;
 import static seedu.duke.models.logic.DataRepository.getRequirements;
 import static seedu.duke.utils.errors.HttpError.displaySocketError;
 import static seedu.duke.views.CommandLineView.displaySuccessfulCompleteMessage;
-import static seedu.duke.views.UserGuideView.addOrRecommendGuide;
+import static seedu.duke.views.TimetableUserGuideView.addOrRecommendGuide;
 //import static seedu.duke.views.UserGuideView.timetableModifySuccessful;
 
 /**
@@ -283,13 +283,11 @@ public class Student {
             }
             int startIndex = numberOfModulesCleared;
             int endIndex = startIndex + numberOfModulesInCurrSem;
-            // initialise modules planned for all semesters in an array list<Module>
-            ArrayList<Module> modulesInSchedule = modulesPlanned.getMainModuleList();
-            // add the modules in current semester into class variable ModuleList,
-            // why not in just an array list<Module> though?
+
+            // add the modules in current semester into ModuleList currentSemesterModules
             currentSemesterModules = new ModuleList();
             for (int i = startIndex; i < endIndex; i++) {
-                currentSemesterModules.addModule(modulesInSchedule.get(i));
+                currentSemesterModules.addModule(modulesPlanned.getModuleByIndex(i));
             }
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.print("why array out of bounds bruh");
@@ -348,6 +346,7 @@ public class Student {
      * @param argument The user input specifying whether to show or modify the timetable.
      */
     public void timetableShowOrModify(String argument) {
+
         try {
             this.setCurrentSemesterModules();
             this.setCurrentSemesterModulesWeekly();
@@ -440,6 +439,7 @@ public class Student {
     public ModuleList getCurrentSemesterModules() {
         return currentSemesterModules;
     }
+
 
 
 }
