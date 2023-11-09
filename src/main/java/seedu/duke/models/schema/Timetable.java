@@ -64,7 +64,7 @@ public class Timetable {
             }
             Scanner in = new Scanner(System.in);
             System.out.println("Which current module do you want to modify? (ENTER MODULE CODE)");
-            String moduleCode = in.nextLine().trim().toUpperCase();
+            String moduleCode = in.nextLine().trim().toUpperCase().replace("\r", "");
             if (!isExistInCurrentSemesterModules(moduleCode, timetable.currentSemesterModulesWeekly)) {
                 System.out.println("Sorry that module doesn't exist in current semesters");
                 return;
@@ -72,7 +72,7 @@ public class Timetable {
             System.out.println("Ok that module exists. Enter what you would like to change in this way " +
                     "(lecture, tutorial, lab):\n " +
                     "[lecture /time 12 /duration 3 /day Tuesday], time range of values: 8-20");
-            String userInput = in.nextLine().trim();
+            String userInput = in.nextLine().trim().replace("\r", "");
             // pass in the ModuleWeekly element from currentSemester
             int indexOfModuleWeeklyToModify = getIndexOfModuleWeekly(moduleCode, currentSemesterModulesWeekly);
             processModifyArguments(userInput, indexOfModuleWeeklyToModify, student);

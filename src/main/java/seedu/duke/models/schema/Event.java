@@ -37,7 +37,7 @@ public class Event {
         return duration;
     }
 
-    public int getDay() {
+    public int getDayInt() {
         String lowercaseDay = day.toLowerCase();
         if (!days.contains(lowercaseDay)) {
             return -1;
@@ -53,7 +53,6 @@ public class Event {
     public String getModuleCode() {
         return moduleCode;
     }
-
 
     /**
      * Calculates the time range for a given time period and duration.
@@ -91,6 +90,26 @@ public class Event {
             // time is outside 8am-8pm
             return "";
         }
+    }
+
+    public boolean equals(Event event) {
+        if (this.getDayInt() != event.getDayInt()) {
+            return false;
+        }
+
+        if (this.startTime != event.getStartTime()) {
+            return false;
+        }
+
+        if (this.duration != event.getDuration()) {
+            return false;
+        }
+
+        if (!this.moduleCode.equals(event.getModuleCode())) {
+            return false;
+        }
+
+        return true;
     }
 
     public boolean isEarlierThan(Event event) {
