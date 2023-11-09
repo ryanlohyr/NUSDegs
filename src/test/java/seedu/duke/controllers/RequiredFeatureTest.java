@@ -4,10 +4,13 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import seedu.duke.models.schema.Student;
+import seedu.duke.models.schema.TimetableUserCommand;
 import seedu.duke.models.schema.UserCommand;
+import seedu.duke.utils.exceptions.InvalidTimetableUserCommandException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -33,7 +36,7 @@ public class RequiredFeatureTest {
     }
 
     @Test
-    void testRequiredFeature_ceg_expectRequiredForCEG() {
+    void testRequiredFeature_ceg_expectRequiredForCEG() throws InvalidTimetableUserCommandException {
         student.setFirstMajor("CEG");
 
         String userInput = "required";
