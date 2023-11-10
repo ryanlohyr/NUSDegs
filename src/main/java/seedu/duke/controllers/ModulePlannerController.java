@@ -12,6 +12,7 @@ import seedu.duke.utils.exceptions.CorruptedFileException;
 import seedu.duke.utils.exceptions.MissingFileException;
 
 import java.io.IOException;
+import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -93,6 +94,11 @@ public class ModulePlannerController {
             // Load name, major and year from studentDetails.txt file
             ArrayList<String> studentDetails = storage.loadStudentDetails();
 
+            int correctNumOfStudentInfo = 3;
+
+            if(studentDetails == null || studentDetails.size() != correctNumOfStudentInfo){
+                throw new CorruptedFileException();
+            }
             // Check if name is valid and set if yes
             if (!parser.checkNameInput(studentDetails.get(0), commandManager.getListOfCommandNames())) {
                 throw new CorruptedFileException();
