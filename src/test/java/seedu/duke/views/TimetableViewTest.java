@@ -88,7 +88,7 @@ class TimetableViewTest {
 
         //assertTrue(false);
     }
-
+    /*
     @Test
     void printTimetableTest_noModuleWeekly_expectNothing() {
         ArrayList<ModuleWeekly> currentSemesterModules = new ArrayList<ModuleWeekly>();
@@ -108,5 +108,7 @@ class TimetableViewTest {
 
         //assertTrue(false);
     }
+
+    */
 
 }

@@ -49,6 +49,11 @@ public class TimetableUserGuideView {
         println("Alternatively, get the recommended schedule for your major: recommend");
     }
 
+    public static void addRecommendGuide(String specificContext) {
+        print(specificContext);
+        println("Add modules to your current semester or get the recommended schedule for your major first.");
+    }
+
     public static void printTimetableModifyGuide(String specificContext) {
         println(specificContext);
         println("To add a lesson for a module, enter: [moduleCode] [lessonType] [startTime] [duration] [day]" +
