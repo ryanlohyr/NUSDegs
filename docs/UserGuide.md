@@ -22,6 +22,11 @@ It's a comprehensive tool for efficient and successful degree completion.
 
 1. Ensure that you have Java 11 or above installed.
 2. Download the latest version of `NUSDegs` from [here](http://link.to/duke).
+3. Copy the file to the folder you want to use as the home folder for NUSDegs.
+4. Open a command terminal, cd into the folder you put the .jar file in, and run the command
+   java -jar "duke.jar" to run the application.
+5. Ensure that you remember the name you input into NUSDegs at the start of the application, as it would be used to
+   access you saved data during subsequent uses. The name used is CASE_SENSITIVE.
 
 ## Features
 - View help : `help`
@@ -34,10 +39,11 @@ It's a comprehensive tool for efficient and successful degree completion.
 - Add module to schedule planner: `add`
 - Delete module from schedule planner: `delete`
 - Shift module in schedule planner: `shift`
-- Clear all modules from schedule planner: `clear`
+- Clear all schedule planner and completion data: `clear`
 - Complete a module in your schedule planner: `complete`
 - View modules left for graduation: `left`
 - Check current pace to graduate: `pace`
+- Saves the user's schedule and exits the program: `Bye`
 
 Note: Between arguments, only spaces are allowed.
 
@@ -58,7 +64,7 @@ Get an overview of required modules for the user's major
 
 ##### Format: `required`
 
-#### Example of usage 1: (user's major is CEG)
+##### Example of usage 1: (user's major is CEG)
 
 User input:
 `required`
@@ -69,7 +75,7 @@ User input:
 <img src="screenshots/ss_required_ceg_2.png" alt="Image" width="300">
 
 
-#### Example of usage 2: (user's major is CS)
+##### Example of usage 2: (user's major is CS)
 
 User input:
 `required`
@@ -94,7 +100,7 @@ user.
 - The input is not case-sensitive. E.g. eg1311 or EG1311 is shown
 out
 
-#### Example of Usage:
+##### Example of Usage:
 
 User input:
 `prereq eg1311` 
@@ -113,7 +119,7 @@ Search for module title using a keyword.
 
 * The `KEYWORD` cannot be empty.
 
-#### Example of usage:
+##### Example of usage:
 
 User input:
 `search Darwinian`
@@ -135,7 +141,7 @@ Get information about a module using the info command, followed by the command '
 * The `COMMAND` cannot be empty.
 * The `MODULE_CODE` cannot be empty.
 
-#### Examples of usage:
+##### Examples of usage:
 
 User input:
 `info description CS2113`
@@ -163,7 +169,7 @@ Shows the user their current schedule planner
 
 - The input does not accept any arguments after the command word.
 
-#### Example of usage: 
+##### Example of usage: 
 
 User input: `schedule`
 
@@ -176,7 +182,7 @@ Based on the student's course, we will provide a recommended schedule that is so
 
 ##### Format: `recommend`
 
-#### Example of usage:
+##### Example of usage:
 
 User input:
 `recommend`
@@ -206,7 +212,7 @@ Adding will not be allowed if the current schedule planner does not contain the 
 we hope to implement in the future!)
 
 
-#### Example of usage:
+##### Example of usage:
 
 User input:
 `add CS1010 1`
@@ -229,7 +235,7 @@ E.g. If you have completed/added CS2040, and the prerequisite of a module you ar
 although they are preclusion's of each other, you are required to satisfy CS2040C! (It is something we hope to implement 
 in the future!)
 
-#### Examples of usage:
+##### Examples of usage:
 
 User input:
 `delete CS1010` (Assume schedule is currently in the state from the example in `add`)
@@ -254,7 +260,7 @@ user. Shifting will not be allowed if it causes conflicts with other modules in 
   although they are preclusion's of each other, you are required to satisfy CS2040C! (It is something we hope to implement
   in the future!)
 
-#### Example of usage:
+##### Example of usage:
 
 User input:
 `shift CS1010 2`
@@ -265,7 +271,7 @@ action as this command cannot be undone.
 
 ##### Format: `clear`
 
-#### Example of usage:
+##### Example of usage:
 
 User input:
 `clear`
@@ -287,7 +293,7 @@ Completes a module (Completes a module in your schedule planner).
 
 ##### Format: `complete MODULE_CODE`
 
-#### Example of usage 1: (scenario where user's selected major is CEG)
+##### Example of usage 1: (scenario where user's selected major is CEG)
 
 User input:
 `complete ma1511`
@@ -298,9 +304,9 @@ Expected outcome:
 ### Checking modules left: `left`
 Displays the modules left, which are the modules required for the user's major that have not been completed.
 
-#### Format: `left`
+##### Format: `left`
 
-Example of usage 1: (major is CEG, no modules completed)
+##### Example of usage 1: (major is CEG, no modules completed)
 
 User input:
 `left`
@@ -309,7 +315,7 @@ User input:
 
 ![ss_left_ceg.png](screenshots%2Fss_left_ceg.jpeg)
 
-#### Example of usage 2: (major is CEG, CS1010 & GEC1000 are added and completed)
+##### Example of usage 2: (major is CEG, CS1010 & GEC1000 are added and completed)
 
 User input:
 `left`
@@ -323,9 +329,9 @@ User input:
 Based on the modules that have been completed, t
 The user can see how many MCs are left and how much time is left to complete the required MCs.
 
-#### Format: `pace`
+##### Format: `pace`
 
-#### Note:
+##### Note:
 - If no argument is given, we will take the year that you have initially inputted.
 
 - If an argument is given, we will take the academic year given and calculate the pace based on that.
@@ -333,7 +339,7 @@ The user can see how many MCs are left and how much time is left to complete the
 - The current number of modular credits to complete is set to 160. However, this is something we do want to modify in 
 future to cater to our double degree friends!
 
-#### Example of Usage:
+##### Example of Usage:
 
 User input:
 `pace y1/s1`
@@ -377,6 +383,20 @@ Expected outcome: when GESS1000 has a lecture at 3 for 3 hours
 on Tuesday and CS2101 has a lecture at 12 for 3 hours on Tuesday.
 ![ss_timetable_3.png](screenshots%2Fss_timetable_3.png)
 
+### Save schedule and exit the program: `Bye`
+
+Exit NUSDegs and save your current schedule into a data folder that will be in the same folder as
+where you placed `duke.jar`. The data folder will be named using your name inputted at the start of the application.
+
+##### Format: `Bye` (with a capital letter 'B')
+
+##### Example of usage:
+
+User input: `Bye`
+
+- Expected outcome
+
+![img.png](photos/Bye_outcome.png)
 
 
 
@@ -390,6 +410,18 @@ on Tuesday and CS2101 has a lecture at 12 for 3 hours on Tuesday.
 
 **A**: Your computer requires **Internet Access and Java 11** to run the application. 
 The operating system (Windows, macOS or Linux), doesn't matter.
+
+**Q**: Would my data be saved after I close NUSDegs?
+
+**A**: Yes. Currently, only your schedule planner will be saved inside a data folder that will be in the same folder as 
+where you placed `duke.jar`. The data folder will be named using your name inputted at the start of the application.
+To access the save folder next time you use NUSDegs, please use the same name which you used when you first saved the 
+data folder.
+
+**Q** Can I save multiple schedules in one computer?
+
+**A** Yes. By using a different name at the start of NUSDegs, you can create another save folder to store another 
+schedule.
 
 **Q**: How is the `pace` function calculated?
 
@@ -405,7 +437,7 @@ Note: if an argument is wrapped with `[]` it means that it is optional.
 | View modules left for graduation               | `left`                            | 
 | Check prerequisite for a module                | `prereq MODULE_CODE`              | 
 | Search for modules based on keywords           | `search KEYWORD`                  | 
-| View info about a module                       | `info description <MODULE_CODE>`        | 
+| View info about a module                       | `info description MODULE_CODE`    | 
 | View modules required for major                | `required`                        | 
 | View schedule planner                          | `schedule`                        | 
 | Recommend a schedule based on major            | `recommend`                       | 
@@ -417,3 +449,5 @@ Note: if an argument is wrapped with `[]` it means that it is optional.
 | Check current pace to graduate                 | `pace [CURRENT_SEMESTER]`         | 
 | Modify weekly timetable                        | `timetable modify`                |
 | Show weekly timetable                          | `timetable show`                  |
+| Save schedule and exit the program             | `Bye`                             |
+
