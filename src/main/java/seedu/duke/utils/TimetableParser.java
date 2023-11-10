@@ -131,7 +131,10 @@ public class TimetableParser {
                 //return false;
             }
             int duration = Integer.parseInt(durationString);
-            if (duration < 1 || duration > 20 - time) {
+            if (duration < 1) {
+                throw new InvalidTimetableUserCommandException("Input for duration must be at least 1");
+            }
+            if (duration > 20 - time) {
                 throw new InvalidTimetableUserCommandException("Input for duration exceeds valid hours" +
                         " on the timetable");
                 //System.out.println("Input for duration exceeds valid hours on the timetable");

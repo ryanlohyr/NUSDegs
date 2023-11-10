@@ -84,7 +84,7 @@ public class Timetable {
                 //if exit
                 if (isExitModify(arguments)) {
                     inTimetableModifyMode = false;
-                    System.out.println("Exited timetable modify");
+                    System.out.println("Exited Timetable Modify Mode");
                     continue;
                 }
 

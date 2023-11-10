@@ -86,8 +86,8 @@ public class TimetableView {
         List<ArrayList<Event>> weeklyTimetableByDay = createDailyEvents(currentSemesterModules);
 
         if (!eventsExist(weeklyTimetableByDay)) {
-            printTimetableModifyGuide("Timetable view is unavailable as m" +
-                    "odules in your current semester have no lessons yet.");
+            printTimetableModifyGuide("Timetable view is unavailable as modules in your current " +
+                    "semester have no lessons yet.");
             return;
         }
 
