@@ -135,7 +135,7 @@ public class Storage {
 
                 switch (splitParts[0]) {
 
-                case "Name" :
+                case "Name":
                     String name = splitParts[1];
                     studentDetails.add(0, name);
                     break;
