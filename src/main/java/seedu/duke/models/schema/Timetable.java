@@ -72,7 +72,7 @@ public class Timetable {
             boolean inTimetableModifyMode = true;
             while (inTimetableModifyMode) {
                 try {
-                    printTTModifyDetailedLessonGuide("Rohit's prompt");
+                    printTTModifyDetailedLessonGuide("timetable modify:");
                     //messy possibly invalid user inputs
                     TimetableUserCommand currentTimetableCommand = new TimetableUserCommand(student, in.nextLine());
                     //clean very nice user inputs
