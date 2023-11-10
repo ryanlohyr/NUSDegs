@@ -1,4 +1,4 @@
-# Liow Enqi Janelle's Project Portfolio Page
+# Janelle Enqi's Project Portfolio Page
 
 ## Project: NUSDegs
 
