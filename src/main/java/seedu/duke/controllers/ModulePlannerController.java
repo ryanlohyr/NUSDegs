@@ -7,6 +7,7 @@ import seedu.duke.models.schema.ModuleList;
 import seedu.duke.models.schema.CommandManager;
 import seedu.duke.models.schema.UserCommand;
 import seedu.duke.utils.Parser;
+import seedu.duke.utils.Utility;
 import seedu.duke.utils.exceptions.CorruptedFileException;
 import seedu.duke.utils.exceptions.MissingFileException;
 
@@ -15,8 +16,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
-
-import java.net.InetAddress;
 
 import static seedu.duke.controllers.ModuleServiceController.validateMajorInput;
 
@@ -64,7 +63,7 @@ public class ModulePlannerController {
      */
     public void start() {
         displayWelcome();
-        if (!isInternetReachable()) {
+        if (!Utility.isInternetReachable()) {
             displaySocketError();
             displayGoodbye();
             return;
@@ -76,15 +75,6 @@ public class ModulePlannerController {
         displayGoodbye();
     }
 
-    private static boolean isInternetReachable() {
-        try {
-            // Try connecting to a well-known server (Google's DNS server)
-            InetAddress address = InetAddress.getByName("8.8.8.8");
-            return address.isReachable(3000); // 3 seconds timeout
-        } catch (java.io.IOException e) {
-            return false; // Unable to connect
-        }
-    }
 
     public void initialiseUser() {
         Scanner in = new Scanner(System.in);
