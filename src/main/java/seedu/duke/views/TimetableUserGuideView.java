@@ -51,7 +51,9 @@ public class TimetableUserGuideView {
 
     public static void printTimetableModifyGuide(String specificContext) {
         println(specificContext);
-        println("Please modify your lectures/tutorials/labs using this format: timetable modify");
+        println("To add a lesson for a module, enter: [moduleCode] [lessonType] [startTime] [duration] [day]" +
+                "To clear lessons for a module, enter: [moduleCode] clear" +
+                "To exit Timetable Modify Mode, enter: EXIT");
     }
 
     public static void printTTModifyDetailedLessonGuide(String specificContext) {
@@ -64,7 +66,7 @@ public class TimetableUserGuideView {
 
         printToJustify(4);
         printToJustify("startTime", justifyLength);
-        println("integer from 8 to 20 (representing 8am to 8pm)");
+        println("integer from 8 to 19 (representing 8am to 7pm)");
 
         printToJustify(4);
         printToJustify("duration", justifyLength);

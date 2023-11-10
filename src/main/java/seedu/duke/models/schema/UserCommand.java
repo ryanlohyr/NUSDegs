@@ -29,7 +29,7 @@ public class UserCommand implements UserCommandWord {
     private CommandManager commandManager;
 
     public UserCommand(String userInput) {
-        this.userInput = userInput.strip();
+        this.userInput = userInput.trim();
         commandWord = parseCommand(userInput);
         arguments = parseArguments(userInput);
         this.commandManager = new CommandManager();

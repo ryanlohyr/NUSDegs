@@ -135,6 +135,7 @@ public class Parser {
         //shift forward available arguments
         if (arguments != null) {
             for (int i = 0; i < arguments.length; i++) {
+                arguments[i] = arguments[i].trim();
                 if (arguments[i].isEmpty()) {
                     continue;
                 }
@@ -142,9 +143,6 @@ public class Parser {
                 argumentsCounter++;
             }
         }
-
-
-        int addOrShiftIndex = 1;
 
         switch (commandWord) {
         case UserCommandWord.COMPLETE_MODULE_COMMAND:

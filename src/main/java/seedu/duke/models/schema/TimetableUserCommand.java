@@ -50,7 +50,7 @@ public class TimetableUserCommand {
 
         int currentIndex = 0;
         for (int i = 0; i < arguments.length; i++) {
-            arguments[i] = arguments[i].strip();
+            arguments[i] = arguments[i].trim();
             if (arguments[i].isEmpty()) {
                 continue;
             }
@@ -65,10 +65,22 @@ public class TimetableUserCommand {
 
         if (currentIndex == NUMBER_OF_ARGUMENTS_EXIT || currentIndex == NUMBER_OF_ARGUMENTS_CLEAR ||
                 currentIndex == NUMBER_OF_ARGUMENTS_LESSON) {
-            arguments = cutArguments;
+            // shrink arguments
+
+            String[] newCutArguments = new String[currentIndex];
+            int newCurrentIndex = 0;
+            for (int i = 0; i < cutArguments.length; i++) {
+                if (cutArguments[i] == null || cutArguments[i].isEmpty()) {
+                    continue;
+                }
+                newCutArguments[newCurrentIndex] = cutArguments[i];
+                newCurrentIndex++;
+            }
+            arguments = newCutArguments;
             return;
         }
         // invalid number of arguments
+        //System.out.println(currentIndex);
         throw new InvalidTimetableUserCommandException(ERROR_INVALID_NUMBER_OF_ARGUMENTS);
     }
 
