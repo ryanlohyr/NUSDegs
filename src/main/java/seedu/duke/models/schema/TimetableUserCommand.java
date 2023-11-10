@@ -15,6 +15,7 @@ public class TimetableUserCommand {
     private static final int NUMBER_OF_ARGUMENTS_EXIT = 1;
     private static final int NUMBER_OF_ARGUMENTS_CLEAR = 2;
     private static final int NUMBER_OF_ARGUMENTS_LESSON = 5;
+    private static final String DELIMITER = " ";
 
     //private final String userTimetableInput;
     //private final String commandWord;
@@ -26,7 +27,7 @@ public class TimetableUserCommand {
     public TimetableUserCommand(Student student, String userTimetableInput)
             throws InvalidTimetableUserCommandException {
         this.student = student;
-        arguments = userTimetableInput.split(" ");
+        arguments = userTimetableInput.split(DELIMITER);
         cutArguments();
         //cleanArguments();
     }
@@ -36,11 +37,12 @@ public class TimetableUserCommand {
 
         int currentIndex = 0;
         for (int i = 0; i < arguments.length; i++) {
+            arguments[i] = arguments[i].strip();
             if (arguments[i].isEmpty()) {
                 continue;
             }
             try {
-                cutArguments[currentIndex] = arguments[i].strip();
+                cutArguments[currentIndex] = arguments[i];
                 currentIndex++;
             } catch (IndexOutOfBoundsException e) {
                 // too many arguments
@@ -88,9 +90,3 @@ public class TimetableUserCommand {
         }
     }
 }
-
-
-
-   // }
-
-

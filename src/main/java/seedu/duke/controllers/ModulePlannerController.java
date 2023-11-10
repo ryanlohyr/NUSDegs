@@ -1,19 +1,26 @@
 package seedu.duke.controllers;
 
 import seedu.duke.models.logic.CompletePreqs;
+import seedu.duke.models.logic.Storage;
 import seedu.duke.models.schema.Student;
 import seedu.duke.models.schema.ModuleList;
 import seedu.duke.models.schema.CommandManager;
 import seedu.duke.models.schema.UserCommand;
 import seedu.duke.utils.Parser;
+import seedu.duke.utils.exceptions.CorruptedFileException;
+import seedu.duke.utils.exceptions.MissingFileException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
+import java.net.InetAddress;
+
 import static seedu.duke.controllers.ModuleServiceController.validateMajorInput;
 
+import static seedu.duke.utils.errors.HttpError.displaySocketError;
 import static seedu.duke.views.CommandLineView.displayWelcome;
 import static seedu.duke.views.CommandLineView.displayReady;
 import static seedu.duke.views.CommandLineView.displayGoodbye;
@@ -26,6 +33,7 @@ public class ModulePlannerController {
     private ModuleList modulesTaken;
     private CompletePreqs addModulePreqs;
     private CommandManager commandManager;
+    private Storage storage;
 
     public ModulePlannerController() {
         this.commandManager = new CommandManager();
@@ -56,20 +64,51 @@ public class ModulePlannerController {
      */
     public void start() {
         displayWelcome();
+        if (!isInternetReachable()) {
+            displaySocketError();
+            displayGoodbye();
+            return;
+        }
         initialiseUser();
         displayReady();
         handleUserInputTillExitCommand();
+        saveStudentData();
         displayGoodbye();
+    }
+
+    private static boolean isInternetReachable() {
+        try {
+            // Try connecting to a well-known server (Google's DNS server)
+            InetAddress address = InetAddress.getByName("8.8.8.8");
+            return address.isReachable(3000); // 3 seconds timeout
+        } catch (java.io.IOException e) {
+            return false; // Unable to connect
+        }
     }
 
     public void initialiseUser() {
         Scanner in = new Scanner(System.in);
         String userInput;
         do {
-            System.out.println("Please enter your name: ");
+            System.out.println("Please enter your name (used to retrieve your save file): ");
             userInput = in.nextLine().trim();
         } while (!parser.checkNameInput(userInput, commandManager.getListOfCommandNames()));
         student.setName(userInput);
+
+        // Create storage file based on userName
+        storage = new Storage(userInput);
+        try {
+            System.out.println("Attempting to retrieve data from save file...");
+            student.setSchedule(storage.loadSchedule());
+            System.out.println("Data successfully retrieved!");
+        } catch (MissingFileException e) {
+            System.out.println("Save file does not exist, creating new save file...");
+            storage.createUserStorageFile();
+            System.out.println("File successfully created!");
+        } catch (CorruptedFileException e) {
+            System.out.println("It seems that your save file is corrupted and we are unable to retrieve any data.\n" +
+                    "Please continue using the application to create a new save file!");
+        }
 
         // Get and set student's major
         displayGetMajor(student.getName());
@@ -97,6 +136,15 @@ public class ModulePlannerController {
             }
         }
         in.close();
+    }
+
+    public void saveStudentData() {
+        try {
+            storage.saveSchedule(student);
+            System.out.println("Data successfully saved in save file");
+        } catch (IOException e) {
+            System.out.println("Unable to save data.");
+        }
     }
 
     //    private void processCommand(String command, String[] arguments, String userInput) {

@@ -37,7 +37,7 @@ public class CommandLineView {
     }
 
     public static void displayGoodbye(){
-        System.out.println("Goodbye.");
+        System.out.println("Goodbye!");
     }
 
     public static void displayReady(){

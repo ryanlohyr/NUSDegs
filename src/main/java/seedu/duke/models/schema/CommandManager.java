@@ -46,9 +46,9 @@ public class CommandManager {
                 new Command("left", "Displays a list of remaining modules."),
                 new Command("pace", "[CURRENT_SEMESTER]", "Computes and displays your graduation pace."),
 
-                new Command("timetable", "COMMAND", "Display a grid containing this semester's classes"),
+                new Command("timetable", "COMMAND", "Displays a grid containing this semester's classes"),
 
-                new Command("Bye", "Exit the program.")));
+                new Command("Bye", "Saves the user's schedule and exits the program.")));
     }
 
 
