@@ -25,8 +25,6 @@ It's a comprehensive tool for efficient and successful degree completion.
 3. Copy the file to the folder you want to use as the home folder for NUSDegs.
 4. Open a command terminal, cd into the folder you put the .jar file in, and run the command
    java -jar "duke.jar" to run the application.
-5. Ensure that you remember the name you input into NUSDegs at the start of the application, as it would be used to
-   access you saved data during subsequent uses. The name used is CASE_SENSITIVE.
 
 ## Features
 - View help : `help`
@@ -400,7 +398,7 @@ User input:
 ### Save schedule and exit the program: `Bye`
 
 Exit NUSDegs and save your current schedule into a data folder that will be in the same folder as
-where you placed `duke.jar`. The data folder will be named using your name inputted at the start of the application.
+where you placed `duke.jar`. The data folder will contain both the user's student detail and their schedule planner
 
 ##### Format: `Bye` (with a capital letter 'B')
 
@@ -427,15 +425,9 @@ The operating system (Windows, macOS or Linux), doesn't matter.
 
 **Q**: Would my data be saved after I close NUSDegs?
 
-**A**: Yes. Currently, only your schedule planner will be saved inside a data folder that will be in the same folder as 
-where you placed `duke.jar`. The data folder will be named using your name inputted at the start of the application.
-To access the save folder next time you use NUSDegs, please use the same name which you used when you first saved the 
-data folder.
-
-**Q** Can I save multiple schedules in one computer?
-
-**A** Yes. By using a different name at the start of NUSDegs, you can create another save folder to store another 
-schedule.
+**A**: Yes. Currently, only your student details and schedule planner will be saved inside a data folder which will be 
+in the same folder as where you placed `duke.jar`. To access the save folder the next time you use NUSDegs, just start
+the jar file the same way and ensure that the data files have not been tempered with.
 
 **Q**: How is the `pace` function calculated?
 
