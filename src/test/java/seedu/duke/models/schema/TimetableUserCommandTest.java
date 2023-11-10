@@ -7,9 +7,9 @@ import seedu.duke.utils.exceptions.InvalidTimetableUserCommandException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+//import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class TimetableUserCommandTest {
     private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -35,10 +35,26 @@ class TimetableUserCommandTest {
 
 
     @Test
-    void getArguments() throws InvalidTimetableUserCommandException {
-        TimetableUserCommand currentTimetableCommand = new TimetableUserCommand(student, "a     b c d e");
-        System.out.println(Arrays.toString(currentTimetableCommand.getArguments()));
-        assertEquals("[a, b, c, d, e]", Arrays.toString(currentTimetableCommand.getArguments()));
+    void partialTestTimetableModify_badDayInput_expectTimetableErrorMessage() {
+        System.setOut(originalOut);
+        String addUserInputs = "add cs1010 3";
+        currentUserCommand = new UserCommand(addUserInputs);
+        if (currentUserCommand.isValid() && !currentUserCommand.isBye()) {
+            currentUserCommand.processCommand(student);
+        }
+
+        System.setOut(new PrintStream(outputStream));
+        student.setCurrentSemesterModules();
+        student.setCurrentSemesterModulesWeekly();
+
+        assertThrows(InvalidTimetableUserCommandException.class,
+                () -> badInput("cs1010 lecture 9 2 Mon"));
+    }
+
+    public void badInput(String timetableUserInput) throws InvalidTimetableUserCommandException {
+        TimetableUserCommand currentTimetableCommand = new TimetableUserCommand(student,
+                student.getTimetable().getCurrentSemesterModulesWeekly(), timetableUserInput);
+        currentTimetableCommand.processTimetableCommand(student.getTimetable().getCurrentSemesterModulesWeekly());
 
     }
 }

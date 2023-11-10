@@ -1,6 +1,7 @@
 package seedu.duke.views;
 
 public class TimetableUserGuideView {
+    private static final int justifyLength = 12;
 
     public static void print(String output) {
         System.out.print(output + " ");
@@ -8,6 +9,26 @@ public class TimetableUserGuideView {
     public static void println(String output) {
         System.out.println(output);
     }
+
+    /**
+     * Prints spaces to justify the output to the given width.
+     *
+     * @param number The width for justification.
+     */
+    public static void printToJustify(int number) {
+        print(String.format("%-" + number + "s", ""));
+    }
+
+    /**
+     * Prints a string with spaces to justify it to the given width.
+     *
+     * @param string The string to be printed.
+     * @param number The width for justification.
+     */
+    public static void printToJustify(String string, int number) {
+        print(String.format("%-" + number + "s", string));
+    }
+
 
     public static void addGuide() {
         println("Please add a module using this format: add [module code] [semester]");
@@ -36,10 +57,23 @@ public class TimetableUserGuideView {
     public static void printTTModifyDetailedLessonGuide(String specificContext) {
         println(specificContext);
         println("To add a lesson to a module: [moduleCode] [lessonType] [startTime] [duration] [day]");
-        println(    "lessonType - lecture, tutorial, lab");
-        println(    "startTime - integer from 8 to 20 (representing 8am to 8pm)");
-        println(    "duration - time in hours");
-        println(    "day - eg. monday, tuesday, wednesday");
+
+        printToJustify(4);
+        printToJustify("lessonType", justifyLength);
+        println("lecture, tutorial, lab");
+
+        printToJustify(4);
+        printToJustify("startTime", justifyLength);
+        println("integer from 8 to 20 (representing 8am to 8pm)");
+
+        printToJustify(4);
+        printToJustify("duration", justifyLength);
+        println("time in hours");
+
+        printToJustify(4);
+        printToJustify("day", justifyLength);
+        println("eg. monday, tuesday, wednesday");
+
         println("To clear all lessons for a module: [moduleCode] clear");
         println("To exit timetable modify: exit");
     }

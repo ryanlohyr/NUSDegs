@@ -17,7 +17,7 @@ import static seedu.duke.models.logic.Prerequisite.getModulePrereqBasedOnCourse;
 import static seedu.duke.models.logic.DataRepository.getRequirements;
 import static seedu.duke.utils.errors.HttpError.displaySocketError;
 import static seedu.duke.views.CommandLineView.displaySuccessfulCompleteMessage;
-import static seedu.duke.views.TimetableUserGuideView.addOrRecommendGuide;
+//import static seedu.duke.views.TimetableUserGuideView.addOrRecommendGuide;
 //import static seedu.duke.views.UserGuideView.timetableModifySuccessful;
 
 /**
@@ -35,6 +35,7 @@ public class Student {
     private ArrayList<String> majorModuleCodes;
     private ModuleList currentSemesterModules;
     private Timetable timetable;
+    //private ArrayList<ModuleWeekly> currentSemesterModulesWeekly;
 
     /**
      * Constructs a student with a name, major, and module schedule.
@@ -309,11 +310,11 @@ public class Student {
     public void setCurrentSemesterModulesWeekly() {
         // checks if class variable into which I added the modules in current semester is empty
         // if empty, means the user didn't plan or add any modules into the thing
-        if (currentSemesterModules.getMainModuleList().isEmpty()) {
-            int currentSem = getCurrentSem();
-            addOrRecommendGuide("Your current sem has no modules yet.", currentSem);
-            return;
-        }
+        //    if (currentSemesterModules.getMainModuleList().isEmpty()) {
+        //        int currentSem = getCurrentSem();
+        //        addOrRecommendGuide("Your current sem has no modules yet.", currentSem);
+        //       return;
+
         // Ok the current sem modules are back in an array list<Module>
         // so the point of putting it in the module list was to check whether empty
         ArrayList<Module> newCurrentSemModuleList = currentSemesterModules.getMainModuleList();
@@ -439,6 +440,8 @@ public class Student {
         return currentSemesterModules;
     }
 
-
+    public Timetable getTimetable() {
+        return this.timetable;
+    }
 
 }
