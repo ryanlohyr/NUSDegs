@@ -7,7 +7,6 @@ import seedu.duke.utils.exceptions.InvalidTimetableUserCommandException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -73,7 +72,7 @@ class TimetableUserCommandTest {
     }
 
     @Test
-    void partialTestTimetableModify_badModuleInput_expectTimetableErrorMessage() throws InvalidTimetableUserCommandException {
+    void partialTestTimetableModify_badModuleInput_expectTimetableErrorMessage() {
         System.setOut(originalOut);
         String addUserInputs = "add cs1010 3";
         currentUserCommand = new UserCommand(addUserInputs);
@@ -85,11 +84,12 @@ class TimetableUserCommandTest {
         student.setCurrentSemesterModules();
         student.setCurrentSemesterModulesWeekly();
 
-        assertThrows(InvalidTimetableUserCommandException.class, () -> badInput("cs101 lecture 9 2 Monday"));
+        assertThrows(InvalidTimetableUserCommandException.class,
+                () -> badInput("cs101 lecture 9 2 Monday"));
     }
 
     @Test
-    void partialTestTimetableModify_badLessonTypeInput_expectTimetableErrorMessage() throws InvalidTimetableUserCommandException {
+    void partialTestTimetableModify_badLessonTypeInput_expectTimetableErrorMessage() {
         System.setOut(originalOut);
         String addUserInputs = "add cs1010 3";
         currentUserCommand = new UserCommand(addUserInputs);
@@ -101,11 +101,12 @@ class TimetableUserCommandTest {
         student.setCurrentSemesterModules();
         student.setCurrentSemesterModulesWeekly();
 
-        assertThrows(InvalidTimetableUserCommandException.class, () -> badInput("cs1010 lect 9 2 Monday"));
+        assertThrows(InvalidTimetableUserCommandException.class,
+                () -> badInput("cs1010 lect 9 2 Monday"));
     }
 
     @Test
-    void partialTestTimetableModify_badStartTimeInput_expectTimetableErrorMessage() throws InvalidTimetableUserCommandException {
+    void partialTestTimetableModify_badStartTimeInput_expectTimetableErrorMessage() {
         System.setOut(originalOut);
         String addUserInputs = "add cs1010 3";
         currentUserCommand = new UserCommand(addUserInputs);
@@ -117,11 +118,12 @@ class TimetableUserCommandTest {
         student.setCurrentSemesterModules();
         student.setCurrentSemesterModulesWeekly();
 
-        assertThrows(InvalidTimetableUserCommandException.class, () -> badInput("cs1010 lecture hi 2 Monday"));
+        assertThrows(InvalidTimetableUserCommandException.class,
+                () -> badInput("cs1010 lecture hi 2 Monday"));
     }
 
     @Test
-    void partialTestTimetableModify_wrongStartTimeInput_expectTimetableErrorMessage() throws InvalidTimetableUserCommandException {
+    void partialTestTimetableModify_wrongStartTimeInput_expectTimetableErrorMessage() {
         System.setOut(originalOut);
         String addUserInputs = "add cs1010 3";
         currentUserCommand = new UserCommand(addUserInputs);
@@ -133,11 +135,12 @@ class TimetableUserCommandTest {
         student.setCurrentSemesterModules();
         student.setCurrentSemesterModulesWeekly();
 
-        assertThrows(InvalidTimetableUserCommandException.class, () -> badInput("cs1010 lecture 3 2 Monday"));
+        assertThrows(InvalidTimetableUserCommandException.class,
+                () -> badInput("cs1010 lecture 3 2 Monday"));
     }
 
     @Test
-    void partialTestTimetableModify_badDurationInput_expectTimetableErrorMessage() throws InvalidTimetableUserCommandException {
+    void partialTestTimetableModify_badDurationInput_expectTimetableErrorMessage() {
         System.setOut(originalOut);
         String addUserInputs = "add cs1010 3";
         currentUserCommand = new UserCommand(addUserInputs);
@@ -149,11 +152,12 @@ class TimetableUserCommandTest {
         student.setCurrentSemesterModules();
         student.setCurrentSemesterModulesWeekly();
 
-        assertThrows(InvalidTimetableUserCommandException.class, () -> badInput("cs1010 lecture 9 -1 Monday"));
+        assertThrows(InvalidTimetableUserCommandException.class,
+                () -> badInput("cs1010 lecture 9 -1 Monday"));
     }
 
     @Test
-    void partialTestTimetableModify_badDayInput_expectTimetableErrorMessage() throws InvalidTimetableUserCommandException {
+    void partialTestTimetableModify_badDayInput_expectTimetableErrorMessage() {
         System.setOut(originalOut);
         String addUserInputs = "add cs1010 3";
         currentUserCommand = new UserCommand(addUserInputs);
@@ -165,7 +169,8 @@ class TimetableUserCommandTest {
         student.setCurrentSemesterModules();
         student.setCurrentSemesterModulesWeekly();
 
-        assertThrows(InvalidTimetableUserCommandException.class, () -> badInput("cs1010 lecture 9 2 Mon"));
+        assertThrows(InvalidTimetableUserCommandException.class,
+                () -> badInput("cs1010 lecture 9 2 Mon"));
     }
 
     public void badInput(String timetableUserInput) throws InvalidTimetableUserCommandException {

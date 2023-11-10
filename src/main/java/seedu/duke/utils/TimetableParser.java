@@ -2,12 +2,15 @@ package seedu.duke.utils;
 
 import seedu.duke.models.schema.ModuleWeekly;
 import seedu.duke.utils.exceptions.InvalidTimetableUserCommandException;
-import seedu.duke.views.TimetableView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static seedu.duke.utils.Parser.*;
+import static seedu.duke.utils.Parser.removeNulls;
+import static seedu.duke.utils.Parser.hasNoNulls;
+import static seedu.duke.utils.Parser.isStringInteger;
+import static seedu.duke.utils.Parser.isValidLessonType;
+import static seedu.duke.utils.Parser.isDayValid;
 
 public class TimetableParser {
     private static final String ERROR_MODULE_DOES_NOT_EXIST = " does not exist in your schedule.";
@@ -21,11 +24,12 @@ public class TimetableParser {
             "representing the number of hours.";
     private static final String ERROR_INVALID_DAY = "Invalid Day. Examples of day: Monday, Tuesday, Wednesday. " +
             "representing the number of hours.";
-    public static final String DELIMITER = " ";
 
     private static final List<String> lessonTypes = List.of("LECTURE", "TUTORIAL", "LAB");
     private static final List<String> days = List.of("MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY",
             "SATURDAY", "SUNDAY");
+
+    private static final String DELIMITER = " ";
 
     // returns true when exit is called
     public static boolean isExitModify(String[] arguments) {

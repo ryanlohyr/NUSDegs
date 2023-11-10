@@ -6,18 +6,7 @@ import seedu.duke.views.TimetableView;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import static seedu.duke.utils.Parser.isStringInteger;
-import static seedu.duke.utils.Parser.removeNulls;
-import static seedu.duke.utils.Parser.isValidLessonType;
-import static seedu.duke.utils.Parser.hasNoNulls;
-import static seedu.duke.utils.Parser.isDayValid;
 import static seedu.duke.utils.TimetableParser.isExitModify;
-import static seedu.duke.utils.TimetableParser.isModifyClear;
-import static seedu.duke.utils.TimetableParser.parseModuleCode;
-import static seedu.duke.utils.TimetableParser.parseLessonType;
-import static seedu.duke.utils.TimetableParser.parseTime;
-import static seedu.duke.utils.TimetableParser.parseDuration;
-import static seedu.duke.utils.TimetableParser.parseDay;
 import static seedu.duke.views.CommandLineView.displayMessage;
 import static seedu.duke.views.TimetableUserGuideView.printTTModifyDetailedLessonGuide;
 
