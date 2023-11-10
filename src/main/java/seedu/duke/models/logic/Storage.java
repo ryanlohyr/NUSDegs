@@ -17,20 +17,17 @@ import java.io.BufferedWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class Storage {
-
-    private String userName;
 
     private String userDirectory = System.getProperty("user.dir");
 
     /**
      * Constructs a new Storage instance with the specified file path.
-     *
-     * @param userName The path to the storage file.
      */
-    public Storage(String userName) {
-        this.userName = userName;
+    public Storage() {
+
     }
 
     /**
@@ -39,10 +36,13 @@ public class Storage {
     public void createUserStorageFile() {
         String dataDirectory = userDirectory + "/data";
         createDirectory(dataDirectory);
-        String userPersonalStorageFile = dataDirectory + "/" + userName;
-        createDirectory(userPersonalStorageFile);
-        createFileInDirectory(userPersonalStorageFile, "schedule.txt");
-        createFileInDirectory(userPersonalStorageFile, "studentDetails.txt");
+
+        // Remove this code to remove using name to create dataFolder
+        /*String userPersonalStorageFile = dataDirectory + "/" + userName;
+        createDirectory(userPersonalStorageFile);*/
+
+        createFileInDirectory(dataDirectory, "schedule.txt");
+        createFileInDirectory(dataDirectory, "studentDetails.txt");
         //createFileInDirectory(storageDirectory, "timetable.txt");
     }
 
@@ -50,7 +50,7 @@ public class Storage {
 
     public Schedule loadSchedule() throws MissingFileException, CorruptedFileException {
 
-        String scheduleFilePath = userDirectory + "/data" + "/" + userName + "/" + "schedule.txt";
+        String scheduleFilePath = userDirectory + "/data/schedule.txt";
 
         if (!isFileExist(scheduleFilePath)) {
             throw new MissingFileException();
@@ -111,9 +111,9 @@ public class Storage {
 
     }
 
-    public void loadStudentDetails(Student student) throws MissingFileException, CorruptedFileException {
+    public ArrayList<String> loadStudentDetails() throws MissingFileException, CorruptedFileException {
 
-        String studentDetailsFilePath = userDirectory + "/data" + "/" + userName + "/" + "studentDetails.txt";
+        String studentDetailsFilePath = userDirectory + "/data/studentDetails.txt";
 
         if (!isFileExist(studentDetailsFilePath)) {
             throw new MissingFileException();
@@ -124,6 +124,8 @@ public class Storage {
             FileReader fileReader = new FileReader(studentDetailsFilePath);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
 
+            ArrayList<String> studentDetails = new ArrayList<>(3);
+
             String line;
 
             // Read lines from the file and add them to the ArrayList.
@@ -133,13 +135,17 @@ public class Storage {
 
                 switch (splitParts[0]) {
 
+                case "Name" :
+                    String name = splitParts[1];
+                    studentDetails.add(0, name);
+                    break;
                 case "Major":
                     String major = splitParts[1];
 
                     // Check if major stored in txt file is valid
                     Major.valueOf(major.toUpperCase());
 
-                    student.setMajor(major);
+                    studentDetails.add(1, major);
                     break;
                 case "Year":
                     String year = splitParts[1];
@@ -149,7 +155,7 @@ public class Storage {
                         throw new CorruptedFileException();
                     }
 
-                    student.setYear(year);
+                    studentDetails.add(2, year);
                     break;
                 default:
                 }
@@ -157,23 +163,29 @@ public class Storage {
 
             // Close the BufferedReader to release resources.
             bufferedReader.close();
+
+            return studentDetails;
         } catch (Exception e) {
             throw new CorruptedFileException();
         }
-
     }
 
     public void saveStudentDetails (Student student) throws IOException {
 
-        String studentDetailsFilePath = userDirectory + "/data/" + userName + "/studentDetails.txt";
+        String studentDetailsFilePath = userDirectory + "/data/studentDetails.txt";
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(studentDetailsFilePath))) {
+
+            String name = student.getName();
 
             String major = student.getMajor();
 
             String year = student.getYear();
 
             // Write the new content to the file
+            writer.write("Name | " + name);
+            writer.newLine();
+
             writer.write("Major | " + major);
             writer.newLine();
 
@@ -185,7 +197,7 @@ public class Storage {
 
     public void saveSchedule(Student student) throws IOException {
 
-        String scheduleFilePath = userDirectory + "/data/" + userName + "/schedule.txt";
+        String scheduleFilePath = userDirectory + "/data/schedule.txt";
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(scheduleFilePath))) {
 
