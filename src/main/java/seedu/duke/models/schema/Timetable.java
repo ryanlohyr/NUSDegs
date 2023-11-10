@@ -82,6 +82,15 @@ public class Timetable {
                         continue;
                     }
                     System.out.println("Passed modify valid checks");
+                    //if clear
+                    if (arguments[1].strip().equalsIgnoreCase("clear")) {
+                        int indexOfModuleWeeklyToModify = getIndexOfModuleWeekly(arguments[0],
+                                currentSemesterModulesWeekly);
+                        timetable.currentSemesterModulesWeekly.get(indexOfModuleWeeklyToModify).clearLessons();
+                        TimetableView.printTimetable(currentSemesterModulesWeekly);
+                        System.out.println("All lessons for selected module are cleared.");
+                        return;
+                    }
                     //if exit
                     if (isExitModify(arguments)) {
                         inTimetableModifyMode = false;
@@ -122,6 +131,21 @@ public class Timetable {
 
     }
 
+    // if return true,
+    public static boolean validateClearCommand(String[] argument,
+                                               ArrayList<ModuleWeekly> currentSemesterModulesWeekly) {
+        if (isExistInCurrentSemesterModules(argument[0].strip().toUpperCase(), currentSemesterModulesWeekly) &&
+                argument[1].strip().equalsIgnoreCase("clear")) {
+            System.out.println(argument[0].strip().toUpperCase());
+            System.out.println(argument[1].strip().toUpperCase());
+            System.out.println("Module does not exist in current semester.");
+            System.out.println("validate clear.");
+            return true;
+        }
+        return false;
+    }
+
+
     // returns true when exit is called
     public boolean isExitModify(String[] arguments) {
         String[] argumentsNoNulls = removeNulls(arguments);
@@ -148,9 +172,9 @@ public class Timetable {
             return true;
         }
         if (argumentsNoNulls.length == 2) {
-            String moduleCode = arguments[0];
+            String moduleCode = arguments[0].toUpperCase();
             if (!isExistInCurrentSemesterModules(moduleCode, currentSemesterModulesWeekly)) {
-                System.out.println("Module does not exist in current semester.");
+                System.out.println("Module does not exist in current semester. ");
                 return false;
             }
             if (!argumentsNoNulls[1].strip().equalsIgnoreCase("clear")) {
@@ -167,7 +191,7 @@ public class Timetable {
             String durationString = arguments[3];
             String day = arguments[4].toUpperCase();
             if (!isExistInCurrentSemesterModules(moduleCode, currentSemesterModulesWeekly)) {
-                System.out.println("module not in sem");
+                System.out.println("Module does not exist in current semester.");
                 return false;
             }
             if (!isValidLessonType(lessonType)) {
