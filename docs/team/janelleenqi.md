@@ -1,4 +1,4 @@
-# Liow Enqi Janelle's Project Portfolio Page
+# Janelle Enqi's Project Portfolio Page
 
 ## Project: NUSDegs
 
@@ -8,7 +8,7 @@ for students. This is a comprehensive tool for efficient and successful degree c
 
 ## Summary of Contributions
 
-### Code contributed
+### Code contributed: [Link to RepoSense Report](https://nus-cs2113-ay2324s1.github.io/tp-dashboard/?search=janelleenqi&breakdown=false&sort=groupTitle%20dsc&sortWithin=title&since=2023-09-22&timeframe=commit&mergegroup=&groupSelect=groupByRepos)
 
 ### Features Implemented
 
