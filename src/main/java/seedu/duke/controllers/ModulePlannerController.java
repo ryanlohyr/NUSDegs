@@ -1,7 +1,7 @@
 package seedu.duke.controllers;
 
 import seedu.duke.models.logic.CompletePreqs;
-import seedu.duke.models.logic.Storage;
+import seedu.duke.models.schema.Storage;
 import seedu.duke.models.schema.Student;
 import seedu.duke.models.schema.ModuleList;
 import seedu.duke.models.schema.CommandManager;
@@ -61,13 +61,9 @@ public class ModulePlannerController {
      * @author ryanlohyr
      *
      */
-    public void start() {
+    public void start() throws IOException {
         displayWelcome();
-        if (!Utility.isInternetReachable()) {
-            displaySocketError();
-            displayGoodbye();
-            return;
-        }
+        detectInternet();
         initialiseUser();
         displayReady();
         handleUserInputTillExitCommand();
@@ -75,8 +71,16 @@ public class ModulePlannerController {
         displayGoodbye();
     }
 
+    private static void detectInternet() throws IOException {
+        if (!Utility.isInternetReachable()) {
+            displaySocketError();
+            displayGoodbye();
+            throw new IOException();
+        }
+    }
 
-    public void initialiseUser() {
+
+    public void initialiseUser() throws IOException {
         Scanner in = new Scanner(System.in);
         String userInput;
 
@@ -119,9 +123,11 @@ public class ModulePlannerController {
             System.out.println("Save file does not exist, creating new save file...");
             storage.createUserStorageFile();
             System.out.println("File successfully created!");
+            Storage.saveSchedule(student);
         } catch (CorruptedFileException e) {
             System.out.println("It seems that your save file is corrupted and we are unable to retrieve any data.\n" +
                     "Please continue using the application to overwrite the corrupted file!");
+
         }
         do {
             System.out.println("Please enter your name: ");
@@ -142,6 +148,7 @@ public class ModulePlannerController {
             userInput = in.nextLine().trim();
         } while (!Parser.isValidAcademicYear(userInput.toUpperCase()));
         student.setYear(userInput.toUpperCase());
+        storage.saveStudentDetails(student);
     }
 
     public void handleUserInputTillExitCommand() {
@@ -160,7 +167,7 @@ public class ModulePlannerController {
     public void saveStudentData() {
         try {
             storage.saveStudentDetails(student);
-            storage.saveSchedule(student);
+            Storage.saveSchedule(student);
             System.out.println("Data successfully saved in save file");
         } catch (IOException e) {
             System.out.println("Unable to save data.");

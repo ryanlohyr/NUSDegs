@@ -17,6 +17,7 @@ import static seedu.duke.controllers.ModuleServiceController.chooseToAddToSchedu
 import static seedu.duke.controllers.ModuleServiceController.isConfirmedToClearSchedule;
 import static seedu.duke.models.logic.Api.doesModuleExist;
 import static seedu.duke.models.logic.Prerequisite.getModulePrereqBasedOnCourse;
+import static seedu.duke.models.schema.Storage.saveSchedule;
 import static seedu.duke.utils.errors.HttpError.displaySocketError;
 import static seedu.duke.views.CommandLineView.displayMessage;
 import static seedu.duke.views.CommandLineView.displaySuccessfulAddMessage;
@@ -92,11 +93,14 @@ public class ModuleMethodsController {
             student.addModuleSchedule(module, targetSem);
             displaySuccessfulAddMessage();
             student.printSchedule();
+            saveSchedule(student);
         } catch (InvalidObjectException | IllegalArgumentException e) {
             displayMessage(e.getMessage());
         } catch (FailPrereqException f) {
             showPrereq(module, student.getMajor());
             displayMessage(f.getMessage());
+        } catch (IOException e) {
+            displaySocketError();
         }
     }
 
@@ -111,7 +115,6 @@ public class ModuleMethodsController {
             displayMessage("Oh no, we could not generate your schedule");
             displaySocketError();
         }
-
     }
 
     public static void deleteModule(String module, Student student) {
@@ -119,6 +122,7 @@ public class ModuleMethodsController {
             student.deleteModuleSchedule(module);
             displaySuccessfulDeleteMessage();
             student.printSchedule();
+            saveSchedule(student);
         } catch (MissingModuleException | MandatoryPrereqException e) {
             displayMessage(e.getMessage());
         } catch (IOException e) {
@@ -131,6 +135,7 @@ public class ModuleMethodsController {
             student.shiftModuleSchedule(module, targetSem);
             displaySuccessfulShiftMessage();
             student.printSchedule();
+            saveSchedule(student);
         } catch (InvalidObjectException | IllegalArgumentException | MissingModuleException |
                  MandatoryPrereqException e) {
             displayMessage(e.getMessage());
@@ -143,12 +148,20 @@ public class ModuleMethodsController {
     }
 
     public static void clearSchedule(Student student) {
-        if (isConfirmedToClearSchedule()) {
+        try{
+            if(!isConfirmedToClearSchedule()){
+                displayUnsuccessfulClearMessage();
+                return;
+            }
+
             student.clearAllModulesFromSchedule();
             displaySuccessfulClearMessage();
-            return;
+            saveSchedule(student);
+
+
+        }catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        displayUnsuccessfulClearMessage();
     }
 
     //public static boolean canCompleteModule(String[] arguments, ArrayList<String> majorModuleCodes,
@@ -164,6 +177,7 @@ public class ModuleMethodsController {
             }
 
             student.completeModuleSchedule(moduleCode);
+            saveSchedule(student);
 
         } catch (MissingModuleException e) {
             displayMessage(e.getMessage());
@@ -175,6 +189,8 @@ public class ModuleMethodsController {
             showPrereq(moduleCode, student.getMajor());
         } catch (InvalidPrereqException e) {
             throw new RuntimeException(e);
+        } catch (IOException e) {
+            displaySocketError();
         }
     }
 

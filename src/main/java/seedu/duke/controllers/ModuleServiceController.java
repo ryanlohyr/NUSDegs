@@ -3,9 +3,11 @@ package seedu.duke.controllers;
 import seedu.duke.models.schema.Major;
 import seedu.duke.models.schema.Student;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static seedu.duke.models.schema.Storage.saveSchedule;
 import static seedu.duke.views.MajorRequirementsView.printRequiredModules;
 import static seedu.duke.views.CommandLineView.displayMessage;
 import static seedu.duke.views.ModuleInfoView.printModuleStringArray;
@@ -36,7 +38,7 @@ public class ModuleServiceController {
      *
      * @param scheduleToAdd A list of modules to be added to the schedule.
      */
-    public static void chooseToAddToSchedule(Student student, ArrayList<String> scheduleToAdd) {
+    public static void chooseToAddToSchedule(Student student, ArrayList<String> scheduleToAdd) throws IOException {
 
         Scanner in = new Scanner(System.in);
         printModuleStringArray(scheduleToAdd);
@@ -53,39 +55,12 @@ public class ModuleServiceController {
             userInput = in.nextLine().replace("\r", "");
         }
 
-        //        if (userInput.equals("Y")) {
-        //            displayMessage("Do you want to keep your completion statuses?");
-        //            displayMessage("Please input 'Y' or 'N'");
-        //
-        //            String userInputForCompletion = in.nextLine();
-        //
-        //            while (!userInputForCompletion.equals("N") && !userInputForCompletion.equals(("Y"))) {
-        //                displayMessage("Invalid input, please choose Y/N");
-        //                userInputForCompletion = in.nextLine();
-        //            }
-        //
-        //            displayMessage("Hold on, this may take a while......");
-        //
-        //            Boolean keep;
-        //            if (userInputForCompletion.equals("Y")) {
-        //                keep = true;
-        //            } else {
-        //                keep = false;
-        //            }
-        //            student.getSchedule().addRecommendedScheduleListToSchedule(scheduleToAdd, keep);
-        //            displayMessage("Here is your schedule planner!");
-        //            student.getSchedule().printMainModuleList();
-        //            displayMessage("Happy degree planning!");
-        //
-        //
-        //        } else {
-        //            displayHelp();
-        //        }
         if(userInput.equals("Y")){
             student.getSchedule().addRecommendedScheduleListToSchedule(scheduleToAdd, true);
             displayMessage("Here is your schedule planner!");
             student.getSchedule().printMainModuleList();
             displayMessage("Happy degree planning!");
+            saveSchedule(student);
         }else{
             displayMessage("Okay, we will not put it in your schedule.");
         }

@@ -21,29 +21,38 @@ It's a comprehensive tool for efficient and successful degree completion.
 ## Quick Start
 
 1. Ensure that you have Java 11 or above installed.
-2. Download the latest version of `NUSDegs` from [here](http://link.to/duke) (TO BE ADDED BEFORE PE).
-3. Copy the file to the folder you want to use as the home folder for NUSDegs.
+2. Download the latest version of `NUSDegs` from [here](https://github.com/ryanlohyr/tp/releases/tag/vtest) (
+   (Real one to be updated for PE)
+3. Downlaod the NUSDegs.jar to the folder you want to use as the home folder for NUSDegs.
 4. Open a command terminal, cd into the folder you put the .jar file in, and run the command
-   java -jar "duke.jar" to run the application.
+   java -jar "NUSDegs.jar" to run the application.
+
+## Note
+1. Year 4 Semester 2 students aren't able to use the app! (As we specifically cater the app to only students who have at
+least one semester left!)
+2. Due to the requirements of the module. Users are allowed to edit the txt files created, however, the course not should 
+be modified from "CEG" to "CS" and vice versa (This can be detected based on the prerequisite shown) 
+in the txt file as it will break the prerequisite constraints in your 
+schedule. This is due to the prerequisite algorithm that takes into account your course. Hope you understand!
 
 ## Features
-- View help : `help`
-- View modules required for major: `required`
-- Recommend a schedule based on major: `recommend`
-- Search for modules based on keywords: `search`
-- View info about a module: `info`
-- Check prerequisite for a module: `prereq`
-- View schedule planner: `schedule`
-- Add module to schedule planner: `add`
-- Delete module from schedule planner: `delete`
-- Shift module in schedule planner: `shift`
-- Clear all schedule planner and completion data: `clear`
-- Complete a module in your schedule planner: `complete`
-- View modules left for graduation: `left`
-- Check current pace to graduate: `pace`
-- View weekly timetable: `timetable show`
-- Modify weekly timetable: `timetable modify`
-- Saves the user's schedule and exits the program: `Bye`
+- [View help : `help`](#viewing-help-help)
+- [View modules required for major: `required`](#getting-a-list-of-required-modulesrequired)
+- [Check prerequisite for a module: `prereq`](#view-module-prerequisitesprereq)
+- [Search for modules based on keywords: `search`](#searching-for-a-module-by-title-search)
+- [View info about a module: `info`](#get-information-about-a-module-info)
+- [View schedule planner: `schedule`](#view-schedule-planner-schedule)
+- [Recommend a schedule based on major: `recommend`](#view-recommended-schedule-based-on-course-recommend)
+- [Add module to schedule planner: `add`](#add-module-to-schedule-planner-add)
+- [Delete module from schedule planner: `delete`](#delete-module-from-schedule-planner-delete)
+- [Shift module in schedule planner: `shift`](#shift-module-in-schedule-planner-shift)
+- [Clear all schedule planner and completion data: `clear`](#clear-all-schedule-planner-and-completion-data-clear)
+- [Complete a module in your schedule planner: `complete`](#complete-a-module-complete)
+- [View modules left for graduation: `left`](#checking-modules-left-left)
+- [Check current pace to graduate: `pace`](#check-current-pace-to-graduate-pace)
+- [View weekly timetable: `timetable show`](#view-weekly-timetable-timetable-show)
+- [Modify weekly timetable: `timetable modify`](#modify-weekly-timetable-timetable-modify)
+- [Saves the user's schedule and exits the program: `Bye`](#save-schedule-and-exit-the-program-bye)
 
 Note: Between arguments, spaces are required. Arguments need to be passed in the correct order.
 
