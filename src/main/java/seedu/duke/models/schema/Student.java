@@ -346,7 +346,6 @@ public class Student {
      * @param argument The user input specifying whether to show or modify the timetable.
      */
     public void timetableShowOrModify(String argument) {
-
         try {
             this.setCurrentSemesterModules();
             this.setCurrentSemesterModulesWeekly();

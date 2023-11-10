@@ -291,5 +291,34 @@ public class Parser {
                 uppercaseDay.equals("SUNDAY");
     }
 
+    public static boolean hasNoNulls(Object[] array) {
+        for (Object element : array) {
+            if (element == null) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static String[] removeNulls(String[] inputArray) {
+        int newSize = 0;
+        for (String element : inputArray) {
+            if (element != null) {
+                newSize++;
+            }
+        }
+
+        String[] resultArray = new String[newSize];
+        int index = 0;
+
+        for (String element : inputArray) {
+            if (element != null) {
+                resultArray[index++] = element;
+            }
+        }
+
+        return resultArray;
+    }
+
 
 }

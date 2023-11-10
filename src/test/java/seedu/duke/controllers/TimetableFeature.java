@@ -118,7 +118,7 @@ public class TimetableFeature {
 
     @Test
     void usercommandTest() throws InvalidTimetableUserCommandException {
-        String userInput = "cs1010 clear 3 4 5";
+        String userInput = "gess1000 lecture 13 buffalo tuesday";
             TimetableUserCommand timetableUserCommand = new TimetableUserCommand(student, userInput);
             String[] arguments = timetableUserCommand.getArguments();
             timetableUserCommand.printArguments();
