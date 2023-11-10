@@ -6,7 +6,11 @@ import seedu.duke.views.TimetableView;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import static seedu.duke.utils.Parser.*;
+import static seedu.duke.utils.Parser.isStringInteger;
+import static seedu.duke.utils.Parser.removeNulls;
+import static seedu.duke.utils.Parser.isValidLessonType;
+import static seedu.duke.utils.Parser.hasNoNulls;
+import static seedu.duke.utils.Parser.isDayValid;
 import static seedu.duke.views.CommandLineView.displayMessage;
 import static seedu.duke.views.TimetableUserGuideView.printTTModifyDetailedLessonGuide;
 
@@ -58,65 +62,62 @@ public class Timetable {
      */
     public void modifyTimetable(Student student) throws seedu.duke.exceptions.InvalidModifyArgumentException {
         //verify accepted timetableuser command
-            System.out.println("List of modules in current semester: ");
-            if (currentSemesterModulesWeekly.isEmpty()) {
-                System.out.println("There are no modules in your current semester. " +
-                        "Please add in modules, or generate using the 'recommend' command.");
-                return;
-            }
-            for (ModuleWeekly moduleWeekly : currentSemesterModulesWeekly) {
-                System.out.println(moduleWeekly.getModuleCode());
-            }
-            boolean inTimetableModifyMode = true;
-            while (inTimetableModifyMode) {
-                try {
-                    Scanner in = new Scanner(System.in);
-                    printTTModifyDetailedLessonGuide("Prompts for 'timetable modify'");
-                    //messy possibly invalid user inputs
-                    TimetableUserCommand currentTimetableCommand = new TimetableUserCommand(student, in.nextLine());
-                    //clean very nice user inputs
-                    //use clean arguments
-                    String[] arguments = currentTimetableCommand.getArguments();
-                    String[] argumentsNotNull = removeNulls(arguments);
-                    if (!isModifyValid(arguments)) {
-                        System.out.println("Please try again");
-                        continue;
-                    }
-                    //if exit
-                    if (isExitModify(arguments)) {
-                        inTimetableModifyMode = false;
-                        System.out.println("Exiting timetable modify");
-                        continue;
-                    }
-                    if (argumentsNotNull.length == 2 &&
-                            argumentsNotNull[1].strip().equalsIgnoreCase("clear")) {
-                        System.out.println("inside clear if");
-                        int indexOfModuleWeeklyToModify = getIndexOfModuleWeekly(arguments[0].strip().toUpperCase(),
-                                currentSemesterModulesWeekly);
-                        System.out.println(indexOfModuleWeeklyToModify);
-                        //line thats causing error
-                        currentSemesterModulesWeekly.get(indexOfModuleWeeklyToModify).clearLessons();
-                        System.out.println("removed lesson");
-                        TimetableView.printTimetable(currentSemesterModulesWeekly);
-                        System.out.println("All lessons for selected module are cleared.");
-                        continue;
-                    }
-                    String moduleCode = arguments[0].toUpperCase();
-                    String lessonType = arguments[1].toUpperCase();
-                    int time = Integer.parseInt(arguments[2]);
-                    String durationString = arguments[3];
-                    int duration = Integer.parseInt(durationString);
-                    String day = arguments[4].toUpperCase();
-                    int indexOfModuleWeeklyToModify = getIndexOfModuleWeekly(moduleCode, currentSemesterModulesWeekly);
-                    lessonsController(lessonType, indexOfModuleWeeklyToModify, time, duration, day);
-                } catch (InvalidTimetableUserCommandException e) {
-                    displayMessage(e.getMessage());
+        System.out.println("List of modules in current semester: ");
+        if (currentSemesterModulesWeekly.isEmpty()) {
+            System.out.println("There are no modules in your current semester. " +
+                    "Please add in modules, or generate using the 'recommend' command.");
+            return;
+        }
+        for (ModuleWeekly moduleWeekly : currentSemesterModulesWeekly) {
+            System.out.println(moduleWeekly.getModuleCode());
+        }
+        boolean inTimetableModifyMode = true;
+        while (inTimetableModifyMode) {
+            try {
+                Scanner in = new Scanner(System.in);
+                printTTModifyDetailedLessonGuide("Prompts for 'timetable modify'");
+                //messy possibly invalid user inputs
+                TimetableUserCommand currentTimetableCommand = new TimetableUserCommand(student, in.nextLine());
+                //clean very nice user inputs
+                //use clean arguments
+                String[] arguments = currentTimetableCommand.getArguments();
+                String[] argumentsNotNull = removeNulls(arguments);
+                if (!isModifyValid(arguments)) {
+                    System.out.println("Please try again");
+                    continue;
                 }
+                //if exit
+                if (isExitModify(arguments)) {
+                    inTimetableModifyMode = false;
+                    System.out.println("Exiting timetable modify");
+                    continue;
+                }
+                if (argumentsNotNull.length == 2 &&
+                        argumentsNotNull[1].strip().equalsIgnoreCase("clear")) {
+                    System.out.println("inside clear if");
+                    int indexOfModuleWeeklyToModify = getIndexOfModuleWeekly(arguments[0].strip().toUpperCase(),
+                            currentSemesterModulesWeekly);
+                    System.out.println(indexOfModuleWeeklyToModify);
+                    //line thats causing error
+                    currentSemesterModulesWeekly.get(indexOfModuleWeeklyToModify).clearLessons();
+                    System.out.println("removed lesson");
+                    TimetableView.printTimetable(currentSemesterModulesWeekly);
+                    System.out.println("All lessons for selected module are cleared.");
+                    continue;
+                }
+                String moduleCode = arguments[0].toUpperCase();
+                String lessonType = arguments[1].toUpperCase();
+                int time = Integer.parseInt(arguments[2]);
+                String durationString = arguments[3];
+                int duration = Integer.parseInt(durationString);
+                String day = arguments[4].toUpperCase();
+                int indexOfModuleWeeklyToModify = getIndexOfModuleWeekly(moduleCode, currentSemesterModulesWeekly);
+                lessonsController(lessonType, indexOfModuleWeeklyToModify, time, duration, day);
+            } catch (InvalidTimetableUserCommandException e) {
+                displayMessage(e.getMessage());
             }
-
-                //ROHIT remove below && the larger try catch block
-
-/*
+        }
+        /*
                 System.out.println("Which current module do you want to modify? (ENTER MODULE CODE)");
                 String moduleCode = in.nextLine().trim().toUpperCase();
                 while (!isExistInCurrentSemesterModules(moduleCode, timetable.currentSemesterModulesWeekly)) {
@@ -129,7 +130,7 @@ public class Timetable {
                 processModifyArguments(indexOfModuleWeeklyToModify, student);
             }
 
- */
+        */
 
     }
 
@@ -227,13 +228,8 @@ public class Timetable {
         return false;
     }
 
-    /**
-     * Processes the modify arguments provided by the user and updates the module schedule accordingly.
-     * @author @rohitcube
-     * @param indexOfModule The index of the ModuleWeekly object to be modified.
-     * @param student       The student object.
-     * @throws seedu.duke.exceptions.InvalidModifyArgumentException If an invalid argument is provided.
-     */
+
+    /*
     public void processModifyArguments(int indexOfModule, Student student)
             throws seedu.duke.exceptions.InvalidModifyArgumentException {
 
@@ -306,7 +302,7 @@ public class Timetable {
             throw new seedu.duke.exceptions.InvalidModifyArgumentException();
         }
     }
-
+    */
     /**
      * Retrieves the ModuleWeekly object for a given module code.
      * @author @rohitcube
@@ -368,27 +364,27 @@ public class Timetable {
         //for you yet, but parserDayForModify should be moved up, and only if the day is valid as well,
         // then you enter the switch statement. done
         switch (lessonType) {
-            case "LECTURE": {
-                timetable.currentSemesterModulesWeekly.get(indexOfModule).addLecture(day,
-                        time, duration);
-                TimetableView.printTimetable(currentSemesterModulesWeekly);
-                return;
-            }
-            case "TUTORIAL": {
-                timetable.currentSemesterModulesWeekly.get(indexOfModule).addTutorial(day,
-                        time, duration);
-                TimetableView.printTimetable(currentSemesterModulesWeekly);
-                return;
-            }
-            case "LAB": {
-                timetable.currentSemesterModulesWeekly.get(indexOfModule).addLab(day,
-                        time, duration);
-                TimetableView.printTimetable(currentSemesterModulesWeekly);
-                return;
-            }
-            default: {
-                System.out.println("Invalid Command. Please try again!");
-            }
+        case "LECTURE": {
+            timetable.currentSemesterModulesWeekly.get(indexOfModule).addLecture(day,
+                    time, duration);
+            TimetableView.printTimetable(currentSemesterModulesWeekly);
+            return;
+        }
+        case "TUTORIAL": {
+            timetable.currentSemesterModulesWeekly.get(indexOfModule).addTutorial(day,
+                    time, duration);
+            TimetableView.printTimetable(currentSemesterModulesWeekly);
+            return;
+        }
+        case "LAB": {
+            timetable.currentSemesterModulesWeekly.get(indexOfModule).addLab(day,
+                    time, duration);
+            TimetableView.printTimetable(currentSemesterModulesWeekly);
+            return;
+        }
+        default: {
+            System.out.println("Invalid Command. Please try again!");
+        }
         }
     }
 
