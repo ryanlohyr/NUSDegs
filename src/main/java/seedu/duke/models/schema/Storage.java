@@ -1,9 +1,6 @@
 package seedu.duke.models.schema;
 
-import seedu.duke.models.schema.Major;
-import seedu.duke.models.schema.ModuleList;
-import seedu.duke.models.schema.Schedule;
-import seedu.duke.models.schema.Student;
+
 import seedu.duke.utils.Parser;
 import seedu.duke.utils.exceptions.CorruptedFileException;
 import seedu.duke.utils.exceptions.MissingFileException;
