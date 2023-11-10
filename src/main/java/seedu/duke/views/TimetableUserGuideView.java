@@ -35,11 +35,13 @@ public class TimetableUserGuideView {
 
     public static void printTTModifyDetailedLessonGuide(String specificContext) {
         println(specificContext);
-        println("Timetable Modify Mode: [moduleCode] [lessonType] [startTime] [duration] [day]");
-        println("lessonType - lecture, tutorial, lab");
-        println("startTime - integer from 8 to 20 (representing 8am to 8pm)");
-        println("duration - time in hours");
-        println("day - eg. monday, tuesday, wednesday");
+        println("To add a lesson to a module: [moduleCode] [lessonType] [startTime] [duration] [day]");
+        println(    "lessonType - lecture, tutorial, lab");
+        println(    "startTime - integer from 8 to 20 (representing 8am to 8pm)");
+        println(    "duration - time in hours");
+        println(    "day - eg. monday, tuesday, wednesday");
+        println("To clear all lessons for a module: [moduleCode] clear");
+        println("To exit timetable modify: exit");
     }
 
 

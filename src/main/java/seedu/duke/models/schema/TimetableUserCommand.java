@@ -84,4 +84,9 @@ public class TimetableUserCommand {
         return arguments;
     }
 
+    public void printArguments() {
+        for (String argument : arguments) {
+            System.out.println(argument);
+        }
+    }
 }
