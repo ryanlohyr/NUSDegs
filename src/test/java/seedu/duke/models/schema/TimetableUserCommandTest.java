@@ -10,6 +10,7 @@ import java.io.PrintStream;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 
 class TimetableUserCommandTest {
     private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -34,11 +35,75 @@ class TimetableUserCommandTest {
     }
 
 
-    @Test
-    void getArguments() throws InvalidTimetableUserCommandException {
-        TimetableUserCommand currentTimetableCommand = new TimetableUserCommand(student, "a     b c d e");
-        System.out.println(Arrays.toString(currentTimetableCommand.getArguments()));
-        assertEquals("[a, b, c, d, e]", Arrays.toString(currentTimetableCommand.getArguments()));
 
+    @Test
+    void testTimetableModify_perfectInputs_expectTimetable() throws InvalidTimetableUserCommandException {
+        System.setOut(originalOut);
+        String addUserInputs = "add cs1010 3";
+        currentUserCommand = new UserCommand(addUserInputs);
+        if (currentUserCommand.isValid() && !currentUserCommand.isBye()) {
+            currentUserCommand.processCommand(student);
+        }
+
+        System.setOut(new PrintStream(outputStream));
+        student.setCurrentSemesterModules();
+        student.setCurrentSemesterModulesWeekly();
+
+        TimetableUserCommand currentTimetableCommand = new TimetableUserCommand(student,
+                student.getTimetable().getCurrentSemesterModulesWeekly(), "cs1010 lecture 9 2 Monday");
+        currentTimetableCommand.processTimetableCommand(student.getTimetable().getCurrentSemesterModulesWeekly());
+
+        // Capture the printed output
+        String printedOutput = outputStream.toString().trim();
+        printedOutput = printedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
+
+
+        String expectedOutput = "------------------------------------------------------------\n" +
+                "| DAY       | TIMETABLE                                    |\n" +
+                "------------------------------------------------------------\n" +
+                "| Monday    | CS1010 Lecture (9am-11am)                    |\n" +
+                "------------------------------------------------------------";
+        expectedOutput = expectedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
+
+        assertEquals(expectedOutput, printedOutput);
+    }
+
+    @Test
+    void testTimetableModify_badInputs_expectTimetableErrorMessage() throws InvalidTimetableUserCommandException {
+        System.setOut(originalOut);
+        String addUserInputs = "add cs1010 3";
+        currentUserCommand = new UserCommand(addUserInputs);
+        if (currentUserCommand.isValid() && !currentUserCommand.isBye()) {
+            currentUserCommand.processCommand(student);
+        }
+
+        System.setOut(new PrintStream(outputStream));
+        student.setCurrentSemesterModules();
+        student.setCurrentSemesterModulesWeekly();
+
+        TimetableUserCommand currentTimetableCommand = new TimetableUserCommand(student,
+                student.getTimetable().getCurrentSemesterModulesWeekly(), "cs1010 lect 9 2 Monday");
+        currentTimetableCommand.processTimetableCommand(student.getTimetable().getCurrentSemesterModulesWeekly());
+
+        // Capture the printed output
+        String printedOutput = outputStream.toString().trim();
+        printedOutput = printedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
+
+        String expectedOutput = "------------------------------------------------------------\n" +
+                "| DAY       | TIMETABLE                                    |\n" +
+                "------------------------------------------------------------\n" +
+                "| Monday    | CS1010 Lecture (9am-11am)                    |\n" +
+                "------------------------------------------------------------";
+        expectedOutput = expectedOutput
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n");
+
+        assertThrowsExactly(new InvalidTimetableUserCommandException("error"), printedOutput);
     }
 }

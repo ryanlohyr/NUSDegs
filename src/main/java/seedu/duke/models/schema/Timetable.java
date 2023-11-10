@@ -11,6 +11,13 @@ import static seedu.duke.utils.Parser.removeNulls;
 import static seedu.duke.utils.Parser.isValidLessonType;
 import static seedu.duke.utils.Parser.hasNoNulls;
 import static seedu.duke.utils.Parser.isDayValid;
+import static seedu.duke.utils.TimetableParser.isExitModify;
+import static seedu.duke.utils.TimetableParser.isModifyClear;
+import static seedu.duke.utils.TimetableParser.parseModuleCode;
+import static seedu.duke.utils.TimetableParser.parseLessonType;
+import static seedu.duke.utils.TimetableParser.parseTime;
+import static seedu.duke.utils.TimetableParser.parseDuration;
+import static seedu.duke.utils.TimetableParser.parseDay;
 import static seedu.duke.views.CommandLineView.displayMessage;
 import static seedu.duke.views.TimetableUserGuideView.printTTModifyDetailedLessonGuide;
 
@@ -76,43 +83,22 @@ public class Timetable {
             try {
                 Scanner in = new Scanner(System.in);
                 printTTModifyDetailedLessonGuide("Prompts for 'timetable modify'");
-                //messy possibly invalid user inputs
-                TimetableUserCommand currentTimetableCommand = new TimetableUserCommand(student, in.nextLine());
-                //clean very nice user inputs
-                //use clean arguments
+
+                TimetableUserCommand currentTimetableCommand = new TimetableUserCommand(student,
+                        currentSemesterModulesWeekly, in.nextLine());
+
+
                 String[] arguments = currentTimetableCommand.getArguments();
-                String[] argumentsNotNull = removeNulls(arguments);
-                if (!isModifyValid(arguments)) {
-                    System.out.println("Please try again");
-                    continue;
-                }
+
                 //if exit
                 if (isExitModify(arguments)) {
                     inTimetableModifyMode = false;
                     System.out.println("Exiting timetable modify");
                     continue;
                 }
-                if (argumentsNotNull.length == 2 &&
-                        argumentsNotNull[1].strip().equalsIgnoreCase("clear")) {
-                    System.out.println("inside clear if");
-                    int indexOfModuleWeeklyToModify = getIndexOfModuleWeekly(arguments[0].strip().toUpperCase(),
-                            currentSemesterModulesWeekly);
-                    System.out.println(indexOfModuleWeeklyToModify);
-                    //line thats causing error
-                    currentSemesterModulesWeekly.get(indexOfModuleWeeklyToModify).clearLessons();
-                    System.out.println("removed lesson");
-                    TimetableView.printTimetable(currentSemesterModulesWeekly);
-                    System.out.println("All lessons for selected module are cleared.");
-                    continue;
-                }
-                String moduleCode = arguments[0].toUpperCase();
-                String lessonType = arguments[1].toUpperCase();
-                int time = Integer.parseInt(arguments[2]);
-                String durationString = arguments[3];
-                int duration = Integer.parseInt(durationString);
-                String day = arguments[4].toUpperCase();
-                int indexOfModuleWeeklyToModify = getIndexOfModuleWeekly(moduleCode, currentSemesterModulesWeekly);
-                lessonsController(lessonType, indexOfModuleWeeklyToModify, time, duration, day);
+
+                currentTimetableCommand.processTimetableCommand(currentSemesterModulesWeekly);
+                //lessonsController(lessonType, indexOfModuleWeeklyToModify, time, duration, day);
             } catch (InvalidTimetableUserCommandException e) {
                 displayMessage(e.getMessage());
             }
@@ -134,99 +120,9 @@ public class Timetable {
 
     }
 
-    // if return true,
-    public static boolean validateClearCommand(String[] argument,
-                                               ArrayList<ModuleWeekly> currentSemesterModulesWeekly) {
-        if (isExistInCurrentSemesterModules(argument[0].strip().toUpperCase(), currentSemesterModulesWeekly) &&
-                argument[1].strip().equalsIgnoreCase("clear")) {
-            System.out.println(argument[0].strip().toUpperCase());
-            System.out.println(argument[1].strip().toUpperCase());
-            System.out.println("Module does not exist in current semester.");
-            System.out.println("validate clear.");
-            return true;
-        }
-        return false;
-    }
 
 
-    // returns true when exit is called
-    public boolean isExitModify(String[] arguments) {
-        String[] argumentsNoNulls = removeNulls(arguments);
-        if ((argumentsNoNulls.length == 1) && argumentsNoNulls[0].strip().equalsIgnoreCase("EXIT")) {
-            return true;
-        }
-        return false;
-    }
 
-    public boolean isModifyValid(String[] arguments) {
-        // the check for number of valid arguments is already done, its not
-        // check if any of the arguments are null
-        // not putting in empty checks
-        String[] argumentsNoNulls = removeNulls(arguments);
-        if (!hasNoNulls(argumentsNoNulls)) {
-            System.out.println("Invalid number of arguments");
-            return false;
-        }
-        if (argumentsNoNulls.length == 1) {
-            if (!arguments[0].strip().equalsIgnoreCase("EXIT")) {
-                System.out.println("Invalid argument.");
-                return false;
-            }
-            return true;
-        }
-        if (argumentsNoNulls.length == 2) {
-            String moduleCode = arguments[0].toUpperCase();
-            if (!isExistInCurrentSemesterModules(moduleCode, currentSemesterModulesWeekly)) {
-                System.out.println("Module does not exist in current semester. ");
-                return false;
-            }
-            if (!argumentsNoNulls[1].strip().equalsIgnoreCase("clear")) {
-                System.out.println("Invalid argument" + arguments[1]);
-                return false;
-            }
-            return true;
-        }
-
-        if (argumentsNoNulls.length == 5) {
-            String moduleCode = arguments[0].toUpperCase();
-            String lessonType = arguments[1].toUpperCase();
-            String timeString = arguments[2];
-            String durationString = arguments[3];
-            String day = arguments[4].toUpperCase();
-            if (!isExistInCurrentSemesterModules(moduleCode, currentSemesterModulesWeekly)) {
-                System.out.println("Module does not exist in current semester.");
-                return false;
-            }
-            if (!isValidLessonType(lessonType)) {
-                System.out.println("Invalid lesson type");
-                return false;
-            }
-            if (!isStringInteger(timeString)) {
-                System.out.println("Input for time is not an integer");
-                return false;
-            }
-            int time = Integer.parseInt(timeString);
-            if (time < 8 || time > 20) {
-                System.out.println("Time not within the valid range. Please try again!");
-                return false;
-            }
-            if (!isStringInteger(durationString)) {
-                System.out.println("Input for duration is not an integer");
-                return false;
-            }
-            int duration = Integer.parseInt(durationString);
-            if (duration < 1 || duration > 20 - time) {
-                System.out.println("Input for duration exceeds valid hours on the timetable");
-                return false;
-            }
-            if (!isDayValid(day)) {
-                System.out.println("Invalid input for day.");
-                return false;
-            }
-            return true;
-        }
-        return false;
-    }
 
 
     /*
@@ -339,22 +235,7 @@ public class Timetable {
         return -1;
     }
 
-    /**
-     * Checks if a module with a given module code exists in the current semester modules.
-     * @author @rohitcube
-     * @param moduleCode                   The module code to search for.
-     * @param currentSemesterModulesWeekly The list of ModuleWeekly objects for the current semester.
-     * @return true if the module exists, false otherwise.
-     */
-    public static boolean isExistInCurrentSemesterModules(String moduleCode,
-                                                          ArrayList<ModuleWeekly> currentSemesterModulesWeekly) {
-        for (ModuleWeekly module : currentSemesterModulesWeekly) {
-            if (module.getModuleCode().equals(moduleCode)) {
-                return true;
-            }
-        }
-        return false;
-    }
+
 
 
 
@@ -386,7 +267,12 @@ public class Timetable {
             System.out.println("Invalid Command. Please try again!");
         }
         }
+
+
     }
 
+    public Timetable getTimetable() {
+        return timetable;
+    }
 
 }
