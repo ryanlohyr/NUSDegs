@@ -1,8 +1,10 @@
 package seedu.duke.models.logic;
 
+import seedu.duke.models.schema.Major;
 import seedu.duke.models.schema.ModuleList;
 import seedu.duke.models.schema.Schedule;
 import seedu.duke.models.schema.Student;
+import seedu.duke.utils.Parser;
 import seedu.duke.utils.exceptions.CorruptedFileException;
 import seedu.duke.utils.exceptions.MissingFileException;
 
@@ -35,9 +37,12 @@ public class Storage {
      * Creates a "schedule.txt" file in the storage directory.
      */
     public void createUserStorageFile() {
-        String storageDirectory = userDirectory + "/" + userName;
-        createDirectory(storageDirectory);
-        createFileInDirectory(storageDirectory, "schedule.txt");
+        String dataDirectory = userDirectory + "/data";
+        createDirectory(dataDirectory);
+        String userPersonalStorageFile = dataDirectory + "/" + userName;
+        createDirectory(userPersonalStorageFile);
+        createFileInDirectory(userPersonalStorageFile, "schedule.txt");
+        createFileInDirectory(userPersonalStorageFile, "studentDetails.txt");
         //createFileInDirectory(storageDirectory, "timetable.txt");
     }
 
@@ -45,7 +50,7 @@ public class Storage {
 
     public Schedule loadSchedule() throws MissingFileException, CorruptedFileException {
 
-        String scheduleFilePath = userDirectory + "/" + userName + "/" + "schedule.txt";
+        String scheduleFilePath = userDirectory + "/data" + "/" + userName + "/" + "schedule.txt";
 
         if (!isFileExist(scheduleFilePath)) {
             throw new MissingFileException();
@@ -106,9 +111,81 @@ public class Storage {
 
     }
 
+    public void loadStudentDetails(Student student) throws MissingFileException, CorruptedFileException {
+
+        String studentDetailsFilePath = userDirectory + "/data" + "/" + userName + "/" + "studentDetails.txt";
+
+        if (!isFileExist(studentDetailsFilePath)) {
+            throw new MissingFileException();
+        }
+
+        try {
+            // Create a FileReader and BufferedReader to read the file.
+            FileReader fileReader = new FileReader(studentDetailsFilePath);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+            String line;
+
+            // Read lines from the file and add them to the ArrayList.
+            while ((line = bufferedReader.readLine()) != null) {
+
+                String[] splitParts = line.split(" \\| ");
+
+                switch (splitParts[0]) {
+
+                case "Major":
+                    String major = splitParts[1];
+
+                    // Check if major stored in txt file is valid
+                    Major.valueOf(major.toUpperCase());
+
+                    student.setMajor(major);
+                    break;
+                case "Year":
+                    String year = splitParts[1];
+
+                    //Check if year stored in txt file is valid
+                    if (!Parser.isValidAcademicYear(year)){
+                        throw new CorruptedFileException();
+                    }
+
+                    student.setYear(year);
+                    break;
+                default:
+                }
+            }
+
+            // Close the BufferedReader to release resources.
+            bufferedReader.close();
+        } catch (Exception e) {
+            throw new CorruptedFileException();
+        }
+
+    }
+
+    public void saveStudentDetails (Student student) throws IOException {
+
+        String studentDetailsFilePath = userDirectory + "/data/" + userName + "/studentDetails.txt";
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(studentDetailsFilePath))) {
+
+            String major = student.getMajor();
+
+            String year = student.getYear();
+
+            // Write the new content to the file
+            writer.write("Major | " + major);
+            writer.newLine();
+
+            writer.write(("Year | " + year));
+            writer.newLine();
+
+        }
+    }
+
     public void saveSchedule(Student student) throws IOException {
 
-        String scheduleFilePath = userDirectory + "/" + userName + "/" + "schedule.txt";
+        String scheduleFilePath = userDirectory + "/data/" + userName + "/schedule.txt";
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(scheduleFilePath))) {
 
@@ -140,20 +217,7 @@ public class Storage {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    // Below this comment are standard file methods
 
     /**
      * Takes in the location of the file in question and returns whether the file exist
@@ -176,9 +240,9 @@ public class Storage {
 
         File folder = new File(folderPath);
         if (folder.mkdir()) {
-            System.out.println("Folder created successfully.");
+            //System.out.println("Folder created successfully.");
         } else {
-            System.out.println("Folder already exists");
+            //System.out.println("Folder already exists");
         }
     }
 
@@ -199,9 +263,9 @@ public class Storage {
         try {
             // Create the file
             if (file.createNewFile()) {
-                System.out.println("Text file created successfully at: " + filePath);
+                //System.out.println("Text file created successfully at: " + filePath);
             } else {
-                System.out.println("File already exists.");
+                //System.out.println("File already exists.");
             }
         } catch (IOException e) {
             System.out.println("An IOException occurred: " + e.getMessage());

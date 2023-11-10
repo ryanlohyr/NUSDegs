@@ -85,19 +85,29 @@ public class ModulePlannerController {
         } while (!parser.checkNameInput(userInput, commandManager.getListOfCommandNames()));
         student.setName(userInput);
 
-        // Create storage file based on userName
+        // Try to load storage file for major, year and schedule. If successful, will not prompt anymore
+        // If load fails, will create storage file based on userName and prompt for major and year
         storage = new Storage(userInput);
         try {
             System.out.println("Attempting to retrieve data from save file...");
+
+            // Load major and year from studentDetails.txt file
+            storage.loadStudentDetails(student);
+
+            // Load schedule from schedule.txt file
             student.setSchedule(storage.loadSchedule());
+
             System.out.println("Data successfully retrieved!");
+            System.out.println("You are currently in " + student.getYear() + " studying " + student.getMajor());
+            return;
+
         } catch (MissingFileException e) {
             System.out.println("Save file does not exist, creating new save file...");
             storage.createUserStorageFile();
             System.out.println("File successfully created!");
         } catch (CorruptedFileException e) {
             System.out.println("It seems that your save file is corrupted and we are unable to retrieve any data.\n" +
-                    "Please continue using the application to create a new save file!");
+                    "Please continue using the application to overwrite the corrupted file!");
         }
 
         // Get and set student's major
@@ -130,6 +140,7 @@ public class ModulePlannerController {
 
     public void saveStudentData() {
         try {
+            storage.saveStudentDetails(student);
             storage.saveSchedule(student);
             System.out.println("Data successfully saved in save file");
         } catch (IOException e) {
