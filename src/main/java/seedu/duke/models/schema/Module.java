@@ -23,7 +23,7 @@ public class Module {
      *
      * @param moduleCode The code of the module.
      */
-    public Module(String moduleCode) throws NullPointerException, RuntimeException{
+    public Module(String moduleCode) throws RuntimeException{
         //add wtv info u want...
         if (moduleCode.isEmpty()) {
             throw new NullPointerException();
