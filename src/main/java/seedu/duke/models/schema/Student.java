@@ -35,6 +35,7 @@ public class Student {
     private ArrayList<String> majorModuleCodes;
     private ModuleList currentSemesterModules;
     private Timetable timetable;
+    //private ArrayList<ModuleWeekly> currentSemesterModulesWeekly;
 
     /**
      * Constructs a student with a name, major, and module schedule.
@@ -439,6 +440,8 @@ public class Student {
         return currentSemesterModules;
     }
 
-
+    public Timetable getTimetable() {
+        return this.timetable;
+    }
 
 }
