@@ -1,4 +1,4 @@
-package seedu.duke.models.logic;
+package seedu.duke.models.schema;
 
 import seedu.duke.models.schema.Major;
 import seedu.duke.models.schema.ModuleList;
@@ -18,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Storage {
 
@@ -35,15 +36,12 @@ public class Storage {
      */
     public void createUserStorageFile() {
         String dataDirectory = userDirectory + "/data";
-        createDirectory(dataDirectory);
 
-        // Remove this code to remove using name to create dataFolder
-        /*String userPersonalStorageFile = dataDirectory + "/" + userName;
-        createDirectory(userPersonalStorageFile);*/
+        createDirectory(dataDirectory);
 
         createFileInDirectory(dataDirectory, "schedule.txt");
         createFileInDirectory(dataDirectory, "studentDetails.txt");
-        //createFileInDirectory(storageDirectory, "timetable.txt");
+
     }
 
 
@@ -130,11 +128,26 @@ public class Storage {
             ArrayList<String> studentDetails = new ArrayList<>(3);
 
             String line;
+            int lineNumber = 0;
+
+            //to track which line it is supposed to be on
+            HashMap<String, Integer> variableMap = new HashMap<>();
+            // Adding key-value pairs
+            variableMap.put("Name", 0);
+            variableMap.put("Major", 1);
+            variableMap.put("Year", 2);
 
             // Read lines from the file and add them to the ArrayList.
             while ((line = bufferedReader.readLine()) != null) {
 
                 String[] splitParts = line.split(" \\| ");
+
+                String userAttribute = splitParts[0];
+
+                //validation to see that variables has not been tampered with
+                if(variableMap.get(userAttribute) != lineNumber){
+                    throw new CorruptedFileException();
+                }
 
                 switch (splitParts[0]) {
 
@@ -165,6 +178,7 @@ public class Storage {
                         throw new CorruptedFileException();
                     }
                 }
+                lineNumber += 1;
             }
 
             // Close the BufferedReader to release resources.
@@ -200,9 +214,9 @@ public class Storage {
         }
     }
 
-    public void saveSchedule(Student student) throws IOException {
+    public static void saveSchedule(Student student) throws IOException {
 
-        String scheduleFilePath = userDirectory + "/data/schedule.txt";
+        String scheduleFilePath = System.getProperty("user.dir") + "/data/schedule.txt";
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(scheduleFilePath))) {
 
@@ -232,7 +246,6 @@ public class Storage {
             }
         }
     }
-
 
     // Below this comment are standard file methods
 
