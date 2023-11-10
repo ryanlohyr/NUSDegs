@@ -98,6 +98,9 @@ public class Storage {
                     targetIndex += 1;
                     break;
                 default:
+                    if (!splitParts[0].trim().isEmpty()) {
+                        throw new CorruptedFileException();
+                    }
                 }
             }
 
@@ -158,6 +161,9 @@ public class Storage {
                     studentDetails.add(2, year);
                     break;
                 default:
+                    if (!splitParts[0].trim().isEmpty()) {
+                        throw new CorruptedFileException();
+                    }
                 }
             }
 
