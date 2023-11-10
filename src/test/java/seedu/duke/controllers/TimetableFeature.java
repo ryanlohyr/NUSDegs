@@ -1,45 +1,27 @@
 package seedu.duke.controllers;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+//import org.junit.jupiter.api.AfterEach;
+//import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;
-import seedu.duke.models.schema.Student;
-import seedu.duke.models.schema.UserCommand;
+//import org.junit.jupiter.api.Test;
+//import seedu.duke.models.schema.Student;
+//import seedu.duke.models.schema.TimetableUserCommand;
+//import seedu.duke.models.schema.UserCommand;
+//import seedu.duke.utils.exceptions.InvalidTimetableUserCommandException;
 
 //import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+//import java.io.ByteArrayOutputStream;
 //import java.io.InputStream;
-import java.io.PrintStream;
+//import java.io.PrintStream;
+//import java.util.Arrays;
+
+//import static org.junit.jupiter.api.Assertions.assertEquals;
 //import java.util.Scanner;
 
 //import static org.junit.jupiter.api.Assertions.assertEquals;
 //import static seedu.duke.controllers.ModuleMethodsController.completeModule;
 
 public class TimetableFeature {
-    private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-    private final PrintStream originalOut = System.out;
-
-    //private final ByteArrayInputStream inputStream = new ByteArrayInputStream();
-    //private final InputStream originalIn = System.in;
-    //Scanner in = new Scanner(System.in);
-
-    private Student student = new Student();
-    private UserCommand currentUserCommand = new UserCommand();
-
-    @BeforeEach
-    public void setUpStreams() {
-        this.student = new Student();
-        student.setName("Janelle");
-        student.setFirstMajor("CEG");
-        student.setYear("Y2/S1");
-        System.setOut(new PrintStream(outputStream));
-
-    }
-
-    @AfterEach
-    public void restoreStreams() {
-        System.setOut(originalOut);
-    }
 
     /*
     @Test
@@ -106,5 +88,6 @@ public class TimetableFeature {
         assertEquals(firstPrintedOutput, secondPrintedOutput);
     }
 
-    */
+
+     */
 }
