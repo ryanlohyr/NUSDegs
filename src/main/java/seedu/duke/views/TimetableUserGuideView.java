@@ -66,7 +66,7 @@ public class TimetableUserGuideView {
 
         printToJustify(4);
         printToJustify("startTime", justifyLength);
-        println("integer from 8 to 20 (representing 8am to 8pm)");
+        println("integer from 8 to 19 (representing 8am to 7pm)");
 
         printToJustify(4);
         printToJustify("duration", justifyLength);

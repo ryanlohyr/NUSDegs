@@ -33,9 +33,8 @@ class TimetableUserCommandTest {
         System.setOut(originalOut);
     }
 
-
     @Test
-    void partialTestTimetableModify_badDayInput_expectTimetableErrorMessage() {
+    void partialTestTimetableModify_perfectInput_expectTimetableErrorMessage() {
         System.setOut(originalOut);
         String addUserInputs = "add cs1010 3";
         currentUserCommand = new UserCommand(addUserInputs);
@@ -49,6 +48,24 @@ class TimetableUserCommandTest {
 
         assertThrows(InvalidTimetableUserCommandException.class,
                 () -> badInput("cs1010 lecture 9 2 Mon"));
+    }
+
+
+    @Test
+    void partialTestTimetableModify_badLessonInput_expectTimetableErrorMessage() {
+        System.setOut(originalOut);
+        String addUserInputs = "add cs1010 3";
+        currentUserCommand = new UserCommand(addUserInputs);
+        if (currentUserCommand.isValid() && !currentUserCommand.isBye()) {
+            currentUserCommand.processCommand(student);
+        }
+
+        System.setOut(new PrintStream(outputStream));
+        student.setCurrentSemesterModules();
+        student.setCurrentSemesterModulesWeekly();
+
+        assertThrows(InvalidTimetableUserCommandException.class,
+                () -> badInput("cs1010 lect 9 2 Monday"));
     }
 
     public void badInput(String timetableUserInput) throws InvalidTimetableUserCommandException {

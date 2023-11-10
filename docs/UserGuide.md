@@ -43,9 +43,11 @@ It's a comprehensive tool for efficient and successful degree completion.
 - Complete a module in your schedule planner: `complete`
 - View modules left for graduation: `left`
 - Check current pace to graduate: `pace`
+- View weekly timetable: `timetable show`
+- Modify weekly timetable: `timetable modify`
 - Saves the user's schedule and exits the program: `Bye`
 
-Note: Between arguments, only spaces are allowed.
+Note: Between arguments, spaces are required. Arguments need to be passed in the correct order.
 
 ### Viewing help: `help`
 
@@ -338,6 +340,30 @@ User input:
 
 ![pace.jpg](photos%2Fpace.jpeg)
 
+### Add module to schedule planner: `add`
+Opens the user's personalized module schedule planner and adds the chosen module to the semester specified by the user.
+Adding will not be allowed if the current schedule planner does not contain the required prerequisites.
+
+##### Format: `add MODULE_CODE SEMESTER`
+
+* `MODULE_CODE` cannot be empty and must be valid.
+* `SEMESTER` cannot be empty and must be an integer between 1-8 inclusive.
+
+##### Note:
+- We do not check for preclusion's.
+  E.g. If you have completed/added CS2040, and the prerequisite of a module you are trying to add is CS2040C,
+  although they are preclusion's of each other, you are required to satisfy CS2040C! (It is something
+  we hope to implement in the future!)
+
+
+##### Example of usage:
+
+User input:
+`add CS1010 1`
+
+- Expected outcome:
+  ![ss_add_cs1010_1.png](screenshots%2Fss_add_cs1010_1.png)
+
 ### View Weekly Timetable: `timetable show`
 
 Timetable view displays lectures, tutorials and classes (collectively referred to as lessons) 
@@ -347,12 +373,24 @@ Format: `timetable show`
 
 ##### Example of usage:
 
-- if no lectures, tutorials and classes exist , program will display this:
+Scenario 1: No lectures, tutorials or labs exist
+
+User input:
+`timetable show`
+
+Expected outcome:
 ![ss_timetable_lessonNoExist.png](screenshots%2Fss_timetable_lessonNoExist.png)
+
+Scenario 2: The lessons have been specified in Timetable Modify Mode
 - CS2101 has a lecture at 12 for 2 hours on Monday
 - GESS1000 has a lecture at 12 for 2 hours 
 on Tuesday
 - GESS1000 has a tutorial at 8 for 2 hours on Wednesday. 
+
+User input:
+`timetable show`
+
+Expected outcome:
 ![ss_timetable_show_lessonExist.png](screenshots%2Fss_timetable_show_lessonExist.png)
 
 ### Modify Weekly Timetable: `timetable modify`
@@ -364,19 +402,26 @@ lessons in a module:
 
 #### Format for subcommands:
 
-`timetable modify` - To enter timetable modification mode
+`timetable modify` - To enter Timetable Modify Mode
 
 `[MODULE CODE] [LECTURE / TUTORIAL / LAB] [TIME] [DURATION] [DAY]` -  Add a lesson
 and specify its details (time, duration, day)
+- lessonType: lecture, tutorial, lab
+- startTime: integer from 8 to 20 (representing 8am to 8pm)
+- duration: time in hours
+- day: monday, tuesday, wednesday, thursday, friday, saturday, sunday
 
-`[MODULE CODE] clear` - Clears all lessons in the selected module in current semester
+`[MODULE CODE] clear` - Clears all lessons of the selected module in current semester
 
-`exit` - Exits timetable modification mode and return to the main command loop
+`exit` - Exits Timetable Modify Mode and return to the main command loop
 
 ##### Note: 
 
-- Each argument has to be seperated by whitespace.
-- Inputs for TIME and DURATION have to be int values
+- Each argument has to be separated by whitespace.
+- Input for TIME must be an integer from 8 to 19 (representing 8am to 8pm)
+- Input for DURATION must be at least 1
+- Inputs for TIME and DURATION have to be int values and the sum must be 20 or lower 
+
 
 
 ##### Example of Usage: 
@@ -395,7 +440,6 @@ User input:
 - `exit`
 
 ![ss_timetablemodify_exit.png](screenshots%2Fss_timetablemodify_exit.png)
-
 
 ### Save schedule and exit the program: `Bye`
 
