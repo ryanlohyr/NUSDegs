@@ -10,7 +10,7 @@ import java.io.PrintStream;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class TimetableUserCommandTest {
     private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -37,7 +37,7 @@ class TimetableUserCommandTest {
 
 
     @Test
-    void testTimetableModify_perfectInputs_expectTimetable() throws InvalidTimetableUserCommandException {
+    void partialTestTimetableModify_perfectInputs_expectTimetable() throws InvalidTimetableUserCommandException {
         System.setOut(originalOut);
         String addUserInputs = "add cs1010 3";
         currentUserCommand = new UserCommand(addUserInputs);
@@ -73,7 +73,7 @@ class TimetableUserCommandTest {
     }
 
     @Test
-    void testTimetableModify_badInputs_expectTimetableErrorMessage() throws InvalidTimetableUserCommandException {
+    void partialTestTimetableModify_badModuleInput_expectTimetableErrorMessage() throws InvalidTimetableUserCommandException {
         System.setOut(originalOut);
         String addUserInputs = "add cs1010 3";
         currentUserCommand = new UserCommand(addUserInputs);
@@ -85,25 +85,93 @@ class TimetableUserCommandTest {
         student.setCurrentSemesterModules();
         student.setCurrentSemesterModulesWeekly();
 
+        assertThrows(InvalidTimetableUserCommandException.class, () -> badInput("cs101 lecture 9 2 Monday"));
+    }
+
+    @Test
+    void partialTestTimetableModify_badLessonTypeInput_expectTimetableErrorMessage() throws InvalidTimetableUserCommandException {
+        System.setOut(originalOut);
+        String addUserInputs = "add cs1010 3";
+        currentUserCommand = new UserCommand(addUserInputs);
+        if (currentUserCommand.isValid() && !currentUserCommand.isBye()) {
+            currentUserCommand.processCommand(student);
+        }
+
+        System.setOut(new PrintStream(outputStream));
+        student.setCurrentSemesterModules();
+        student.setCurrentSemesterModulesWeekly();
+
+        assertThrows(InvalidTimetableUserCommandException.class, () -> badInput("cs1010 lect 9 2 Monday"));
+    }
+
+    @Test
+    void partialTestTimetableModify_badStartTimeInput_expectTimetableErrorMessage() throws InvalidTimetableUserCommandException {
+        System.setOut(originalOut);
+        String addUserInputs = "add cs1010 3";
+        currentUserCommand = new UserCommand(addUserInputs);
+        if (currentUserCommand.isValid() && !currentUserCommand.isBye()) {
+            currentUserCommand.processCommand(student);
+        }
+
+        System.setOut(new PrintStream(outputStream));
+        student.setCurrentSemesterModules();
+        student.setCurrentSemesterModulesWeekly();
+
+        assertThrows(InvalidTimetableUserCommandException.class, () -> badInput("cs1010 lecture hi 2 Monday"));
+    }
+
+    @Test
+    void partialTestTimetableModify_wrongStartTimeInput_expectTimetableErrorMessage() throws InvalidTimetableUserCommandException {
+        System.setOut(originalOut);
+        String addUserInputs = "add cs1010 3";
+        currentUserCommand = new UserCommand(addUserInputs);
+        if (currentUserCommand.isValid() && !currentUserCommand.isBye()) {
+            currentUserCommand.processCommand(student);
+        }
+
+        System.setOut(new PrintStream(outputStream));
+        student.setCurrentSemesterModules();
+        student.setCurrentSemesterModulesWeekly();
+
+        assertThrows(InvalidTimetableUserCommandException.class, () -> badInput("cs1010 lecture 3 2 Monday"));
+    }
+
+    @Test
+    void partialTestTimetableModify_badDurationInput_expectTimetableErrorMessage() throws InvalidTimetableUserCommandException {
+        System.setOut(originalOut);
+        String addUserInputs = "add cs1010 3";
+        currentUserCommand = new UserCommand(addUserInputs);
+        if (currentUserCommand.isValid() && !currentUserCommand.isBye()) {
+            currentUserCommand.processCommand(student);
+        }
+
+        System.setOut(new PrintStream(outputStream));
+        student.setCurrentSemesterModules();
+        student.setCurrentSemesterModulesWeekly();
+
+        assertThrows(InvalidTimetableUserCommandException.class, () -> badInput("cs1010 lecture 9 -1 Monday"));
+    }
+
+    @Test
+    void partialTestTimetableModify_badDayInput_expectTimetableErrorMessage() throws InvalidTimetableUserCommandException {
+        System.setOut(originalOut);
+        String addUserInputs = "add cs1010 3";
+        currentUserCommand = new UserCommand(addUserInputs);
+        if (currentUserCommand.isValid() && !currentUserCommand.isBye()) {
+            currentUserCommand.processCommand(student);
+        }
+
+        System.setOut(new PrintStream(outputStream));
+        student.setCurrentSemesterModules();
+        student.setCurrentSemesterModulesWeekly();
+
+        assertThrows(InvalidTimetableUserCommandException.class, () -> badInput("cs1010 lecture 9 2 Mon"));
+    }
+
+    public void badInput(String timetableUserInput) throws InvalidTimetableUserCommandException {
         TimetableUserCommand currentTimetableCommand = new TimetableUserCommand(student,
-                student.getTimetable().getCurrentSemesterModulesWeekly(), "cs1010 lect 9 2 Monday");
+                student.getTimetable().getCurrentSemesterModulesWeekly(), timetableUserInput);
         currentTimetableCommand.processTimetableCommand(student.getTimetable().getCurrentSemesterModulesWeekly());
 
-        // Capture the printed output
-        String printedOutput = outputStream.toString().trim();
-        printedOutput = printedOutput
-                .replaceAll("\r\n", "\n")
-                .replaceAll("\r", "\n");
-
-        String expectedOutput = "------------------------------------------------------------\n" +
-                "| DAY       | TIMETABLE                                    |\n" +
-                "------------------------------------------------------------\n" +
-                "| Monday    | CS1010 Lecture (9am-11am)                    |\n" +
-                "------------------------------------------------------------";
-        expectedOutput = expectedOutput
-                .replaceAll("\r\n", "\n")
-                .replaceAll("\r", "\n");
-
-        assertThrowsExactly(new InvalidTimetableUserCommandException("error"), printedOutput);
     }
 }
