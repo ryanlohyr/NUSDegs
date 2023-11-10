@@ -197,7 +197,6 @@ public class Storage {
 
             writer.write(("Year | " + year));
             writer.newLine();
-
         }
     }
 

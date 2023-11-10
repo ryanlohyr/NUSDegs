@@ -212,4 +212,26 @@ public class WeeklyScheduleView {
         ArrayList<String> childList = parentList.get(indexChild);
         childList.add(eventName);
     }
+
+    private static void makeFileReadOnly(String filePath) {
+        try {
+            File file = new File(filePath);
+
+            if (file.exists()) {
+                // Set the file read-only
+                boolean success = file.setReadOnly();
+
+                if (success) {
+                    System.out.println("File is now read-only.");
+                } else {
+                    System.out.println("Unable to set the file as read-only.");
+                }
+            } else {
+                System.out.println("File does not exist.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

@@ -21,7 +21,7 @@ It's a comprehensive tool for efficient and successful degree completion.
 ## Quick Start
 
 1. Ensure that you have Java 11 or above installed.
-2. Download the latest version of `NUSDegs` from [here](http://link.to/duke).
+2. Download the latest version of `NUSDegs` from [here](http://link.to/duke) (TO BE ADDED BEFORE PE).
 3. Copy the file to the folder you want to use as the home folder for NUSDegs.
 4. Open a command terminal, cd into the folder you put the .jar file in, and run the command
    java -jar "duke.jar" to run the application.
@@ -224,6 +224,10 @@ the module to be deleted is a prerequisite of a module in later semesters on the
 E.g. If you have completed/added CS2040, and the prerequisite of a module you are trying to delete is CS2040C, 
 although they are preclusion's of each other, you are required to satisfy CS2040C! (It is something we hope to implement 
 in the future!)
+- Our delete function checks for validity of deletion by checking for the modules it 'unlocks', hence if you 
+were to add a module in semester one, but the following semester has already a module it 'unlocks', 
+you will not be able to delete it without deleting the 
+module it satisfies! (However this is something we do as well want to work on as well in the future!)
 
 ##### Examples of usage:
 
