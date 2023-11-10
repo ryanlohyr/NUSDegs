@@ -66,8 +66,8 @@ public class Timetable {
         }
         for (ModuleWeekly moduleWeekly : currentSemesterModulesWeekly) {
             System.out.println(moduleWeekly.getModuleCode());
-            System.out.println();
         }
+        System.out.println();
         printTTModifyDetailedLessonGuide("Entered Timetable Modify Mode");
 
         boolean inTimetableModifyMode = true;
@@ -84,7 +84,7 @@ public class Timetable {
                 //if exit
                 if (isExitModify(arguments)) {
                     inTimetableModifyMode = false;
-                    System.out.println("Exiting timetable modify");
+                    System.out.println("Exited timetable modify");
                     continue;
                 }
 

@@ -68,7 +68,6 @@ public class TimetableUserCommand {
             arguments = cutArguments;
             return;
         }
-
         // invalid number of arguments
         throw new InvalidTimetableUserCommandException(ERROR_INVALID_NUMBER_OF_ARGUMENTS);
     }
@@ -76,7 +75,7 @@ public class TimetableUserCommand {
     private void clearNullArguments() throws InvalidTimetableUserCommandException {
         String[] argumentsNotNull = removeNulls(arguments);
         if (!isModifyValid(arguments, currentSemesterModulesWeekly)) {
-            throw new InvalidTimetableUserCommandException("Please try again");
+            return;
         }
         arguments = argumentsNotNull;
     }
@@ -104,14 +103,12 @@ public class TimetableUserCommand {
         if (indexOfModuleWeeklyToModify == -1) {
             throw new InvalidTimetableUserCommandException(moduleCode + " does not exist in your schedule.");
         }
-
         if (isModifyClear(arguments)) {
             currentSemesterModulesWeekly.get(indexOfModuleWeeklyToModify).clearLessons();
-            TimetableView.printTimetable(currentSemesterModulesWeekly);
             System.out.println("All lessons for selected module are cleared.");
+            TimetableView.printTimetable(currentSemesterModulesWeekly);
             return;
         }
-
         String lessonType = parseLessonType(arguments[1]);
         int time = parseTime(arguments[2]);
         int duration = parseDuration(arguments[3]);

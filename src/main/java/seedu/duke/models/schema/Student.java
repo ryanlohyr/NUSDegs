@@ -310,11 +310,11 @@ public class Student {
     public void setCurrentSemesterModulesWeekly() {
         // checks if class variable into which I added the modules in current semester is empty
         // if empty, means the user didn't plan or add any modules into the thing
-        if (currentSemesterModules.getMainModuleList().isEmpty()) {
-            int currentSem = getCurrentSem();
-            addOrRecommendGuide("Your current sem has no modules yet.", currentSem);
-            return;
-        }
+    //    if (currentSemesterModules.getMainModuleList().isEmpty()) {
+    //        int currentSem = getCurrentSem();
+    //        addOrRecommendGuide("Your current sem has no modules yet.", currentSem);
+     //       return;
+
         // Ok the current sem modules are back in an array list<Module>
         // so the point of putting it in the module list was to check whether empty
         ArrayList<Module> newCurrentSemModuleList = currentSemesterModules.getMainModuleList();
