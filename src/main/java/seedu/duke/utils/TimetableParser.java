@@ -72,16 +72,16 @@ public class TimetableParser {
         String[] argumentsNoNulls = removeNulls(arguments);
         if (!hasNoNulls(arguments)) {
             throw new InvalidTimetableUserCommandException("Invalid number of arguments");
-          //  System.out.println("Invalid number of arguments");
-          //  return false;
+            //  System.out.println("Invalid number of arguments");
+            //  return false;
         }
         if (argumentsNoNulls.length == 1) {
             if (!arguments[0].strip().equalsIgnoreCase("EXIT")) {
                 throw new InvalidTimetableUserCommandException("Invalid argument");
-           //     System.out.println("Invalid argument.");
-           //     return false;
+                //     System.out.println("Invalid argument.");
+                //     return false;
             }
-           // return true;
+            // return true;
         }
         if (argumentsNoNulls.length == 2) {
             String moduleCode = arguments[0].toUpperCase();
@@ -122,7 +122,7 @@ public class TimetableParser {
             int time = Integer.parseInt(timeString);
             if (time < 8 || time > 20) {
                 throw new InvalidTimetableUserCommandException("Time not within the valid range. Please try again!");
-               // System.out.println("Time not within the valid range. Please try again!");
+                // System.out.println("Time not within the valid range. Please try again!");
                 //return false;
             }
             if (!isStringInteger(durationString)) {
