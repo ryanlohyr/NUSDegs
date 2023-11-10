@@ -21,10 +21,11 @@ It's a comprehensive tool for efficient and successful degree completion.
 ## Quick Start
 
 1. Ensure that you have Java 11 or above installed.
-2. Download the latest version of `NUSDegs` from [here](http://link.to/duke) (TO BE ADDED BEFORE PE).
-3. Copy the file to the folder you want to use as the home folder for NUSDegs.
+2. Download the latest version of `NUSDegs` from [here](https://github.com/ryanlohyr/tp/releases/tag/vtest) (
+   (Real one to be updated for PE)
+3. Downlaod the NUSDegs.jar to the folder you want to use as the home folder for NUSDegs.
 4. Open a command terminal, cd into the folder you put the .jar file in, and run the command
-   java -jar "duke.jar" to run the application.
+   java -jar "NUSDegs.jar" to run the application.
 
 ## Note
 1. Year 4 Semester 2 students aren't able to use the app! (As we specifically cater the app to only students who have at
