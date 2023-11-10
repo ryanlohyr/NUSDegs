@@ -16,8 +16,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
+import java.net.InetAddress;
+
 import static seedu.duke.controllers.ModuleServiceController.validateMajorInput;
 
+import static seedu.duke.utils.errors.HttpError.displaySocketError;
 import static seedu.duke.views.CommandLineView.displayWelcome;
 import static seedu.duke.views.CommandLineView.displayReady;
 import static seedu.duke.views.CommandLineView.displayGoodbye;
@@ -61,11 +64,26 @@ public class ModulePlannerController {
      */
     public void start() {
         displayWelcome();
+        if (!isInternetReachable()) {
+            displaySocketError();
+            displayGoodbye();
+            return;
+        }
         initialiseUser();
         displayReady();
         handleUserInputTillExitCommand();
         saveStudentData();
         displayGoodbye();
+    }
+
+    private static boolean isInternetReachable() {
+        try {
+            // Try connecting to a well-known server (Google's DNS server)
+            InetAddress address = InetAddress.getByName("8.8.8.8");
+            return address.isReachable(3000); // 3 seconds timeout
+        } catch (java.io.IOException e) {
+            return false; // Unable to connect
+        }
     }
 
     public void initialiseUser() {
