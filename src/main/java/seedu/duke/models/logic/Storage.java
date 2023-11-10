@@ -61,14 +61,14 @@ public class Storage {
             String line;
 
             int targetIndex = 0;
-            int[] modulesPerSemArray = new int[] {0,0,0,0,0,0,0,0};
+            int[] modulesPerSemArray = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
 
             // Read lines from the file and add them to the ArrayList.
             while ((line = bufferedReader.readLine()) != null) {
 
                 String[] splitParts = line.split(" \\| ");
 
-                switch(splitParts[0]) {
+                switch (splitParts[0]) {
 
                 // Happens once on the first line of txt file so that sorting subsequent modules is possible
                 case "ModulesPerSem":
