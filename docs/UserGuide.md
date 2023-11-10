@@ -152,16 +152,6 @@ small-to-medium size multi-person software projects. The course uses the Object 
 Students of this course will receive hands-on practice of tools commonly used in the industry, such as test automation 
 tools, build automation tools, and code revisioning tools will be covered.
 
-User input:
-`info workload CS2113`
-
-- Expected outcome: "[2,1,0,3,4]"
-
-User input:
-`info all`
-
-- Expected outcome: Displays module title and module code of all available modules
-
 ### View schedule planner: `schedule`
 Shows the user their current schedule planner
 
@@ -350,38 +340,62 @@ User input:
 
 ### View Weekly Timetable: `timetable show`
 
-Timetable view displays lectures, tutorials and classes for each module in the student's current semester. 
+Timetable view displays lectures, tutorials and classes (collectively referred to as lessons) 
+for each module in the student's current semester. 
 
 Format: `timetable show`
 
-if no lectures, tutorials and classes exist , program will display this:
-![ss_timetable_show_nomodules.png](screenshots%2Fss_timetable_show_nomodules.png)
+##### Example of usage:
 
-User input:
-`timetable show`
-
-Expected outcome: when CS2101 has a lecture at 12 on Tuesday and ES2660 has a lecture at 12 on Friday.
-![ss_timetable_show_nomodules.png](screenshots%2Fss_timetable_show_nomodules.png)
+- if no lectures, tutorials and classes exist , program will display this:
+![ss_timetable_lessonNoExist.png](screenshots%2Fss_timetable_lessonNoExist.png)
+- CS2101 has a lecture at 12 for 2 hours on Monday
+- GESS1000 has a lecture at 12 for 2 hours 
+on Tuesday
+- GESS1000 has a tutorial at 8 for 2 hours on Wednesday. 
+![ss_timetable_show_lessonExist.png](screenshots%2Fss_timetable_show_lessonExist.png)
 
 ### Modify Weekly Timetable: `timetable modify`
 
-Add lectures, tutorials and classes for a specific module in the student's current semester. 
-User will be asked
-to input the module code, and then can use the following subcommands: 
+Add lectures, tutorials and classes (collectively referred to as lessons) for a specific module 
+in the student's current semester. 
+The current semester's modules (if any) will be displayed. Users can perform actions such as add and clear 
+lessons in a module:
 
-`clear` - Clears all lessons in the selected module in current semester
+#### Format for subcommands:
 
-`[lecture/tutorial/lab] /time [int] /duration [int] /day [String]` - Command to add a lecture/tutorial/lab
-and to specify its details (time, duration, day)
+`timetable modify` - To enter timetable modification mode
 
-if no modules are scheduled for current semester, program will display this:
+`[MODULE CODE] [LECTURE / TUTORIAL / LAB] [TIME] [DURATION] [DAY]` -  Add a lesson
+and specify its details (time, duration, day)
+
+`[MODULE CODE] clear` - Clears all lessons in the selected module in current semester
+
+`exit` - Exits timetable modification mode and return to the main command loop
+
+##### Note: 
+
+- Each argument has to be seperated by whitespace.
+- Inputs for TIME and DURATION have to be int values
+
+
+##### Example of Usage: 
 
 User input:
-`timetable modify`
+- `CS2101 LECTURE 12 2 MONDAY` 
+- `GESS1000 LECTURE 12 2 TUESDAY`
+- `GESS1000 TUTORIAL 8 2 WEDNESDAY`
 
-Expected outcome: when GESS1000 has a lecture at 3 for 3 hours
-on Tuesday and CS2101 has a lecture at 12 for 3 hours on Tuesday.
-![ss_timetable_3.png](screenshots%2Fss_timetable_3.png)
+![ss_timetable_show_lessonExist.png](screenshots%2Fss_timetable_show_lessonExist.png)
+
+- `GESS1000 clear` 
+
+![ss_timetablemodify_clear.png](screenshots%2Fss_timetablemodify_clear.png)
+
+- `exit`
+
+![ss_timetablemodify_exit.png](screenshots%2Fss_timetablemodify_exit.png)
+
 
 ### Save schedule and exit the program: `Bye`
 

@@ -3,6 +3,7 @@ package seedu.duke.utils;
 import seedu.duke.models.schema.ModuleWeekly;
 import seedu.duke.utils.exceptions.InvalidTimetableUserCommandException;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,8 +42,12 @@ public class TimetableParser {
     }
 
     public static boolean isModifyClear(String[] arguments) {
-        if (!arguments[2].isEmpty()) {
-            return false;
+        try {
+            if (arguments[2] != null || !arguments[2].isEmpty()) {
+                return false;
+            }
+        } catch (ArrayIndexOutOfBoundsException e ) {
+            System.out.println();
         }
         if (arguments[1].strip().equalsIgnoreCase("clear")) {
             return true;
@@ -59,31 +64,36 @@ public class TimetableParser {
         return false;
     }
 
-    public static boolean isModifyValid(String[] arguments, ArrayList <ModuleWeekly> currentSemesterModulesWeekly) {
+    public static boolean isModifyValid(String[] arguments, ArrayList <ModuleWeekly> currentSemesterModulesWeekly)
+            throws InvalidTimetableUserCommandException {
         // the check for number of valid arguments is already done, its not
         // check if any of the arguments are null
         // not putting in empty checks
         String[] argumentsNoNulls = removeNulls(arguments);
-        if (!hasNoNulls(argumentsNoNulls)) {
-            System.out.println("Invalid number of arguments");
-            return false;
+        if (!hasNoNulls(arguments)) {
+            throw new InvalidTimetableUserCommandException("Invalid number of arguments");
+            //  System.out.println("Invalid number of arguments");
+            //  return false;
         }
         if (argumentsNoNulls.length == 1) {
             if (!arguments[0].strip().equalsIgnoreCase("EXIT")) {
-                System.out.println("Invalid argument.");
-                return false;
+                throw new InvalidTimetableUserCommandException("Invalid argument");
+                //     System.out.println("Invalid argument.");
+                //     return false;
             }
-            return true;
+            // return true;
         }
         if (argumentsNoNulls.length == 2) {
             String moduleCode = arguments[0].toUpperCase();
             if (!isExistInCurrentSemesterModules(moduleCode, currentSemesterModulesWeekly)) {
-                System.out.println("Module does not exist in current semester. ");
-                return false;
+                throw new InvalidTimetableUserCommandException("Module does not exist in current semester.");
+                //System.out.println("Module does not exist in current semester. ");
+                //return false;
             }
             if (!argumentsNoNulls[1].strip().equalsIgnoreCase("clear")) {
-                System.out.println("Invalid argument" + arguments[1]);
-                return false;
+                throw new InvalidTimetableUserCommandException("Invalid argument");
+                //System.out.println("Invalid argument" + arguments[1]);
+                //return false;
             }
             return true;
         }
@@ -95,34 +105,42 @@ public class TimetableParser {
             String durationString = arguments[3];
             String day = arguments[4].toUpperCase();
             if (!isExistInCurrentSemesterModules(moduleCode, currentSemesterModulesWeekly)) {
-                System.out.println("Module does not exist in current semester.");
-                return false;
+                throw new InvalidTimetableUserCommandException("Module does not exist in current semester");
+                //System.out.println("Module does not exist in current semester.");
+                //return false;
             }
             if (!isValidLessonType(lessonType)) {
-                System.out.println("Invalid lesson type");
-                return false;
+                throw new InvalidTimetableUserCommandException("Invalid lesson type");
+                //System.out.println("Invalid lesson type");
+                //return false;
             }
             if (!isStringInteger(timeString)) {
-                System.out.println("Input for time is not an integer");
-                return false;
+                throw new InvalidTimetableUserCommandException("Input for time is not an integer");
+                //System.out.println("Input for time is not an integer");
+                //return false;
             }
             int time = Integer.parseInt(timeString);
             if (time < 8 || time > 20) {
-                System.out.println("Time not within the valid range. Please try again!");
-                return false;
+                throw new InvalidTimetableUserCommandException("Time not within the valid range. Please try again!");
+                // System.out.println("Time not within the valid range. Please try again!");
+                //return false;
             }
             if (!isStringInteger(durationString)) {
-                System.out.println("Input for duration is not an integer");
-                return false;
+                throw new InvalidTimetableUserCommandException("Input for duration is not an integer");
+                //System.out.println("Input for duration is not an integer");
+                //return false;
             }
             int duration = Integer.parseInt(durationString);
             if (duration < 1 || duration > 20 - time) {
-                System.out.println("Input for duration exceeds valid hours on the timetable");
-                return false;
+                throw new InvalidTimetableUserCommandException("Input for duration exceeds valid hours" +
+                        " on the timetable");
+                //System.out.println("Input for duration exceeds valid hours on the timetable");
+                //return false;
             }
             if (!isDayValid(day)) {
-                System.out.println("Invalid input for day.");
-                return false;
+                throw new InvalidTimetableUserCommandException("Invalid number of arguments");
+                //System.out.println("Invalid input for day.");
+                //return false;
             }
             return true;
         }
