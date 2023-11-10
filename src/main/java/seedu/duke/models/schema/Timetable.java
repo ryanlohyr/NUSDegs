@@ -71,33 +71,36 @@ public class Timetable {
             while (inTimetableModifyMode) {
                 try {
                     Scanner in = new Scanner(System.in);
-                    printTTModifyDetailedLessonGuide("Rohit's prompt");
+                    printTTModifyDetailedLessonGuide("Prompts for 'timetable modify'");
                     //messy possibly invalid user inputs
                     TimetableUserCommand currentTimetableCommand = new TimetableUserCommand(student, in.nextLine());
                     //clean very nice user inputs
                     //use clean arguments
                     String[] arguments = currentTimetableCommand.getArguments();
+                    String[] argumentsNotNull = removeNulls(arguments);
                     if (!isModifyValid(arguments)) {
                         System.out.println("Please try again");
                         continue;
                     }
-                    System.out.println("Passed modify valid checks");
-                    //if clear
-                    if (arguments[1].strip().equalsIgnoreCase("clear")) {
-                        int indexOfModuleWeeklyToModify = getIndexOfModuleWeekly(arguments[0],
-                                currentSemesterModulesWeekly);
-                        timetable.currentSemesterModulesWeekly.get(indexOfModuleWeeklyToModify).clearLessons();
-                        TimetableView.printTimetable(currentSemesterModulesWeekly);
-                        System.out.println("All lessons for selected module are cleared.");
-                        return;
-                    }
                     //if exit
                     if (isExitModify(arguments)) {
                         inTimetableModifyMode = false;
-                        System.out.println("Exiting modify mode");
+                        System.out.println("Exiting timetable modify");
                         continue;
                     }
-                    System.out.println("Past exit test");
+                    if (argumentsNotNull.length == 2 &&
+                            argumentsNotNull[1].strip().equalsIgnoreCase("clear")) {
+                        System.out.println("inside clear if");
+                        int indexOfModuleWeeklyToModify = getIndexOfModuleWeekly(arguments[0].strip().toUpperCase(),
+                                currentSemesterModulesWeekly);
+                        System.out.println(indexOfModuleWeeklyToModify);
+                        //line thats causing error
+                        currentSemesterModulesWeekly.get(indexOfModuleWeeklyToModify).clearLessons();
+                        System.out.println("removed lesson");
+                        TimetableView.printTimetable(currentSemesterModulesWeekly);
+                        System.out.println("All lessons for selected module are cleared.");
+                        continue;
+                    }
                     String moduleCode = arguments[0].toUpperCase();
                     String lessonType = arguments[1].toUpperCase();
                     int time = Integer.parseInt(arguments[2]);
@@ -105,7 +108,6 @@ public class Timetable {
                     int duration = Integer.parseInt(durationString);
                     String day = arguments[4].toUpperCase();
                     int indexOfModuleWeeklyToModify = getIndexOfModuleWeekly(moduleCode, currentSemesterModulesWeekly);
-                    System.out.println("right before lessons controller is called");
                     lessonsController(lessonType, indexOfModuleWeeklyToModify, time, duration, day);
                 } catch (InvalidTimetableUserCommandException e) {
                     displayMessage(e.getMessage());

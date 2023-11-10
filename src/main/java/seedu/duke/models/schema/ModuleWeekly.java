@@ -172,6 +172,7 @@ public class ModuleWeekly extends Module {
         lessons.clear();
     }
 
+
     public ArrayList<Event> getWeeklyTimetable() {
         return lessons;
     }
