@@ -77,12 +77,14 @@ public class Timetable {
         }
         for (ModuleWeekly moduleWeekly : currentSemesterModulesWeekly) {
             System.out.println(moduleWeekly.getModuleCode());
+            System.out.println();
         }
+        printTTModifyDetailedLessonGuide("Entered Timetable Modify Mode");
+
         boolean inTimetableModifyMode = true;
         while (inTimetableModifyMode) {
             try {
                 Scanner in = new Scanner(System.in);
-                printTTModifyDetailedLessonGuide("Prompts for 'timetable modify'");
 
                 TimetableUserCommand currentTimetableCommand = new TimetableUserCommand(student,
                         currentSemesterModulesWeekly, in.nextLine());
