@@ -1,7 +1,11 @@
 package seedu.duke.models.schema;
 
 import seedu.duke.exceptions.InvalidModifyArgumentException;
-import seedu.duke.utils.exceptions.*;
+import seedu.duke.utils.exceptions.FailPrereqException;
+import seedu.duke.utils.exceptions.InvalidPrereqException;
+import seedu.duke.utils.exceptions.MissingModuleException;
+import seedu.duke.utils.exceptions.MandatoryPrereqException;
+import seedu.duke.utils.exceptions.TimetableUnavailableException;
 
 import seedu.duke.utils.Parser;
 import seedu.duke.views.TimetableView;

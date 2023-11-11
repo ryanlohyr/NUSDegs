@@ -66,7 +66,7 @@ public class TimetableUserGuideView {
                 "To exit Timetable Modify Mode, enter: EXIT");
     }
 
-        public static void printTTModifyDetailedLessonGuide(String specificContext) {
+    public static void printTTModifyDetailedLessonGuide(String specificContext) {
         println(specificContext);
         println("To add a lesson to a module: [moduleCode] [lessonType] [startTime] [duration] [day]");
 

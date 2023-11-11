@@ -4,6 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import seedu.duke.utils.exceptions.InvalidTimetableUserCommandException;
+import seedu.duke.utils.exceptions.TimetableUnavailableException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -34,7 +35,8 @@ class TimetableUserCommandTest {
     }
 
     @Test
-    void partialTestTimetableModify_perfectInputs_expectTimetable() throws InvalidTimetableUserCommandException {
+    void partialTestTimetableModify_perfectInputs_expectTimetable() throws InvalidTimetableUserCommandException,
+            TimetableUnavailableException {
         System.setOut(originalOut);
         String addUserInputs = "add cs1010 3";
         currentUserCommand = new UserCommand(addUserInputs);
@@ -70,7 +72,7 @@ class TimetableUserCommandTest {
     }
 
     @Test
-    void partialTestTimetableModify_perfectInput_expectTimetableErrorMessage() {
+    void partialTestTimetableModify_perfectInput_expectTimetableErrorMessage() throws TimetableUnavailableException {
         System.setOut(originalOut);
         String addUserInputs = "add cs1010 3";
         currentUserCommand = new UserCommand(addUserInputs);
@@ -88,7 +90,7 @@ class TimetableUserCommandTest {
 
 
     @Test
-    void partialTestTimetableModify_badLessonInput_expectTimetableErrorMessage() {
+    void partialTestTimetableModify_badLessonInput_expectTimetableErrorMessage() throws TimetableUnavailableException {
         System.setOut(originalOut);
         String addUserInputs = "add cs1010 3";
         currentUserCommand = new UserCommand(addUserInputs);
