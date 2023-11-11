@@ -12,7 +12,6 @@ import seedu.duke.utils.exceptions.CorruptedFileException;
 import seedu.duke.utils.exceptions.MissingFileException;
 
 import java.io.IOException;
-import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -89,7 +88,7 @@ public class ModulePlannerController {
         // If load fails, will create storage file based on userName and prompt for major and year
         storage = new Storage();
         try {
-            System.out.println("Attempting to retrieve data from save file...");
+            System.out.println("Attempting to retrieve data from save file... Sorry this takes a while!");
 
             // Load name, major and year from studentDetails.txt file
             ArrayList<String> studentDetails = storage.loadStudentDetails();
@@ -116,7 +115,6 @@ public class ModulePlannerController {
                 throw new CorruptedFileException();
             }
             student.setYear(studentDetails.get(2).toUpperCase());
-
             // Load schedule from schedule.txt file
             student.setSchedule(storage.loadSchedule());
 
