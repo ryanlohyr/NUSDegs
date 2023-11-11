@@ -242,6 +242,28 @@ public class Storage {
         }
     }
 
+    public static void saveTimetable(Student student) throws IOException {
+
+        String timetableFilePath = System.getProperty("user.dir") + "/data/timetable.txt";
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(timetableFilePath))) {
+
+            // Write the new content to the file
+            writer.write("TimetableForCurrentSem");
+            writer.newLine();
+
+            //latest info
+            student.updateTimetable();
+
+            ArrayList<ModuleWeekly> currentSemesterModules = student.getTimetable().getCurrentSemesterModulesWeekly();
+            for (ModuleWeekly module : currentSemesterModules) {
+                for (Event event : module.getWeeklyTimetable()) {
+                    writer.write(event.toSave());
+                    writer.newLine();
+                }
+            }
+        }
+    }
+
     // Below this comment are standard file methods
 
     /**

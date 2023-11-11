@@ -46,6 +46,10 @@ public class Event {
         return days.indexOf(lowercaseDay);
     }
 
+    public String getDay() {
+        return day;
+    }
+
     public String getEventType() {
         return "";
     }
@@ -155,6 +159,11 @@ public class Event {
 
     @Override
     public String toString() {
+        return moduleCode;
+    }
+
+
+    public String toSave() {
         return moduleCode;
     }
 }

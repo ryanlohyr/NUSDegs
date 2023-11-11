@@ -108,8 +108,11 @@ public class TimetableUserCommand {
     */
 
 
+
     public void processTimetableCommand(ArrayList<ModuleWeekly> currentSemesterModulesWeekly)
             throws InvalidTimetableUserCommandException {
+
+
         String moduleCode = parseModuleCode(arguments[0]);
         int indexOfModuleWeeklyToModify = getIndexOfModuleWeekly(moduleCode, currentSemesterModulesWeekly);
         if (indexOfModuleWeeklyToModify == -1) {

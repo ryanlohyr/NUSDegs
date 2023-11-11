@@ -340,6 +340,11 @@ public class Student {
         }
     }
 
+    public void updateTimetable() {
+        this.setCurrentSemesterModules();
+        this.setCurrentSemesterModulesWeekly();
+    }
+
 
     /**
      * Executes 'show' or 'modify' subcommands under the timetable command.
@@ -348,8 +353,9 @@ public class Student {
      */
     public void timetableShowOrModify(String argument) {
         try {
-            this.setCurrentSemesterModules();
-            this.setCurrentSemesterModulesWeekly();
+            this.updateTimetable();
+            //this.setCurrentSemesterModules();
+            //this.setCurrentSemesterModulesWeekly();
             argument = argument.trim().toUpperCase().replace("\r", "");
             switch (argument) {
             case "SHOW": {
