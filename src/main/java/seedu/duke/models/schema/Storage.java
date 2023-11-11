@@ -213,12 +213,6 @@ public class Storage {
 
     public static void saveSchedule(Student student) throws IOException {
 
-        //The following if statement is for integration tests performed in the cloud,
-        if(System.getProperty("user.dir") == null){
-            //we do not save the schedule if it is in the cloud
-            return;
-        }
-
         String scheduleFilePath = System.getProperty("user.dir") + "/data/schedule.txt";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(scheduleFilePath))) {
 
@@ -247,7 +241,6 @@ public class Storage {
                 writer.newLine();  // Move to the next line
             }
         }
-
     }
 
     // Below this comment are standard file methods
