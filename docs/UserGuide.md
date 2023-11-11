@@ -433,7 +433,7 @@ User input:
 ### Save schedule and exit the program: `Bye`
 
 Exit NUSDegs and save your current schedule into a data folder that will be in the same folder as
-where you placed `duke.jar`. The data folder will contain both the user's student detail and their schedule planner
+where you placed `NUSDegs.jar`. The data folder will contain both the user's student detail and their schedule planner
 
 ##### Format: `Bye` (with a capital letter 'B')
 
@@ -461,7 +461,7 @@ The operating system (Windows, macOS or Linux), doesn't matter.
 **Q**: Would my data be saved after I close NUSDegs?
 
 **A**: Yes. Currently, only your student details and schedule planner will be saved inside a data folder which will be 
-in the same folder as where you placed `duke.jar`. To access the save folder the next time you use NUSDegs, just start
+in the same folder as where you placed `NUSDegs.jar`. To access the save folder the next time you use NUSDegs, just start
 the jar file the same way and ensure that the data files have not been tempered with.
 
 **Q**: How is the `pace` function calculated?
