@@ -42,8 +42,8 @@ public class ModulePlannerController {
      * 3. Display a message indicating that the application is ready for input.
      * 4. Handle user input until an exit command is given.
      * 5. Display a goodbye message when the application is finished.\
-     * @author ryanlohyr
      *
+     * @author ryanlohyr
      */
     public void start() throws IOException {
         displayWelcome();
@@ -51,7 +51,7 @@ public class ModulePlannerController {
         initialiseUser();
         displayReady();
         handleUserInputTillExitCommand();
-        saveStudentData(storage,student);
+        saveStudentData(storage, student);
         displayGoodbye();
     }
 
@@ -70,7 +70,7 @@ public class ModulePlannerController {
 
             int correctNumOfStudentInfo = 3;
 
-            if(studentDetails == null || studentDetails.size() != correctNumOfStudentInfo){
+            if (studentDetails == null || studentDetails.size() != correctNumOfStudentInfo) {
                 throw new CorruptedFileException();
             }
             // Check if name is valid and set if yes
@@ -145,13 +145,4 @@ public class ModulePlannerController {
         in.close();
     }
 
-    public void saveStudentData() {
-        try {
-            storage.saveStudentDetails(student);
-            Storage.saveSchedule(student);
-            //Storage.saveTimetable(student);
-            System.out.println("Data successfully saved in save file");
-        } catch (IOException e) {
-            System.out.println("Unable to save data.");
-        }
-    }
+}
