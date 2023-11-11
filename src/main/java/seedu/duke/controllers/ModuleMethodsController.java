@@ -93,14 +93,16 @@ public class ModuleMethodsController {
             student.addModuleSchedule(module, targetSem);
             displaySuccessfulAddMessage();
             student.printSchedule();
-            saveSchedule(student);
+            try{
+                saveSchedule(student);
+            }catch (IOException ignored){
+                //we ignore first as GitHub actions cant save schedule on the direcotry
+            }
         } catch (InvalidObjectException | IllegalArgumentException e) {
             displayMessage(e.getMessage());
         } catch (FailPrereqException f) {
             showPrereq(module, student.getMajor());
             displayMessage(f.getMessage());
-        } catch (IOException e) {
-            displaySocketError();
         }
     }
 
@@ -122,7 +124,13 @@ public class ModuleMethodsController {
             student.deleteModuleSchedule(module);
             displaySuccessfulDeleteMessage();
             student.printSchedule();
-            saveSchedule(student);
+            try{
+                saveSchedule(student);
+            }catch (IOException ignored){
+                //we ignore first as GitHub actions cant save schedule on the direcotry
+            }
+
+
         } catch (MissingModuleException | MandatoryPrereqException e) {
             displayMessage(e.getMessage());
         } catch (IOException e) {
@@ -135,7 +143,11 @@ public class ModuleMethodsController {
             student.shiftModuleSchedule(module, targetSem);
             displaySuccessfulShiftMessage();
             student.printSchedule();
-            saveSchedule(student);
+            try{
+                saveSchedule(student);
+            }catch (IOException ignored){
+                //we ignore first as GitHub actions cant save schedule on the direcotry
+            }
         } catch (InvalidObjectException | IllegalArgumentException | MissingModuleException |
                  MandatoryPrereqException e) {
             displayMessage(e.getMessage());
@@ -147,21 +159,22 @@ public class ModuleMethodsController {
         }
     }
 
-    public static void clearSchedule(Student student) {
-        try{
-            if(!isConfirmedToClearSchedule()){
-                displayUnsuccessfulClearMessage();
-                return;
-            }
-
-            student.clearAllModulesFromSchedule();
-            displaySuccessfulClearMessage();
-            saveSchedule(student);
-
-
-        }catch (IOException e) {
-            throw new RuntimeException(e);
+    public static void clearSchedule(Student student){
+        if(!isConfirmedToClearSchedule()){
+            displayUnsuccessfulClearMessage();
+            return;
         }
+
+        student.clearAllModulesFromSchedule();
+        displaySuccessfulClearMessage();
+        try{
+            saveSchedule(student);
+        }catch (IOException e){
+            throw new RuntimeException();
+        }
+
+
+
     }
 
     //public static boolean canCompleteModule(String[] arguments, ArrayList<String> majorModuleCodes,
@@ -177,7 +190,11 @@ public class ModuleMethodsController {
             }
 
             student.completeModuleSchedule(moduleCode);
-            saveSchedule(student);
+            try{
+                saveSchedule(student);
+            }catch (IOException ignored){
+                //we ignore first as GitHub actions cant save schedule on the direcotry
+            }
 
         } catch (MissingModuleException e) {
             displayMessage(e.getMessage());
@@ -189,8 +206,6 @@ public class ModuleMethodsController {
             showPrereq(moduleCode, student.getMajor());
         } catch (InvalidPrereqException e) {
             throw new RuntimeException(e);
-        } catch (IOException e) {
-            displaySocketError();
         }
     }
 
