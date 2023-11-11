@@ -147,7 +147,7 @@ public class ModuleMethodsController {
         }
     }
 
-    public static void clearSchedule(Student student) {
+    public static void clearSchedule(Student student){
         if(!isConfirmedToClearSchedule()){
             displayUnsuccessfulClearMessage();
             return;
@@ -155,7 +155,12 @@ public class ModuleMethodsController {
 
         student.clearAllModulesFromSchedule();
         displaySuccessfulClearMessage();
-        saveSchedule(student);
+        try{
+            saveSchedule(student);
+        }catch (IOException e){
+            throw new RuntimeException();
+        }
+
 
 
     }
