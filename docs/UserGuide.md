@@ -34,6 +34,7 @@ least one semester left!)
 be modified from "CEG" to "CS" and vice versa (This can be detected based on the prerequisite shown) 
 in the txt file as it will break the prerequisite constraints in your 
 schedule. This is due to the prerequisite algorithm that takes into account your course. Hope you understand!
+3. All prerequisites are calculated using NUSMods API, any inaccuracies may be due to the NUSMods provider. 
 
 ## Features
 - [View help : `help`](#viewing-help-help)

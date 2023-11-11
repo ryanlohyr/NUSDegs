@@ -177,7 +177,6 @@ public class Storage {
                 }
                 lineNumber += 1;
             }
-
             // Close the BufferedReader to release resources.
             bufferedReader.close();
 

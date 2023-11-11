@@ -28,6 +28,7 @@ public class Prerequisite {
             String currRequisite,
             ModuleList completedModules) {
         try {
+
             if (currRequisite.equals("or")) {
                 for (Object module : modulePrereqArray) {
                     if (module instanceof String) {
@@ -51,7 +52,10 @@ public class Prerequisite {
                                     (ArrayList<ArrayList<Objects>>) prereqBranch.get("nOf");
                             ArrayList<Objects> formattedInitial = initial.get(1);
                             JSONArray prereqBranchArray = (JSONArray) formattedInitial;
-                            return checkPrereq(prereqBranchArray, key, completedModules);
+                            if(currRequisite.equals("and")){
+                                return checkPrereq(prereqBranchArray, key, completedModules);
+                            }
+
                         } else {
                             String key = (String) prereqBranch.keySet().toArray()[0];
                             JSONArray prereqBranchArray = (JSONArray) prereqBranch.get(key);
