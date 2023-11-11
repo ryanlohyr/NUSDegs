@@ -129,8 +129,10 @@ public class ModulePlannerController {
             System.out.println("File successfully created!");
             Storage.saveSchedule(student);
         } catch (CorruptedFileException e) {
-            System.out.println("It seems that your save file is corrupted and we are unable to retrieve any data.\n" +
-                    "Please continue using the application to overwrite the corrupted file!");
+            System.out.println("Unable to retrieve any data. You do not have a save file yet " +
+                    "or it may be corrupted.\n" +
+                    "Please continue using the application to create a new save file or overwrite " +
+                    "the corrupted file!");
 
         }
         do {

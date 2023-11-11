@@ -6,6 +6,7 @@ import seedu.duke.views.TimetableView;
 import java.util.ArrayList;
 
 import static seedu.duke.models.schema.Timetable.getIndexOfModuleWeekly;
+import static seedu.duke.models.schema.Timetable.timetable;
 import static seedu.duke.utils.Parser.removeNulls;
 import static seedu.duke.utils.TimetableParser.isModifyValid;
 import static seedu.duke.utils.TimetableParser.parseModuleCode;
@@ -14,6 +15,7 @@ import static seedu.duke.utils.TimetableParser.parseLessonType;
 import static seedu.duke.utils.TimetableParser.parseTime;
 import static seedu.duke.utils.TimetableParser.parseDuration;
 import static seedu.duke.utils.TimetableParser.parseDay;
+import static seedu.duke.views.TimetableUserGuideView.printTTModifySimpleLessonGuide;
 
 
 public class TimetableUserCommand {
@@ -118,12 +120,19 @@ public class TimetableUserCommand {
         if (indexOfModuleWeeklyToModify == -1) {
             throw new InvalidTimetableUserCommandException(moduleCode + " does not exist in your schedule.");
         }
+
         if (isModifyClear(arguments)) {
             currentSemesterModulesWeekly.get(indexOfModuleWeeklyToModify).clearLessons();
             System.out.println("All lessons for selected module are cleared.");
-            TimetableView.printTimetable(currentSemesterModulesWeekly);
+            if (timetable.timetableViewIsAvailable()) {
+                TimetableView.printTimetable(currentSemesterModulesWeekly);
+            } else {
+                printTTModifySimpleLessonGuide("Timetable view is unavailable as modules in your current semester " +
+                        "have no lessons yet.");
+            }
             return;
         }
+
         String lessonType = parseLessonType(arguments[1]);
         int time = parseTime(arguments[2]);
         int duration = parseDuration(arguments[3]);

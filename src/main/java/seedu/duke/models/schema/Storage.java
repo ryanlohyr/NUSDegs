@@ -4,6 +4,7 @@ package seedu.duke.models.schema;
 import seedu.duke.utils.Parser;
 import seedu.duke.utils.exceptions.CorruptedFileException;
 import seedu.duke.utils.exceptions.MissingFileException;
+import seedu.duke.utils.exceptions.TimetableUnavailableException;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -261,6 +262,8 @@ public class Storage {
                     writer.newLine();
                 }
             }
+        } catch (TimetableUnavailableException e) {
+            throw new RuntimeException(e);
         }
     }
 

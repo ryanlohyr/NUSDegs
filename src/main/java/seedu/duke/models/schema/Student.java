@@ -1,12 +1,9 @@
 package seedu.duke.models.schema;
 
 import seedu.duke.exceptions.InvalidModifyArgumentException;
-import seedu.duke.utils.exceptions.MandatoryPrereqException;
-import seedu.duke.utils.exceptions.FailPrereqException;
-import seedu.duke.utils.exceptions.MissingModuleException;
+import seedu.duke.utils.exceptions.*;
 
 import seedu.duke.utils.Parser;
-import seedu.duke.utils.exceptions.InvalidPrereqException;
 import seedu.duke.views.TimetableView;
 
 import java.io.IOException;
@@ -17,6 +14,7 @@ import static seedu.duke.models.logic.Prerequisite.getModulePrereqBasedOnCourse;
 import static seedu.duke.models.logic.DataRepository.getRequirements;
 import static seedu.duke.utils.errors.HttpError.displaySocketError;
 import static seedu.duke.views.CommandLineView.displaySuccessfulCompleteMessage;
+import static seedu.duke.views.TimetableUserGuideView.addOrRecommendGuide;
 //import static seedu.duke.views.TimetableUserGuideView.addOrRecommendGuide;
 //import static seedu.duke.views.UserGuideView.timetableModifySuccessful;
 
@@ -307,13 +305,14 @@ public class Student {
      *
      * @author @rohitcube
      */
-    public void setCurrentSemesterModulesWeekly() {
+    public void setCurrentSemesterModulesWeekly() throws TimetableUnavailableException {
         // checks if class variable into which I added the modules in current semester is empty
         // if empty, means the user didn't plan or add any modules into the thing
-        //    if (currentSemesterModules.getMainModuleList().isEmpty()) {
-        //        int currentSem = getCurrentSem();
-        //        addOrRecommendGuide("Your current sem has no modules yet.", currentSem);
-        //       return;
+        if (currentSemesterModules.getMainModuleList().isEmpty()) {
+            int currentSem = getCurrentSem();
+            addOrRecommendGuide("Your current sem has no modules yet.", currentSem);
+            throw new TimetableUnavailableException();
+        }
 
         // Ok the current sem modules are back in an array list<Module>
         // so the point of putting it in the module list was to check whether empty
@@ -340,7 +339,7 @@ public class Student {
         }
     }
 
-    public void updateTimetable() {
+    public void updateTimetable() throws TimetableUnavailableException {
         this.setCurrentSemesterModules();
         this.setCurrentSemesterModulesWeekly();
     }
@@ -374,6 +373,8 @@ public class Student {
             System.out.println("Invalid argument. Please try again.");
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Index out of bounds exception.");
+        } catch (TimetableUnavailableException e) {
+            return;
         }
     }
 

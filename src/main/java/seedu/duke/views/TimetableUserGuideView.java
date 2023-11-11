@@ -56,12 +56,17 @@ public class TimetableUserGuideView {
 
     public static void printTimetableModifyGuide(String specificContext) {
         println(specificContext);
+        println("Enter Timetable Modify Mode to add lessons: timetable modify");
+    }
+
+    public static void printTTModifySimpleLessonGuide(String specificContext) {
+        println(specificContext);
         println("To add a lesson for a module, enter: [moduleCode] [lessonType] [startTime] [duration] [day]\n" +
                 "To clear lessons for a module, enter: [moduleCode] clear\n" +
                 "To exit Timetable Modify Mode, enter: EXIT");
     }
 
-    public static void printTTModifyDetailedLessonGuide(String specificContext) {
+        public static void printTTModifyDetailedLessonGuide(String specificContext) {
         println(specificContext);
         println("To add a lesson to a module: [moduleCode] [lessonType] [startTime] [duration] [day]");
 

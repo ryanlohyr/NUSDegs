@@ -116,6 +116,14 @@ public class ModuleWeekly extends Module {
         return false;
     }
 
+    public boolean haveLessons() {
+        if (lessons.isEmpty()) {
+            return false;
+        }
+
+        return false;
+    }
+
     public boolean canAddToTimetable(Event event) {
         if (this.exists(event)) {
             UserError.displayLessonAlreadyAdded(event);
