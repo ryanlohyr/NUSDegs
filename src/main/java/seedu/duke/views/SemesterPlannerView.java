@@ -5,11 +5,11 @@ import seedu.duke.models.schema.ModuleList;
 
 
 public class SemesterPlannerView {
-    public static void print(String output) {
+    private static void print(String output) {
         System.out.print(output);
     }
 
-    public static void println() {
+    private static void println() {
         System.out.println();
     }
 
@@ -32,7 +32,7 @@ public class SemesterPlannerView {
         }
     }
 
-    public static String getCompletionStatusForPrinting(Module module) {
+    private static String getCompletionStatusForPrinting(Module module) {
         if (module.getCompletionStatus()) {
             return "✓";
         }

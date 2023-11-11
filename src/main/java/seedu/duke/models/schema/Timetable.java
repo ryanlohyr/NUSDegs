@@ -111,7 +111,14 @@ public class Timetable {
 
     }
 
-
+    public boolean timetableViewIsAvailable() {
+        for (ModuleWeekly moduleWeekly : currentSemesterModulesWeekly) {
+            if (moduleWeekly.haveLessons()) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 
 

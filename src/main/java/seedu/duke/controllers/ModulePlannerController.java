@@ -42,8 +42,8 @@ public class ModulePlannerController {
      * 3. Display a message indicating that the application is ready for input.
      * 4. Handle user input until an exit command is given.
      * 5. Display a goodbye message when the application is finished.\
-     * @author ryanlohyr
      *
+     * @author ryanlohyr
      */
     public void start() throws IOException {
         displayWelcome();
@@ -51,7 +51,7 @@ public class ModulePlannerController {
         initialiseUser();
         displayReady();
         handleUserInputTillExitCommand();
-        saveStudentData(storage,student);
+        saveStudentData(storage, student);
         displayGoodbye();
     }
 
@@ -70,7 +70,7 @@ public class ModulePlannerController {
 
             int correctNumOfStudentInfo = 3;
 
-            if(studentDetails == null || studentDetails.size() != correctNumOfStudentInfo){
+            if (studentDetails == null || studentDetails.size() != correctNumOfStudentInfo) {
                 throw new CorruptedFileException();
             }
             // Check if name is valid and set if yes
@@ -104,8 +104,10 @@ public class ModulePlannerController {
             System.out.println("File successfully created!");
             Storage.saveSchedule(student);
         } catch (CorruptedFileException e) {
-            System.out.println("It seems that your save file is corrupted and we are unable to retrieve any data.\n" +
-                    "Please continue using the application to overwrite the corrupted file!");
+            System.out.println("Unable to retrieve any data. You do not have a save file yet " +
+                    "or it may be corrupted.\n" +
+                    "Please continue using the application to create a new save file or overwrite " +
+                    "the corrupted file!");
 
         }
         do {
@@ -142,9 +144,5 @@ public class ModulePlannerController {
         }
         in.close();
     }
-
-
-
-
 
 }
