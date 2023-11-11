@@ -94,7 +94,7 @@ public class Event {
      * @param timePeriod Index of the time period.
      * @return A string representing the time.
      */
-    public static String getTime(int timePeriod) {
+    private static String getTime(int timePeriod) {
         if (5 <= timePeriod && timePeriod <= 11) {
             return (timePeriod) + "am";
         } else if (timePeriod == 12) {

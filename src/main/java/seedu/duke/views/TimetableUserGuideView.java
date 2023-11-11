@@ -3,10 +3,10 @@ package seedu.duke.views;
 public class TimetableUserGuideView {
     private static final int justifyLength = 12;
 
-    public static void print(String output) {
+    private static void print(String output) {
         System.out.print(output + " ");
     }
-    public static void println(String output) {
+    private static void println(String output) {
         System.out.println(output);
     }
 
@@ -15,7 +15,7 @@ public class TimetableUserGuideView {
      *
      * @param number The width for justification.
      */
-    public static void printToJustify(int number) {
+    private static void printToJustify(int number) {
         print(String.format("%-" + number + "s", ""));
     }
 
@@ -25,7 +25,7 @@ public class TimetableUserGuideView {
      * @param string The string to be printed.
      * @param number The width for justification.
      */
-    public static void printToJustify(String string, int number) {
+    private static void printToJustify(String string, int number) {
         print(String.format("%-" + number + "s", string));
     }
 
@@ -35,11 +35,11 @@ public class TimetableUserGuideView {
     }
 
 
-    public static String getTimetableShowGuide() {
+    private static String getTimetableShowGuide() {
         return "View your timetable using this format: timetable show";
     }
 
-    public static String getTimetableModifyGuide() {
+    private static String getTimetableModifyGuide() {
         return "Modify your lectures/tutorials/labs in timetable using this format: timetable modify";
     }
 
