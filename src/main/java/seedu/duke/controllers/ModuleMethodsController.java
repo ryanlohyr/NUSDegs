@@ -148,20 +148,16 @@ public class ModuleMethodsController {
     }
 
     public static void clearSchedule(Student student) {
-        try{
-            if(!isConfirmedToClearSchedule()){
-                displayUnsuccessfulClearMessage();
-                return;
-            }
-
-            student.clearAllModulesFromSchedule();
-            displaySuccessfulClearMessage();
-            saveSchedule(student);
-
-
-        }catch (IOException e) {
-            throw new RuntimeException(e);
+        if(!isConfirmedToClearSchedule()){
+            displayUnsuccessfulClearMessage();
+            return;
         }
+
+        student.clearAllModulesFromSchedule();
+        displaySuccessfulClearMessage();
+        saveSchedule(student);
+
+
     }
 
     //public static boolean canCompleteModule(String[] arguments, ArrayList<String> majorModuleCodes,

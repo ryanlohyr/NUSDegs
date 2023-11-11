@@ -211,7 +211,14 @@ public class Storage {
         }
     }
 
-    public static void saveSchedule(Student student) throws IOException {
+    public static void saveSchedule(Student student) {
+
+        //The following if statement is for integration tests performed in the cloud,
+        if(System.getProperty("user.dir") == null){
+            //we do not save the schedule if it is in the cloud
+            return;
+        }
+
 
         //The following if statement is for integration tests performed in the cloud,
         if(System.getProperty("user.dir") == null){
@@ -220,7 +227,6 @@ public class Storage {
         }
 
         String scheduleFilePath = System.getProperty("user.dir") + "/data/schedule.txt";
-
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(scheduleFilePath))) {
 
             int[] modulesPerSemArray = student.getSchedule().getModulesPerSem();
@@ -247,7 +253,10 @@ public class Storage {
                 writer.write("Module | " + moduleCode + " | " + completionStatus);
                 writer.newLine();  // Move to the next line
             }
+        }catch(IOException ignored){
+
         }
+
     }
 
     // Below this comment are standard file methods
