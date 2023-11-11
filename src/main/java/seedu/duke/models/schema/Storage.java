@@ -214,7 +214,6 @@ public class Storage {
     public static void saveSchedule(Student student) throws IOException {
 
         String scheduleFilePath = System.getProperty("user.dir") + "/data/schedule.txt";
-
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(scheduleFilePath))) {
 
             int[] modulesPerSemArray = student.getSchedule().getModulesPerSem();
