@@ -27,8 +27,9 @@ The main logic of the application is handled by these four components
 - **Model**: 
   - Response for retrieving data from the **Data Repository** 
   - Performs REST API calls to the NUSMODS API
-- **Data Repository**: 
-  - Reads data from, and writes data to file
+- **Storage**:
+  - can save both schedule data and user data in .txt format, and read them back into corresponding objects.
+  - depends on some classes in the Model component
 
 ### How the architecture components interact with each other
 
@@ -36,6 +37,9 @@ The main logic of the application is handled by these four components
 
 The Sequence Diagram above shows how the components interact with each other when the user inserts a module 
 into his schedule
+
+###
+
 
 
 ## Features: 
