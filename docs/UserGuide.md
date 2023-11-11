@@ -218,6 +218,7 @@ User input:
 `add CS1010 1`
 
 - Expected outcome:
+
 ![ss_add_cs1010_1.png](screenshots%2Fss_add_cs1010_1.png)
 
 ### Delete module from schedule planner: `delete`
