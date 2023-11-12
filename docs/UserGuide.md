@@ -30,7 +30,8 @@ It's a comprehensive tool for efficient and successful degree completion.
 ## Note
 1. Year 4 Semester 2 students aren't able to use the app! (As we specifically cater the app to only students who have at
 least one semester left!)
-2. Due to the requirements of the module. Users are allowed to edit the txt files created, however, the course not should 
+2. Due to the requirements of the module. Users are allowed to edit the txt files created, however, the course 
+not should 
 be modified from "CEG" to "CS" and vice versa (This can be detected based on the prerequisite shown) 
 in the txt file as it will break the prerequisite constraints in your 
 schedule. This is due to the prerequisite algorithm that takes into account your course. Hope you understand!

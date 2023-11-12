@@ -8,7 +8,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 
 import static seedu.duke.utils.errors.HttpError.displaySocketError;
-import static seedu.duke.views.CommandLineView.displayGoodbye;
+import static seedu.duke.views.Ui.displayGoodbye;
 
 public class Utility {
     public static boolean isInternetReachable() {

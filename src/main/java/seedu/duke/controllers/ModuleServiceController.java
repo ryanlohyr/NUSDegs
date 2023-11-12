@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 import static seedu.duke.models.schema.Storage.saveSchedule;
 import static seedu.duke.views.MajorRequirementsView.printRequiredModules;
-import static seedu.duke.views.CommandLineView.displayMessage;
+import static seedu.duke.views.Ui.displayMessage;
 import static seedu.duke.views.ModuleInfoView.printModuleStringArray;
 
 public class ModuleServiceController {
