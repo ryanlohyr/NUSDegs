@@ -155,7 +155,7 @@ public class ModulePlannerController {
 
     public void handleUserInputTillExitCommand() {
 
-        Scanner in = new Scanner(System.in);
+        //Scanner in = new Scanner(System.in);
         UserCommand currentUserCommand = new UserCommand();
         while (!currentUserCommand.isBye()) {
             String userInput = ui.getUserCommand("Input command here: ");
@@ -164,7 +164,7 @@ public class ModulePlannerController {
                 currentUserCommand.processCommand(student);
             }
         }
-        in.close();
+        //in.close();
     }
 
 

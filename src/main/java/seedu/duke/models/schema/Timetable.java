@@ -51,12 +51,7 @@ public class Timetable {
         }
     }
 
-    /**
-     * Modifies the timetable for the specified student based on user input.
-     * @author @rohitcube
-     * @param student The student object.
-     * @throws seedu.duke.exceptions.InvalidModifyArgumentException If an invalid argument is provided.
-     */
+    /*
     public void modifyTimetable(Student student) throws seedu.duke.exceptions.InvalidModifyArgumentException {
         //verify accepted timetableuser command
         System.out.println("List of modules in current semester: ");
@@ -107,22 +102,12 @@ public class Timetable {
                 displayMessage(e.getMessage());
             }
         }
-        /*
-                System.out.println("Which current module do you want to modify? (ENTER MODULE CODE)");
-                String moduleCode = in.nextLine().trim().toUpperCase();
-                while (!isExistInCurrentSemesterModules(moduleCode, timetable.currentSemesterModulesWeekly)) {
-                    displayMessage("Invalid Module, please choose a module from this semester");
-                    moduleCode = in.nextLine().trim().toUpperCase().replace("\r", "");
-                }
 
-                // pass in the ModuleWeekly element from currentSemester
-                int indexOfModuleWeeklyToModify = getIndexOfModuleWeekly(moduleCode, currentSemesterModulesWeekly);
-                processModifyArguments(indexOfModuleWeeklyToModify, student);
-            }
-
-        */
 
     }
+
+    */
+
 
     public boolean timetableViewIsAvailable() {
         for (ModuleWeekly moduleWeekly : currentSemesterModulesWeekly) {

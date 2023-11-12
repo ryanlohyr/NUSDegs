@@ -1,11 +1,8 @@
 package seedu.duke.models.schema;
 
-import seedu.duke.exceptions.InvalidModifyArgumentException;
-import seedu.duke.utils.exceptions.FailPrereqException;
-import seedu.duke.utils.exceptions.InvalidPrereqException;
-import seedu.duke.utils.exceptions.MissingModuleException;
-import seedu.duke.utils.exceptions.MandatoryPrereqException;
-import seedu.duke.utils.exceptions.TimetableUnavailableException;
+import seedu.duke.controllers.TimetableModifyController;
+import seedu.duke.utils.exceptions.InvalidModifyArgumentException;
+import seedu.duke.utils.exceptions.*;
 
 import seedu.duke.utils.Parser;
 import seedu.duke.views.TimetableView;
@@ -366,7 +363,8 @@ public class Student {
                 break;
             }
             case "MODIFY": {
-                timetable.modifyTimetable(this);
+                TimetableModifyController timetableModifyController = new TimetableModifyController();
+                timetableModifyController.modifyTimetable(this);
                 break;
             }
             default: {
