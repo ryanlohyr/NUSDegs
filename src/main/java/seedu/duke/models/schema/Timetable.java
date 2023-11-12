@@ -2,6 +2,7 @@ package seedu.duke.models.schema;
 
 import seedu.duke.utils.exceptions.InvalidTimetableUserCommandException;
 import seedu.duke.views.TimetableView;
+import seedu.duke.views.Ui;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -70,13 +71,18 @@ public class Timetable {
         System.out.println();
         printTTModifyDetailedLessonGuide("Entered Timetable Modify Mode");
 
+        Ui ui = new Ui();
+
         boolean inTimetableModifyMode = true;
         while (inTimetableModifyMode) {
             try {
-                Scanner in = new Scanner(System.in);
+                //Scanner in = new Scanner(System.in);
+
+
+                String userInput = ui.getUserCommand("Input timetable modify command here: ");
 
                 TimetableUserCommand currentTimetableCommand = new TimetableUserCommand(student,
-                        currentSemesterModulesWeekly, in.nextLine());
+                        currentSemesterModulesWeekly, userInput);
 
 
                 String[] arguments = currentTimetableCommand.getArguments();
@@ -90,6 +96,7 @@ public class Timetable {
 
                 currentTimetableCommand.processTimetableCommand(currentSemesterModulesWeekly);
                 //lessonsController(lessonType, indexOfModuleWeeklyToModify, time, duration, day);
+
             } catch (InvalidTimetableUserCommandException e) {
                 displayMessage(e.getMessage());
             }

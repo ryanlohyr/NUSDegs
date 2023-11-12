@@ -117,11 +117,7 @@ public class ModuleWeekly extends Module {
     }
 
     public boolean haveLessons() {
-        if (lessons.isEmpty()) {
-            return false;
-        }
-
-        return false;
+        return !lessons.isEmpty();
     }
 
     public boolean canAddToTimetable(Event event) {
