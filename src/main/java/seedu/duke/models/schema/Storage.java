@@ -4,6 +4,7 @@ package seedu.duke.models.schema;
 import seedu.duke.utils.Parser;
 import seedu.duke.utils.exceptions.CorruptedFileException;
 import seedu.duke.utils.exceptions.MissingFileException;
+import seedu.duke.utils.exceptions.TimetableUnavailableException;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -239,6 +240,30 @@ public class Storage {
                 writer.write("Module | " + moduleCode + " | " + completionStatus);
                 writer.newLine();  // Move to the next line
             }
+        }
+    }
+
+    public static void saveTimetable(Student student) throws IOException {
+
+        String timetableFilePath = System.getProperty("user.dir") + "/data/timetable.txt";
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(timetableFilePath))) {
+
+            // Write the new content to the file
+            writer.write("TimetableForCurrentSem");
+            writer.newLine();
+
+            //latest info
+            student.updateTimetable();
+
+            ArrayList<ModuleWeekly> currentSemesterModules = student.getTimetable().getCurrentSemesterModulesWeekly();
+            for (ModuleWeekly module : currentSemesterModules) {
+                for (Event event : module.getWeeklyTimetable()) {
+                    writer.write(event.toSave());
+                    writer.newLine();
+                }
+            }
+        } catch (TimetableUnavailableException e) {
+            throw new RuntimeException(e);
         }
     }
 

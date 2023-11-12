@@ -1,8 +1,14 @@
 package seedu.duke.utils;
 
+import seedu.duke.models.schema.Storage;
+import seedu.duke.models.schema.Student;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+
+import static seedu.duke.utils.errors.HttpError.displaySocketError;
+import static seedu.duke.views.Ui.displayGoodbye;
 
 public class Utility {
     public static boolean isInternetReachable() {
@@ -12,6 +18,24 @@ public class Utility {
             return true; // Connection successful
         } catch (IOException e) {
             return false; // Unable to connect
+        }
+    }
+
+    public static void detectInternet() throws IOException {
+        if (!Utility.isInternetReachable()) {
+            displaySocketError();
+            displayGoodbye();
+            throw new IOException();
+        }
+    }
+
+    public static void saveStudentData(Storage storage, Student student) {
+        try {
+            storage.saveStudentDetails(student);
+            Storage.saveSchedule(student);
+            System.out.println("Data successfully saved in save file");
+        } catch (IOException e) {
+            System.out.println("Unable to save data.");
         }
     }
 

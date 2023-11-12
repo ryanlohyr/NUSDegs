@@ -3,11 +3,8 @@ package seedu.duke.models.logic;
 
 import seedu.duke.models.schema.Major;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Scanner;
 
 public class DataRepository {
 
@@ -24,27 +21,7 @@ public class DataRepository {
         return new ArrayList<>(Arrays.asList(courseArray));
     }
 
-    /**
-     * Processes a course file, extracts relevant information, and returns a list of course codes.
-     *
-     * @param f The file to be processed.
-     * @return An ArrayList of course codes extracted from the file.
-     * @throws FileNotFoundException If the specified file is not found.
-     */
-    private static ArrayList<String> processCourseFile(File f) throws FileNotFoundException {
-        ArrayList<String> currentArray = new ArrayList<>();
-        Scanner s = new Scanner(f);
-        while (s.hasNext()) {
-            String currentLine = s.nextLine();
 
-            String[] words = currentLine.split(" ");
-
-            if (!currentLine.isEmpty() && !currentLine.startsWith("*")) { // not empty line, not title
-                currentArray.add(words[0]);
-            }
-        }
-        return currentArray;
-    }
 
     /**
      * Determines the course requirements based on the specified major. Function is used if file is not found

@@ -18,8 +18,8 @@ public class TimetableParser {
     private static final String ERROR_INVALID_LESSON_TYPE = "Invalid Lesson Type. Lesson Types available: Lecture, " +
             "Tutorial, Lab. ";
 
-    private static final String ERROR_TIME_TYPE_IS_WRONG = "Invalid Time. Time should be a integer from 8 to 19. " +
-            "8 represents 8am, 19 represents 7pm";
+    private static final String ERROR_TIME_TYPE_IS_WRONG = "Invalid Time. Time should be a integer from 5 to 23. " +
+            "5 represents 5am, 23 represents 11pm";
 
     private static final String ERROR_DURATION_TYPE_IS_WRONG = "Invalid Duration. Duration should be a integer " +
             "representing the number of hours.";
@@ -120,7 +120,7 @@ public class TimetableParser {
                 //return false;
             }
             int time = Integer.parseInt(timeString);
-            if (time < 8 || time > 20) {
+            if (time < 5 || time > 23) {
                 throw new InvalidTimetableUserCommandException("Time not within the valid range. Please try again!");
                 // System.out.println("Time not within the valid range. Please try again!");
                 //return false;
@@ -131,10 +131,10 @@ public class TimetableParser {
                 //return false;
             }
             int duration = Integer.parseInt(durationString);
-            if (duration < 1) {
-                throw new InvalidTimetableUserCommandException("Input for duration must be at least 1");
+            if (duration < 0) {
+                throw new InvalidTimetableUserCommandException("Input for duration must be at least 0");
             }
-            if (duration > 20 - time) {
+            if (duration > 23 - time) {
                 throw new InvalidTimetableUserCommandException("Input for duration exceeds valid hours" +
                         " on the timetable");
                 //System.out.println("Input for duration exceeds valid hours on the timetable");

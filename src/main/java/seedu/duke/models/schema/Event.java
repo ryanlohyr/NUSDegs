@@ -46,6 +46,10 @@ public class Event {
         return days.indexOf(lowercaseDay);
     }
 
+    public String getDay() {
+        return day;
+    }
+
     public String getEventType() {
         return "";
     }
@@ -63,11 +67,22 @@ public class Event {
      */
     public static String getTime(int timePeriod, int duration) {
         String startTime = getTime(timePeriod);
+
+        // time is outside 5am-11pm
+        if (startTime.isEmpty()) {
+            return "";
+        }
+
+        // event has no duration, just return start time
+        if (duration == 0) {
+            return "(" + startTime + ")";
+        }
+
         String endTime = getTime(timePeriod + duration);
 
-        // time is outside 8am-8pm
-        if (startTime.isEmpty() || endTime.isEmpty()) {
-            return "";
+        // time is outside 5am-11pm, just return start time
+        if (endTime.isEmpty()) {
+            return "(" + startTime + ")";
         }
 
         return "(" + startTime + "-" + endTime + ")";
@@ -79,15 +94,15 @@ public class Event {
      * @param timePeriod Index of the time period.
      * @return A string representing the time.
      */
-    public static String getTime(int timePeriod) {
-        if (8 <= timePeriod && timePeriod <= 11) {
+    private static String getTime(int timePeriod) {
+        if (5 <= timePeriod && timePeriod <= 11) {
             return (timePeriod) + "am";
         } else if (timePeriod == 12) {
             return (timePeriod) + "pm";
-        } else if (13 <= timePeriod && timePeriod <= 20) {
+        } else if (13 <= timePeriod && timePeriod <= 23) {
             return (timePeriod - 12) + "pm";
         } else {
-            // time is outside 8am-8pm
+            // time is outside 5am-11pm
             return "";
         }
     }
@@ -155,6 +170,11 @@ public class Event {
 
     @Override
     public String toString() {
+        return moduleCode;
+    }
+
+
+    public String toSave() {
         return moduleCode;
     }
 }

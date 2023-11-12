@@ -46,4 +46,9 @@ public class Lecture extends Event{
     public String toString() {
         return super.toString() + " " + getEventType() + " " + getTime(getStartTime(), getDuration());
     }
+
+    @Override
+    public String toSave() {
+        return super.toSave() + " " + getEventType() + " " + getStartTime() + " " + getDuration() + " " + getDay();
+    }
 }

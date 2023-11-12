@@ -13,7 +13,7 @@ background-image: linear-gradient(to right, #370505, #5b2829, #814c4c, #a97171, 
 
 ## Design & implementation, Architecture
 
-![img.png](diagrams/architectureDiagram.png)
+<img src="diagrams/architectureDiagram.jpeg" alt="Image" width="450">
 
 The Architecture Diagram given above explains the high-level design of the application.
 
@@ -27,8 +27,9 @@ The main logic of the application is handled by these four components
 - **Model**: 
   - Response for retrieving data from the **Data Repository** 
   - Performs REST API calls to the NUSMODS API
-- **Data Repository**: 
-  - Reads data from, and writes data to file
+- **Storage**:
+  - can save both schedule data and user data in .txt format, and read them back into corresponding objects.
+  - depends on some classes in the Model component
 
 ### How the architecture components interact with each other
 
@@ -36,6 +37,45 @@ The main logic of the application is handled by these four components
 
 The Sequence Diagram above shows how the components interact with each other when the user inserts a module 
 into his schedule
+
+### View Component
+The component is specified in Ui.java
+
+<img src="diagrams/UI.jpeg" alt="Image" width="300">
+
+The `UI` component:
+
+- displays messages to the user by printing to the CLI
+- displays results from commands executed by the ModulePlannerController class
+
+### Model Component
+The component is specified in .java
+
+<img src="diagrams/.jpeg" alt="Image" width="300">
+
+
+
+The `` component:
+
+- 
+
+### Controller Component
+The component is specified in .java
+
+<img src="diagrams/.jpeg" alt="Image" width="300">
+
+The `` component:
+
+-
+
+### Storage Component
+The component is specified in .java
+
+<img src="diagrams/.jpeg" alt="Image" width="300">
+
+The `` component:
+
+-
 
 
 ## Features: 

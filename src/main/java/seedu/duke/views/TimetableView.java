@@ -19,7 +19,7 @@ public class TimetableView {
      *
      * @param output The string to be printed.
      */
-    public static void print(String output) {
+    private static void print(String output) {
         System.out.print(output);
     }
 
@@ -28,28 +28,28 @@ public class TimetableView {
      *
      * @param output The string to be printed.
      */
-    public static void println(String output) {
+    private static void println(String output) {
         System.out.println(output);
     }
 
     /**
      * Prints a horizontal line as a separator in the console.
      */
-    public static void printlnHorizontalLine() {
+    private static void printlnHorizontalLine() {
         println("------------------------------------------------------------");
     }
 
     /**
      * Prints a vertical line as a separator in the console.
      */
-    public static void printVerticalLine() {
+    private static void printVerticalLine() {
         System.out.print("| ");
     }
 
     /**
      * Prints a vertical line followed by a new line.
      */
-    public static void printlnVerticalLine() {
+    private static void printlnVerticalLine() {
         System.out.println("|");
     }
 
@@ -58,7 +58,7 @@ public class TimetableView {
      *
      * @param number The width for justification.
      */
-    public static void printToJustify(int number) {
+    private static void printToJustify(int number) {
         print(String.format("%-" + number + "s", ""));
     }
 
@@ -69,7 +69,7 @@ public class TimetableView {
      * @param string The string to be printed.
      * @param number The width for justification.
      */
-    public static void printToJustify(String string, int number) {
+    private static void printToJustify(String string, int number) {
         print(String.format("%-" + number + "s", string));
     }
 
@@ -118,7 +118,7 @@ public class TimetableView {
      * @param currentSemesterModules List of ModuleWeekly objects.
      * @return A list of daily events.
      */
-    public static List<ArrayList<Event>> createDailyEvents(ArrayList<ModuleWeekly> currentSemesterModules) {
+    private static List<ArrayList<Event>> createDailyEvents(ArrayList<ModuleWeekly> currentSemesterModules) {
         // List with 7 empty ArrayList
         List<ArrayList<Event>> weeklyTimetableByDay = initialiseOneDList();
 
@@ -137,7 +137,7 @@ public class TimetableView {
      *
      * @param currentDayEvents An ArrayList of Event objects to be sorted.
      */
-    public static void sortByTime(ArrayList<Event> currentDayEvents) {
+    private static void sortByTime(ArrayList<Event> currentDayEvents) {
         // bubble sort O(n^2)
         for (int index = 0; index < currentDayEvents.size(); index++) {
             int bubbleIndex = index;
@@ -160,7 +160,7 @@ public class TimetableView {
     /**
      * Prints the timetable header.
      */
-    public static void printTimetableHeader() {
+    private static void printTimetableHeader() {
         printlnHorizontalLine();
 
         printVerticalLine();
@@ -178,7 +178,7 @@ public class TimetableView {
      * @param eventList List of events for the current day.
      * @param day       The index of the day.
      */
-    public static void printCurrentDayEvents(ArrayList<Event> eventList, int day) {
+    private static void printCurrentDayEvents(ArrayList<Event> eventList, int day) {
         // Need to print day for first line
         boolean isFirstLine = true;
 
@@ -197,7 +197,7 @@ public class TimetableView {
      * @param day          The index of the day.
      * @param isFirstLine  Whether it is the first line.
      */
-    public static void printCurrentDayOneEvent(Event currentEvent, int day, boolean isFirstLine) {
+    private static void printCurrentDayOneEvent(Event currentEvent, int day, boolean isFirstLine) {
         String currentEventDetails = currentEvent.toString();
         while (!currentEventDetails.isEmpty()) {
 
@@ -251,7 +251,7 @@ public class TimetableView {
      * @param list   List where the object should be placed.
      * @param <T>    Type of the object.
      */
-    public static <T> void fillAndSet(int index, T object, List<T> list) {
+    private static <T> void fillAndSet(int index, T object, List<T> list) {
         if (index > (list.size() - 1)) {
             for (int i = list.size(); i < index; i++) {
                 list.add(null);
@@ -267,7 +267,7 @@ public class TimetableView {
      *
      * @return A list of daily events.
      */
-    public static List<ArrayList<Event>> initialiseOneDList() {
+    private static List<ArrayList<Event>> initialiseOneDList() {
         List<ArrayList<Event>> parentList = new ArrayList<>();
 
         for (int j = 0; j < 7; j++) { //7 days
@@ -286,7 +286,7 @@ public class TimetableView {
      * @param list  List of daily events.
      * @param event Event to be added.
      */
-    public static void addToWeeklyTimetableByDay(List<ArrayList<Event>> list, Event event) {
+    private static void addToWeeklyTimetableByDay(List<ArrayList<Event>> list, Event event) {
         ArrayList<Event> childList = list.get(event.getDayInt());
         childList.add(event);
     }
@@ -297,7 +297,7 @@ public class TimetableView {
      * @param weeklyTimetableByDay List of daily events.
      * @return True if events exist for any day, false otherwise.
      */
-    public static boolean eventsExist(List<ArrayList<Event>> weeklyTimetableByDay) {
+    private static boolean eventsExist(List<ArrayList<Event>> weeklyTimetableByDay) {
         for (ArrayList<Event> currentDayEvents : weeklyTimetableByDay) {
             if (!currentDayEvents.isEmpty()) {
                 // true if at least 1 event exists in weeklyTimetable

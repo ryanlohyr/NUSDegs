@@ -30,7 +30,8 @@ It's a comprehensive tool for efficient and successful degree completion.
 ## Note
 1. Year 4 Semester 2 students aren't able to use the app! (As we specifically cater the app to only students who have at
 least one semester left!)
-2. Due to the requirements of the module. Users are allowed to edit the txt files created, however, the course not should 
+2. Due to the requirements of the module. Users are allowed to edit the txt files created, however, the course 
+not should 
 be modified from "CEG" to "CS" and vice versa (This can be detected based on the prerequisite shown) 
 in the txt file as it will break the prerequisite constraints in your 
 schedule. This is due to the prerequisite algorithm that takes into account your course. Hope you understand!
@@ -433,7 +434,7 @@ User input:
 ### Save schedule and exit the program: `Bye`
 
 Exit NUSDegs and save your current schedule into a data folder that will be in the same folder as
-where you placed `duke.jar`. The data folder will contain both the user's student detail and their schedule planner
+where you placed `NUSDegs.jar`. The data folder will contain both the user's student detail and their schedule planner
 
 ##### Format: `Bye` (with a capital letter 'B')
 
@@ -461,7 +462,7 @@ The operating system (Windows, macOS or Linux), doesn't matter.
 **Q**: Would my data be saved after I close NUSDegs?
 
 **A**: Yes. Currently, only your student details and schedule planner will be saved inside a data folder which will be 
-in the same folder as where you placed `duke.jar`. To access the save folder the next time you use NUSDegs, just start
+in the same folder as where you placed `NUSDegs.jar`. To access the save folder the next time you use NUSDegs, just start
 the jar file the same way and ensure that the data files have not been tempered with.
 
 **Q**: How is the `pace` function calculated?

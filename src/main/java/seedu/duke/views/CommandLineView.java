@@ -15,31 +15,6 @@ import static seedu.duke.utils.errors.HttpError.displaySocketError;
  */
 public class CommandLineView {
 
-    public static void displayWelcome(){
-        /*String logo = "  _____       _                 __  __        _____      _              _       _      \n"
-                + " |  __ \\     | |               |  \\/  |      / ____|    | |            | |     | |     \n"
-                + " | |  | | ___| |__  _   _  __ _| \\  / |_   _| (___   ___| |__   ___  __| |_   _| | ___ \n"
-                + " | |  | |/ _ \\ '_ \\| | | |/ _` | |\\/| | | | |\\___ \\ / __| '_ \\ / _ \\/ _` | | | | |/ _ \\\n"
-                + " | |__| |  __/ |_) | |_| | (_| | |  | | |_| |____) | (__| | | |  __/ (_| | |_| | |  __/\n"
-                + " |_____/ \\___|_.__/ \\__,_|\\__, |_|  |_|\\__, |_____/ \\___|_| |_|\\___|\\__,_|\\__,_|_|\\___|\n"
-                + "                           __/ |        __/ |                                          \n"
-                + "                          |___/        |___/                                           ";*/
-
-        String logo = "  _   _ _   _ ____  ____                 \n"
-                + " | \\ | | | | / ___||  _ \\  ___  __ _ ___ \n"
-                + " |  \\| | | | \\___ \\| | | |/ _ \\/ _` / __|\n"
-                + " | |\\  | |_| |___) | |_| |  __/ (_| \\__ \\\n"
-                + " |_| \\_|\\___/|____/|____/ \\___|\\__, |___/\n"
-                + "                               |___/     ";
-
-        System.out.println("Hey there CS and CEG Students! Welcome to ");
-        System.out.println(logo);
-    }
-
-    public static void displayGoodbye(){
-        System.out.println("Goodbye!");
-    }
-
     public static void displayReady(){
         System.out.println("Now you're all set to use NUSDegs to kick start your degree planning!");
         displayHelp();
@@ -58,31 +33,18 @@ public class CommandLineView {
         System.out.println("What Year and Semester are you? Ex: Y1/S2 for year 1 semester 2");
     }
 
-    public static void handleMajorMessage(int userInputLength, String major) {
-        assert (userInputLength == 0 || userInputLength == 1);
-        if (userInputLength == 0) {
-            if (major == null) {
-                displayMessage("No major selected!");
-                return;
-            }
-            displayMessage("Current major is " + major + ".");
-            return;
-        }
-        displayMessage("Major " + major + " selected!");
-    }
-
-    public static void printListOfCommands(CommandManager commandManager) {
-        displayMessage("Here are all the commands currently available in NUSDegs!");
-        displayMessage("- Words in UPPER_CASE are the parameters to be supplied by the user.");
-        displayMessage("- Parameters in [] are optional.");
+    public static void displayCommands(CommandManager commandManager) {
+        Ui.displayMessage("Here are all the commands currently available in NUSDegs!");
+        Ui.displayMessage("- Words in UPPER_CASE are the parameters to be supplied by the user.");
+        Ui.displayMessage("- Parameters in [] are optional.");
         System.out.println();
         for (String command : commandManager.printListOfCommands()) {
-            displayMessage(command);
+            Ui.displayMessage(command);
         }
         System.out.println();
         String userGuideURL = "https://ay2324s1-cs2113-t17-4.github.io/tp/UserGuide.html";
-        displayMessage("For more information, please read our User Guide at this link:");
-        displayMessage(userGuideURL);
+        Ui.displayMessage("For more information, please read our User Guide at this link:");
+        Ui.displayMessage(userGuideURL);
     }
 
     /**
@@ -102,45 +64,33 @@ public class CommandLineView {
         }
     }
     public static void displaySuccessfulAddMessage() {
-        displayMessage("Module Successfully Added");
+        Ui.displayMessage("Module Successfully Added");
     }
 
     public static void displaySuccessfulDeleteMessage() {
-        displayMessage("Module Successfully Deleted");
+        Ui.displayMessage("Module Successfully Deleted");
 
     }
 
     public static void displaySuccessfulShiftMessage() {
-        displayMessage("Module Successfully Shifted");
+        Ui.displayMessage("Module Successfully Shifted");
     }
 
     public static void displaySuccessfulClearMessage() {
-        displayMessage("Schedule successfully cleared");
+        Ui.displayMessage("Schedule successfully cleared");
     }
 
     public static void displayUnsuccessfulClearMessage() {
-        displayMessage("Clear schedule operation cancelled");
+        Ui.displayMessage("Clear schedule operation cancelled");
     }
     public static void displaySuccessfulCompleteMessage() {
-        displayMessage("Module Successfully Completed");
+        Ui.displayMessage("Module Successfully Completed");
     }
 
     public static void displayUnsuccessfulCompleteMessage() {
-        displayMessage("Module cannot be completed as its prereqs have not been completed.");
+        Ui.displayMessage("Module cannot be completed as its prereqs have not been completed.");
     }
 
 
-    /**
-     * Display a message to the command line view.
-     *
-     * @param o The object to be displayed.
-     */
-    public static void displayMessage(Object o) {
-        System.out.println(o);
-    }
-
-    public static void printNewline(){
-        System.out.println();
-    }
 
 }

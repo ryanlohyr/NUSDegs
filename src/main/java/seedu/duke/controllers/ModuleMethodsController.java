@@ -19,7 +19,7 @@ import static seedu.duke.models.logic.Api.doesModuleExist;
 import static seedu.duke.models.logic.Prerequisite.getModulePrereqBasedOnCourse;
 import static seedu.duke.models.schema.Storage.saveSchedule;
 import static seedu.duke.utils.errors.HttpError.displaySocketError;
-import static seedu.duke.views.CommandLineView.displayMessage;
+import static seedu.duke.views.Ui.displayMessage;
 import static seedu.duke.views.CommandLineView.displaySuccessfulAddMessage;
 import static seedu.duke.views.CommandLineView.showPrereq;
 import static seedu.duke.views.CommandLineView.displaySuccessfulDeleteMessage;
@@ -28,6 +28,8 @@ import static seedu.duke.views.CommandLineView.displaySuccessfulClearMessage;
 import static seedu.duke.views.CommandLineView.displayUnsuccessfulClearMessage;
 import static seedu.duke.views.MajorRequirementsView.printRequiredModules;
 import static seedu.duke.views.ModuleInfoView.printModuleStringArray;
+import static seedu.duke.views.Ui.showLoadingAnimation;
+import static seedu.duke.views.Ui.stopLoadingAnimation;
 
 /**
  * This class houses all the methods for the Module Planner controller.
@@ -109,10 +111,17 @@ public class ModuleMethodsController {
     public static void recommendScheduleToStudent(Student student) {
         try{
             displayMessage("Hold on a sec! Generating your recommended schedule <3....");
+
+            showLoadingAnimation();
+
             ArrayList<String> recommendedSchedule = student
                     .getSchedule()
                     .generateRecommendedSchedule(student.getMajor());
+
+            stopLoadingAnimation();
+
             chooseToAddToSchedule(student, recommendedSchedule);
+
         }catch (IOException e) {
             displayMessage("Oh no, we could not generate your schedule");
             displaySocketError();
@@ -129,7 +138,6 @@ public class ModuleMethodsController {
             }catch (IOException ignored){
                 //we ignore first as GitHub actions cant save schedule on the direcotry
             }
-
 
         } catch (MissingModuleException | MandatoryPrereqException e) {
             displayMessage(e.getMessage());
@@ -176,9 +184,6 @@ public class ModuleMethodsController {
 
 
     }
-
-    //public static boolean canCompleteModule(String[] arguments, ArrayList<String> majorModuleCodes,
-    //ModuleList modulesPlanned, CompletePreqs addModulePreqs) {
 
     public static void completeModule(Student student, String moduleCode) {
         try {
