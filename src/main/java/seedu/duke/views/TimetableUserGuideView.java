@@ -1,14 +1,23 @@
 package seedu.duke.views;
 
+import seedu.duke.models.schema.ModuleWeekly;
+import seedu.duke.utils.exceptions.TimetableUnavailableException;
+
+import java.util.ArrayList;
+
 public class TimetableUserGuideView {
     private static final int justifyLength = 12;
 
     private static void print(String output) {
         System.out.print(output + " ");
     }
-    private static void println(String output) {
+    private static void println() {
+        System.out.println();
+    }
+    public static void println(String output) {
         System.out.println(output);
     }
+
 
     /**
      * Prints spaces to justify the output to the given width.
@@ -30,6 +39,19 @@ public class TimetableUserGuideView {
     }
 
 
+    public static void printCurrentSemModules(ArrayList<ModuleWeekly> currentSemModulesWeekly)
+            throws TimetableUnavailableException {
+        println("List of modules in current semester: ");
+        if (currentSemModulesWeekly.isEmpty()) {
+            throw new TimetableUnavailableException("There are no modules in your current semester. " +
+                    "Please add in modules, or generate using the 'recommend' command.");
+        }
+        for (ModuleWeekly moduleWeekly : currentSemModulesWeekly) {
+            println(moduleWeekly.getModuleCode());
+        }
+        println();
+    }
+
     public static void addGuide() {
         println("Please add a module using this format: add [module code] [semester]");
     }
@@ -43,13 +65,13 @@ public class TimetableUserGuideView {
         return "Modify your lectures/tutorials/labs in timetable using this format: timetable modify";
     }
 
-    public static void addOrRecommendGuide(String specificContext, int semester) {
-        print(specificContext);
-        println("Add modules using this format: add [module code] " + semester);
-        println("Alternatively, get the recommended schedule for your major: recommend");
+    public static String addOrRecommendGuide(String specificContext, int semester) {
+        return (specificContext + "\n" +
+                "Add modules using this format: add [module code] " + semester + "\n" +
+                "Alternatively, get the recommended schedule for your major: recommend");
     }
 
-    public static void addRecommendGuide(String specificContext) {
+    public static void printAddRecommendGuide(String specificContext) {
         print(specificContext);
         println("Add modules to your current semester or get the recommended schedule for your major first.");
     }

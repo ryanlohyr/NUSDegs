@@ -3,6 +3,7 @@ package seedu.duke.models.schema;
 
 import seedu.duke.utils.Parser;
 import seedu.duke.utils.exceptions.CorruptedFileException;
+import seedu.duke.utils.exceptions.InvalidTimetableUserCommandException;
 import seedu.duke.utils.exceptions.MissingFileException;
 import seedu.duke.utils.exceptions.TimetableUnavailableException;
 
@@ -17,6 +18,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 
 public class Storage {
 
@@ -39,6 +41,7 @@ public class Storage {
 
         createFileInDirectory(dataDirectory, "schedule.txt");
         createFileInDirectory(dataDirectory, "studentDetails.txt");
+        createFileInDirectory(dataDirectory, "timetable.txt");
 
     }
 
@@ -187,6 +190,65 @@ public class Storage {
         }
     }
 
+    public ArrayList<TimetableUserCommand> loadTimetable(Student student)
+            throws MissingFileException, CorruptedFileException {
+
+        String timetableFilePath = userDirectory + "/data/timetable.txt";
+
+        if (!isFileExist(timetableFilePath)) {
+            throw new MissingFileException();
+        }
+
+        ArrayList<TimetableUserCommand> timetableUserCommands;
+        try {
+            // Create a FileReader and BufferedReader to read the file.
+            FileReader fileReader = new FileReader(timetableFilePath);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+            String line;
+            if ((line = bufferedReader.readLine()) != null) {
+                if (!line.equals("TimetableForCurrentSem")) {
+                    throw new CorruptedFileException();
+                }
+            }
+            timetableUserCommands = new ArrayList<>();
+
+            // Read lines from the file and add them to the ArrayList.
+            while ((line = bufferedReader.readLine()) != null) {
+                try {
+                    timetableUserCommands.add(new TimetableUserCommand(student,
+                            student.getTimetable().getCurrentSemesterModulesWeekly(), line));
+                } catch (InvalidTimetableUserCommandException e) {
+                    //corrupted
+                    throw new CorruptedFileException();
+                }
+
+            }
+
+            // Close the BufferedReader to release resources.
+            bufferedReader.close();
+        } catch (Exception e) {
+            throw new CorruptedFileException();
+        }
+
+        return timetableUserCommands;
+
+    }
+
+    public void addEventsToStudentTimetable(ArrayList<TimetableUserCommand> timetableUserCommands, Student student)
+            throws CorruptedFileException {
+        ArrayList<ModuleWeekly> currentSemModulesWeekly = student.getTimetable().getCurrentSemesterModulesWeekly();
+        for (TimetableUserCommand currentTimetableCommand : timetableUserCommands) {
+            //not exit, not clear
+            try {
+                currentTimetableCommand.processTimetableCommand(currentSemModulesWeekly);
+            } catch (InvalidTimetableUserCommandException e) {
+                //corrupted
+                throw new CorruptedFileException();
+            }
+        }
+    }
+
     public void saveStudentDetails (Student student) throws IOException {
 
         String studentDetailsFilePath = userDirectory + "/data/studentDetails.txt";
@@ -263,7 +325,7 @@ public class Storage {
                 }
             }
         } catch (TimetableUnavailableException e) {
-            throw new RuntimeException(e);
+            //no events in timetable, do nothing
         }
     }
 

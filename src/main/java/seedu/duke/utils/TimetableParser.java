@@ -121,7 +121,8 @@ public class TimetableParser {
             }
             int time = Integer.parseInt(timeString);
             if (time < 5 || time > 23) {
-                throw new InvalidTimetableUserCommandException("Time not within the valid range. Please try again!");
+                throw new InvalidTimetableUserCommandException("Input for time is outside the valid range. " +
+                        "Please try again!");
                 // System.out.println("Time not within the valid range. Please try again!");
                 //return false;
             }
@@ -141,7 +142,7 @@ public class TimetableParser {
                 //return false;
             }
             if (!isDayValid(day)) {
-                throw new InvalidTimetableUserCommandException("Invalid number of arguments");
+                throw new InvalidTimetableUserCommandException("Invalid day");
                 //System.out.println("Invalid input for day.");
                 //return false;
             }

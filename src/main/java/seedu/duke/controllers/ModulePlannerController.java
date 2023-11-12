@@ -7,11 +7,11 @@ import seedu.duke.models.schema.UserCommand;
 import seedu.duke.utils.Parser;
 import seedu.duke.utils.exceptions.CorruptedFileException;
 import seedu.duke.utils.exceptions.MissingFileException;
+import seedu.duke.utils.exceptions.TimetableUnavailableException;
 import seedu.duke.views.Ui;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import static seedu.duke.controllers.ModuleServiceController.validateMajorInput;
 
@@ -98,6 +98,17 @@ public class ModulePlannerController {
 
             // Load schedule from schedule.txt file
             student.setSchedule(storage.loadSchedule());
+
+            // Load timetable from timetable.txt file
+            try {
+                student.updateTimetable();
+                storage.addEventsToStudentTimetable(storage.loadTimetable(student), student);
+
+            } catch (TimetableUnavailableException e) {
+                // no modules in current sem, do nothing
+            }
+
+
             stopLoadingAnimation();
 
             String dataRetrievalSuccess = "Data successfully retrieved";
@@ -109,9 +120,9 @@ public class ModulePlannerController {
             return;
 
         } catch (MissingFileException e) {
-            System.out.println("Save file does not exist, creating new save file...");
+            System.out.println("Save files do not exist, creating new save files...");
             storage.createUserStorageFile();
-            System.out.println("File successfully created!");
+            System.out.println("Files successfully created!");
             Storage.saveSchedule(student);
 
         } catch (CorruptedFileException e) {
@@ -142,7 +153,7 @@ public class ModulePlannerController {
 
     public void handleUserInputTillExitCommand() {
 
-        Scanner in = new Scanner(System.in);
+        //Scanner in = new Scanner(System.in);
         UserCommand currentUserCommand = new UserCommand();
         while (!currentUserCommand.isBye()) {
             String userInput = ui.getUserCommand("Input command here: ");
@@ -151,7 +162,7 @@ public class ModulePlannerController {
                 currentUserCommand.processCommand(student);
             }
         }
-        in.close();
+        //in.close();
     }
 
 
