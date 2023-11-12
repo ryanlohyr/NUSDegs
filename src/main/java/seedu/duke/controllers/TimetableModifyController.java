@@ -1,16 +1,17 @@
 package seedu.duke.controllers;
 
+import java.util.ArrayList;
+
 import seedu.duke.models.schema.ModuleWeekly;
 import seedu.duke.models.schema.Student;
 import seedu.duke.models.schema.Timetable;
 import seedu.duke.models.schema.TimetableUserCommand;
+
 import seedu.duke.utils.exceptions.InvalidTimetableUserCommandException;
 import seedu.duke.utils.exceptions.InvalidModifyArgumentException;
 import seedu.duke.utils.exceptions.TimetableUnavailableException;
 import seedu.duke.views.TimetableView;
 import seedu.duke.views.Ui;
-
-import java.util.ArrayList;
 
 import static seedu.duke.utils.TimetableParser.isExitModify;
 import static seedu.duke.views.TimetableUserGuideView.println;

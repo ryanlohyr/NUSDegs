@@ -39,7 +39,8 @@ public class TimetableUserGuideView {
     }
 
 
-    public static void printCurrentSemModules(ArrayList<ModuleWeekly> currentSemModulesWeekly) throws TimetableUnavailableException {
+    public static void printCurrentSemModules(ArrayList<ModuleWeekly> currentSemModulesWeekly)
+            throws TimetableUnavailableException {
         println("List of modules in current semester: ");
         if (currentSemModulesWeekly.isEmpty()) {
             throw new TimetableUnavailableException("There are no modules in your current semester. " +

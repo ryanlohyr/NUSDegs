@@ -1,15 +1,8 @@
 package seedu.duke.models.schema;
 
-import seedu.duke.utils.exceptions.InvalidTimetableUserCommandException;
 import seedu.duke.views.TimetableView;
-import seedu.duke.views.Ui;
 
 import java.util.ArrayList;
-
-import static seedu.duke.utils.TimetableParser.isExitModify;
-import static seedu.duke.views.TimetableUserGuideView.printTTModifySimpleLessonGuide;
-import static seedu.duke.views.Ui.displayMessage;
-import static seedu.duke.views.TimetableUserGuideView.printTTModifyDetailedLessonGuide;
 
 public class Timetable {
 

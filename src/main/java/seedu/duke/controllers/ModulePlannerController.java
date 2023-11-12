@@ -12,7 +12,6 @@ import seedu.duke.views.Ui;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import static seedu.duke.controllers.ModuleServiceController.validateMajorInput;
 
