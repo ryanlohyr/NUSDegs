@@ -1,6 +1,10 @@
 package seedu.duke.controllers;
 
-import seedu.duke.models.schema.*;
+import seedu.duke.models.schema.Major;
+import seedu.duke.models.schema.Student;
+import seedu.duke.models.schema.Timetable;
+import seedu.duke.models.schema.ModuleWeekly;
+import seedu.duke.models.schema.TimetableUserCommand;
 import seedu.duke.utils.exceptions.InvalidModifyArgumentException;
 import seedu.duke.utils.exceptions.InvalidTimetableUserCommandException;
 import seedu.duke.utils.exceptions.TimetableUnavailableException;
@@ -15,8 +19,10 @@ import static seedu.duke.models.schema.Storage.saveSchedule;
 import static seedu.duke.models.schema.Storage.saveTimetable;
 import static seedu.duke.utils.TimetableParser.isExitModify;
 import static seedu.duke.views.MajorRequirementsView.printRequiredModules;
-import static seedu.duke.views.TimetableUserGuideView.*;
+import static seedu.duke.views.TimetableUserGuideView.printCurrentSemModules;
 import static seedu.duke.views.TimetableUserGuideView.println;
+import static seedu.duke.views.TimetableUserGuideView.printTTModifyDetailedLessonGuide;
+import static seedu.duke.views.TimetableUserGuideView.printTTModifySimpleLessonGuide;
 import static seedu.duke.views.Ui.displayMessage;
 import static seedu.duke.views.ModuleInfoView.printModuleStringArray;
 

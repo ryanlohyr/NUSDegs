@@ -1,7 +1,6 @@
 package seedu.duke.models.schema;
 
 import seedu.duke.controllers.ModuleServiceController;
-import seedu.duke.controllers.TimetableModifyController;
 import seedu.duke.utils.exceptions.InvalidModifyArgumentException;
 import seedu.duke.utils.exceptions.FailPrereqException;
 import seedu.duke.utils.exceptions.InvalidPrereqException;
