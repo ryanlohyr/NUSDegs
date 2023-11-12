@@ -50,7 +50,7 @@ public class RecommendedScheduleFeatureTest {
     @Test
     void testRecommend_addCEGRecommendedScheduleToStudent() throws IOException {
         ArrayList<String> recommendedSchedule = student.getSchedule().generateRecommendedSchedule("CEG");
-        student.getSchedule().addRecommendedScheduleListToSchedule(recommendedSchedule, true);
+        student.getSchedule().addRecommendedScheduleListToSchedule(recommendedSchedule);
         student.getSchedule().printMainModuleList();
         String printedOutput = outputStream.toString().trim();
         String expectedOutput = "Sem 1:   X GESS1000     X DTK1234      " +
@@ -88,7 +88,7 @@ public class RecommendedScheduleFeatureTest {
     @Test
     void testRecommend_addCSRecommendedScheduleToStudent() throws IOException {
         ArrayList<String> recommendedSchedule = student.getSchedule().generateRecommendedSchedule("CS");
-        student.getSchedule().addRecommendedScheduleListToSchedule(recommendedSchedule,true);
+        student.getSchedule().addRecommendedScheduleListToSchedule(recommendedSchedule);
         student.getSchedule().printMainModuleList();
         String printedOutput = outputStream.toString().trim();
         String expectedOutput = "Sem 1:   X CS1231S      X MA1522       X IS1108       X MA1521       " +

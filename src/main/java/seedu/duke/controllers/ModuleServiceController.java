@@ -1,6 +1,7 @@
 package seedu.duke.controllers;
 
 import seedu.duke.models.schema.Major;
+import seedu.duke.models.schema.Schedule;
 import seedu.duke.models.schema.Student;
 
 import java.io.IOException;
@@ -9,6 +10,7 @@ import java.util.Scanner;
 
 import static seedu.duke.models.schema.Storage.saveSchedule;
 import static seedu.duke.views.MajorRequirementsView.printRequiredModules;
+import static seedu.duke.views.SemesterPlannerView.displaySchedule;
 import static seedu.duke.views.Ui.displayMessage;
 import static seedu.duke.views.ModuleInfoView.printModuleStringArray;
 
@@ -36,12 +38,14 @@ public class ModuleServiceController {
      * Prompts the user to choose whether to add a list of modules to their draft schedule.
      * Displays the list of modules and asks for user input. Handles user input validation.
      *
+     * @author ryanlohyr
      * @param scheduleToAdd A list of modules to be added to the schedule.
      */
     public static void chooseToAddToSchedule(Student student, ArrayList<String> scheduleToAdd) throws IOException {
 
         Scanner in = new Scanner(System.in);
         printModuleStringArray(scheduleToAdd);
+
         displayMessage("Here you go!");
         displayMessage("Taking the modules in this order will ensure a prerequisite worry free uni life!");
         displayMessage("Do you want to add this to your schedule planner? " +
@@ -55,16 +59,21 @@ public class ModuleServiceController {
             userInput = in.nextLine().replace("\r", "");
         }
 
-        if(userInput.equals("Y")){
-            student.getSchedule().addRecommendedScheduleListToSchedule(scheduleToAdd, true);
-            displayMessage("Here is your schedule planner!");
-            student.getSchedule().printMainModuleList();
-            displayMessage("Happy degree planning!");
-            saveSchedule(student);
-        }else{
-            displayMessage("Okay, we will not put it in your schedule.");
+        if(userInput.equals("N")){
+            displayMessage("Okay, we will not put it in your schedule");
+            return;
         }
 
+        student.getSchedule().addRecommendedScheduleListToSchedule(scheduleToAdd);
+        displayMessage("Here is your schedule planner!");
+
+        Schedule currentSchedule = student.getSchedule();
+
+        displaySchedule(currentSchedule);
+
+        displayMessage("Happy degree planning!");
+
+        saveSchedule(student);
 
     }
 
