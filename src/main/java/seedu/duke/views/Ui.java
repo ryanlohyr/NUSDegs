@@ -77,7 +77,7 @@ public class Ui {
     }
 
     public static void showLoadingAnimation() {
-        String[] animationChars = {"(｡♥‿♥｡)","(｡•‿•｡)","(｡◕‿◕｡)","(｡^‿^｡)"};
+        String[] animationChars = {"(.O_O.)","(.o_o.)","(.<_<.)","(.^_^.)"};
         loadingThread = new Thread(() -> {
             int i = 0;
             while (!Thread.currentThread().isInterrupted()) {

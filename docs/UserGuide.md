@@ -30,12 +30,16 @@ It's a comprehensive tool for efficient and successful degree completion.
 ## Note
 1. Year 4 Semester 2 students aren't able to use the app! (As we specifically cater the app to only students who have at
 least one semester left!)
-2. Due to the requirements of the module. Users are allowed to edit the txt files created, however, the course 
-not should 
-be modified from "CEG" to "CS" and vice versa (This can be detected based on the prerequisite shown) 
+2. Due to the requirements of the CS2113, users are allowed to edit the txt files created. However, the course 
+should not be modified from "CEG" to "CS" and vice versa 
 in the txt file as it will break the prerequisite constraints in your 
-schedule. This is due to the prerequisite algorithm that takes into account your course. Hope you understand!
-3. All prerequisites are calculated using NUSMods API, any inaccuracies may be due to the NUSMods provider. 
+schedule and may cause the schedule to not work as intended (e.g show the incorrect preclusion). 
+   1. This is due to the prerequisite algorithm that takes into account your course. Hope you understand!
+3. Users are strongly **recommended to not modify the data/schedule.txt** as well as the schedule is supposed to be sorted
+based on prerequisites. Hence, a manual modification of an invalid module into the schedule.txt file may cause your schedule info 
+to be corrupted and therefore lost!
+4. The prerequisites are calculated using NUSMods API, any inaccuracies may be due to the NUSMods API provider.
+
 
 ## Features
 - [View help : `help`](#viewing-help-help)
@@ -68,7 +72,7 @@ User input:
 `help`
 
 - Expected outcome:
-![ss_help.png](screenshots%2Fss_help.png)
+![ss_help.png](screenshots%2Fss_help.jpeg)
 
 ### Getting a list of required modules:`required`
 Get an overview of required modules for the user's major
@@ -188,6 +192,15 @@ Based on the student's course, we will provide a recommended schedule that is so
 User input:
 `recommend`
 
+##### Note:
+- Even if you have inputted Y2/S2(Year 2, Semester 2) for example, we would still recommend you a schedule with all the
+required modules from Year 1, Semester 1 till Year 4 semester 2 as the goal of the recommend function is to provide you
+a template order of you can take your modules!
+
+
+User input:
+`recommend`
+
 - Expected outcome:
 
 ![recommendedSchedule.jpg](photos%2FrecommendSchedule.jpeg)
@@ -220,7 +233,7 @@ User input:
 
 - Expected outcome:
 
-![ss_add_cs1010_1.png](screenshots%2Fss_add_cs1010_1.png)
+<img src="screenshots/ss_add_cs1010_1.png" height="300"/>
 
 ### Delete module from schedule planner: `delete`
 Opens the user's personalized module schedule planner and deletes the chosen module. Deleting will not be allowed if
@@ -248,7 +261,7 @@ User input:
 
 - Expected outcome:
 
-![](photos/delete_outcome.png)
+<img src="photos/delete_outcome.png" height="300"/>
 
 ### Shift module in schedule planner: `shift`
 Opens the user's personalized module schedule planner and shifts the chosen module to the semester specified by the 
@@ -284,7 +297,7 @@ User input:
 
 * Expected outcome:
 
-![img.png](photos/clear_outcome.png)
+<img src="photos/clear_outcome.png" height="400"/>
 
 ### Complete a module: `complete`
 Completes a module (Completes a module in your schedule planner).
@@ -305,7 +318,8 @@ User input:
 `complete ma1511`
 
 Expected outcome:
-`Module Successfully Completed`
+
+<img src="photos/complete.jpeg" height="40"/>
 
 ### Checking modules left: `left`
 Displays the modules left, which are the modules required for the user's major that have not been completed.
@@ -344,6 +358,7 @@ The user can see how many MCs are left and how much time is left to complete the
 
 - The current number of modular credits to complete is set to 160. However, this is something we do want to modify in 
 future to cater to our double degree friends!
+- The pace function is to track the modules you have **completed** and not the modules you have **added**!
 
 ##### Example of Usage:
 

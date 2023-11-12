@@ -15,7 +15,7 @@ and saves time for students. It’s a comprehensive tool for efficient and succe
 - `What it does:` Allows the user to see the prerequisites the module has.
 - `Justification:` This feature allows the user to plan their schedule more efficiently, eliminating guesswork. 
 This Function is also used as a helper function for feature 2.
-- `Highlights:` This feature was challenging as format of the prerequisites returned from NUSMODS API was unintuitive 
+- `Highlights:` This feature was challenging as format of the prerequisites returned from NUSMODS API was unintuitive, 
 and it required an in depth understanding of recursive functions due to its nested prerequisites. 
 Furthermore, good understanding of the REST API convention in order to retrieve prerequisites based on module 
 from the NUSMODS API. 
@@ -28,6 +28,14 @@ look through all the prerequisites of each module.
 - `Highlights:` This feature was challenging as it required in depth data structure and algorithms knowledge. The 
 feature utilised the topological sort algorithm, hashmaps, adjacency lists and queues. 
 
+#### 3. Pace Feature
+
+- `What it does:` Allows the user to see the average pace required for graduation
+- `Justification:` Provides crucial information for users to plan their academic journey effectively. 
+Enables students to track and manage their progress towards graduation.
+  Assists in avoiding potential delays in completing the degree by offering insights into the necessary pace.
+- `Highlights:` Challenging as it required careful validation of the inputs as well as taking into account various other
+components such as the schedule and student class.
 
 ### Enhancements Implemented
 

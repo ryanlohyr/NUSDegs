@@ -34,7 +34,7 @@ public class SemesterPlannerView {
 
     private static String getCompletionStatusForPrinting(Module module) {
         if (module.getCompletionStatus()) {
-            return "✓";
+            return "O";
         }
         return "X";
     }
