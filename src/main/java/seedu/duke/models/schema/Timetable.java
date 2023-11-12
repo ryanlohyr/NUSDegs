@@ -5,7 +5,6 @@ import seedu.duke.views.TimetableView;
 import seedu.duke.views.Ui;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import static seedu.duke.utils.TimetableParser.isExitModify;
 import static seedu.duke.views.TimetableUserGuideView.printTTModifySimpleLessonGuide;

@@ -5,12 +5,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import seedu.duke.utils.exceptions.InvalidTimetableUserCommandException;
 import seedu.duke.utils.exceptions.TimetableUnavailableException;
+import seedu.duke.views.TimetableView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static seedu.duke.views.TimetableUserGuideView.printTTModifySimpleLessonGuide;
 
 class TimetableUserCommandTest {
     private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -51,6 +53,12 @@ class TimetableUserCommandTest {
         TimetableUserCommand currentTimetableCommand = new TimetableUserCommand(student,
                 student.getTimetable().getCurrentSemesterModulesWeekly(), "cs1010 lecture 9 2 Monday");
         currentTimetableCommand.processTimetableCommand(student.getTimetable().getCurrentSemesterModulesWeekly());
+        if (student.getTimetable().timetableViewIsAvailable()) {
+            TimetableView.printTimetable(student.getTimetable().getCurrentSemesterModulesWeekly());
+        } else {
+            printTTModifySimpleLessonGuide("Timetable view is unavailable as modules in your " +
+                    "current semester have no lessons yet.");
+        }
 
         // Capture the printed output
         String printedOutput = outputStream.toString().trim();
@@ -110,6 +118,6 @@ class TimetableUserCommandTest {
         TimetableUserCommand currentTimetableCommand = new TimetableUserCommand(student,
                 student.getTimetable().getCurrentSemesterModulesWeekly(), timetableUserInput);
         currentTimetableCommand.processTimetableCommand(student.getTimetable().getCurrentSemesterModulesWeekly());
-
     }
+
 }

@@ -18,9 +18,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
 
-import static seedu.duke.utils.TimetableParser.isExitModify;
 
 public class Storage {
 
@@ -192,7 +190,8 @@ public class Storage {
         }
     }
 
-    public ArrayList<TimetableUserCommand> loadTimetable(Student student) throws MissingFileException, CorruptedFileException {
+    public ArrayList<TimetableUserCommand> loadTimetable(Student student)
+            throws MissingFileException, CorruptedFileException {
 
         String timetableFilePath = userDirectory + "/data/timetable.txt";
 
@@ -236,15 +235,16 @@ public class Storage {
 
     }
 
-    public void addEventsToStudentTimetable(ArrayList<TimetableUserCommand> timetableUserCommands, Student student) throws CorruptedFileException {
+    public void addEventsToStudentTimetable(ArrayList<TimetableUserCommand> timetableUserCommands, Student student)
+            throws CorruptedFileException {
+        ArrayList<ModuleWeekly> currentSemModulesWeekly = student.getTimetable().getCurrentSemesterModulesWeekly();
         for (TimetableUserCommand currentTimetableCommand : timetableUserCommands) {
             //not exit, not clear
             try {
-                currentTimetableCommand.processTimetableCommand(student.getTimetable().getCurrentSemesterModulesWeekly());
+                currentTimetableCommand.processTimetableCommand(currentSemModulesWeekly);
             } catch (InvalidTimetableUserCommandException e) {
                 //corrupted
                 throw new CorruptedFileException();
-                // skip??
             }
         }
     }
