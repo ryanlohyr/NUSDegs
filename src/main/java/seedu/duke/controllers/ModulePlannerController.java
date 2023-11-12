@@ -124,7 +124,6 @@ public class ModulePlannerController {
             storage.createUserStorageFile();
             System.out.println("Files successfully created!");
             Storage.saveSchedule(student);
-            Storage.saveTimetable(student);
 
         } catch (CorruptedFileException e) {
             ui.printStorageError();

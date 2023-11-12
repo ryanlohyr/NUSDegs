@@ -194,8 +194,13 @@ public class Student {
             if(module.getCompletionStatus()){
                 this.completedModuleCredits -= module.getModuleCredits();
             }
+
+            //remove module from currentSemModuleWeekly
+            updateTimetable();
         }catch (InvalidObjectException e) {
             throw new MissingModuleException("Module does not exist in schedule");
+        } catch (TimetableUnavailableException e) {
+            //no events in currentSemModuleWeekly, do nothing
         }
     }
 
