@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import static seedu.duke.utils.TimetableParser.isExitModify;
+import static seedu.duke.views.TimetableUserGuideView.printTTModifySimpleLessonGuide;
 import static seedu.duke.views.Ui.displayMessage;
 import static seedu.duke.views.TimetableUserGuideView.printTTModifyDetailedLessonGuide;
 
@@ -95,6 +96,12 @@ public class Timetable {
                 }
 
                 currentTimetableCommand.processTimetableCommand(currentSemesterModulesWeekly);
+                if (timetable.timetableViewIsAvailable()) {
+                    TimetableView.printTimetable(currentSemesterModulesWeekly);
+                } else {
+                    printTTModifySimpleLessonGuide("Timetable view is unavailable as modules in your " +
+                            "current semester have no lessons yet.");
+                }
                 //lessonsController(lessonType, indexOfModuleWeeklyToModify, time, duration, day);
 
             } catch (InvalidTimetableUserCommandException e) {

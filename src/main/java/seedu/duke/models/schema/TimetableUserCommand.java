@@ -124,12 +124,14 @@ public class TimetableUserCommand {
         if (isModifyClear(arguments)) {
             currentSemesterModulesWeekly.get(indexOfModuleWeeklyToModify).clearLessons();
             System.out.println("All lessons for selected module are cleared.");
+            /*
             if (timetable.timetableViewIsAvailable()) {
                 TimetableView.printTimetable(currentSemesterModulesWeekly);
             } else {
                 printTTModifySimpleLessonGuide("Timetable view is unavailable as modules in your current semester " +
                         "have no lessons yet.");
             }
+            */
             return;
         }
 
@@ -142,19 +144,19 @@ public class TimetableUserCommand {
         case "LECTURE": {
             currentSemesterModulesWeekly.get(indexOfModuleWeeklyToModify).addLecture(day,
                     time, duration);
-            TimetableView.printTimetable(currentSemesterModulesWeekly);
+            //TimetableView.printTimetable(currentSemesterModulesWeekly);
             return;
         }
         case "TUTORIAL": {
             currentSemesterModulesWeekly.get(indexOfModuleWeeklyToModify).addTutorial(day,
                     time, duration);
-            TimetableView.printTimetable(currentSemesterModulesWeekly);
+            //TimetableView.printTimetable(currentSemesterModulesWeekly);
             return;
         }
         case "LAB": {
             currentSemesterModulesWeekly.get(indexOfModuleWeeklyToModify).addLab(day,
                     time, duration);
-            TimetableView.printTimetable(currentSemesterModulesWeekly);
+            //TimetableView.printTimetable(currentSemesterModulesWeekly);
             return;
         }
         default: {

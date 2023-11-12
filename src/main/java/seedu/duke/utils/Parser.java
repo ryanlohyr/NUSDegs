@@ -22,7 +22,7 @@ public class Parser {
         }
         String[] keywords = userInput.split(DELIMITER);
 
-        return keywords[0].trim();
+        return keywords[0].toLowerCase().trim();
     }
 
     //public static String parseTimetable
