@@ -5,8 +5,8 @@ import java.io.InputStream;
 
 public class Ui {
     private static Thread loadingThread;
-    private static final String DIVIDER = "\t___________________________________________________________";
-
+    private static final String DIVIDER = "___________________________________________________________";
+    private static final String DIVIDERWithoutPadding = "___________________________________________________________";
     private final Scanner in;
     private final PrintStream out;
 
@@ -46,8 +46,8 @@ public class Ui {
     }
 
     public String getUserCommand(String toDisplay) {
+        out.println(DIVIDERWithoutPadding);
         out.print(toDisplay);
-
         return in.nextLine();
     }
 
@@ -55,7 +55,7 @@ public class Ui {
         out.println();
         out.println(DIVIDER);
         for (String m : messages) {
-            out.println("\t" + m);
+            out.println(m);
         }
         out.println(DIVIDER);
     }
@@ -64,14 +64,14 @@ public class Ui {
     public void printStorageError(String... messages) {
         out.println();
         out.println(DIVIDER);
-        System.out.println("\tUnable to retrieve any data. You do not have a save file yet " +
+        System.out.println("Unable to retrieve any data. You do not have a save file yet " +
                 "or it may be corrupted.\n" +
-                "\tPlease continue using the application to create a new save file or overwrite " +
+                "Please continue using the application to create a new save file or overwrite " +
                 "the corrupted file!");
         for (String m : messages) {
-            out.println("\tStorage " + m);
+            out.println("Storage " + m);
         }
-        out.println("\tPlease check ./data again");
+        out.println("Please check ./data again");
         out.println(DIVIDER);
         stopLoadingAnimation();
     }
