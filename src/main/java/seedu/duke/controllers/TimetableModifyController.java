@@ -6,15 +6,17 @@ import seedu.duke.models.schema.Timetable;
 import seedu.duke.models.schema.TimetableUserCommand;
 import seedu.duke.utils.exceptions.InvalidTimetableUserCommandException;
 import seedu.duke.utils.exceptions.InvalidModifyArgumentException;
+import seedu.duke.utils.exceptions.TimetableUnavailableException;
 import seedu.duke.views.TimetableView;
 import seedu.duke.views.Ui;
 
 import java.util.ArrayList;
 
 import static seedu.duke.utils.TimetableParser.isExitModify;
+import static seedu.duke.views.TimetableUserGuideView.println;
+import static seedu.duke.views.TimetableUserGuideView.printCurrentSemModules;
 import static seedu.duke.views.TimetableUserGuideView.printTTModifyDetailedLessonGuide;
 import static seedu.duke.views.TimetableUserGuideView.printTTModifySimpleLessonGuide;
-import static seedu.duke.views.Ui.displayMessage;
 
 public class TimetableModifyController {
 
@@ -28,6 +30,7 @@ public class TimetableModifyController {
         Timetable timetable = student.getTimetable();
         ArrayList <ModuleWeekly> currentSemModulesWeekly = timetable.getCurrentSemesterModulesWeekly();
         //verify accepted timetableuser command
+        /*
         System.out.println("List of modules in current semester: ");
         if (currentSemModulesWeekly.isEmpty()) {
             System.out.println("There are no modules in your current semester. " +
@@ -38,6 +41,15 @@ public class TimetableModifyController {
             System.out.println(moduleWeekly.getModuleCode());
         }
         System.out.println();
+
+        */
+
+        try {
+            printCurrentSemModules(currentSemModulesWeekly);
+        } catch (TimetableUnavailableException e) {
+            println(e.getMessage());
+        }
+
         printTTModifyDetailedLessonGuide("Entered Timetable Modify Mode");
 
         Ui ui = new Ui();
@@ -56,7 +68,7 @@ public class TimetableModifyController {
                 //if exit
                 if (isExitModify(arguments)) {
                     inTimetableModifyMode = false;
-                    System.out.println("Exited Timetable Modify Mode");
+                    println("Exited Timetable Modify Mode");
                     continue;
                 }
 
@@ -69,7 +81,7 @@ public class TimetableModifyController {
                 }
 
             } catch (InvalidTimetableUserCommandException e) {
-                displayMessage(e.getMessage());
+                println(e.getMessage());
             }
         }
     }

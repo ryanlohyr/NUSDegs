@@ -325,7 +325,7 @@ public class Storage {
                 }
             }
         } catch (TimetableUnavailableException e) {
-            throw new RuntimeException(e);
+            //no events in timetable, do nothing
         }
     }
 

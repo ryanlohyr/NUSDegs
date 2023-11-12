@@ -311,8 +311,8 @@ public class Student {
         // if empty, means the user didn't plan or add any modules into the thing
         if (currentSemesterModules.getMainModuleList().isEmpty()) {
             int currentSem = getCurrentSem();
-            addOrRecommendGuide("Your current sem has no modules yet.", currentSem);
-            throw new TimetableUnavailableException();
+            throw new TimetableUnavailableException(
+                    addOrRecommendGuide("Your current sem has no modules yet.", currentSem));
         }
 
         // Ok the current sem modules are back in an array list<Module>
@@ -376,7 +376,7 @@ public class Student {
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Index out of bounds exception.");
         } catch (TimetableUnavailableException e) {
-            return;
+            System.out.println(e.getMessage());
         }
     }
 
