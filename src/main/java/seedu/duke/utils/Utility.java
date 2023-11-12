@@ -33,7 +33,6 @@ public class Utility {
         try {
             storage.saveStudentDetails(student);
             Storage.saveSchedule(student);
-            //Storage.saveTimetable(student);
             System.out.println("Data successfully saved in save file");
         } catch (IOException e) {
             System.out.println("Unable to save data.");

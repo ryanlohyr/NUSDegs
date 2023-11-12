@@ -50,20 +50,7 @@ public class CommandLineView {
         System.out.println("What Year and Semester are you? Ex: Y1/S2 for year 1 semester 2");
     }
 
-    public static void handleMajorMessage(int userInputLength, String major) {
-        assert (userInputLength == 0 || userInputLength == 1);
-        if (userInputLength == 0) {
-            if (major == null) {
-                displayMessage("No major selected!");
-                return;
-            }
-            displayMessage("Current major is " + major + ".");
-            return;
-        }
-        displayMessage("Major " + major + " selected!");
-    }
-
-    public static void printListOfCommands(CommandManager commandManager) {
+    public static void displayCommands(CommandManager commandManager) {
         displayMessage("Here are all the commands currently available in NUSDegs!");
         displayMessage("- Words in UPPER_CASE are the parameters to be supplied by the user.");
         displayMessage("- Parameters in [] are optional.");

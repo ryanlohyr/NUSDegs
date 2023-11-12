@@ -51,7 +51,7 @@ public class ModulePlannerController {
         initialiseUser();
         displayReady();
         handleUserInputTillExitCommand();
-        saveStudentData(storage, student);
+        saveStudentData(storage,student);
         displayGoodbye();
     }
 
@@ -144,5 +144,9 @@ public class ModulePlannerController {
         }
         in.close();
     }
+
+
+
+
 
 }

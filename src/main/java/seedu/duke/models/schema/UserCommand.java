@@ -6,7 +6,7 @@ import seedu.duke.utils.errors.UserError;
 
 import static seedu.duke.utils.Parser.parseArguments;
 import static seedu.duke.utils.Parser.parseCommand;
-import static seedu.duke.views.CommandLineView.printListOfCommands;
+import static seedu.duke.views.CommandLineView.displayCommands;
 
 import static seedu.duke.controllers.ModuleMethodsController.computePace;
 import static seedu.duke.controllers.ModuleMethodsController.showModulesLeft;
@@ -121,7 +121,6 @@ public class UserCommand implements UserCommandWord {
         case UserCommandWord.SHIFT_MODULE_COMMAND: {
             String module = arguments[0].toUpperCase();
             int targetSem = Integer.parseInt(arguments[1]);
-
             shiftModule(module, targetSem, student);
             break;
         }
@@ -153,7 +152,7 @@ public class UserCommand implements UserCommandWord {
             break;
         }
         case UserCommandWord.HELP_COMMAND: {
-            printListOfCommands(commandManager);
+            displayCommands(commandManager);
             break;
         }
         case UserCommandWord.TIMETABLE_COMMAND: {
