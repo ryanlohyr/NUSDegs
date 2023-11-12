@@ -195,12 +195,8 @@ public class Student {
                 this.completedModuleCredits -= module.getModuleCredits();
             }
 
-            //remove module from currentSemModuleWeekly
-            updateTimetable();
         }catch (InvalidObjectException e) {
             throw new MissingModuleException("Module does not exist in schedule");
-        } catch (TimetableUnavailableException e) {
-            //no events in currentSemModuleWeekly, do nothing
         }
     }
 
@@ -318,10 +314,12 @@ public class Student {
     public void setCurrentSemesterModulesWeekly() throws TimetableUnavailableException {
         // checks if class variable into which I added the modules in current semester is empty
         // if empty, means the user didn't plan or add any modules into the thing
-        if (currentSemesterModules.getMainModuleList().isEmpty()) {
+        if (currentSemesterModules == null || currentSemesterModules.getMainModuleList().isEmpty()) {
+            timetable.removeAll();
             int currentSem = getCurrentSem();
             throw new TimetableUnavailableException(
-                    addOrRecommendGuide("Your current sem has no modules yet.", currentSem));
+                    addOrRecommendGuide("Timetable view is unavailable as your current semester has " +
+                            "no modules yet.", currentSem));
         }
 
         // Ok the current sem modules are back in an array list<Module>

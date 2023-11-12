@@ -23,6 +23,10 @@ public class Timetable {
         currentSemesterModulesWeekly.remove(module);
     }
 
+    public void removeAll() {
+        currentSemesterModulesWeekly = new ArrayList<>();
+    }
+
     public ArrayList<ModuleWeekly> getCurrentSemesterModulesWeekly() {
         return currentSemesterModulesWeekly;
     }

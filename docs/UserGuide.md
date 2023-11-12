@@ -412,7 +412,7 @@ lessons in a module:
 `[MODULE CODE] [LECTURE / TUTORIAL / LAB] [TIME] [DURATION] [DAY]` -  Add a lesson
 and specify its details (time, duration, day)
 - lessonType: lecture, tutorial, lab
-- startTime: integer from 8 to 20 (representing 8am to 8pm)
+- startTime: integer from 5 to 23 (representing 5am to 11pm)
 - duration: time in hours
 - day: monday, tuesday, wednesday, thursday, friday, saturday, sunday
 
@@ -423,9 +423,11 @@ and specify its details (time, duration, day)
 ##### Note: 
 
 - Each argument has to be separated by whitespace.
-- Input for TIME must be an integer from 8 to 19 (representing 8am to 8pm)
-- Input for DURATION must be at least 1
-- Inputs for TIME and DURATION have to be int values and the sum must be 20 or lower 
+- Input for TIME must be an integer from 5 to 23 (representing 5am to 11pm)
+- Input for DURATION must be an integer that is at least 0
+- If the sum of inputs for TIME and DURATION is greater than 23, only the start TIME will be displayed
+- Within the same session, deleting a current semester module and adding it back to the current semester in the main 
+menu, without running a successful timetable show or modify command in between, will not remove the module' lessons
 
 
 
@@ -451,7 +453,7 @@ User input:
 Exit NUSDegs and save your current schedule into a data folder that will be in the same folder as
 where you placed `NUSDegs.jar`. The data folder will contain both the user's student detail and their schedule planner
 
-##### Format: `Bye` (with a capital letter 'B')
+##### Format: `Bye`
 
 ##### Example of usage:
 
