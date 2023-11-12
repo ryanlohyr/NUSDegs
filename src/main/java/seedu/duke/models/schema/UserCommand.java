@@ -83,7 +83,7 @@ public class UserCommand implements UserCommandWord {
         if (commandWord == null) {
             return false;
         }
-        return this.commandWord.equals(UserCommandWord.EXIT_COMMAND);
+        return this.commandWord.equalsIgnoreCase(UserCommandWord.EXIT_COMMAND);
     }
 
     public void processCommand(Student student) {

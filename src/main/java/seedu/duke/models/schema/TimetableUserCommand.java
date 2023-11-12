@@ -1,12 +1,10 @@
 package seedu.duke.models.schema;
 
 import seedu.duke.utils.exceptions.InvalidTimetableUserCommandException;
-import seedu.duke.views.TimetableView;
 
 import java.util.ArrayList;
 
 import static seedu.duke.models.schema.Timetable.getIndexOfModuleWeekly;
-import static seedu.duke.models.schema.Timetable.timetable;
 import static seedu.duke.utils.Parser.removeNulls;
 import static seedu.duke.utils.TimetableParser.isModifyValid;
 import static seedu.duke.utils.TimetableParser.parseModuleCode;
@@ -15,7 +13,6 @@ import static seedu.duke.utils.TimetableParser.parseLessonType;
 import static seedu.duke.utils.TimetableParser.parseTime;
 import static seedu.duke.utils.TimetableParser.parseDuration;
 import static seedu.duke.utils.TimetableParser.parseDay;
-import static seedu.duke.views.TimetableUserGuideView.printTTModifySimpleLessonGuide;
 
 
 public class TimetableUserCommand {
@@ -110,10 +107,8 @@ public class TimetableUserCommand {
     */
 
 
-
     public void processTimetableCommand(ArrayList<ModuleWeekly> currentSemesterModulesWeekly)
             throws InvalidTimetableUserCommandException {
-
 
         String moduleCode = parseModuleCode(arguments[0]);
         int indexOfModuleWeeklyToModify = getIndexOfModuleWeekly(moduleCode, currentSemesterModulesWeekly);
@@ -124,13 +119,19 @@ public class TimetableUserCommand {
         if (isModifyClear(arguments)) {
             currentSemesterModulesWeekly.get(indexOfModuleWeeklyToModify).clearLessons();
             System.out.println("All lessons for selected module are cleared.");
-            if (timetable.timetableViewIsAvailable()) {
-                TimetableView.printTimetable(currentSemesterModulesWeekly);
-            } else {
-                printTTModifySimpleLessonGuide("Timetable view is unavailable as modules in your current semester " +
-                        "have no lessons yet.");
-            }
             return;
+        }
+
+        processTimetableCommandLesson(currentSemesterModulesWeekly);
+    }
+
+    public void processTimetableCommandLesson(ArrayList<ModuleWeekly> currentSemesterModulesWeekly)
+            throws InvalidTimetableUserCommandException {
+
+        String moduleCode = parseModuleCode(arguments[0]);
+        int indexOfModuleWeeklyToModify = getIndexOfModuleWeekly(moduleCode, currentSemesterModulesWeekly);
+        if (indexOfModuleWeeklyToModify == -1) {
+            throw new InvalidTimetableUserCommandException(moduleCode + " does not exist in your schedule.");
         }
 
         String lessonType = parseLessonType(arguments[1]);
@@ -142,19 +143,16 @@ public class TimetableUserCommand {
         case "LECTURE": {
             currentSemesterModulesWeekly.get(indexOfModuleWeeklyToModify).addLecture(day,
                     time, duration);
-            TimetableView.printTimetable(currentSemesterModulesWeekly);
             return;
         }
         case "TUTORIAL": {
             currentSemesterModulesWeekly.get(indexOfModuleWeeklyToModify).addTutorial(day,
                     time, duration);
-            TimetableView.printTimetable(currentSemesterModulesWeekly);
             return;
         }
         case "LAB": {
             currentSemesterModulesWeekly.get(indexOfModuleWeeklyToModify).addLab(day,
                     time, duration);
-            TimetableView.printTimetable(currentSemesterModulesWeekly);
             return;
         }
         default: {

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static seedu.duke.views.TimetableUserGuideView.printTimetableModifyGuide;
-import static seedu.duke.views.TimetableUserGuideView.addRecommendGuide;
+import static seedu.duke.views.TimetableUserGuideView.printAddRecommendGuide;
 
 public class TimetableView {
     private static final int dayColumnWidth = 10;
@@ -80,7 +80,7 @@ public class TimetableView {
      */
     public static void printTimetable(ArrayList<ModuleWeekly> currentSemesterModules) {
         if (currentSemesterModules == null || currentSemesterModules.isEmpty()) {
-            addRecommendGuide("Timetable view is unavailable as you have no modules in your current " +
+            printAddRecommendGuide("Timetable view is unavailable as you have no modules in your current " +
                     "semester.\n");
             return;
         }

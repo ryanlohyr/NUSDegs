@@ -1,14 +1,8 @@
 package seedu.duke.models.schema;
 
-import seedu.duke.utils.exceptions.InvalidTimetableUserCommandException;
 import seedu.duke.views.TimetableView;
 
 import java.util.ArrayList;
-import java.util.Scanner;
-
-import static seedu.duke.utils.TimetableParser.isExitModify;
-import static seedu.duke.views.Ui.displayMessage;
-import static seedu.duke.views.TimetableUserGuideView.printTTModifyDetailedLessonGuide;
 
 public class Timetable {
 
@@ -27,6 +21,10 @@ public class Timetable {
 
     public void removeFromCurrentSemesterModulesWeekly(ModuleWeekly module) {
         currentSemesterModulesWeekly.remove(module);
+    }
+
+    public void removeAll() {
+        currentSemesterModulesWeekly = new ArrayList<>();
     }
 
     public ArrayList<ModuleWeekly> getCurrentSemesterModulesWeekly() {
@@ -50,12 +48,7 @@ public class Timetable {
         }
     }
 
-    /**
-     * Modifies the timetable for the specified student based on user input.
-     * @author @rohitcube
-     * @param student The student object.
-     * @throws seedu.duke.exceptions.InvalidModifyArgumentException If an invalid argument is provided.
-     */
+    /*
     public void modifyTimetable(Student student) throws seedu.duke.exceptions.InvalidModifyArgumentException {
         //verify accepted timetableuser command
         System.out.println("List of modules in current semester: ");
@@ -70,13 +63,18 @@ public class Timetable {
         System.out.println();
         printTTModifyDetailedLessonGuide("Entered Timetable Modify Mode");
 
+        Ui ui = new Ui();
+
         boolean inTimetableModifyMode = true;
         while (inTimetableModifyMode) {
             try {
-                Scanner in = new Scanner(System.in);
+                //Scanner in = new Scanner(System.in);
+
+
+                String userInput = ui.getUserCommand("Input timetable modify command here: ");
 
                 TimetableUserCommand currentTimetableCommand = new TimetableUserCommand(student,
-                        currentSemesterModulesWeekly, in.nextLine());
+                        currentSemesterModulesWeekly, userInput);
 
 
                 String[] arguments = currentTimetableCommand.getArguments();
@@ -89,27 +87,24 @@ public class Timetable {
                 }
 
                 currentTimetableCommand.processTimetableCommand(currentSemesterModulesWeekly);
+                if (timetable.timetableViewIsAvailable()) {
+                    TimetableView.printTimetable(currentSemesterModulesWeekly);
+                } else {
+                    printTTModifySimpleLessonGuide("Timetable view is unavailable as modules in your " +
+                            "current semester have no lessons yet.");
+                }
                 //lessonsController(lessonType, indexOfModuleWeeklyToModify, time, duration, day);
+
             } catch (InvalidTimetableUserCommandException e) {
                 displayMessage(e.getMessage());
             }
         }
-        /*
-                System.out.println("Which current module do you want to modify? (ENTER MODULE CODE)");
-                String moduleCode = in.nextLine().trim().toUpperCase();
-                while (!isExistInCurrentSemesterModules(moduleCode, timetable.currentSemesterModulesWeekly)) {
-                    displayMessage("Invalid Module, please choose a module from this semester");
-                    moduleCode = in.nextLine().trim().toUpperCase().replace("\r", "");
-                }
 
-                // pass in the ModuleWeekly element from currentSemester
-                int indexOfModuleWeeklyToModify = getIndexOfModuleWeekly(moduleCode, currentSemesterModulesWeekly);
-                processModifyArguments(indexOfModuleWeeklyToModify, student);
-            }
-
-        */
 
     }
+
+    */
+
 
     public boolean timetableViewIsAvailable() {
         for (ModuleWeekly moduleWeekly : currentSemesterModulesWeekly) {

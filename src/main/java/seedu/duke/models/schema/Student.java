@@ -1,10 +1,11 @@
 package seedu.duke.models.schema;
 
-import seedu.duke.exceptions.InvalidModifyArgumentException;
+import seedu.duke.controllers.TimetableModifyController;
+import seedu.duke.utils.exceptions.InvalidModifyArgumentException;
 import seedu.duke.utils.exceptions.FailPrereqException;
 import seedu.duke.utils.exceptions.InvalidPrereqException;
-import seedu.duke.utils.exceptions.MissingModuleException;
 import seedu.duke.utils.exceptions.MandatoryPrereqException;
+import seedu.duke.utils.exceptions.MissingModuleException;
 import seedu.duke.utils.exceptions.TimetableUnavailableException;
 
 import seedu.duke.utils.Parser;
@@ -193,6 +194,7 @@ public class Student {
             if(module.getCompletionStatus()){
                 this.completedModuleCredits -= module.getModuleCredits();
             }
+
         }catch (InvalidObjectException e) {
             throw new MissingModuleException("Module does not exist in schedule");
         }
@@ -312,10 +314,12 @@ public class Student {
     public void setCurrentSemesterModulesWeekly() throws TimetableUnavailableException {
         // checks if class variable into which I added the modules in current semester is empty
         // if empty, means the user didn't plan or add any modules into the thing
-        if (currentSemesterModules.getMainModuleList().isEmpty()) {
+        if (currentSemesterModules == null || currentSemesterModules.getMainModuleList().isEmpty()) {
+            timetable.removeAll();
             int currentSem = getCurrentSem();
-            addOrRecommendGuide("Your current sem has no modules yet.", currentSem);
-            throw new TimetableUnavailableException();
+            throw new TimetableUnavailableException(
+                    addOrRecommendGuide("Timetable view is unavailable as your current semester has " +
+                            "no modules yet.", currentSem));
         }
 
         // Ok the current sem modules are back in an array list<Module>
@@ -366,7 +370,8 @@ public class Student {
                 break;
             }
             case "MODIFY": {
-                timetable.modifyTimetable(this);
+                TimetableModifyController timetableModifyController = new TimetableModifyController();
+                timetableModifyController.modifyTimetable(this);
                 break;
             }
             default: {
@@ -378,7 +383,7 @@ public class Student {
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Index out of bounds exception.");
         } catch (TimetableUnavailableException e) {
-            return;
+            System.out.println(e.getMessage());
         }
     }
 

@@ -1,4 +1,4 @@
-package seedu.duke.exceptions;
+package seedu.duke.utils.exceptions;
 
 public class InvalidModifyArgumentException extends Exception {
 
