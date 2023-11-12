@@ -64,8 +64,7 @@ public class Ui {
     public void printStorageError(String... messages) {
         out.println();
         out.println(DIVIDER);
-        System.out.println("Unable to retrieve any data. You do not have a save file yet " +
-                "or it may be corrupted.\n" +
+        System.out.println("Unable to retrieve any data. Your save file may be corrupted.\n" +
                 "Please continue using the application to create a new save file or overwrite " +
                 "the corrupted file!");
         for (String m : messages) {

@@ -1,6 +1,6 @@
 package seedu.duke.models.schema;
 
-import seedu.duke.controllers.TimetableModifyController;
+import seedu.duke.controllers.ModuleServiceController;
 import seedu.duke.utils.exceptions.InvalidModifyArgumentException;
 import seedu.duke.utils.exceptions.FailPrereqException;
 import seedu.duke.utils.exceptions.InvalidPrereqException;
@@ -370,8 +370,8 @@ public class Student {
                 break;
             }
             case "MODIFY": {
-                TimetableModifyController timetableModifyController = new TimetableModifyController();
-                timetableModifyController.modifyTimetable(this);
+                ModuleServiceController moduleServiceController = new ModuleServiceController();
+                moduleServiceController.modifyTimetable(this);
                 break;
             }
             default: {

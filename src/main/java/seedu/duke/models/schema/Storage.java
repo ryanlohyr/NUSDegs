@@ -131,7 +131,7 @@ public class Storage {
             String line;
             int lineNumber = 0;
 
-            //to track which line it is supposed to be on
+            // to track which line it is supposed to be on
             HashMap<String, Integer> variableMap = new HashMap<>();
             // Adding key-value pairs
             variableMap.put("Name", 0);

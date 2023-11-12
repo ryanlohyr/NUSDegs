@@ -58,7 +58,7 @@ to be corrupted and therefore lost!
 - [Check current pace to graduate: `pace`](#check-current-pace-to-graduate-pace)
 - [View weekly timetable: `timetable show`](#view-weekly-timetable-timetable-show)
 - [Modify weekly timetable: `timetable modify`](#modify-weekly-timetable-timetable-modify)
-- [Saves the user's schedule and exits the program: `Bye`](#save-schedule-and-exit-the-program-bye)
+- [Saves the user's schedule and exits the program: `bye`](#save-schedule-and-timetable-and-exit-the-program-bye)
 
 Note: Between arguments, spaces are required. Arguments need to be passed in the correct order.
 
@@ -72,7 +72,7 @@ User input:
 `help`
 
 - Expected outcome:
-![ss_help.png](screenshots%2Fss_help.jpeg)
+![ss_help.png](screenshots%2Fss_help.png)
 
 ### Getting a list of required modules:`required`
 Get an overview of required modules for the user's major
@@ -322,7 +322,9 @@ Expected outcome:
 <img src="photos/complete.jpeg" height="40"/>
 
 ### Checking modules left: `left`
-Displays the modules left, which are the modules required for the user's major that have not been completed.
+Displays the modules left, which is the remainder of subtracting modules completed (modules added to schedule planner 
+and marked as completed), from the modules required for the user's major (modules displayed for `required` command) 
+that have not been completed 
 
 ##### Format: `left`
 
@@ -333,7 +335,8 @@ User input:
 
 - Expected outcome:
 
-![ss_left_ceg.png](screenshots%2Fss_left_ceg.jpeg)
+- ![ss_left_ceg.png](screenshots%2Fss_left_ceg.png)
+
 
 ##### Example of usage 2: (major is CEG, CS1010 & GEC1000 are added and completed)
 
@@ -384,19 +387,21 @@ User input:
 `timetable show`
 
 Expected outcome:
-![ss_timetable_lessonNoExist.png](screenshots%2Fss_timetable_lessonNoExist.png)
+
+![ss_timetableShow_noLessons.png](screenshots%2Fss_timetableShow_noLessons.png)
 
 Scenario 2: The lessons have been specified in Timetable Modify Mode
-- CS2101 has a lecture at 12 for 2 hours on Monday
-- GESS1000 has a lecture at 12 for 2 hours 
+- CS2101 has a lecture at 5 for 2 hours on Monday
+- GESS1000 has a lecture at 11 for 3 hours 
 on Tuesday
-- GESS1000 has a tutorial at 8 for 2 hours on Wednesday. 
+- GESS1000 has a tutorial at 19 for 0 hours on Wednesday. 
 
 User input:
 `timetable show`
 
 Expected outcome:
-![ss_timetable_show_lessonExist.png](screenshots%2Fss_timetable_show_lessonExist.png)
+
+![ss_timetableShow_lessons.png](screenshots%2Fss_timetableShow_lessons.png)
 
 ### Modify Weekly Timetable: `timetable modify`
 
@@ -426,43 +431,40 @@ and specify its details (time, duration, day)
 - Input for TIME must be an integer from 5 to 23 (representing 5am to 11pm)
 - Input for DURATION must be an integer that is at least 0
 - If the sum of inputs for TIME and DURATION is greater than 23, only the start TIME will be displayed
-- Within the same session, deleting a current semester module and adding it back to the current semester in the main 
-menu, without running a successful timetable show or modify command in between, will not remove the module' lessons
-
 
 
 ##### Example of Usage: 
 
 User input:
-- `CS2101 LECTURE 12 2 MONDAY` 
-- `GESS1000 LECTURE 12 2 TUESDAY`
-- `GESS1000 TUTORIAL 8 2 WEDNESDAY`
+- `CS2101 LECTURE 5 2 MONDAY` 
+- `GESS1000 LECTURE 12 3 TUESDAY`
+- `GESS1000 TUTORIAL 19  WEDNESDAY`
 
-![ss_timetable_show_lessonExist.png](screenshots%2Fss_timetable_show_lessonExist.png)
+![ss_timetableModify_lessons.png](screenshots%2Fss_timetableModify_lessons.png)
 
 - `GESS1000 clear` 
 
-![ss_timetablemodify_clear.png](screenshots%2Fss_timetablemodify_clear.png)
+![ss_timetableModify_clear.png](screenshots%2Fss_timetableModify_clear.png)
 
 - `exit`
 
-![ss_timetablemodify_exit.png](screenshots%2Fss_timetablemodify_exit.png)
+![ss_timetableModify_exit.png](screenshots%2Fss_timetableModify_exit.png)
 
-### Save schedule and exit the program: `Bye`
+### Save schedule and timetable and exit the program: `Bye`
 
-Exit NUSDegs and save your current schedule into a data folder that will be in the same folder as
-where you placed `NUSDegs.jar`. The data folder will contain both the user's student detail and their schedule planner
+Exit NUSDegs and save student details, schedule and current semester timetable into a data folder that will be in 
+the same folder as where you placed `NUSDegs.jar`. The data folder will contain the user's student detail, 
+their schedule planner and their current semester timetable.
 
-##### Format: `Bye`
+##### Format: `bye`
 
 ##### Example of usage:
 
-User input: `Bye`
+User input: `bye`
 
 - Expected outcome
 
-![img.png](photos/Bye_outcome.png)
-
+![ss_bye.png](screenshots%2Fss_bye.png)
 
 
 ## FAQ
@@ -478,9 +480,9 @@ The operating system (Windows, macOS or Linux), doesn't matter.
 
 **Q**: Would my data be saved after I close NUSDegs?
 
-**A**: Yes. Currently, only your student details and schedule planner will be saved inside a data folder which will be 
-in the same folder as where you placed `NUSDegs.jar`. To access the save folder the next time you use NUSDegs, just start
-the jar file the same way and ensure that the data files have not been tempered with.
+**A**: Yes. Currently, your student details, schedule planner and current semester timetable will be saved inside a 
+data folder which will be in the same folder as where you placed `NUSDegs.jar`. To access the save folder the next 
+time you use NUSDegs, just start the jar file the same way and ensure that the data files have not been tempered with.
 
 **Q**: How is the `pace` function calculated?
 
@@ -508,5 +510,5 @@ Note: if an argument is wrapped with `[]` it means that it is optional.
 | Check current pace to graduate                 | `pace [CURRENT_SEMESTER]`         | 
 | Modify weekly timetable                        | `timetable modify`                |
 | Show weekly timetable                          | `timetable show`                  |
-| Save schedule and exit the program             | `Bye`                             |
+| Save schedule and exit the program             | `bye`                             |
 
