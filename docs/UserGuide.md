@@ -72,7 +72,7 @@ User input:
 `help`
 
 - Expected outcome:
-![ss_help.png](screenshots%2Fss_help.jpeg)
+![ss_help.png](screenshots%2Fss_help.png)
 
 ### Getting a list of required modules:`required`
 Get an overview of required modules for the user's major
@@ -322,7 +322,9 @@ Expected outcome:
 <img src="photos/complete.jpeg" height="40"/>
 
 ### Checking modules left: `left`
-Displays the modules left, which are the modules required for the user's major that have not been completed.
+Displays the modules left, which is the remainder of subtracting modules completed (modules added to schedule planner 
+and marked as completed), from the modules required for the user's major (modules displayed for `required` command) 
+that have not been completed 
 
 ##### Format: `left`
 
@@ -448,10 +450,11 @@ User input:
 
 ![ss_timetablemodify_exit.png](screenshots%2Fss_timetablemodify_exit.png)
 
-### Save schedule and exit the program: `Bye`
+### Save schedule and timetable and exit the program: `Bye`
 
-Exit NUSDegs and save your current schedule into a data folder that will be in the same folder as
-where you placed `NUSDegs.jar`. The data folder will contain both the user's student detail and their schedule planner
+Exit NUSDegs and save student details, schedule and current semester timetable into a data folder that will be in 
+the same folder as where you placed `NUSDegs.jar`. The data folder will contain the user's student detail, 
+their schedule planner and their current semester timetable.
 
 ##### Format: `Bye`
 
@@ -478,9 +481,9 @@ The operating system (Windows, macOS or Linux), doesn't matter.
 
 **Q**: Would my data be saved after I close NUSDegs?
 
-**A**: Yes. Currently, only your student details and schedule planner will be saved inside a data folder which will be 
-in the same folder as where you placed `NUSDegs.jar`. To access the save folder the next time you use NUSDegs, just start
-the jar file the same way and ensure that the data files have not been tempered with.
+**A**: Yes. Currently, your student details, schedule planner and current semester timetable will be saved inside a 
+data folder which will be in the same folder as where you placed `NUSDegs.jar`. To access the save folder the next 
+time you use NUSDegs, just start the jar file the same way and ensure that the data files have not been tempered with.
 
 **Q**: How is the `pace` function calculated?
 
@@ -508,5 +511,5 @@ Note: if an argument is wrapped with `[]` it means that it is optional.
 | Check current pace to graduate                 | `pace [CURRENT_SEMESTER]`         | 
 | Modify weekly timetable                        | `timetable modify`                |
 | Show weekly timetable                          | `timetable show`                  |
-| Save schedule and exit the program             | `Bye`                             |
+| Save schedule and exit the program             | `bye`                             |
 

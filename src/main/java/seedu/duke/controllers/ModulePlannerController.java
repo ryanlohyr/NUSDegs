@@ -1,9 +1,6 @@
 package seedu.duke.controllers;
 
-import seedu.duke.models.schema.Storage;
-import seedu.duke.models.schema.Student;
-import seedu.duke.models.schema.CommandManager;
-import seedu.duke.models.schema.UserCommand;
+import seedu.duke.models.schema.*;
 import seedu.duke.utils.Parser;
 import seedu.duke.utils.exceptions.CorruptedFileException;
 import seedu.duke.utils.exceptions.MissingFileException;
@@ -125,8 +122,15 @@ public class ModulePlannerController {
             System.out.println("Files successfully created!");
             Storage.saveSchedule(student);
 
+
         } catch (CorruptedFileException e) {
             ui.printStorageError();
+            student.setSchedule(new Schedule());
+            try {
+                student.updateTimetable();
+            } catch (TimetableUnavailableException ignoredError) {
+                //should be unavailable
+            }
         }
 
         do {

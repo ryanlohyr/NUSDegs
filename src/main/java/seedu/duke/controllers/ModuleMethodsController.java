@@ -1,13 +1,10 @@
 package seedu.duke.controllers;
 
-import seedu.duke.utils.exceptions.MandatoryPrereqException;
-import seedu.duke.utils.exceptions.FailPrereqException;
-import seedu.duke.utils.exceptions.MissingModuleException;
+import seedu.duke.utils.exceptions.*;
 import seedu.duke.models.schema.Module;
 import seedu.duke.models.schema.Student;
 import seedu.duke.utils.Parser;
 import seedu.duke.utils.errors.UserError;
-import seedu.duke.utils.exceptions.InvalidPrereqException;
 
 import java.io.IOException;
 import java.io.InvalidObjectException;
@@ -18,6 +15,7 @@ import static seedu.duke.controllers.ModuleServiceController.isConfirmedToClearS
 import static seedu.duke.models.logic.Api.doesModuleExist;
 import static seedu.duke.models.logic.Prerequisite.getModulePrereqBasedOnCourse;
 import static seedu.duke.models.schema.Storage.saveSchedule;
+import static seedu.duke.models.schema.Storage.saveTimetable;
 import static seedu.duke.utils.errors.HttpError.displaySocketError;
 import static seedu.duke.views.Ui.displayMessage;
 import static seedu.duke.views.CommandLineView.displaySuccessfulAddMessage;
@@ -135,6 +133,7 @@ public class ModuleMethodsController {
             student.printSchedule();
             try{
                 saveSchedule(student);
+                saveTimetable(student);
             }catch (IOException ignored){
                 //we ignore first as GitHub actions cant save schedule on the direcotry
             }
@@ -153,9 +152,11 @@ public class ModuleMethodsController {
             student.printSchedule();
             try{
                 saveSchedule(student);
+                saveTimetable(student);
             }catch (IOException ignored){
                 //we ignore first as GitHub actions cant save schedule on the direcotry
             }
+
         } catch (InvalidObjectException | IllegalArgumentException | MissingModuleException |
                  MandatoryPrereqException e) {
             displayMessage(e.getMessage());
@@ -177,11 +178,10 @@ public class ModuleMethodsController {
         displaySuccessfulClearMessage();
         try{
             saveSchedule(student);
+            saveTimetable(student);
         }catch (IOException e){
             throw new RuntimeException();
         }
-
-
 
     }
 
