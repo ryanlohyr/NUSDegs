@@ -7,6 +7,7 @@ import seedu.duke.models.schema.UserCommand;
 import seedu.duke.utils.Parser;
 import seedu.duke.utils.exceptions.CorruptedFileException;
 import seedu.duke.utils.exceptions.MissingFileException;
+import seedu.duke.utils.exceptions.TimetableUnavailableException;
 import seedu.duke.views.Ui;
 
 import java.io.IOException;
@@ -98,6 +99,17 @@ public class ModulePlannerController {
 
             // Load schedule from schedule.txt file
             student.setSchedule(storage.loadSchedule());
+
+            // Load timetable from timetable.txt file
+            try {
+                student.updateTimetable();
+                storage.addEventsToStudentTimetable(storage.loadTimetable(student), student);
+
+            } catch (TimetableUnavailableException e) {
+                // no modules in current sem, do nothing
+            }
+
+
             stopLoadingAnimation();
 
             String dataRetrievalSuccess = "Data successfully retrieved";
@@ -109,9 +121,9 @@ public class ModulePlannerController {
             return;
 
         } catch (MissingFileException e) {
-            System.out.println("Save file does not exist, creating new save file...");
+            System.out.println("Save files do not exist, creating new save files...");
             storage.createUserStorageFile();
-            System.out.println("File successfully created!");
+            System.out.println("Files successfully created!");
             Storage.saveSchedule(student);
 
         } catch (CorruptedFileException e) {
