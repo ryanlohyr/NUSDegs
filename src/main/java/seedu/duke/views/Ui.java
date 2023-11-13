@@ -104,21 +104,16 @@ public class Ui {
      * the corrupted file.
      *
      * @author ryanlohyr
-     * @param messages Additional error messages to be displayed.
-     * @see #stopLoadingAnimation() To stop any ongoing loading animation.
      */
-    public void printStorageError(String... messages) {
+    public void printStorageError() {
         out.println();
         out.println(DIVIDER);
-        System.out.println("Unable to retrieve any data. Your save files may be corrupted.\n" +
+        System.out.println("Unable to retrieve any data. Your save file may be corrupted.\n" +
                 "Please continue using the application to create new save files or overwrite " +
                 "the corrupted files!");
-        for (String m : messages) {
-            out.println("Storage " + m);
-        }
-        out.println("Please check ./data again");
+        out.print("Please check ./data again");
+        stopLoadingAnimation();
     }
-
 
     /**
      * Displays a loading animation in the console.

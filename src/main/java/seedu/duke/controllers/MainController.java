@@ -31,6 +31,7 @@ import static seedu.duke.models.schema.Storage.saveSchedule;
 
 
 public class ModulePlannerController {
+public class MainController {
     private final Parser parser;
     private final Student student;
     private final CommandManager commandManager;
@@ -38,7 +39,7 @@ public class ModulePlannerController {
 
     private Ui ui;
 
-    public ModulePlannerController() {
+    public MainController() {
         this.commandManager = new CommandManager();
         this.parser = new Parser();
         this.student = new Student();
@@ -77,28 +78,8 @@ public class ModulePlannerController {
             // Load name, major and year from studentDetails.txt file
             ArrayList<String> studentDetails = storage.loadStudentDetails();
 
-            int correctNumOfStudentInfo = 3;
-
-            if (studentDetails == null || studentDetails.size() != correctNumOfStudentInfo) {
-                throw new CorruptedFileException();
-            }
-            // Check if name is valid and set if yes
-            if (!parser.checkNameInput(studentDetails.get(0), commandManager.getListOfCommandNames())) {
-                throw new CorruptedFileException();
-            }
-            student.setName(studentDetails.get(0));
-
-            // Check if major is valid and set if yes
-            if (!validateMajorInput(studentDetails.get(1))) {
-                throw new CorruptedFileException();
-            }
-            student.setFirstMajor(studentDetails.get(1));
-
-            //Check if year is valid and set if yes
-            if (!Parser.isValidAcademicYear(studentDetails.get(2).toUpperCase())) {
-                throw new CorruptedFileException();
-            }
-            student.setYear(studentDetails.get(2).toUpperCase());
+            // Set name, major and year from loaded data, throws exception if file is corrupted.
+            setStudentDetails(studentDetails);
 
             // Load schedule from schedule.txt file
             student.setSchedule(storage.loadSchedule());
@@ -127,7 +108,7 @@ public class ModulePlannerController {
             System.out.println("New save files will be created.");
             //storage.createUserStorageFile();
             //System.out.println("Files successfully created!");
-            //Storage.saveSchedule(student);
+            //student.setSchedule(new Schedule());
 
 
         } catch (CorruptedFileException e) {
@@ -188,9 +169,33 @@ public class ModulePlannerController {
         saveTimetable(student);
     }
 
+    private void setStudentDetails(ArrayList<String> studentDetails) throws CorruptedFileException {
+        int correctNumOfStudentInfo = 3;
+
+        if (studentDetails == null || studentDetails.size() != correctNumOfStudentInfo) {
+            throw new CorruptedFileException();
+        }
+        // Check if name is valid and set if yes
+        if (!parser.checkNameInput(studentDetails.get(0), commandManager.getListOfCommandNames())) {
+            throw new CorruptedFileException();
+        }
+        student.setName(studentDetails.get(0));
+
+        // Check if major is valid and set if yes
+        if (!validateMajorInput(studentDetails.get(1))) {
+            throw new CorruptedFileException();
+        }
+        student.setFirstMajor(studentDetails.get(1));
+
+        //Check if year is valid and set if yes
+        if (!Parser.isValidAcademicYear(studentDetails.get(2).toUpperCase())) {
+            throw new CorruptedFileException();
+        }
+        student.setYear(studentDetails.get(2).toUpperCase());
+    }
+
     public void handleUserInputTillExitCommand() {
 
-        //Scanner in = new Scanner(System.in);
         UserCommand currentUserCommand = new UserCommand();
         while (!currentUserCommand.isBye()) {
             String userInput = ui.getUserCommand("Input command here: ");
@@ -199,7 +204,6 @@ public class ModulePlannerController {
                 currentUserCommand.processCommand(student);
             }
         }
-        //in.close();
     }
 
 
