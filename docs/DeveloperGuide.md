@@ -346,12 +346,22 @@ User Input: `timetable show`
 The following sequence diagram shows how the timetable show feature works:
 ![TimetableShowFeature_Seq.png](diagrams%2FTimetableShowFeature_Seq.png)
 
+The following sequence diagram shows how the printTimetable operation works:
+![PrintTimetable_Seq.png](diagrams%2FPrintTimetable_Seq.png)
+
 When the user's command is determined to be `timetable show`, the program implements the following operations:
 ### Function List (when timetableCommandWord == "SHOW")
 
 - `getCurrentSemesterModulesWeekly()`: Returns the ArrayList of ModuleWeekly for the current semester
 - `showTimetable(ArrayList<ModuleWeekly> currentSemModulesWeekly)`: Calls the printTimetable function 
 - `printTimetable(ArrayList<ModuleWeekly> currentSemModulesWeekly)`: Prints the Weekly Timetable to the console
+- `createDailyEvents(ArrayList<ModuleWeekly> \ncurrentSemesterModules)`: Converts the ArrayList<ModuleWeekly> to a 
+List of ArrayList<Events> for different days
+- `sortByTime(ArrayList<Event> currentDayEvents)`: Sorts Events in currentDayEvents by start time, duration, then 
+module code, in ascending order
+- `printTimetableHeader()`: Display timetable header
+- `printlnHorizontalLine()`: Display horizontal line
+- `printCurrentDayEvents(ArrayList<Event> currentDayEvents, day)`: Display the day's events
 
 ### Design considerations
 Aspect: How timetable is printed:
