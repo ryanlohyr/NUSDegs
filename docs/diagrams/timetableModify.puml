@@ -34,8 +34,6 @@ loop inTimetableModifyMode
 
 
 
-    TimetableUserCommand -> Parser: processTimetableCommand(currentSemesterModulesWeekly)
-     Parser --> TimetableUserCommand
     TimetableUserCommand -> Parser: Check validity of (arguments)
 
 
