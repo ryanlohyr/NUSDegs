@@ -252,6 +252,16 @@ public class Storage {
         }
     }
 
+    //@@author janelleenqi
+    /**
+     * Loads timetable user commands from the timetable.txt save file and processes them to update the student's
+     * timetable.
+     *
+     * @param student The student whose timetable is being updated.
+     * @return An ArrayList of TimetableUserCommand objects representing the loaded commands.
+     * @throws MissingFileException If the timetable file is missing.
+     * @throws CorruptedFileException If the timetable file is corrupted or contains invalid commands.
+     */
     public ArrayList<TimetableUserCommand> loadTimetable(Student student)
             throws MissingFileException, CorruptedFileException {
 
@@ -297,6 +307,14 @@ public class Storage {
 
     }
 
+    //@@author janelleenqi
+    /**
+     * Adds events to the student's timetable based on the provided timetable user commands.
+     *
+     * @param timetableUserCommands An ArrayList of TimetableUserCommand objects representing the commands to process.
+     * @param student               The student whose timetable is being updated.
+     * @throws CorruptedFileException If the provided timetable user commands are corrupted or contain invalid commands.
+     */
     public void addEventsToStudentTimetable(ArrayList<TimetableUserCommand> timetableUserCommands, Student student)
             throws CorruptedFileException {
         ArrayList<ModuleWeekly> currentSemModulesWeekly = student.getTimetable().getCurrentSemesterModulesWeekly();
@@ -310,6 +328,8 @@ public class Storage {
             }
         }
     }
+
+    //@@author
 
     public void saveStudentDetails (Student student) throws IOException {
 

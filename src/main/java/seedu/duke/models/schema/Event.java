@@ -1,8 +1,12 @@
 package seedu.duke.models.schema;
 
-import java.util.ArrayList;
 import java.util.List;
 
+//@@author janelleenqi
+/**
+ * Represents a scheduled event, with details like the day, start time,
+ * duration, module code, and utility methods for time calculations and comparisons.
+ */
 public class Event {
     private static final List<String> days = List.of("monday", "tuesday", "wednesday", "thursday", "friday",
             "saturday", "sunday");
@@ -11,6 +15,14 @@ public class Event {
     private int duration;
     private String moduleCode;
 
+    /**
+     * Constructs an Event object with the specified day, start time, duration, and module code.
+     *
+     * @param day        The day of the event. Must not be null.
+     * @param startTime  The start time of the event.
+     * @param duration   The duration of the event.
+     * @param moduleCode The module code associated with the event. Must not be null.
+     */
     public Event(String day, int startTime, int duration, String moduleCode) {
         this.day = day;
         this.startTime = startTime;
@@ -18,25 +30,29 @@ public class Event {
         this.moduleCode = moduleCode;
     }
 
-    public ArrayList<String> getByHour() {
-        ArrayList<String> eventByHour = new ArrayList<>();
-        int eventDurationLeft = getDuration();
-        while (eventDurationLeft > 0) {
-            String eventTimeData = getStartTime() + " " + (getStartTime() + 1);
-            eventByHour.add(eventTimeData);
-            eventDurationLeft -= 1;
-        }
-        return eventByHour;
-    }
-
+    /**
+     * Gets the start time of the event.
+     *
+     * @return The start time.
+     */
     public int getStartTime() {
         return startTime;
     }
 
+    /**
+     * Gets the duration of the event.
+     *
+     * @return The duration.
+     */
     public int getDuration() {
         return duration;
     }
 
+    /**
+     * Gets the day of the event as an integer index (0 for Monday, 1 for Tuesday, etc.).
+     *
+     * @return The index of the day.
+     */
     public int getDayInt() {
         String lowercaseDay = day.toLowerCase();
         if (!days.contains(lowercaseDay)) {
@@ -46,14 +62,29 @@ public class Event {
         return days.indexOf(lowercaseDay);
     }
 
+    /**
+     * Gets the day of the event.
+     *
+     * @return The day.
+     */
     public String getDay() {
         return day;
     }
 
+    /**
+     * Gets the event type (empty string for general events).
+     *
+     * @return The event type.
+     */
     public String getEventType() {
         return "";
     }
 
+    /**
+     * Gets the module code associated with the event.
+     *
+     * @return The module code.
+     */
     public String getModuleCode() {
         return moduleCode;
     }
@@ -107,6 +138,12 @@ public class Event {
         }
     }
 
+    /**
+     * Checks if two events are equal by comparing their day, start time, duration, and module code.
+     *
+     * @param event The event to compare with.
+     * @return true if the events are equal, false otherwise.
+     */
     public boolean equals(Event event) {
         if (this.getDayInt() != event.getDayInt()) {
             return false;
@@ -127,6 +164,13 @@ public class Event {
         return true;
     }
 
+    /**
+     * Checks if the current event is earlier than another event based on start time, duration,
+     * and module code.
+     *
+     * @param event The event to compare with.
+     * @return true if the current event is earlier, false otherwise.
+     */
     public boolean isEarlierThan(Event event) {
         // compare startTime
         if (this.startTime < event.getStartTime()) {
@@ -168,12 +212,22 @@ public class Event {
         return false; // no swap in bubble sort
     }
 
+    /**
+     * Generates a string representation of the event, which is the module code.
+     *
+     * @return The string representation of the event.
+     */
     @Override
     public String toString() {
         return moduleCode;
     }
 
 
+    /**
+     * Generates a string representation of the event for saving purposes, which is the module code.
+     *
+     * @return The string representation of the event for saving.
+     */
     public String toSave() {
         return moduleCode;
     }

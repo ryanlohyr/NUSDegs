@@ -78,6 +78,11 @@ public class Schedule {
         return MAXIMUM_SEMESTERS;
     }
 
+    /**
+     * Retrieves the ModuleList for modules planned in the schedule.
+     *
+     * @return The ModuleList containing the planned modules.
+     */
     public ModuleList getModulesPlanned() {
         return modulesPlanned;
     }
@@ -398,6 +403,14 @@ public class Schedule {
                 + module);
     }
 
+    //@@author janelleenqi
+    /**
+     * Retrieves a specific module from the planned modules based on its module code.
+     *
+     * @param moduleCode The module code of the module to retrieve.
+     * @return The Module object with the specified module code.
+     * @throws InvalidObjectException If the module with the given code is not found.
+     */
     public Module getModule(String moduleCode) throws InvalidObjectException {
         return modulesPlanned.getModule(moduleCode);
     }
