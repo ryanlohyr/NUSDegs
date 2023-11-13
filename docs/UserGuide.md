@@ -38,7 +38,31 @@ schedule and may cause the schedule to not work as intended (e.g show the incorr
 3. Users are strongly **recommended to not modify the data/schedule.txt** as well as the schedule is supposed to be sorted
 based on prerequisites. Hence, a manual modification of an invalid module into the schedule.txt file may cause your schedule info 
 to be corrupted and therefore lost!
-4. The prerequisites are calculated using NUSMods API, any inaccuracies may be due to the NUSMods API provider.
+4. The prerequisites are calculated using NUSMods API, and there are some modules that we were not able to process and a error as such will be returned.
+```
+___________________________________________________________
+Input command here: prereq cs3282
+Sorry but we could not get the prerequisite for CS3282 as NUSMods API provided it in a invalid format :<
+___________________________________________________________
+```
+
+Unfortunately for such modules, you would not be able to add them to your schedule as well! (This is something we would require more time and hopefully be able to work out in the future!)
+
+5. NUSMods has an issue where some modules are not being able to be added despite being a prerequisite
+
+For example 
+
+```
+Input command here: prereq cs3230R
+1. CS2020      2. CS1231      
+___________________________________________________________
+Input command here: prereq cs2020
+Invalid Module Name
+___________________________________________________________
+Input command here: 
+```
+
+6. Any inconsistencies in data could be due to the NUSMods api.
 
 
 ## Features
@@ -285,14 +309,14 @@ Title: Junior Seminar: The Darwinian Revolution
 Module Code: UTC1102B
 ```
 
-### Get information about a module: `info`
+### Get information about a module: `info description`
 Get information about a module using the info command, followed by the command 'description'.
 
-##### Format: `info COMMAND MODULE_CODE`
+##### Format: `info description MODULE_CODE`
 
-
-* The `COMMAND` cannot be empty.
 * The `MODULE_CODE` cannot be empty.
+
+
 
 ##### Examples of usage:
 

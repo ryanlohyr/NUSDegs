@@ -124,7 +124,7 @@ public class ModuleServiceController {
 
         while (!userInput.equals("N") && !userInput.equals(("Y"))) {
             displayMessage("Invalid input, please choose Y/N");
-            userInput = in.nextLine();
+            userInput = in.nextLine().toUpperCase();
         }
 
         return userInput.equals("Y");
