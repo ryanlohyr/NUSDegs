@@ -346,7 +346,10 @@ The required command is implemented to give users the ability to search for modu
 
 - `searchCommand(keywords)': Searches NUSModsAPI for modules containing specified keywords in the title.
 - `listAllModules()`: Returns all modules for parsing and identifying those containing a specified keyword.
--  `printDoubleTopLine()`, `printBottomLine()`, `printDoubleBottomLine()` – Displays lines for 
+- `printDoubleTopLine()`, `printBottomLine()`, `printDoubleBottomLine()` – Displays lines for 
+
+
+
 formatting
 
 ## Product scope
