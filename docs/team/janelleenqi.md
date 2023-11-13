@@ -97,4 +97,14 @@ Added implementation details of the features left, required, timetable show.
 
 #### 4. Fixed Bugs
 
-- `Bye`: was case sensitive, needed to input twice to exit
+- `Bye`: was case sensitive, needed to input twice to exit [#154](https://github.com/AY2324S1-CS2113-T17-4/tp/pull/154)
+- `timetable modify`: fix error messages (had cases with double errors, or no errors)
+- infinite loop of error messages [#139](https://github.com/AY2324S1-CS2113-T17-4/tp/pull/139)
+- `complete`: complete a completed module [#115](https://github.com/AY2324S1-CS2113-T17-4/tp/issues/115)
+
+#### 5. Testing
+SUT tests for the features Left, Required, Timetable Modify & Timetable Show, the class ModuleList
+
+##### 6. Community
+- PRs reviewed: [#38](https://github.com/AY2324S1-CS2113-T17-4/tp/pull/38#pullrequestreview-1721555155), [#152](https://github.com/AY2324S1-CS2113-T17-4/tp/pull/152), [#155](https://github.com/AY2324S1-CS2113-T17-4/tp/pull/155#pullrequestreview-1721581031), [#157](https://github.com/AY2324S1-CS2113-T17-4/tp/pull/157#pullrequestreview-1719360399) 
+- Made `timetable modify` less bug prone

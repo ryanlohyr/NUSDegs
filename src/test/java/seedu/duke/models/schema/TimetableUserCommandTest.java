@@ -47,8 +47,7 @@ class TimetableUserCommandTest {
         }
 
         System.setOut(new PrintStream(outputStream));
-        student.setCurrentSemesterModules();
-        student.setCurrentSemesterModulesWeekly();
+        student.updateTimetable();
 
         TimetableUserCommand currentTimetableCommand = new TimetableUserCommand(student,
                 student.getTimetable().getCurrentSemesterModulesWeekly(), "cs1010 lecture 9 2 Monday");
@@ -89,8 +88,7 @@ class TimetableUserCommandTest {
         }
 
         System.setOut(new PrintStream(outputStream));
-        student.setCurrentSemesterModules();
-        student.setCurrentSemesterModulesWeekly();
+        student.updateTimetable();
 
         assertThrows(InvalidTimetableUserCommandException.class,
                 () -> badInput("cs1010 lecture 9 2 Mon"));
@@ -107,8 +105,7 @@ class TimetableUserCommandTest {
         }
 
         System.setOut(new PrintStream(outputStream));
-        student.setCurrentSemesterModules();
-        student.setCurrentSemesterModulesWeekly();
+        student.updateTimetable();
 
         assertThrows(InvalidTimetableUserCommandException.class,
                 () -> badInput("cs1010 lect 9 2 Monday"));

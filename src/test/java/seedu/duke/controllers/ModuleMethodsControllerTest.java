@@ -113,7 +113,7 @@ class ModuleMethodsControllerTest {
 
     @Test
     void showModulesLeftTest_arrayListModules_expectModulesLeft() {
-        String expectedOutput = "Modules Left: \n" +
+        String expectedOutput = "Required Modules Left: \n" +
                 "1. GEA1000     2. MA1521      3. IS1108      4. MA1522      5. CS1231S     \n" +
                 "6. ES2660      7. CS2101      8. CS1101S     9. GESS1000    10. GEN2000";
 
