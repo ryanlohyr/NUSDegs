@@ -65,6 +65,7 @@ public class MainController {
         saveStudentData(storage,student);
         displayGoodbye();
     }
+
     //@@author SebasFok
     /**
      * Initializes the user by attempting to load data from save files. If successful, sets the user details,
@@ -77,8 +78,10 @@ public class MainController {
 
         storage = new Storage();
         try {
-            System.out.println("Attempting to retrieve data from save file... Sorry this takes a while!");
+            System.out.println("Attempting to look for your data file...");
+
             showLoadingAnimation();
+
             // Load name, major and year from studentDetails.txt file
             ArrayList<String> studentDetails = storage.loadStudentDetails();
 
@@ -110,23 +113,11 @@ public class MainController {
 
         } catch (MissingFileException e) {
             stopLoadingAnimation();
-            System.out.println("New save files will be created.");
-            //storage.createUserStorageFile();
-            //System.out.println("Files successfully created!");
-            //student.setSchedule(new Schedule());
-
+            System.out.println("Looks like you're new, new save files will be created.");
 
         } catch (CorruptedFileException e) {
+            stopLoadingAnimation();
             ui.printStorageError();
-            //student.setSchedule(new Schedule());
-            /*
-            try {
-                student.updateTimetable();
-            } catch (TimetableUnavailableException ignoredError) {
-                //should be unavailable
-            }
-
-            */
         }
 
         resetStorageData();

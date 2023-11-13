@@ -110,7 +110,7 @@ public class Ui {
         System.out.println("Unable to retrieve any data. Your save file may be corrupted.\n" +
                 "Please continue using the application to create new save files or overwrite " +
                 "the corrupted files!");
-        out.print("Please check ./data again");
+        out.println("Please check ./data again");
         stopLoadingAnimation();
     }
 
@@ -126,7 +126,7 @@ public class Ui {
      *
      */
     public static void showLoadingAnimation() {
-        String[] animationChars = {"(.O_O.)","(.o_o.)","(.<_<.)","(.^_^.)"};
+        String[] animationChars = {"(.O_O.)","(.o_o.)","(.<_<.)","(.>_>.)","(.>_<.)","(.^_^.)"};
         loadingThread = new Thread(() -> {
             int i = 0;
             while (!Thread.currentThread().isInterrupted()) {
@@ -154,6 +154,13 @@ public class Ui {
     public static void stopLoadingAnimation() {
         if (loadingThread != null && loadingThread.isAlive()) {
             loadingThread.interrupt();
+            try {
+                // Wait for the loading thread to finish
+                loadingThread.join();
+            } catch (InterruptedException e) {
+                // Handle the interruption if needed
+                Thread.currentThread().interrupt();  // Restore interrupted status
+            }
         }
     }
 }

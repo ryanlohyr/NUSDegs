@@ -96,7 +96,7 @@ public class ModuleMethodsController {
      *                        It should not be null.
      */
     public static void showModulesLeft(ArrayList<String> moduleCodesLeft) {
-        displayMessage("Modules Left: ");
+        displayMessage("Required Modules Left: ");
         printModuleStringArray(moduleCodesLeft);
     }
 

@@ -48,7 +48,7 @@ public class LeftFeatureTest {
                 .replaceAll("\r", "\n");
 
         // Assert the printed output matches the expected value
-        String expectedOutput = "Modules Left: \n" +
+        String expectedOutput = "Required Modules Left: \n" +
                 "1. CG1111A     2. MA1511      3. MA1512      4. CS1010      5. GESS1000    \n" +
                 "6. GEC1000     7. GEN2000     8. ES2631      9. GEA1000     10. DTK1234    \n" +
                 "11. EG1311     12. IE2141     13. EE2211     14. EG2501     15. CDE2000    \n" +
