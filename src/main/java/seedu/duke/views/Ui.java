@@ -110,14 +110,15 @@ public class Ui {
     public void printStorageError(String... messages) {
         out.println();
         out.println(DIVIDER);
-        System.out.println("Unable to retrieve any data. Your save file may be corrupted.\n" +
-                "Please continue using the application to create a new save file or overwrite " +
-                "the corrupted file!");
+        System.out.println("Unable to retrieve any data. Your save files may be corrupted.\n" +
+                "Please continue using the application to create new save files or overwrite " +
+                "the corrupted files!");
         for (String m : messages) {
             out.println("Storage " + m);
         }
         out.println("Please check ./data again");
     }
+
 
     /**
      * Displays a loading animation in the console.

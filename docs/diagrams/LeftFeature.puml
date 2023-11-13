@@ -31,6 +31,13 @@ UC --> A: currentUserCommand "left"
 
 A -> UC: processCommand()
 
+UC -> S: getModuleCodesLeft()
+
+
+
+
+
+
 A -> S: getModulesMajor()
 
 S --> A: Return modulesMajor:ModuleList
