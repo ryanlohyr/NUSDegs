@@ -148,6 +148,16 @@ public class Student {
         }
     }
 
+    /**
+     * Adds a module to the student's schedule for a specified semester.
+     *
+     * @author SebasFok
+     * @param moduleCode The code of the module to be added.
+     * @param targetSem  The semester in which the module will be added.
+     * @throws IllegalArgumentException If the target semester is not valid.
+     * @throws InvalidObjectException   If the module code is invalid or does not exist.
+     * @throws FailPrereqException      If the module cannot be added due to unsatisfied prerequisites.
+     */
     public void addModuleToSchedule(String moduleCode, int targetSem) throws IllegalArgumentException,
             InvalidObjectException, FailPrereqException {
         this.schedule.addModule(moduleCode, targetSem);
@@ -199,11 +209,29 @@ public class Student {
         }
     }
 
+    /**
+     * Shifts a module within the student's schedule to a different semester.
+     *
+     * @author SebasFok
+     * @param moduleCode The code of the module to be shifted.
+     * @param targetSem  The target semester to which the module will be shifted.
+     * @throws IllegalArgumentException   If the target semester is not valid.
+     * @throws FailPrereqException          If shifting the module fails due to unsatisfied prerequisites.
+     * @throws MissingModuleException      If the module to be shifted is missing from the schedule.
+     * @throws IOException                 If an I/O error occurs during the shift operation.
+     * @throws MandatoryPrereqException    If shifting the module violates mandatory prerequisites.
+     */
     public void shiftModuleInSchedule(String moduleCode, int targetSem) throws IllegalArgumentException,
             FailPrereqException, MissingModuleException, IOException, MandatoryPrereqException {
         this.schedule.shiftModule(moduleCode, targetSem);
     }
 
+    /**
+     * Clears all modules from the student's schedule, resetting it to an empty schedule.
+     * Also resets the completed module credits to zero.
+     *
+     * @author SebasFok
+     */
     public void clearAllModulesFromSchedule() {
         //Replaces current schedule with new schedule
         this.schedule = new Schedule();
