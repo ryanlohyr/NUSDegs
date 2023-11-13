@@ -69,7 +69,7 @@ Input command here:
 - [View modules required for major: `required`](#getting-a-list-of-required-modulesrequired)
 - [Check prerequisite for a module: `prereq`](#view-module-prerequisitesprereq)
 - [Search for modules based on keywords: `search`](#searching-for-a-module-by-title-search)
-- [View info about a module: `info`](#get-information-about-a-module-info)
+- [View info about a module: `info`](#get-information-about-a-module-info-description)
 - [View schedule planner: `schedule`](#view-schedule-planner-schedule)
 - [Recommend a schedule based on major: `recommend`](#view-recommended-schedule-based-on-course-recommend)
 - [Add module to schedule planner: `add`](#add-module-to-schedule-planner-add)
@@ -814,5 +814,5 @@ Note: if an argument is wrapped with `[]` it means that it is optional.
 | Check current pace to graduate                 | `pace [CURRENT_SEMESTER]`         | 
 | Modify weekly timetable                        | `timetable modify`                |
 | Show weekly timetable                          | `timetable show`                  |
-| Save schedule and exit the program             | `bye`                             |
+| Save schedule and timetable and exit the program             | `bye`                             |
 
