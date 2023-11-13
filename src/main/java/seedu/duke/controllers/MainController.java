@@ -30,7 +30,6 @@ import static seedu.duke.views.Ui.stopLoadingAnimation;
 import static seedu.duke.models.schema.Storage.saveSchedule;
 
 
-public class ModulePlannerController {
 public class MainController {
     private final Parser parser;
     private final Student student;
