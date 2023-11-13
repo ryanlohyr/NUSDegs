@@ -814,5 +814,5 @@ Note: if an argument is wrapped with `[]` it means that it is optional.
 | Check current pace to graduate                 | `pace [CURRENT_SEMESTER]`         | 
 | Modify weekly timetable                        | `timetable modify`                |
 | Show weekly timetable                          | `timetable show`                  |
-| Save schedule and exit the program             | `bye`                             |
+| Save schedule and timetable and exit the program             | `bye`                             |
 
