@@ -43,7 +43,7 @@ public class CommandManager {
 
                 new Command("complete", "MODULE_CODE",
                         "Marks a module as complete on schedule planner."),
-                new Command("left", "Displays a list of remaining modules."),
+                new Command("left", "Displays a list of remaining required modules."),
                 new Command("pace", "[CURRENT_SEMESTER]", "Computes and displays your graduation pace."),
 
                 new Command("timetable", "COMMAND", "Displays a grid containing this semester's classes"),
