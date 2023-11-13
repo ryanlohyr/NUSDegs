@@ -246,7 +246,7 @@ public class Student {
      */
     public ArrayList<String> getModuleCodesLeft() {
         ArrayList<String> moduleCodesLeft = new ArrayList<String>();
-        ArrayList<String> completedModuleCodes = schedule.getModulesPlanned().getModulesCompleted();
+        ArrayList<String> completedModuleCodes = schedule.getModulesPlanned().getCompletedModuleCodes();
 
         for (String moduleCode : majorModuleCodes) {
             if (!completedModuleCodes.contains(moduleCode)) {

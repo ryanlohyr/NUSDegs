@@ -1,0 +1,62 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+'autonumber
+autoactivate on
+
+actor Student
+
+participant ":Ui" as UI
+
+Student -> UI: getUser\nCommand() \n"required"
+note bottom
+This command
+returns the
+modules required
+for the user's
+major to the user
+end note
+
+participant "controller:\nMain\nController" as MC #white
+
+UI -> MC: handleUser\nInputTillExit\nCommand()
+
+participant "currentUser\nCommand:\nUserCommand" as UC #white
+
+
+
+MC -> UC **: create
+activate UC
+UC --> MC: currentUser\nCommand "required"
+
+MC -> UC: processCommand()
+
+participant ":ModuleMethods\nController" as MMC
+participant ":Module\nRequirements\nView" as MRV
+
+box "Model" #LightBlue
+participant "student:\nStudent" as S #white
+end box
+
+
+UC -> S: getMajor()
+S --> UC: major:String
+
+UC -> MMC: getRequired\nModulesFor\nStudent()
+MMC -> MRV: printRequired\nModules\n(major:String)
+alt major == "CEG"
+    MRV -> MRV: printRequired\nModulesCEG()
+    MRV --> MRV: display
+else major == "CS"
+    MRV -> MRV: printRequired\nModulesCS()
+    MRV --> MRV: display
+end
+MRV --> MMC
+MMC --> UC
+
+
+UC --> MC: Display Required \nModules
+MC --> UI
+UI --> Student
+
+@enduml

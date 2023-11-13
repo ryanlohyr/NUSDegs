@@ -287,7 +287,7 @@ public class Storage {
         for (TimetableUserCommand currentTimetableCommand : timetableUserCommands) {
             //not exit, not clear
             try {
-                currentTimetableCommand.processTimetableCommand(currentSemModulesWeekly);
+                currentTimetableCommand.processTimetableCommandLesson(currentSemModulesWeekly);
             } catch (InvalidTimetableUserCommandException e) {
                 //corrupted
                 throw new CorruptedFileException();
