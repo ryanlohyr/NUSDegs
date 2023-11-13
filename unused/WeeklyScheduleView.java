@@ -236,3 +236,59 @@ public class WeeklyScheduleView {
 
 
 }
+
+/*
+public ArrayList<String> getByHour() {
+    ArrayList<String> eventByHour = new ArrayList<>();
+    int eventDurationLeft = getDuration();
+    while (eventDurationLeft > 0) {
+        String eventTimeData = getStartTime() + " " + (getStartTime() + 1);
+        eventByHour.add(eventTimeData);
+        eventDurationLeft -= 1;
+    }
+    return eventByHour;
+}
+
+@Override
+public ArrayList<String> getByHour () {
+    ArrayList<String> tutorialByHour = new ArrayList<>();
+
+    int eventDurationLeft = getDuration();
+    while (eventDurationLeft > 0) {
+        String tutorialTimeData = "T " + getStartTime() + " " + (getStartTime() + 1);
+        tutorialByHour.add(tutorialTimeData);
+        eventDurationLeft -= 1;
+    }
+
+    return tutorialByHour;
+}
+
+@Override
+public ArrayList<String> getByHour () {
+    ArrayList<String> tutorialByHour = new ArrayList<>();
+
+    int eventDurationLeft = getDuration();
+    while (eventDurationLeft > 0) {
+        String tutorialTimeData = "T " + getStartTime() + " " + (getStartTime() + 1);
+        tutorialByHour.add(tutorialTimeData);
+        eventDurationLeft -= 1;
+    }
+
+    return tutorialByHour;
+}
+
+
+@Override
+public ArrayList<String> getByHour () {
+    ArrayList<String> tutorialByHour = new ArrayList<>();
+
+    int eventDurationLeft = getDuration();
+    while (eventDurationLeft > 0) {
+        String tutorialTimeData = "T " + getStartTime() + " " + (getStartTime() + 1);
+        tutorialByHour.add(tutorialTimeData);
+        eventDurationLeft -= 1;
+    }
+
+    return tutorialByHour;
+}
+*/

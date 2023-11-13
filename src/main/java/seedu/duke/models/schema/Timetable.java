@@ -23,9 +23,15 @@ public class Timetable {
         currentSemesterModulesWeekly.remove(module);
     }
 
+    //@@author janelleenqi
+    /**
+     * Removes all ModuleWeekly from the current semester's weekly schedule.
+     */
     public void removeAll() {
         currentSemesterModulesWeekly = new ArrayList<>();
     }
+
+    //@@author
 
     public ArrayList<ModuleWeekly> getCurrentSemesterModulesWeekly() {
         return currentSemesterModulesWeekly;
@@ -48,9 +54,13 @@ public class Timetable {
         }
     }
 
-
-
-
+    //@@author janelleenqi
+    /**
+     * Checks if there are any lessons in the current semester's weekly schedule, indicating the availability
+     * of a timetable view.
+     *
+     * @return true if there are lessons present, indicating timetable view can be printed, else otherwise.
+     */
     public boolean timetableViewIsAvailable() {
         for (ModuleWeekly moduleWeekly : currentSemesterModulesWeekly) {
             if (moduleWeekly.haveLessons()) {
@@ -60,6 +70,7 @@ public class Timetable {
         return false;
     }
 
+    //@@author
 
 
     /**
@@ -134,6 +145,11 @@ public class Timetable {
 
     }
 
+    /**
+     * Retrieves the timetable associated with the current user or context.
+     *
+     * @return The Timetable object representing the timetable.
+     */
     public Timetable getTimetable() {
         return timetable;
     }
