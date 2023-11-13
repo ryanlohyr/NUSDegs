@@ -1,9 +1,5 @@
 package seedu.duke.models.schema;
 
-
-import org.json.simple.JSONArray;
-import seedu.duke.utils.exceptions.InvalidModuleCodeException;
-import seedu.duke.models.logic.Api;
 import seedu.duke.utils.errors.UserError;
 
 import java.util.ArrayList;
@@ -27,13 +23,11 @@ public class ModuleWeekly extends Module {
         this.lectureTime = lectureTime;
         this.tutorialTime = tutorialTime;
         this.labTime = labTime;
-        //getDuration(moduleCode);
     }
 
     public ModuleWeekly(String moduleCode) {
         super(moduleCode);
         this.moduleCode = moduleCode;
-        //getDuration(moduleCode);
         this.lectureTime = 8;
         this.labTime = 7;
         this.lectureDuration = 1;
@@ -65,47 +59,11 @@ public class ModuleWeekly extends Module {
         return labTime;
     }
 
-    public int getLectureDuration() {
-        return lectureDuration;
-    }
-
-    public int getLabDuration() {
-        return labDuration;
-    }
-
-    public int getTutorialDuration() {
-        return tutorialDuration;
-    }
-
-    // Setter methods for ModuleWeekly specific fields
-
-    public void setLectureTime(int lectureTime) {
-        this.lectureTime = lectureTime;
-    }
-
-    public void setTutorialTime(int tutorialTime) {
-        this.tutorialTime = tutorialTime;
-    }
 
     public void setDay(String day) {
         this.day = day;
     }
 
-    public void setLabTime(int labTime) {
-        this.labTime = labTime;
-    }
-
-    public void setLectureDuration(int lectureDuration) {
-        this.lectureDuration = lectureDuration;
-    }
-
-    public void setLabDuration(int labDuration) {
-        this.labDuration = labDuration;
-    }
-
-    public void setTutorialDuration(int tutorialDuration) {
-        this.tutorialDuration = tutorialDuration;
-    }
 
     public boolean exists(Event newEvent) {
         for (Event existingEvent : lessons) {
@@ -149,9 +107,6 @@ public class ModuleWeekly extends Module {
         }
     }
 
-
-
-    //functions to alter lessons
 
     public void clearLessons() {
         lessons.clear();
