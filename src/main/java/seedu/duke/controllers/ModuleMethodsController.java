@@ -92,9 +92,9 @@ public class ModuleMethodsController {
         printModuleStringArray(moduleCodesLeft);
     }
 
-    public static void addModule(String module, int targetSem, Student student) {
+    public static void executeAddModuleCommand(String module, int targetSem, Student student) {
         try {
-            student.addModuleSchedule(module, targetSem);
+            student.addModuleToSchedule(module, targetSem);
             displaySuccessfulAddMessage();
             student.printSchedule();
             try{
@@ -149,9 +149,9 @@ public class ModuleMethodsController {
      * @param module  The code or identifier of the module to be deleted.
      * @param student The student object whose schedule is being updated.
      */
-    public static void deleteModule(String module, Student student) {
+    public static void executeDeleteModuleCommand(String module, Student student) {
         try {
-            student.deleteModuleSchedule(module);
+            student.deleteModuleFromSchedule(module);
             displaySuccessfulDeleteMessage();
             student.printSchedule();
             try{
@@ -168,9 +168,9 @@ public class ModuleMethodsController {
         }
     }
 
-    public static void shiftModule(String module, int targetSem, Student student) {
+    public static void executeShiftModuleCommand(String module, int targetSem, Student student) {
         try {
-            student.shiftModuleSchedule(module, targetSem);
+            student.shiftModuleInSchedule(module, targetSem);
             displaySuccessfulShiftMessage();
             student.printSchedule();
             try{
@@ -191,7 +191,7 @@ public class ModuleMethodsController {
         }
     }
 
-    public static void clearSchedule(Student student){
+    public static void executeClearScheduleCommand(Student student){
         if(!isConfirmedToClearSchedule()){
             displayUnsuccessfulClearMessage();
             return;

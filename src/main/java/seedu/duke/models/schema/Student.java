@@ -148,7 +148,7 @@ public class Student {
         }
     }
 
-    public void addModuleSchedule(String moduleCode, int targetSem) throws IllegalArgumentException,
+    public void addModuleToSchedule(String moduleCode, int targetSem) throws IllegalArgumentException,
             InvalidObjectException, FailPrereqException {
         this.schedule.addModule(moduleCode, targetSem);
     }
@@ -183,7 +183,7 @@ public class Student {
      * @param moduleCode The code of the module to be deleted.
      * @throws MandatoryPrereqException If deleting the module fails due to prerequisite dependencies.
      */
-    public void deleteModuleSchedule(String moduleCode) throws
+    public void deleteModuleFromSchedule(String moduleCode) throws
             MandatoryPrereqException,
             MissingModuleException,
             IOException {
@@ -199,7 +199,7 @@ public class Student {
         }
     }
 
-    public void shiftModuleSchedule(String moduleCode, int targetSem) throws IllegalArgumentException,
+    public void shiftModuleInSchedule(String moduleCode, int targetSem) throws IllegalArgumentException,
             FailPrereqException, MissingModuleException, IOException, MandatoryPrereqException {
         this.schedule.shiftModule(moduleCode, targetSem);
     }
