@@ -101,7 +101,6 @@ public class Schedule {
 
     /**
      * Adds a recommended schedule list to the current schedule, updating completion statuses if needed.
-     *
      * This method adds a list of recommended schedule modules to the current schedule. You can choose to
      * either keep or clear the completion statuses of modules. The recommended schedule modules are added
      * to the schedule, taking into account prerequisites and distributing them across semesters based on
@@ -109,28 +108,18 @@ public class Schedule {
      *
      * @author ryanlohyr
      * @param scheduleToAdd The list of recommended schedule modules to add.
-     * @param keep          A boolean indicating whether to keep or clear completion statuses.
-     *                     If true, completion statuses are kept; if false, completion statuses are cleared.
      */
-    public void addRecommendedScheduleListToSchedule(ArrayList<String> scheduleToAdd, boolean keep) {
-        //update to store completion statuses
-        if (keep) {
-            completedModules = modulesPlanned.newHashMapOfCompleted();
-        } else {
-            completedModules.clear();
-        }
+    public void addRecommendedScheduleListToSchedule(ArrayList<String> scheduleToAdd) {
 
         final int modsToAddPerSem = 5;
         int currentIndexOfMod = 0;
         int currentSem = 1;
 
-        //overwrite
         modulesPlanned = new ModuleList();
         modulesPerSem = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
 
         for (String module : scheduleToAdd) {
             // Check if the module fulfill pre req, else we move it to next sem
-            // ModuleList completedModules = new ModuleList(String.join(" ", getMainModuleList()));
             int indexToAdd = 0;
             for (int i = 1; i < currentSem; i++) {
                 indexToAdd += this.modulesPerSem[i - 1];
@@ -224,6 +213,7 @@ public class Schedule {
     /**
      * Deletes a module from the schedule by its module code.
      *
+     * @author ryanlohyr
      * @param module The module code to be deleted from the schedule.
      * @throws MandatoryPrereqException If the module to be deleted is a prerequisite for other modules in the schedule.
      * @throws MissingModuleException If the provided module code is not valid, the module is not in the schedule
@@ -268,36 +258,6 @@ public class Schedule {
 
         modulesPerSem[targetSem - 1] -= 1;
 
-        //        completedModules.deleteModulebyCode(module);
-        //        int nextSemStartingIndex = moduleCount;
-        //
-        //        int lastModuleIndex = modulesPlanned.getMainModuleList().size() - 1;
-        //        List<String> completedModulesArray = modulesPlanned.getModuleCodes().subList(0, nextSemStartingIndex);
-        //        ModuleList completedModules = new ModuleList(String.join(" ", completedModulesArray));
-        //        completedModules.deleteModulebyCode(module);
-        //
-        //        List<String> modulesAheadArray;
-        //        try {
-        //       modulesAheadArray = modulesPlanned.getModuleCodes().subList(nextSemStartingIndex, lastModuleIndex + 1);
-        //        } catch (IndexOutOfBoundsException | IllegalArgumentException e) {
-        //            modulesAheadArray = new ArrayList<>();
-        //        }
-        //
-        //        try {
-        //            for (String moduleAhead : modulesAheadArray){
-        //                if (!satisfiesAllPrereq(moduleAhead, completedModules)) {
-        //                   throw new FailPrereqException("Unable to delete module. This module is a prerequisite for "
-        //                            + moduleAhead);
-        //                }
-        //            }
-        //        } catch (IllegalArgumentException e) {
-        //            // This catch should never occur as it should not be possible to add an invalid module
-        //            assert false;
-        //            throw new IllegalArgumentException("Invalid Module in Schedule");
-        //        }
-
-        //        modulesPerSem[targetSem - 1] -= 1;
-        //
     }
 
     public void shiftModule(String module, int targetSem) throws IllegalArgumentException,
@@ -407,46 +367,44 @@ public class Schedule {
         return modulesPlanned.getModule(moduleCode);
     }
 
+    /**
+     * Completes the given module, checking prerequisites if applicable.
+     * @author ryanlohyr
+     * @param module        The module to be completed.
+     * @param modulePrereq The list of prerequisites for the module.
+     * @throws FailPrereqException   If prerequisites are not met.
+     * @throws InvalidObjectException If the module is invalid.
+     */
     public void completeModule(Module module, ArrayList<String> modulePrereq) throws
             FailPrereqException,
             InvalidObjectException {
-        //we will slice from semester 0 to 1 semester before the target module,
-        //we will then check if the modules in the pre req array are
-        //we need to determine the semester of the module
+
         String moduleCode = module.getModuleCode();
         int targetIndex = modulesPlanned.getIndexByString(moduleCode);
         int targetSem = 1;
         int moduleCount = modulesPerSem[0];
 
+        // finding the index of the target module
         while ((moduleCount - 1) < targetIndex) {
             moduleCount += modulesPerSem[targetSem];
             targetSem += 1;
         }
 
+        //Array of modules that are before target module
         List<String> partialModulesPlannedArray = modulesPlanned.getModuleCodes().subList(0, (moduleCount));
-        //we need to get the pre requisites of the module,
-        //for each prerequissite, we need to locate the module, check if its completed
-        //if not completed, throw error
+
+        //if there are no prerequisites, we can just mark the module as complicated
         if(modulePrereq == null){
-            modulePrereq = new ArrayList<>();
+            module.markModuleAsCompleted();
+            return;
         }
+
         for(String currModule: modulePrereq){
             if(partialModulesPlannedArray.contains(currModule) && !getModule(currModule).getCompletionStatus()){
                 throw new FailPrereqException(moduleCode);
             }
         }
-
-
-
-        //        System.out.println(partialModulesPlannedArray);
-        //        if(!satisfiesAllPrereq(moduleCode, partialModulesPlanned)){
-        //            throw new IllegalArgumentException("Please select a valid module");
-        //        }
-
         module.markModuleAsCompleted();
-
-
-
     }
 
     /**

@@ -10,6 +10,15 @@ import java.net.Socket;
 import static seedu.duke.utils.errors.HttpError.displaySocketError;
 import static seedu.duke.views.Ui.displayGoodbye;
 
+/**
+ * Utility class containing reusable functions for various tasks.
+ * This class provides a set of static methods that can be used across different parts of an application.
+ * The methods cover tasks such as checking internet reachability, handling internet connection detection,
+ * and saving student data to storage.
+ *
+ * Note: Some methods in this class may throw IOException in case of errors, and appropriate error
+ * messages are displayed to the console.
+ */
 public class Utility {
     public static boolean isInternetReachable() {
         try (Socket socket = new Socket()) {
@@ -39,16 +48,4 @@ public class Utility {
             System.out.println("Unable to save data.");
         }
     }
-
-    /*Sebestians version
-    private static boolean isInternetReachable() {
-        try {
-            // Try connecting to a well-known server (Google's DNS server)
-            InetAddress address = InetAddress.getByName("8.8.8.8");
-            return address.isReachable(3000); // 3 seconds timeout
-        } catch (java.io.IOException e) {
-            return false; // Unable to connect
-        }
-    }
-    */
 }

@@ -9,7 +9,6 @@ import seedu.duke.utils.exceptions.MissingModuleException;
 import seedu.duke.utils.exceptions.TimetableUnavailableException;
 
 import seedu.duke.utils.Parser;
-import seedu.duke.views.TimetableView;
 
 import java.io.IOException;
 import java.io.InvalidObjectException;
@@ -149,7 +148,7 @@ public class Student {
         }
     }
 
-    public void addModuleSchedule(String moduleCode, int targetSem) throws IllegalArgumentException,
+    public void addModuleToSchedule(String moduleCode, int targetSem) throws IllegalArgumentException,
             InvalidObjectException, FailPrereqException {
         this.schedule.addModule(moduleCode, targetSem);
     }
@@ -184,7 +183,7 @@ public class Student {
      * @param moduleCode The code of the module to be deleted.
      * @throws MandatoryPrereqException If deleting the module fails due to prerequisite dependencies.
      */
-    public void deleteModuleSchedule(String moduleCode) throws
+    public void deleteModuleFromSchedule(String moduleCode) throws
             MandatoryPrereqException,
             MissingModuleException,
             IOException {
@@ -200,7 +199,7 @@ public class Student {
         }
     }
 
-    public void shiftModuleSchedule(String moduleCode, int targetSem) throws IllegalArgumentException,
+    public void shiftModuleInSchedule(String moduleCode, int targetSem) throws IllegalArgumentException,
             FailPrereqException, MissingModuleException, IOException, MandatoryPrereqException {
         this.schedule.shiftModule(moduleCode, targetSem);
     }
@@ -363,14 +362,16 @@ public class Student {
             this.updateTimetable();
             //this.setCurrentSemesterModules();
             //this.setCurrentSemesterModulesWeekly();
+            ModuleServiceController moduleServiceController = new ModuleServiceController();
             argument = argument.trim().toUpperCase().replace("\r", "");
             switch (argument) {
             case "SHOW": {
-                TimetableView.printTimetable(timetable.getCurrentSemesterModulesWeekly());
+                moduleServiceController.showTimetable(timetable.getCurrentSemesterModulesWeekly());
+                //TimetableView.printTimetable(timetable.getCurrentSemesterModulesWeekly());
                 break;
             }
             case "MODIFY": {
-                ModuleServiceController moduleServiceController = new ModuleServiceController();
+
                 moduleServiceController.modifyTimetable(this);
                 break;
             }
