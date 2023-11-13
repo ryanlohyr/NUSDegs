@@ -40,9 +40,11 @@ public class UserCommand implements UserCommandWord {
      */
     public UserCommand(String userInput) {
         this.userInput = userInput.trim();
-        commandWord = parseCommand(userInput);
-        arguments = parseArguments(userInput);
         this.commandManager = new CommandManager();
+
+        commandWord = parseCommand(this.userInput);
+        arguments = parseArguments(this.userInput);
+
 
         if (!commandManager.getListOfCommandNames().contains(commandWord)){
             UserError.displayInvalidInputCommand(commandWord);

@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-import static seedu.duke.models.schema.Storage.getRequirements;
+import static seedu.duke.storage.StorageManager.getRequirements;
 
 public class Prerequisite {
 
@@ -160,7 +160,6 @@ public class Prerequisite {
             ArrayList<String> courseRequirements,
             String currRequisite) throws ClassCastException {
         try {
-
             int lengthOfModulePreReqArray = modulePrereqArray.size();
 
             // we keep a counter as if no preclusion is a module requirement for the major
@@ -171,7 +170,7 @@ public class Prerequisite {
                 if (module instanceof String) {
                     String formattedModule = ((String) module).split(":")[0];
                     formattedModule = formattedModule.replace("%", "");
-                    if (courseRequirements.contains(formattedModule)) {
+                    if (courseRequirements.contains(formattedModule) || currRequisite.equals("and")) {
                         prerequisites.add(formattedModule);
                         if (currRequisite.equals("or")) {
                             return;
@@ -190,10 +189,7 @@ public class Prerequisite {
                     JSONObject moduleJSON = (JSONObject) module;
 
                     if (moduleJSON.containsKey("nOf")) {
-                        String key = "and";
-                        ArrayList<ArrayList<Objects>> initial = (ArrayList<ArrayList<Objects>>) moduleJSON.get("nOf");
-                        ArrayList<Objects> formattedInitial = initial.get(1);
-                        flattenPrereq(major, prerequisites, formattedInitial, courseRequirements, key);
+                        throw new ClassCastException();
                     } else {
                         String key = (String) moduleJSON.keySet().toArray()[0];
 
@@ -201,7 +197,6 @@ public class Prerequisite {
 
                         flattenPrereq(major, prerequisites, initial, courseRequirements, key);
                     }
-
 
                 }
                 counter += 1;
@@ -292,7 +287,7 @@ public class Prerequisite {
      */
     static boolean isModuleException(String moduleCode) {
         ArrayList<String> exemptedModules = new ArrayList<>(List.of("CS1231", "CS1231S", "MA1508E", "EE4204",
-                "MA1511", "MA1512", "MA1521", "MA1522"));
+                "MA1511", "MA1512", "MA1521", "MA1522", "CS2109S"));
 
         return exemptedModules.contains(moduleCode);
     }
@@ -317,6 +312,12 @@ public class Prerequisite {
         list3.add("ST2334");
         map.put("EE4204", list3);
 
+        ArrayList<String> list4 = new ArrayList<>();
+        list4.add("CS2040S");
+        list4.add("CS1231S");
+        list4.add("MA1521");
+        map.put("CS2109S", list4);
+
         ArrayList<String> emptyList = new ArrayList<>();
 
         map.put("MA1511", emptyList);
@@ -328,6 +329,7 @@ public class Prerequisite {
         map.put("MA1521", emptyList);
 
         map.put("MA1522", emptyList);
+
 
         return map.get(moduleCode);
     }

@@ -4,6 +4,10 @@ background-image: linear-gradient(to right, #370505, #5b2829, #814c4c, #a97171, 
 </h1>
 
 <h1>
+<span style="background-image: linear-gradient(to right, #14499b, #0065b7, #0081d1, #009ee9, #00bcff);
+-webkit-background-clip: text; color: transparent;">N</span>US 
+<span style="background-image: linear-gradient(to right, #e50000, #e84034, #e6615a, #de7e7b, #d19999);
+-webkit-background-clip: text; color: transparent;">D</span>EGs
 <span style="background-image: linear-gradient(to right, #9b2614, #b70036, #c3006b, #ac00b2, #002cff);
 -webkit-background-clip: text; color: transparent;">Developer Guide</span>
 </h1>
@@ -31,7 +35,7 @@ The main logic of the application is handled by these four components
   - Responsible for retrieving data from the **Data Repository**
   - does not depend on any of the other three components (as the Model represents data entities of the domain, they should make sense on their own without depending on other components)
 
-
+![ModelComponent.png](diagrams%2FModelComponent.png)
 
 - **Storage**:
   - can save both schedule data and user data in .txt format, and read them back into corresponding objects.
@@ -209,70 +213,46 @@ Sem 8:
 Happy degree planning!
 ```
 
-## List Modules Left Feature
+## List Required Modules Left Feature
 
 The following sequence diagram shows how the Left Command function works.
 ![LeftFeature_Seq.png](diagrams%2FLeftFeature_Seq.png)
 
-The left mechanism is implemented to help users keep tracks of modules left for their major. It is facilitated by `modulesLeft`, `modulesMajor` and `modulesTaken`. Additionally, it implements the following operations:
+When the user's command is determined to be `left`, the program implements the following operations:
+### Function List
 
-- `student#getModulesMajor()` and `student#getModulesTaken()` – Returns moduleList modulesMajor and modulesTaken respectively.
-- `modulesMajor#showModulesDiff(modulesTaken)` – Display modules left.
-- `modulesTaken#getMainModuleList()` - Returns ArrayList<Module> of modulesTaken which is the ArrayList of modules taken.
-- `new ModuleList()` - Instantiate modulesLeft.
+- `new ArrayList<String>()`: Instantiate moduleCodesLeft
+- `student#getModuleCodesLeft()`: Returns the ArrayLis
+- `schedule#getModulesPlanned()`: Returns modulesPlanned (Module List)
+- `modulesPlanned#getCompletedModuleCodes()`: Returns completedModuleCodes (ArrayList <String>)
+- `completedModuleCodes#contains(moduleCode)`: Returns true if completedModuleCodes contain moduleCode
+- `moduleCodesLeft#add(moduleCode)`: Add moduleCode to moduleCodesLeft
+- `ModuleMethodsController#showModulesLeft(moduleCodesLeft)`: Calls methods `displayMessage("Modules Left:")` and 
+`printModuleStringArray(moduleCodesLeft)` to display the modules left to the user
 
-This operation is exposed in the `ModulePlannerController` interface as `ModulePlannerController#listModulesLeft()`.
-
+  
 ### Usage Examples
 
-Here are a few examples of how the List Modules Left Feature behaves:
+Here are a few examples of how the List Required Modules Left Feature behaves:
 
 #### Example 1: 
-`modulesMajor#getMainModuleList()` gives modules `CS1231S CS2030S CS2040S CS2100 CS2101 CS2106 CS2109S CS3230`.
-`modulesTaken#getMainModuleList()` gives modules `CS1231S MA1511`
+- Major is CEG
+- Modules CG1111A, MA1511, MA1512, CS1010, GESS1000, CFG1002 are added to schedule planner and completed
 
 Command: `left`
 
 Response:
-`CS2030S CS2040S CS2100 CS2101 CS2106 CS2109S CS3230`
 
-## Input Major Feature
+```
+Required Modules Left:
+1. GEC1000     2. GEN2000     3. ES2631      4. GEA1000     5. DTK1234
+6. EG1311      7. IE2141      8. EE2211      9. EG2501      10. CDE2000
+11. PF1101     12. CG4002     13. MA1508E    14. EG2401A    15. CP3880
+16. CG2111A    17. CS1231     18. CG2023     19. CG2027     20. CG2028
+21. CG2271     22. ST2334     23. CS2040C    24. CS2113     25. EE2026
+26. EE4204    
+```
 
-The input major feature is facilitated by `Student`. It tries to store the major specified in userInput txt 
-file such that it can be used across sessions. It will print different responses based on whether the storing of the 
-Major was successful. Additionally, it implements the following operation:
-
-- `Student#setMajor(Major major)` – Saves the selected major in its memory.
-
-This operation is exposed in the `Student` interface as `Student#updateMajor(String userInput)`.
-
-### Usage Examples
-
-Here are a few examples of how the Input Major Feature behaves:
-
-#### Example 1:
-If "CS" is a valid major: `Student#updateMajor("major CS")` calls `Student#setMajor("CS")`, which sets the Major in the 
-student object as `CS` and returns a string `newMajor`
-
-Command: `major CS`
-
-Response: `Major CS selected!`
-
-
-#### Example 2:
-If "abc" is an invalid major: `Student#updateMajor("major abc")` calls `Student#setMajor("abc")`, which generates an
-IllegalArgumentException, which is caught and returns a string `invalidMajor`
-
-Command: `major abc`
-
-Response: `Please select a major from this list: [list of currently available Majors]`
-
-#### Example 3:
-If no major was specified: `Student#updateMajor("major")` returns a string `currentMajor`
-
-Command: `major`
-
-Response: `Current major is [current major in student object].`
 
 ## Add Module Feature
 
@@ -434,8 +414,7 @@ formatting
 
 | Version | As a ... | I want to ...                                                                     | So that I can ...                                           |
 |---------|----------|-----------------------------------------------------------------------------------|-------------------------------------------------------------|
-| v1.0    | new user | see usage instructions                                                            | refer to them when I forget how to use the application      |
-| v2.0    | user     | find a to-do item by name                                                         | locate a to-do without having to go through the entire list |
+| v1.0    | new user | view help                                                                         | refer to them when I forget how to use the application      |
 | v1.0    | user     | view my pace                                                                      | graduate on time                                            |
 | v1.0    | user     | view the required modules I am left with for my major                             | plan ahead for other semesters                              |
 | v2.0    | user     | search for specific modules based on keywords, course codes, or professors' names | quickly find the modules I need for my semesters            |

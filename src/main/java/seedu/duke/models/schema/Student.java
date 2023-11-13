@@ -15,7 +15,7 @@ import java.io.InvalidObjectException;
 import java.util.ArrayList;
 
 import static seedu.duke.models.logic.Prerequisite.getModulePrereqBasedOnCourse;
-import static seedu.duke.models.schema.Storage.getRequirements;
+import static seedu.duke.storage.StorageManager.getRequirements;
 import static seedu.duke.utils.errors.HttpError.displaySocketError;
 import static seedu.duke.views.CommandLineView.displaySuccessfulCompleteMessage;
 import static seedu.duke.views.TimetableUserGuideView.addOrRecommendGuide;
@@ -322,7 +322,7 @@ public class Student {
      *
      * @author @rohitcube
      */
-    public void setCurrentSemesterModules() {
+    private void setCurrentSemesterModules() {
         try {
             int currSem = getCurrentSem();
 
@@ -357,7 +357,7 @@ public class Student {
      *
      * @author @rohitcube
      */
-    public void setCurrentSemesterModulesWeekly() throws TimetableUnavailableException {
+    private void setCurrentSemesterModulesWeekly() throws TimetableUnavailableException {
         if (currentSemesterModules == null || currentSemesterModules.getMainModuleList().isEmpty()) {
             timetable.removeAll();
             int currentSem = getCurrentSem();
