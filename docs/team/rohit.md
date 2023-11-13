@@ -27,7 +27,7 @@ find modules that align with their interests or requirements.
 **Feature:** Enables users to retrieve detailed descriptions of modules using their respective module codes.
 
 **What it does:** This feature allows users to obtain comprehensive descriptions of modules by inputting 
-the module code. It serves as a valuable complement to the 'search' function, offering users more in-depth
+the module code. It offers users more in-depth
 information about specific modules they find interesting or relevant.
 
 **Justification:** Users often seek more detailed information about modules, and this feature addresses
@@ -54,26 +54,24 @@ developing dedicated functions. @janelleenqi wrote the display and print functio
 
 - **Highlights:** Implementing this feature posed a significant challenge, requiring knowledge in API integration.
 The process involved incorporating external dependencies to handle JSON files, necessitating the conversion of
-data into a readable format for user display. Also learnt how to establish connections and send requests to APIs.
+data into a readable format for user display. Learnt how to establish connections and send requests to APIs.
 
 #### 2. ModuleWeekly Class
 
 - **Purpose:** The ModuleWeekly class serves the crucial purpose of storing information related to modules 
-- scheduled in the current semester, specifically those displayed in the weekly timetable.
+scheduled in the current semester, specifically those displayed in the weekly timetable.
 
-- **Highlights:** This class organizes and manages data relevant to the ongoing 
-semester's modules. The implementation of the ModuleWeekly class enhances the program's ability to manage and display
+- **Highlights:**  The ModuleWeekly 
+class enhances the program's ability to manage and display
 module-specific details within the context of the current semester.
 
 #### 3. Timetable Parser and Associated Functions
 
 - **Purpose:** The Timetable Parser, along with its associated functions (in Parser), is designed 
-with the primary objective of parsing user arguments. This parsing facilitates 
-the input of lessons for each module into the weekly timetable.
+with the primary objective of parsing user arguments. 
 
-- **Highlights:** This feature has a critical role in the integration
-of user-inputted lesson information into the program's weekly timetable. 
-It ensures the accuracy and coherence of the data input process. 
+- **Highlights:** This parsing facilitates
+  the input of lessons for each module into the weekly timetable.
 
 ### Enhancements Implemented
 
@@ -100,4 +98,14 @@ users to input module durations as arguments when creating a class.
 - Reported 15 bugs for PE-D 
 - Helped another team debug their jar before final submission
 
+### Contribution to UG:
 
+- Added descriptions for info, search, timetable show and timetable modify
+
+### Contributions to DG:
+
+- Added Target user profile and value proposition
+
+![tt_modify_seq_diag.png](..%2Fdiagrams%2Ftt_modify_seq_diag.png)
+
+![ss_logicDiagram.jpg](screenshots%2Fss_logicDiagram.jpg)
