@@ -36,7 +36,7 @@ public class MainController {
     private final CommandManager commandManager;
     private Storage storage;
 
-    private Ui ui;
+    private final Ui ui;
 
     public MainController() {
         this.commandManager = new CommandManager();
@@ -45,6 +45,7 @@ public class MainController {
         this.ui = new Ui();
     }
 
+    //@@author ryanlohyr
     /**
      * Starts the application, guiding the user through its execution.
      * This method performs the following steps:
@@ -54,7 +55,6 @@ public class MainController {
      * 4. Handle user input until an exit command is given.
      * 5. Display a goodbye message when the application is finished.\
      *
-     * @author ryanlohyr
      */
     public void start() throws IOException {
         displayWelcome();
@@ -65,11 +65,16 @@ public class MainController {
         saveStudentData(storage,student);
         displayGoodbye();
     }
-
+    //@@author SebasFok
+    /**
+     * Initializes the user by attempting to load data from save files. If successful, sets the user details,
+     * schedule, and timetable. If loading fails or save files are missing, creates new save files, prompts for
+     * user details, and resets the schedule and timetable.
+     *
+     * @throws IOException If an IO error occurs during file operations.
+     */
     public void initialiseUser() throws IOException {
 
-        // Try to load storage file for name, major, year and schedule. If successful, will not prompt anymore
-        // If load fails, will create storage file based on userName and prompt for major and year
         storage = new Storage();
         try {
             System.out.println("Attempting to retrieve data from save file... Sorry this takes a while!");
@@ -80,7 +85,7 @@ public class MainController {
             // Set name, major and year from loaded data, throws exception if file is corrupted.
             setStudentDetails(studentDetails);
 
-            // Load schedule from schedule.txt file
+            // Load and set schedule from schedule.txt file
             student.setSchedule(storage.loadSchedule());
 
             // Load timetable from timetable.txt file
@@ -104,6 +109,7 @@ public class MainController {
             return;
 
         } catch (MissingFileException e) {
+            stopLoadingAnimation();
             System.out.println("New save files will be created.");
             //storage.createUserStorageFile();
             //System.out.println("Files successfully created!");
@@ -168,6 +174,14 @@ public class MainController {
         saveTimetable(student);
     }
 
+    //@@author SebasFok
+    /**
+     * Sets the student details based on the provided list of information, such as name, major, and year.
+     *
+     * @param studentDetails The list of student information containing name, major, and year in this order.
+     * @throws CorruptedFileException If the provided student information is null, has an incorrect number of elements,
+     *                                or if any of the information is invalid.
+     */
     private void setStudentDetails(ArrayList<String> studentDetails) throws CorruptedFileException {
         int correctNumOfStudentInfo = 3;
 
@@ -204,8 +218,6 @@ public class MainController {
             }
         }
     }
-
-
 
 
 

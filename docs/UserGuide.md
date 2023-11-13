@@ -220,10 +220,8 @@ Adding will not be allowed if the current schedule planner does not contain the 
 * `SEMESTER` cannot be empty and must be an integer between 1-8 inclusive.
 
 ##### Note:
-- We do not check for preclusion's.
-  E.g. If you have completed/added CS2040, and the prerequisite of a module you are trying to add is CS2040C,
-  although they are preclusion's of each other, you are required to satisfy CS2040C! (It is something 
-we hope to implement in the future!)
+- We do not check for preclusions when adding. (It is something we hope to implement in the future!)
+- E.g. If you have added CS2040C in your schedule, you are still able to add CS2040 even though it is a preclusion.
 
 
 ##### Example of usage:
@@ -245,14 +243,12 @@ the module to be deleted is a prerequisite of a module in later semesters on the
 * `MODULE_CODE` must also be in the current schedule planner
 
 ##### Note:
-- We do not check for preclusion's.
-E.g. If you have completed/added CS2040, and the prerequisite of a module you are trying to delete is CS2040C, 
-although they are preclusion's of each other, you are required to satisfy CS2040C! (It is something we hope to implement 
-in the future!)
 - Our delete function checks for validity of deletion by checking for the modules it 'unlocks', hence if you 
 were to add a module in semester one, but the following semester has already a module it 'unlocks', 
-you will not be able to delete it without deleting the 
-module it satisfies! (However this is something we do as well want to work on as well in the future!)
+you will not be able to delete it without deleting the module it satisfies! (However this is something we do as well 
+want to work on as well in the future!)
+- E.g. If you have both CS1010 and CS1101S in semester 1, and CS2040C in semester 2, you are unable to delete both
+CS1010 or CS1101S, even though just one of them is sufficient to unlock CS2040C.
 
 ##### Examples of usage:
 
@@ -274,10 +270,12 @@ user. Shifting will not be allowed if it causes conflicts with other modules in 
 * `SEMESTER` cannot be empty and must be an integer between 1-8 inclusive.
 
 ##### Note:
-- We do not check for preclusion's.
-  E.g. If you have completed/added CS2040, and the prerequisite of a module you are trying to shift is CS2040C,
-  although they are preclusion's of each other, you are required to satisfy CS2040C! (It is something we hope to implement
-  in the future!)
+- Similar to the delete feature, shifting a module later checks for validity of shifting by checking for the modules it 
+'unlocks', hence if there were two modules in semester 1 that both individually could satisfy a module in semester 2, you
+would not be able to shift any of the two semester 1 modules. (However this is something we do as well
+  want to work on as well in the future!)
+- E.g. If you have both CS1010 and CS1101S in semester 1, and CS2040C in semester 2, you are neither able to shift 
+  CS1010 nor CS1101S to semester 2 onwards, even though just one of them is sufficient to unlock CS2040C.
 
 ##### Example of usage:
 
@@ -304,11 +302,6 @@ Completes a module (Completes a module in your schedule planner).
 
 #### Note: 
 - The module you complete has to be first added in your schedule planner!
-
-- We do not check for preclusion's.
-  E.g. If you have completed/added CS2040, and the prerequisite of a module you are trying to complete is CS2040C,
-  although they are preclusion's of each other, you are required to satisfy CS2040C! (It is something
-  we hope to implement in the future!)
 
 ##### Format: `complete MODULE_CODE`
 

@@ -58,7 +58,6 @@ public class CommandManager {
      * @param command The command to retrieve the description for.
      * @return The description of the command, or "Command not recognized" if the command is not in the HashMap.
      */
-
     public String getDescription(String commandName) {
         for (Command command : commandArrayList) {
             if (commandName.equals(command.getCommandName())) {
@@ -68,7 +67,6 @@ public class CommandManager {
         return "Command not recognized";
         //return commandArrayList.getOrDefault(command, "Command not recognized");
     }
-
 
 
     /**

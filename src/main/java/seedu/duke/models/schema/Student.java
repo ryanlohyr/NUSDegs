@@ -19,15 +19,12 @@ import static seedu.duke.models.schema.Storage.getRequirements;
 import static seedu.duke.utils.errors.HttpError.displaySocketError;
 import static seedu.duke.views.CommandLineView.displaySuccessfulCompleteMessage;
 import static seedu.duke.views.TimetableUserGuideView.addOrRecommendGuide;
-//import static seedu.duke.views.TimetableUserGuideView.addOrRecommendGuide;
-//import static seedu.duke.views.UserGuideView.timetableModifySuccessful;
 
 /**
  * The Student class represents a student with a name, major, and module schedule.
  */
 public class Student {
 
-    private static boolean intitialise;
     private static int counter;
     private String name;
     private String major;
@@ -37,7 +34,7 @@ public class Student {
     private ArrayList<String> majorModuleCodes;
     private ModuleList currentSemesterModules;
     private Timetable timetable;
-    //private ArrayList<ModuleWeekly> currentSemesterModulesWeekly;
+
 
     /**
      * Constructs a student with a name, major, and module schedule.
@@ -148,9 +145,27 @@ public class Student {
         }
     }
 
+    //@@author SebasFok
+    /**
+     * Adds a module to the student's schedule for a specified semester.
+     *
+     * @param moduleCode The code of the module to be added.
+     * @param targetSem  The semester in which the module will be added.
+     * @throws IllegalArgumentException If the target semester is not valid.
+     * @throws InvalidObjectException   If the module code is invalid or does not exist.
+     * @throws FailPrereqException      If the module cannot be added due to unsatisfied prerequisites.
+     */
     public void addModuleToSchedule(String moduleCode, int targetSem) throws IllegalArgumentException,
             InvalidObjectException, FailPrereqException {
         this.schedule.addModule(moduleCode, targetSem);
+    }
+
+    public ArrayList<String> generateRecommendedSchedule() throws IOException {
+        return this.schedule.generateRecommendedSchedule(this.major);
+    }
+
+    public void addRecommendedSchedule(ArrayList<String> schedule){
+        this.schedule.addReccToSchedule(schedule);
     }
 
     /**
@@ -175,11 +190,11 @@ public class Student {
 
 
     }
+    //@@author ryanlohyr
     /**
      * Deletes a module with the specified module code. This method also updates the completed
      * module credits and removes the module from the planned modules list.
      *
-     * @author ryanlohyr
      * @param moduleCode The code of the module to be deleted.
      * @throws MandatoryPrereqException If deleting the module fails due to prerequisite dependencies.
      */
@@ -199,11 +214,29 @@ public class Student {
         }
     }
 
+    //@@author SebasFok
+    /**
+     * Shifts a module within the student's schedule to a different semester.
+     *
+     * @param moduleCode The code of the module to be shifted.
+     * @param targetSem  The target semester to which the module will be shifted.
+     * @throws IllegalArgumentException   If the target semester is not valid.
+     * @throws FailPrereqException          If shifting the module fails due to unsatisfied prerequisites.
+     * @throws MissingModuleException      If the module to be shifted is missing from the schedule.
+     * @throws IOException                 If an I/O error occurs during the shift operation.
+     * @throws MandatoryPrereqException    If shifting the module violates mandatory prerequisites.
+     */
     public void shiftModuleInSchedule(String moduleCode, int targetSem) throws IllegalArgumentException,
             FailPrereqException, MissingModuleException, IOException, MandatoryPrereqException {
         this.schedule.shiftModule(moduleCode, targetSem);
     }
 
+    //@@author SebasFok
+    /**
+     * Clears all modules from the student's schedule, resetting it to an empty schedule.
+     * Also resets the completed module credits to zero.
+     *
+     */
     public void clearAllModulesFromSchedule() {
         //Replaces current schedule with new schedule
         this.schedule = new Schedule();
@@ -211,6 +244,13 @@ public class Student {
     }
 
     //@@author janelleenqi
+    /**
+     * Retrieves a module from the schedule planner based on its module code.
+     *
+     * @param moduleCode The module code of the module to retrieve.
+     * @return The Module object with the specified module code.
+     * @throws MissingModuleException If the module with the given code is not found in the schedule.
+     */
     public Module getModuleFromSchedule(String moduleCode) throws MissingModuleException {
         try {
             return schedule.getModule(moduleCode);
@@ -220,11 +260,9 @@ public class Student {
         }
     }
 
-    public boolean completionStatusModuleSchedule(Module module) {
-        return module.getCompletionStatus();
-    }
-
     //@@author
+
+
     public String getYear() {
         return year;
     }
@@ -234,19 +272,15 @@ public class Student {
     }
 
 
-
+    //@@author janelleenqi
     /**
-     * Retrieves the module codes that are left to be completed in the major's curriculum.
-     * <p>
-     * This method compares the list of major module codes with the list of completed module codes
-     * in the current schedule. It returns a list of module codes that are still left to be completed
-     * as per the major's curriculum.
+     * Retrieves the module codes of the modules that are left to be completed based on the major's requirements.
      *
-     * @return An ArrayList of Strings representing module codes that are left to be completed.
+     * @return An ArrayList of module codes representing the modules that are left to be completed.
      */
     public ArrayList<String> getModuleCodesLeft() {
         ArrayList<String> moduleCodesLeft = new ArrayList<String>();
-        ArrayList<String> completedModuleCodes = schedule.getModulesPlanned().getModulesCompleted();
+        ArrayList<String> completedModuleCodes = schedule.getModulesPlanned().getCompletedModuleCodes();
 
         for (String moduleCode : majorModuleCodes) {
             if (!completedModuleCodes.contains(moduleCode)) {
@@ -256,17 +290,32 @@ public class Student {
         return moduleCodesLeft;
     }
 
+    /**
+     * Retrieves the module codes associated with the major's requirements.
+     *
+     * @return An ArrayList of module codes representing the major's module requirements.
+     */
     public ArrayList<String> getMajorModuleCodes() {
         return majorModuleCodes;
     }
 
+    /**
+     * Retrieves the list of modules that are planned for a specific purpose or context.
+     *
+     * @return The ModuleList containing the planned modules.
+     */
     public ModuleList getModulesPlanned() {
         return schedule.getModulesPlanned();
     }
 
+    /**
+     * Prints the schedule, displaying the main module list.
+     */
     public void printSchedule() {
         this.schedule.printMainModuleList();
     }
+
+    //@@author
 
     /**
      * Sets the current semester modules for the student based on their year and semester.

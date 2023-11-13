@@ -8,10 +8,10 @@ import static seedu.duke.utils.Parser.parseArguments;
 import static seedu.duke.utils.Parser.parseCommand;
 import static seedu.duke.views.CommandLineView.displayCommands;
 
-import static seedu.duke.controllers.ModuleMethodsController.computePace;
+import static seedu.duke.controllers.ModuleMethodsController.executePaceCommand;
 import static seedu.duke.controllers.ModuleMethodsController.showModulesLeft;
 import static seedu.duke.controllers.ModuleMethodsController.determinePrereq;
-import static seedu.duke.controllers.ModuleMethodsController.recommendScheduleToStudent;
+import static seedu.duke.controllers.ModuleMethodsController.executeRecommendCommand;
 import static seedu.duke.controllers.ModuleMethodsController.executeAddModuleCommand;
 import static seedu.duke.controllers.ModuleMethodsController.executeDeleteModuleCommand;
 import static seedu.duke.controllers.ModuleMethodsController.executeShiftModuleCommand;
@@ -19,8 +19,13 @@ import static seedu.duke.controllers.ModuleMethodsController.executeClearSchedul
 import static seedu.duke.controllers.ModuleMethodsController.completeModule;
 import static seedu.duke.controllers.ModuleMethodsController.getRequiredModulesForStudent;
 
+/**
+ * The UserCommand class represents a command entered by the user and provides methods to process and execute the
+ * command.
+ */
 public class UserCommand implements UserCommandWord {
 
+    //@@author janelleenqi
     private final String userInput;
     private final String commandWord;
     private final String[] arguments;
@@ -28,6 +33,11 @@ public class UserCommand implements UserCommandWord {
 
     private CommandManager commandManager;
 
+    /**
+     * Constructs a UserCommand object with the specified user input and validates it.
+     *
+     * @param userInput The user input representing the command.
+     */
     public UserCommand(String userInput) {
         this.userInput = userInput.trim();
         commandWord = parseCommand(userInput);
@@ -58,6 +68,11 @@ public class UserCommand implements UserCommandWord {
         isValid = false;
     }
 
+    /**
+     * Checks if the UserCommand is valid.
+     *
+     * @return true if the command is valid, false otherwise.
+     */
     public boolean isValid() {
         return isValid;
     }
@@ -79,6 +94,11 @@ public class UserCommand implements UserCommandWord {
         return super.equals(obj);
     }
 
+    /**
+     * Checks if the command is an close program command.
+     *
+     * @return true if the command is an exit command, false otherwise.
+     */
     public boolean isBye() {
         if (commandWord == null) {
             return false;
@@ -91,6 +111,13 @@ public class UserCommand implements UserCommandWord {
         return this.commandWord.equalsIgnoreCase(UserCommandWord.EXIT_COMMAND);
     }
 
+    //@@author
+
+    /**
+     * Processes and executes the user command based on the command word.
+     *
+     * @param student The student object to perform operations on.
+     */
     public void processCommand(Student student) {
         switch (commandWord) {
         case UserCommandWord.LEFT_COMMAND: {
@@ -98,7 +125,7 @@ public class UserCommand implements UserCommandWord {
             break;
         }
         case UserCommandWord.PACE_COMMAND: {
-            computePace(arguments, student.getCurrentModuleCredits(), student.getYear());
+            executePaceCommand(arguments, student.getCurrentModuleCredits(), student.getYear());
             break;
         }
         case UserCommandWord.PREREQUISITE_COMMAND: {
@@ -107,7 +134,7 @@ public class UserCommand implements UserCommandWord {
             break;
         }
         case UserCommandWord.RECOMMEND_COMMAND: {
-            recommendScheduleToStudent(student);
+            executeRecommendCommand(student);
             break;
         }
         case UserCommandWord.ADD_MODULE_COMMAND: {

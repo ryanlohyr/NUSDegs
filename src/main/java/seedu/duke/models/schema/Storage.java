@@ -32,10 +32,10 @@ public class Storage {
 
     }
 
+    //@@author ryanlohyr
     /**
      * Retrieves a list of modules requirements for a specified major.
      *
-     * @author ryanlohyr
      * @param major The major for which to retrieve requirements.
      * @return An ArrayList of module codes.
      * @throws RuntimeException If the specified major requirements file is not found.
@@ -77,8 +77,10 @@ public class Storage {
         return courseArray;
     }
 
+    //@@author SebasFok
     /**
-     * Creates a "schedule.txt" file in the storage directory.
+     * Creates a "schedule.txt" file in the data directory.
+     *
      */
     public void createUserStorageFile() {
         String dataDirectory = userDirectory + "/data";
@@ -91,8 +93,14 @@ public class Storage {
 
     }
 
-
-
+    /**
+     * Loads the student's schedule from the "schedule.txt" file, including modules per semester and individual modules.
+     * Also retains the completion status of each module in the schedule.
+     *
+     * @return A Schedule object representing the loaded schedule.
+     * @throws MissingFileException    If the "schedule.txt" file is missing.
+     * @throws CorruptedFileException  If the file is corrupted or has unexpected content.
+     */
     public Schedule loadSchedule() throws MissingFileException, CorruptedFileException {
 
         String scheduleFilePath = userDirectory + "/data/schedule.txt";
@@ -159,6 +167,14 @@ public class Storage {
 
     }
 
+    //@@author SebasFok
+    /**
+     * Loads the student's details (name, major, and year) from the "studentDetails.txt" file.
+     *
+     * @return An ArrayList containing the loaded student details in the order [Name, Major, Year].
+     * @throws MissingFileException    If the "studentDetails.txt" file is missing.
+     * @throws CorruptedFileException  If the file is corrupted or has unexpected content.
+     */
     public ArrayList<String> loadStudentDetails() throws MissingFileException, CorruptedFileException {
 
         String studentDetailsFilePath = userDirectory + "/data/studentDetails.txt";
@@ -236,6 +252,16 @@ public class Storage {
         }
     }
 
+    //@@author janelleenqi
+    /**
+     * Loads timetable user commands from the timetable.txt save file and processes them to update the student's
+     * timetable.
+     *
+     * @param student The student whose timetable is being updated.
+     * @return An ArrayList of TimetableUserCommand objects representing the loaded commands.
+     * @throws MissingFileException If the timetable file is missing.
+     * @throws CorruptedFileException If the timetable file is corrupted or contains invalid commands.
+     */
     public ArrayList<TimetableUserCommand> loadTimetable(Student student)
             throws MissingFileException, CorruptedFileException {
 
@@ -281,19 +307,29 @@ public class Storage {
 
     }
 
+    //@@author janelleenqi
+    /**
+     * Adds events to the student's timetable based on the provided timetable user commands.
+     *
+     * @param timetableUserCommands An ArrayList of TimetableUserCommand objects representing the commands to process.
+     * @param student               The student whose timetable is being updated.
+     * @throws CorruptedFileException If the provided timetable user commands are corrupted or contain invalid commands.
+     */
     public void addEventsToStudentTimetable(ArrayList<TimetableUserCommand> timetableUserCommands, Student student)
             throws CorruptedFileException {
         ArrayList<ModuleWeekly> currentSemModulesWeekly = student.getTimetable().getCurrentSemesterModulesWeekly();
         for (TimetableUserCommand currentTimetableCommand : timetableUserCommands) {
             //not exit, not clear
             try {
-                currentTimetableCommand.processTimetableCommand(currentSemModulesWeekly);
+                currentTimetableCommand.processTimetableCommandLesson(currentSemModulesWeekly);
             } catch (InvalidTimetableUserCommandException e) {
                 //corrupted
                 throw new CorruptedFileException();
             }
         }
     }
+
+    //@@author
 
     public void saveStudentDetails (Student student) throws IOException {
 
@@ -319,6 +355,13 @@ public class Storage {
         }
     }
 
+    //@@author SebasFok
+    /**
+     * Saves the student's details (name, major, and year) to the "studentDetails.txt" file.
+     *
+     * @param student The Student object containing the details to be saved.
+     * @throws IOException If an I/O error occurs while writing to the file.
+     */
     public static void saveSchedule(Student student) throws IOException {
 
         String scheduleFilePath = System.getProperty("user.dir") + "/data/schedule.txt";
@@ -377,6 +420,7 @@ public class Storage {
 
     // Below this comment are standard file methods
 
+    //@@author SebasFok
     /**
      * Takes in the location of the file in question and returns whether the file exist
      *
@@ -388,6 +432,7 @@ public class Storage {
         return Files.exists(path);
     }
 
+    //@@author SebasFok
     /**
      * This method takes in a path and creates a directory at that location. Should the
      * directory already exist, no new directory will be created.
@@ -404,6 +449,7 @@ public class Storage {
         }
     }
 
+    //@@author SebasFok
     /**
      * This method takes in the path of a directory and creates a file 'fileName' in
      * the directory. Should the file already exist, no new file will be created.
@@ -430,6 +476,7 @@ public class Storage {
         }
     }
 
+    //@@author SebasFok
     /**
      * This method takes in the path of a txt file and adds 'textToAdd' to the last line
      * of the file

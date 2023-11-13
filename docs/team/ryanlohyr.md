@@ -75,8 +75,9 @@ was required in order to make the optimisations.
 ### Contributions to team-based tasks
 
 - Maintain issue tracker and milestones
+- Initiated team to do feature based integration tests
 - Add JavaDoc to most methods
-- Suggested and maintained external 
+- Suggested and maintained external
 [notion board](https://ryanloh.notion.site/2113-Task-Board-b13948bab54046c3b49b24d5d978379a?pvs=4)
 
 ### Reviews/mentoring contributions: 
@@ -92,16 +93,25 @@ was required in order to make the optimisations.
 
 ### Contributions to DG:
 
-**Architecture Diagram**
+**Architecture diagram:**      
 
-<img src="../diagrams/architectureDiagram.jpeg" height="200"/>   
+<img src="../diagrams/architectureDiagram.jpeg" width= "320">
+
+**Ui class diagram:**
+
+<img src="../diagrams/UI.jpeg" width= "220">
+
+**Pace feature sequence diagram:**                                                                               
+
+<img src="../diagrams/pace_sequenceDiagram.jpeg" width= "500">
+
+**Recommend feature sequence diagrams:**
+
+Recommended a schedule based on the user's major:
+
+<img src="../diagrams/recommended_one.jpeg" alt="Image" width="500">
+
+Add a Recommended schedule to the user's schedule:
 
 
-|                    Ui class diagram:                     |                     Architecture diagram:                      |
-|:--------------------------------------------------------:|:--------------------------------------------------------------:|
-|      <img src="../diagrams/UI.jpeg" height="300"/>       | <img src="../diagrams/architectureDiagram.jpeg" height="200"/> |
-|
-|             **Add module sequence diagram:**             |                ** Recommend sequence diagram:**                |
-| <img src="../uml/diagrams/ModelClass.png" height="150"/> |   <img src="../uml/diagrams/StorageClass.png" height="100"/>   |
-
-
+<img src="../diagrams/recommended_two.jpeg" alt="Image" width="500">

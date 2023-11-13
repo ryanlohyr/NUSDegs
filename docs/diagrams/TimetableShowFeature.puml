@@ -1,0 +1,76 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+'autonumber
+autoactivate on
+
+actor Student
+
+participant ":Ui" as UI
+
+Student -> UI: getUser\nCommand() \n"timetable \nshow"
+participant ":TimetableView" as TV
+
+note bottom
+This command
+display's the
+user's weekly
+timetable if
+available
+end note
+
+participant "controller:\nMain\nController" as MC #white
+
+UI -> MC: handleUser\nInputTillExit\nCommand()
+
+participant "currentUser\nCommand:\nUserCommand" as UC #white
+
+
+
+MC -> UC **: create
+activate UC
+UC --> MC: currentUser\nCommand \n"timetable show"
+
+MC -> UC: processCommand()
+
+participant ":Module\nMethods\nController" as MMC
+participant "moduleService\nController\n:ModuleService\nController" as MSC #white
+
+
+
+box "Model" #LightBlue
+participant "student:\nStudent" as S #white
+participant "timetable:\nTimetable" as T #white
+end box
+'commandWord
+'timetableShowOrModify(commandWord);
+UC -> S: timetable\nShowOrModify\n(timetable\nCommandWord\n:String)
+
+S -> S: updateTimetable();
+S --> S
+
+S -> MSC **: create
+activate MSC
+MSC --> S
+
+
+opt timetableCommandWord == "SHOW"
+    'timetable.getCurrentSemesterModulesWeekly()
+    S -> T: getCurrent\nSemester\nModulesWeekly()
+    T --> S: currentSem\nModulesWeekly
+
+    S -> MSC: showTimetable\n(currentSem\nModulesWeekly)
+
+
+    MSC -> TV: printTimetable\n(currentSemester\nModuleWeekly);
+    TV --> MSC
+    MSC --> S
+end
+
+S --> UC
+
+UC --> MC: Display Timetable
+MC --> UI
+UI --> Student
+
+@enduml
