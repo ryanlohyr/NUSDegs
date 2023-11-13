@@ -2,15 +2,16 @@
 'https://plantuml.com/sequence-diagram
 
 'autonumber
-autoactivate on
+'autoactivate on
 
 actor Student
 
 participant ":Ui" as UI
-participant ":Module\nInfoView" as MIV
+participant "<<class>> \n:Module\nInfoView" as MIV
 
 
 Student -> UI: getUser\nCommand() \n"left"
+activate UI
 note bottom
 This command
 returns the
@@ -21,17 +22,20 @@ end note
 participant "controller:\nMain\nController" as MC #white
 
 UI -> MC: handleUser\nInputTillExit\nCommand()
+activate MC
 
 participant "currentUser\nCommand:\nUserCommand" as UC #white
 
-participant ":ModuleMethods\nController" as MMC
+participant "<<class>> \n:ModuleMethods\nController" as MMC
 
 
 MC -> UC **: create
 activate UC
 UC --> MC: currentUser\nCommand "left"
+deactivate UC
 
 MC -> UC: processCommand()
+activate UC
 
 box "Model" #LightBlue
 participant "student:\nStudent" as S #white
@@ -42,53 +46,60 @@ participant "completed\nModuleCodes:\nArrayList<String>" as CMC #white
 end box
 
 
-
 UC -> S: getModuleCodesLeft()
+activate S
 
 
 'create moduleCodesLeft
 S -> MCL **: create
 activate MCL
 MCL --> S
-
+deactivate MCL
 
 
 'schedule.getModulesPlanned().getCompletedModuleCodes()
 S -> SCH: getModulesPlanned()
+activate SCH
 SCH --> S: modulesPlanned:ModuleList
+deactivate SCH
 
 
-S -> MP: modulesPlanned\n.getCompletedModuleCodes()
-MP --> S: completedModuleCodes:\nArrayList<String>
-
+S -> MP: modulesPlanned.getCompletedModuleCodes()
+activate MP
+MP --> S: completedModuleCodes:ArrayList<String>
+deactivate MP
 
 
 loop moduleCode
 
-    S -> CMC: completedModuleCodes\n.contains(moduleCode)
+    S -> CMC: completedModuleCodes.contains(moduleCode)
+    activate CMC
     CMC --> S: contains:Boolean
+    deactivate CMC
 
     opt !contains
         'moduleCodesLeft.add(moduleCode)
         S -> MCL: moduleCodesLeft\n.add(moduleCode)
+        activate MCL
         MCL --> S
+        deactivate MCL
     end
 
 end
 
 destroy MCL
 
-S --> UC: "moduleCodesLeft:ArrayList<String>"
+S --> UC: moduleCodesLeft\n:ArrayList<String>
 
 
-UC -> MMC: showModulesLeft\n(ArrayList<String> \nmoduleCodesLeft)
+UC -> MMC: showModulesLeft\n(moduleCodesLeft)
 
-MMC -> UI: displayMessage("Modules Left: ")
+MMC -> UI: displayMessage()
 UI --> Student
 UI --> MMC
 
 
-MMC -> MIV: printModuleStringArray\n(moduleCodesLeft)
+MMC -> MIV: printModuleStringArray(moduleCodesLeft)
 activate MIV
 MIV --> Student
 MIV --> MMC

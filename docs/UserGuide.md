@@ -23,7 +23,7 @@ It's a comprehensive tool for efficient and successful degree completion.
 1. Ensure that you have Java 11 or above installed.
 2. Download the latest version of `NUSDegs` from [here](https://github.com/AY2324S1-CS2113-T17-4/tp/releases/tag/vbeta) (
    (Real one to be updated for PE)
-3. Downlaod the NUSDegs.jar to the folder you want to use as the home folder for NUSDegs.
+3. Download the NUSDegs.jar to the folder you want to use as the home folder for NUSDegs.
 4. Open a command terminal, cd into the folder you put the .jar file in, and run the command
    java -jar "NUSDegs.jar" to run the application.
 
@@ -54,7 +54,7 @@ to be corrupted and therefore lost!
 - [Shift module in schedule planner: `shift`](#shift-module-in-schedule-planner-shift)
 - [Clear all schedule planner and completion data: `clear`](#clear-all-schedule-planner-and-completion-data-clear)
 - [Complete a module in your schedule planner: `complete`](#complete-a-module-complete)
-- [View modules left for graduation: `left`](#checking-modules-left-left)
+- [View modules left for graduation: `left`](#list-required-modules-left-left)
 - [Check current pace to graduate: `pace`](#check-current-pace-to-graduate-pace)
 - [View weekly timetable: `timetable show`](#view-weekly-timetable-timetable-show)
 - [Modify weekly timetable: `timetable modify`](#modify-weekly-timetable-timetable-modify)
@@ -111,6 +111,66 @@ User input:
 
 - Expected outcome:
 
+```
+#==========================================================#
+║   Modular Requirements for CEG                    Units  ║
+#==========================================================#
++----------------------------------------------------------+
+│   Common Curriculum Requirements                  60     │
++----------------------------------------------------------+
+    GES1000 (Singapore Studies)                     4
+    GEC1000 (Cultures and Connections)              4
+    GEN2000 (Communities and Engagement)            4
+    ES2631 Critique & Communication of Thinking
+    & Design (Critique & Expression)                4
+    CS1010 Programming Methodology (Digital 
+    Literacy)                                       4
+    GEA1000 Quantitative Reasoning with Data (Data 
+    Literacy)                                       4
+    DTK1234 Design Thinking (Design Thinking)       4
+    EG1311 Design and Make (Maker Space)            4
+    IE2141 Systems Thinking and Dynamics (Systems 
+    Thinking)                                       4
+    EE2211 Introduction to Machine Learning 
+    (Artificial Intelligence)                       4
+    CDE2501 Liveable Cities (Sustainable Futures)   4
+    CDE2000 (Creating Narratives)                   4
+    PF1101 Fundamentals of Project Management 
+    (Project Management)                            4
+    CG4002 Computer Engineering Capstone Project 1 
+    (Integrated Project)                            8
+
++----------------------------------------------------------+
+│   Programme Requirements                          60     │
++----------------------------------------------------------+
+ ~~ Engineering Core                                20  ~~
+
+    MA1511 Engineering Calculus                     2
+    MA1512 Differential Equations for Engineering   2
+    MA1508E Linear Algebra for Engineering          4
+    EG2401A Engineering Professionalism             2
+    CP3880 Advanced Technology Attachment Programme 12
+
+ ~~ CEG Major                                       40  ~~
+
+    CG1111A Engineering Principles and Practice I   4
+    CG2111A Engineering Principles and Practice II  4
+    CS1231 Discrete Structures                      4
+    CG2023 Signals & Systems                        4
+    CG2027 Transistor-level Digital Circuit         2
+    CG2028 Computer Organization                    2
+    CG2271 Real-time Operating System               4
+    CS2040C Data Structures and Algorithms          4
+    CS2113 Software Engineering & Object-Oriented 
+    Programming                                     4
+    EE2026 Digital Design                           4
+    EE4204 Computer Networks                        4
+
++----------------------------------------------------------+
+│   Unrestricted Electives                          40     │
++----------------------------------------------------------+
+```
+
 <img src="screenshots/ss_required_ceg_1.png" alt="Image" width="300">
 <img src="screenshots/ss_required_ceg_2.png" alt="Image" width="300">
 
@@ -122,8 +182,63 @@ User input:
 
 - Expected outcome:
 
-<img src="screenshots/ss_required_cs_1.png" alt="Image" width="300">
-<img src="screenshots/ss_required_cs_2.png" alt="Image" width="300">
+```
+#==========================================================#
+║   Modular Requirements for CS                     Units  ║
+#==========================================================#
++----------------------------------------------------------+
+│   Common Curriculum Requirements                  40     │
++----------------------------------------------------------+
+ ~~ University Requirements: 6 University Pillars   24  ~~
+
+    CS1101S Programming Methodology (Digital 
+    Literacy)                                       4
+    ES2660 Communicating in the Information Age 
+    (Critique and Expression)                       4
+    GEC1% (Cultures and Connections)                4
+    GEA1000 / BT1101 / ST1131 / DSA1101 (Data 
+    Literacy)                                       4
+    GES1% (Singapore Studies)                       4
+    GEN2% (Communities and Engagement)              4
+
+ ~~ Computing Ethics                                4  ~~
+
+    IS1108 Digital Ethics and Data Privacy          4
+
+ ~~   Inter & Cross-Disciplinary Education          12 ~~
+
+    Interdisciplinary (ID) Courses (at least 2)
+    Cross-disciplinary (CD) Courses (no more than 1)
+
++----------------------------------------------------------+
+│   Programme Requirements                          80     │
++----------------------------------------------------------+
+ ~~ Computer Science Foundation                     36  ~~
+
+    CS1231S Discrete Structures                     4
+    CS2030S Programming Methodology II              4
+    CS2040S Data Structures and Algorithms          4
+    CS2100 Computer Organisation                    4
+    CS2101 Effective Communication for Computing 
+    Professionals                                   4
+    CS2103T Software Engineering                    4
+    CS2106 Introduction to Operating Systems        4
+    CS2109S Introduction to AI and Machine Learning 4
+    CS3230 Design and Analysis of Algorithms        4
+
+ ~~ Computer Science Breadth and Depth              32  ~~
+
+
+ ~~ Mathematics and Sciences                        12  ~~
+
+    MA1521 Calculus for Computing                   4
+    MA1522 Linear Algebra for Computing             4
+    ST2334 Probability and Statistics               4
+
++----------------------------------------------------------+
+│   Unrestricted Electives                          40     │
++----------------------------------------------------------+
+```
 
 
 ### View module prerequisites:`prereq`
@@ -374,10 +489,10 @@ Expected outcome:
 
 <img src="photos/complete.jpeg" height="40"/>
 
-### Checking modules left: `left`
-Displays the modules left, which is the remainder of subtracting modules completed (modules added to schedule planner 
-and marked as completed), from the modules required for the user's major (modules displayed for `required` command) 
-that have not been completed 
+### List required modules left: `left`
+Displays the required modules left, which is the remainder after subtracting the modules completed 
+(modules added to schedule planner and marked as completed), from the modules required for the user's major 
+(modules displayed for `required` command) that have not been completed 
 
 ##### Format: `left`
 
@@ -387,18 +502,32 @@ User input:
 `left`
 
 - Expected outcome:
+```
+Required Modules Left:
+1. CG1111A     2. MA1511      3. MA1512      4. CS1010      5. GESS1000
+6. GEC1000     7. GEN2000     8. ES2631      9. GEA1000     10. DTK1234
+11. EG1311     12. IE2141     13. EE2211     14. EG2501     15. CDE2000
+16. PF1101     17. CG4002     18. MA1508E    19. EG2401A    20. CP3880
+21. CG2111A    22. CS1231     23. CG2023     24. CG2027     25. CG2028
+26. CG2271     27. ST2334     28. CS2040C    29. CS2113     30. EE2026
+31. EE4204
+```
 
-- ![ss_left_ceg.png](screenshots%2Fss_left_ceg.png)
-
-
-##### Example of usage 2: (major is CEG, CS1010 & GEC1000 are added and completed)
+##### Example of usage 2: (major is CEG, CG1111A & CS1010 & GEC1000 are added and completed)
 
 User input:
 `left`
 
 - Expected outcome:
-
-![ss_left_ceg_completed.png](screenshots%2Fss_left_ceg_completed.png)
+```
+Required Modules Left:
+1. MA1511      2. MA1512      3. GEC1000     4. GEN2000     5. ES2631
+6. GEA1000     7. DTK1234     8. EG1311      9. IE2141      10. EE2211
+11. EG2501     12. CDE2000    13. PF1101     14. CG4002     15. MA1508E
+16. EG2401A    17. CP3880     18. CG2111A    19. CS1231     20. CG2023
+21. CG2027     22. CG2028     23. CG2271     24. ST2334     25. CS2040C
+26. CS2113     27. EE2026     28. EE4204
+```
 
 ### Check current pace to graduate: `pace`
 
@@ -434,14 +563,28 @@ Format: `timetable show`
 
 ##### Example of usage:
 
-Scenario 1: No lectures, tutorials or labs exist
+Scenario 1: No current semester modules (semester 4)
 
 User input:
 `timetable show`
 
 Expected outcome:
+```
+Timetable view is unavailable as your current semester has no modules yet.
+Add modules using this format: add [module code] 4
+Alternatively, get the recommended schedule for your major: recommend
+```
 
-![ss_timetableShow_noLessons.png](screenshots%2Fss_timetableShow_noLessons.png)
+Scenario 2: No lectures, tutorials or labs exist (have current semester modules)
+
+User input:
+`timetable show`
+
+Expected outcome:
+```
+Timetable view is unavailable as modules in your current semester have no lessons yet.
+Enter Timetable Modify Mode to add lessons: timetable modify
+```
 
 Scenario 2: The lessons have been specified in Timetable Modify Mode
 - CS2101 has a lecture at 5 for 2 hours on Monday
@@ -453,8 +596,17 @@ User input:
 `timetable show`
 
 Expected outcome:
-
-![ss_timetableShow_lessons.png](screenshots%2Fss_timetableShow_lessons.png)
+```
+------------------------------------------------------------
+| DAY       | TIMETABLE                                    |
+------------------------------------------------------------
+| Monday    | CS2101 Lecture (5am-7am)                     |
+------------------------------------------------------------
+| Tuesday   | GESS1000 Lecture (11am-2pm)                  |
+------------------------------------------------------------
+| Wednesday | GESS1000 Tutorial (7pm)                      |
+------------------------------------------------------------
+```
 
 ### Modify Weekly Timetable: `timetable modify`
 
@@ -493,15 +645,40 @@ User input:
 - `GESS1000 LECTURE 12 3 TUESDAY`
 - `GESS1000 TUTORIAL 19  WEDNESDAY`
 
-![ss_timetableModify_lessons.png](screenshots%2Fss_timetableModify_lessons.png)
+Expected outcome:
+```
+------------------------------------------------------------
+| DAY       | TIMETABLE                                    |
+------------------------------------------------------------
+| Monday    | CS2101 Lecture (5am-7am)                     |
+------------------------------------------------------------
+| Tuesday   | GESS1000 Lecture (11am-2pm)                  |
+------------------------------------------------------------
+| Wednesday | GESS1000 Tutorial (7pm)                      |
+------------------------------------------------------------
+```
 
+User input:
 - `GESS1000 clear` 
 
-![ss_timetableModify_clear.png](screenshots%2Fss_timetableModify_clear.png)
+Expected outcome:
+```
+All lessons for selected module are cleared.
+------------------------------------------------------------
+| DAY       | TIMETABLE                                    |
+------------------------------------------------------------
+| Monday    | CS2101 Lecture (5am-7am)                     |
+------------------------------------------------------------
+```
 
+User input:
 - `exit`
 
-![ss_timetableModify_exit.png](screenshots%2Fss_timetableModify_exit.png)
+Expected Outcome:
+
+```
+Exited Timetable Modify Mode
+```
 
 ### Save schedule and timetable and exit the program: `Bye`
 
@@ -516,8 +693,10 @@ their schedule planner and their current semester timetable.
 User input: `bye`
 
 - Expected outcome
-
-![ss_bye.png](screenshots%2Fss_bye.png)
+```
+Data successfully saved in save files
+Goodbye!
+```
 
 
 ## FAQ
