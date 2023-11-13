@@ -1,0 +1,81 @@
+@startuml
+
+participant Student
+participant ModuleServiceController
+participant Timetable
+participant Parser
+participant TimetableView
+participant TimetableUserCommand
+
+participant Ui
+participant Storage
+
+
+activate Student
+Student -> ModuleServiceController
+Student -> Timetable
+activate Timetable
+activate ModuleServiceController
+Student -> ModuleServiceController: modifyTimetable()
+ModuleServiceController -> Ui
+activate Ui
+ModuleServiceController -> Ui: getUserCommand()
+Ui --> ModuleServiceController:
+loop inTimetableModifyMode
+    Timetable -> TimetableUserCommand: getArguments()
+    TimetableUserCommand --> Timetable
+    opt  isModifyExit()
+        ModuleServiceController -> Parser: isModifyExit(arguments)
+            Parser --> ModuleServiceController
+
+    end
+    Timetable -> TimetableUserCommand
+    activate TimetableUserCommand
+
+
+
+    TimetableUserCommand -> Parser: processTimetableCommand(currentSemesterModulesWeekly)
+     Parser --> TimetableUserCommand
+    TimetableUserCommand -> Parser: Check validity of (arguments)
+
+
+    Parser --> TimetableUserCommand
+
+
+
+    alt Lecture
+    TimetableUserCommand -> TimetableUserCommand: addLecture()
+
+
+
+    else Tutorial
+     TimetableUserCommand -> TimetableUserCommand: addTutorial()
+
+
+    else Lab
+    TimetableUserCommand -> TimetableUserCommand: addLab()
+
+    end
+    opt  isModifyClear()
+    ModuleServiceController -> Parser: isModifyClear(arguments)
+    Parser --> ModuleServiceController
+
+    TimetableUserCommand -> TimetableUserCommand: clearLessons()
+
+    end
+    deactivate TimetableUserCommand
+
+
+        Ui --> Student
+        deactivate Ui
+    ModuleServiceController -> Storage: saveTimetable
+    Timetable -> TimetableView: printTimetable
+    TimetableView --> Timetable
+    Timetable --> Student
+
+    deactivate Timetable
+end
+
+
+
+@enduml
