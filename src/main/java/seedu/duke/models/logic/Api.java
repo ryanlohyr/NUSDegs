@@ -201,7 +201,7 @@ public class Api {
      * @param moduleCode The module code to check for existence.
      * @return `true` if the module exists, `false` if the module does not exist.
      */
-    public static boolean doesModuleExist(String moduleCode) {
+    public static boolean isValidModule(String moduleCode) {
         try {
             JSONObject moduleInfo = getFullModuleInfo(moduleCode);
             return (!(moduleInfo == null));
