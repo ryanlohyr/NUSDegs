@@ -166,7 +166,6 @@ public class MainController {
 
     public void handleUserInputTillExitCommand() {
 
-        //Scanner in = new Scanner(System.in);
         UserCommand currentUserCommand = new UserCommand();
         while (!currentUserCommand.isBye()) {
             String userInput = ui.getUserCommand("Input command here: ");
