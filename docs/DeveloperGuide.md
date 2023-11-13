@@ -325,7 +325,7 @@ User Input: `timetable modify`
 The following sequence diagram details the process of the 'timetable modify loop'
 
 [timetableModify.puml](diagrams%2FtimetableModify.puml)
-![timetablemodify_seq_diag.png](diagrams%2Ftimetablemodify_seq_diag.png)
+![tt_modify_seq_diag.png](diagrams%2Ftt_modify_seq_diag.png)
 
 ### Function List
 
