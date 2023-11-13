@@ -20,7 +20,8 @@ import static seedu.duke.controllers.ModuleMethodsController.completeModule;
 import static seedu.duke.controllers.ModuleMethodsController.getRequiredModulesForStudent;
 
 /**
- * The UserCommand class represents a command entered by the user and provides methods to process and execute the command.
+ * The UserCommand class represents a command entered by the user and provides methods to process and execute the
+ * command.
  */
 public class UserCommand implements UserCommandWord {
 

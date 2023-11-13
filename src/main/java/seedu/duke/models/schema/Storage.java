@@ -254,7 +254,8 @@ public class Storage {
 
     //@@author janelleenqi
     /**
-     * Loads timetable user commands from the timetable.txt save file and processes them to update the student's timetable.
+     * Loads timetable user commands from the timetable.txt save file and processes them to update the student's
+     * timetable.
      *
      * @param student The student whose timetable is being updated.
      * @return An ArrayList of TimetableUserCommand objects representing the loaded commands.
