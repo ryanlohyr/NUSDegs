@@ -83,15 +83,25 @@ public class Module {
         return this.moduleCode;
     }
 
+    //@@author janelleenqi
+    /**
+     * Checks if this module is equal to another module by comparing their module codes.
+     *
+     * @param module The module to compare with.
+     * @return true if the modules have the same module code, false otherwise.
+     */
     public boolean equals(Module module) {
         return this.moduleCode.equals(module.moduleCode);
     }
 
-
+    //@@author janelleenqi
+    /**
+     * Generates a string representation of this module, which is its module code.
+     *
+     * @return The string representation of this module.
+     */
     @Override
     public String toString() {
         return this.moduleCode;
     }
-
-
 }
