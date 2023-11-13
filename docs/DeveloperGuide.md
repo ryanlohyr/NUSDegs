@@ -318,7 +318,7 @@ Command: `required`
 Response:
 Module requirements for major selected by user
 
-## Add lessons in the Weekly Timetable
+## Modify lessons in the Weekly Timetable
 
 User Input: `timetable modify`
 
@@ -339,10 +339,36 @@ The following sequence diagram details the process of the 'timetable modify loop
 - `saveTimetable`: Saves the current timetable to storage.
 - `printTimetable`: Returns a formatted timetable display to the command-line interface.
 
+## Show Weekly Timetable Feature
+
+User Input: `timetable show`
+
+The following sequence diagram shows how the timetable show feature works:
+![TimetableShowFeature_Seq.png](diagrams%2FTimetableShowFeature_Seq.png)
+
+When the user's command is determined to be `timetable show`, the program implements the following operations:
+### Function List (when timetableCommandWord == "SHOW")
+
+- `getCurrentSemesterModulesWeekly()`: Returns the ArrayList of ModuleWeekly for the current semester
+- `showTimetable(ArrayList<ModuleWeekly> currentSemModulesWeekly)`: Calls the printTimetable function 
+- `printTimetable(ArrayList<ModuleWeekly> currentSemModulesWeekly)`: Prints the Weekly Timetable to the console
+
+### Design considerations
+Aspect: How timetable is printed:
+
+#### Current implementation: One row per day
+- Pros: Each table cell can be wider allowing each event to be printed in 1 line
+- Cons: The user needs to read the time for each event to understand when they are free.
+
+#### Previous implementation: One row per hour, one column per day
+- Pros: The user can see when they are free by day and hour easily
+- Cons: The console must be wide enough for it to be usable and aesthetic. Each table cell for an event was only about 
+11 characters wide.
+
 
 ## Search Command
 
-The required command is implemented to give users the ability to search for modules based on their titles.
+The search command is implemented to give users the ability to search for modules based on their titles.
 
 - `searchCommand(keywords)': Searches NUSModsAPI for modules containing specified keywords in the title.
 - `listAllModules()`: Returns all modules for parsing and identifying those containing a specified keyword.
