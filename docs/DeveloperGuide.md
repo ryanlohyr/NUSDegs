@@ -304,7 +304,7 @@ directory.
 - `getFullModuleInfo(major)` – Returns the `filePath` for the requirements of a specified major.
 - `sendHttpRequestAndGetResponseBody(String url)` – Displays the overview of modules required.
 - `getDescription(String moduleCode)` – Returns the `longestLineLength` of the file f.
-- - `listAllModules(), `printDoubleTopLine()`, `printBottomLine()`, `printDoubleBottomLine()` – Displays lines for formatting
+- `listAllModules(), `printDoubleTopLine()`, `printBottomLine()`, `printDoubleBottomLine()` – Displays lines for formatting
 - `infoCommands(String command, String userInput), `printDoubleTopLine()`, `printBottomLine()`, `printDoubleBottomLine()` – Displays lines for formatting
 
 ### Usage Examples
