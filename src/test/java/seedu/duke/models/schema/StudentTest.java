@@ -47,8 +47,8 @@ public class StudentTest {
     void deleteModuleScheduleTest_moduleExists_expectDelete()
             throws IOException, MandatoryPrereqException, MissingModuleException, FailPrereqException {
         Student student = new Student();
-        student.addModuleSchedule("CS1010", 1);
-        student.deleteModuleSchedule("CS1010");
+        student.addModuleToSchedule("CS1010", 1);
+        student.deleteModuleFromSchedule("CS1010");
 
         assertTrue(student.getModulesPlanned().getMainModuleList().isEmpty());
     }
