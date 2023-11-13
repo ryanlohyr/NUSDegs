@@ -176,17 +176,17 @@ public class TimetableView {
     /**
      * Prints events for the current day.
      *
-     * @param eventList List of events for the current day.
+     * @param currentDayEvents List of events for the current day.
      * @param day       The index of the day.
      */
-    private static void printCurrentDayEvents(ArrayList<Event> eventList, int day) {
+    private static void printCurrentDayEvents(ArrayList<Event> currentDayEvents, int day) {
         // Need to print day for first line
         boolean isFirstLine = true;
 
-        while (!eventList.isEmpty()) {
-            Event currentEvent = eventList.get(0);
+        while (!currentDayEvents.isEmpty()) {
+            Event currentEvent = currentDayEvents.get(0);
             printCurrentDayOneEvent(currentEvent, day, isFirstLine);
-            eventList.remove(0);
+            currentDayEvents.remove(0);
             isFirstLine = false;
         }
     }

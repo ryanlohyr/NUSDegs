@@ -44,7 +44,7 @@ participant "timetable:\nTimetable" as T #white
 end box
 'commandWord
 'timetableShowOrModify(commandWord);
-UC -> S: timetable\nShowOrModify\n(timetable\nCommandWord\n:String)
+UC -> S: timetable\nShowOrModify\n(timetable\nCommandWord)
 
 S -> S: updateTimetable();
 S --> S

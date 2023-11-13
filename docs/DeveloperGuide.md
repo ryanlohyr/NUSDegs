@@ -278,7 +278,7 @@ The following sequence diagram shows how the `add` command works:
 ![updatedAddModule.png](diagrams%2FupdatedAddModule.png)
 
 
-## Required Command
+## Required Feature
 
 The following sequence diagram shows how the Required Command function works.
 ![RequiredFeature_Seq.png](diagrams%2FRequiredFeature_Seq.png)
@@ -491,24 +491,49 @@ When the user's command is determined to be `timetable show`, the program implem
 ### Function List (when timetableCommandWord == "SHOW")
 
 - `getCurrentSemesterModulesWeekly()`: Returns the ArrayList of ModuleWeekly for the current semester
-- `showTimetable(ArrayList<ModuleWeekly> currentSemModulesWeekly)`: Calls the printTimetable function 
-- `printTimetable(ArrayList<ModuleWeekly> currentSemModulesWeekly)`: Prints the Weekly Timetable to the console
-- `createDailyEvents(ArrayList<ModuleWeekly> \ncurrentSemesterModules)`: Converts the ArrayList<ModuleWeekly> to a 
+- `showTimetable(currentSemModulesWeekly)`: Calls the printTimetable function 
+- `printTimetable(currentSemModulesWeekly)`: Prints the Weekly Timetable to the console
+- `createDailyEvents(currentSemesterModules)`: Converts the ArrayList<ModuleWeekly> to a 
 List of ArrayList<Events> for different days
-- `sortByTime(ArrayList<Event> currentDayEvents)`: Sorts Events in currentDayEvents by start time, duration, then 
+- `sortByTime(currentDayEvents)`: Sorts Events in currentDayEvents by start time, duration, then 
 module code, in ascending order
 - `printTimetableHeader()`: Display timetable header
 - `printlnHorizontalLine()`: Display horizontal line
-- `printCurrentDayEvents(ArrayList<Event> currentDayEvents, day)`: Display the day's events
+- `printCurrentDayEvents(currentDayEvents, day)`: Calls the function below to display the day's events
+- `printCurrentDayOneEvent(currentDayEvents, day, isFirstLine)`: Display the current event of the current day
+
+### Example of usage:
+
+Scenario: The lessons have been specified in Timetable Modify Mode
+- CS2101 has a lecture at 5 for 2 hours on Monday
+- GESS1000 has a lecture at 11 for 3 hours
+  on Tuesday
+- GESS1000 has a tutorial at 19 for 0 hours on Wednesday.
+
+User input:
+`timetable show`
+
+Expected outcome:
+```
+------------------------------------------------------------
+| DAY       | TIMETABLE                                    |
+------------------------------------------------------------
+| Monday    | CS2101 Lecture (5am-7am)                     |
+------------------------------------------------------------
+| Tuesday   | GESS1000 Lecture (11am-2pm)                  |
+------------------------------------------------------------
+| Wednesday | GESS1000 Tutorial (7pm)                      |
+------------------------------------------------------------
+```
 
 ### Design considerations
 Aspect: How timetable is printed:
 
-#### Current implementation: One row per day
+#### Current implementation: One table row per day
 - Pros: Each table cell can be wider allowing each event to be printed in 1 line
 - Cons: The user needs to read the time for each event to understand when they are free.
 
-#### Previous implementation: One row per hour, one column per day
+#### Previous implementation: One table row per hour, one table column per day
 - Pros: The user can see when they are free by day and hour easily
 - Cons: The console must be wide enough for it to be usable and aesthetic. Each table cell for an event was only about 
 11 characters wide.
