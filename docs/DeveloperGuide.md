@@ -306,8 +306,6 @@ directory.
 - `getFullModuleInfo(major)` – Returns the `filePath` for the requirements of a specified major.
 - `sendHttpRequestAndGetResponseBody(String url)` – Displays the overview of modules required.
 - `getDescription(String moduleCode)` – Returns the `longestLineLength` of the file f.
-- `getWorkload(String moduleCode)` – Returns a string with a justified name according to length, appended with its description.
-- `listAllModules(), `printDoubleTopLine()`, `printBottomLine()`, `printDoubleBottomLine()` – Displays lines for formatting
 - `infoCommands(String command, String userInput), `printDoubleTopLine()`, `printBottomLine()`, `printDoubleBottomLine()` – Displays lines for formatting
 
 ### Usage Examples
@@ -321,7 +319,7 @@ Command: `required`
 Response:
 Module requirements for major selected by user
 
-## Add lessons in the Weekly Timetable 
+## Add lessons in the Weekly Timetable
 
 User Input: `timetable modify`
 
@@ -329,40 +327,6 @@ The following sequence diagram details the process of the 'timetable modify loop
 
 [timetableModify.puml](diagrams%2FtimetableModify.puml)
 ![timetablemodify_seq_diag.png](diagrams%2Ftimetablemodify_seq_diag.png)
-##### Description of the Sequence Diagram
-
-**Initiation:**
-
-- The process begins as the `Student` initiates a timetable modification.
-- The request flows through `ModuleServiceController` to the Timetable component.
-
-**User Input:**
-
-- ModuleServiceController interacts with the `Ui` to obtain a user command for timetable modification.
-
-**Timetable Modification Loop:**
-
-- A loop, named `inTimetableModifyMode`, starts to handle the iterative process of timetable modification.
-- Within the loop, the Timetable interacts with a TimetableUserCommand to process commands and modify the timetable accordingly.
-- The loop includes checks for exit and clear conditions, determining whether to continue or break the modification process.
-
-**Commands Execution:**
-
-- Commands are executed based on user input, such as adding lectures, tutorials, and labs to the timetable.
-- Clearing of lessons is performed if the `isModifyClear()` condition is met.
-- Loop is exited if the `ifModifyExit()` condition is met.
-
-**Result Presentation:**
-
-- The modified timetable is saved in `Storage`.
-- The user is presented with display from Ui and the printed timetable from `Timetable
-- `
-**User Response:**
-
-- The `Ui` responds to the Student by providing the modified timetable.
-
-
-
 
 
 

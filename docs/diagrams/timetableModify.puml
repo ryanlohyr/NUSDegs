@@ -16,7 +16,7 @@ Student -> ModuleServiceController
 Student -> Timetable
 activate Timetable
 activate ModuleServiceController
-Student -> ModuleServiceController: modifyTimetable()
+Student -> ModuleServiceController: modifyTimetable(student)
 ModuleServiceController -> Ui
 activate Ui
 ModuleServiceController -> Ui: getUserCommand()
@@ -75,7 +75,6 @@ loop inTimetableModifyMode
 
     deactivate Timetable
 end
-
 
 
 @enduml
