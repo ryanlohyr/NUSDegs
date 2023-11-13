@@ -51,14 +51,6 @@ public class TimetableParser {
         }
         if (arguments[1].strip().equalsIgnoreCase("clear")) {
             return true;
-            //System.out.println("inside clear if");
-
-            //System.out.println(indexOfModuleWeeklyToModify);
-            //line that's causing error
-
-            //System.out.println("removed lesson");
-
-            //System.out.println("All lessons for selected module are cleared.");
         }
 
         return false;
@@ -66,34 +58,22 @@ public class TimetableParser {
 
     public static boolean isModifyValid(String[] arguments, ArrayList <ModuleWeekly> currentSemesterModulesWeekly)
             throws InvalidTimetableUserCommandException {
-        // the check for number of valid arguments is already done, its not
-        // check if any of the arguments are null
-        // not putting in empty checks
         String[] argumentsNoNulls = removeNulls(arguments);
         if (!hasNoNulls(arguments)) {
             throw new InvalidTimetableUserCommandException("Invalid number of arguments");
-            //  System.out.println("Invalid number of arguments");
-            //  return false;
         }
         if (argumentsNoNulls.length == 1) {
             if (!arguments[0].strip().equalsIgnoreCase("EXIT")) {
                 throw new InvalidTimetableUserCommandException("Invalid argument");
-                //     System.out.println("Invalid argument.");
-                //     return false;
             }
-            // return true;
         }
         if (argumentsNoNulls.length == 2) {
             String moduleCode = arguments[0].toUpperCase();
             if (!isExistInCurrentSemesterModules(moduleCode, currentSemesterModulesWeekly)) {
                 throw new InvalidTimetableUserCommandException("Module does not exist in current semester.");
-                //System.out.println("Module does not exist in current semester. ");
-                //return false;
             }
             if (!argumentsNoNulls[1].strip().equalsIgnoreCase("clear")) {
                 throw new InvalidTimetableUserCommandException("Invalid argument");
-                //System.out.println("Invalid argument" + arguments[1]);
-                //return false;
             }
             return true;
         }
