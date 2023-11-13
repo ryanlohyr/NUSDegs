@@ -32,7 +32,14 @@ public class TimetableParser {
 
     private static final String DELIMITER = " ";
 
-    // returns true when exit is called
+
+    /**
+     * Checks if the provided array of arguments indicates an "EXIT" command for modifying the timetable.
+     *
+     * @author @rohitcube
+     * @param arguments An array of strings representing user input arguments.
+     * @return true if the command is to exit the modify mode, false otherwise.
+     */
     public static boolean isExitModify(String[] arguments) {
         String[] argumentsNoNulls = removeNulls(arguments);
         if ((argumentsNoNulls.length == 1) && argumentsNoNulls[0].strip().equalsIgnoreCase("EXIT")) {
@@ -41,6 +48,14 @@ public class TimetableParser {
         return false;
     }
 
+
+    /**
+     * Checks if the provided array of arguments indicates a "clear" command for modifying the timetable.
+     *
+     * @author @rohitcube
+     * @param arguments An array of strings representing user input arguments.
+     * @return true if the command is to clear a modification, false otherwise.
+     */
     public static boolean isModifyClear(String[] arguments) {
         try {
             if (arguments[2] != null || !arguments[2].isEmpty()) {
@@ -51,49 +66,38 @@ public class TimetableParser {
         }
         if (arguments[1].strip().equalsIgnoreCase("clear")) {
             return true;
-            //System.out.println("inside clear if");
-
-            //System.out.println(indexOfModuleWeeklyToModify);
-            //line that's causing error
-
-            //System.out.println("removed lesson");
-
-            //System.out.println("All lessons for selected module are cleared.");
         }
 
         return false;
     }
 
+    /**
+     * Checks if the provided array of arguments is valid for modifying the timetable and throws exceptions if not.
+     *
+     * @author @rohitcube
+     * @param arguments               An array of strings representing user input arguments.
+     * @param currentSemesterModulesWeekly A list of ModuleWeekly objects representing modules in the current semester.
+     * @return true if the modification is valid, false otherwise.
+     * @throws InvalidTimetableUserCommandException If the arguments are invalid.
+     */
     public static boolean isModifyValid(String[] arguments, ArrayList <ModuleWeekly> currentSemesterModulesWeekly)
             throws InvalidTimetableUserCommandException {
-        // the check for number of valid arguments is already done, its not
-        // check if any of the arguments are null
-        // not putting in empty checks
         String[] argumentsNoNulls = removeNulls(arguments);
         if (!hasNoNulls(arguments)) {
             throw new InvalidTimetableUserCommandException("Invalid number of arguments");
-            //  System.out.println("Invalid number of arguments");
-            //  return false;
         }
         if (argumentsNoNulls.length == 1) {
             if (!arguments[0].strip().equalsIgnoreCase("EXIT")) {
                 throw new InvalidTimetableUserCommandException("Invalid argument");
-                //     System.out.println("Invalid argument.");
-                //     return false;
             }
-            // return true;
         }
         if (argumentsNoNulls.length == 2) {
             String moduleCode = arguments[0].toUpperCase();
             if (!isExistInCurrentSemesterModules(moduleCode, currentSemesterModulesWeekly)) {
                 throw new InvalidTimetableUserCommandException("Module does not exist in current semester.");
-                //System.out.println("Module does not exist in current semester. ");
-                //return false;
             }
             if (!argumentsNoNulls[1].strip().equalsIgnoreCase("clear")) {
                 throw new InvalidTimetableUserCommandException("Invalid argument");
-                //System.out.println("Invalid argument" + arguments[1]);
-                //return false;
             }
             return true;
         }
@@ -106,30 +110,20 @@ public class TimetableParser {
             String day = arguments[4].toUpperCase();
             if (!isExistInCurrentSemesterModules(moduleCode, currentSemesterModulesWeekly)) {
                 throw new InvalidTimetableUserCommandException("Module does not exist in current semester");
-                //System.out.println("Module does not exist in current semester.");
-                //return false;
             }
             if (!isValidLessonType(lessonType)) {
                 throw new InvalidTimetableUserCommandException("Invalid lesson type");
-                //System.out.println("Invalid lesson type");
-                //return false;
             }
             if (!isStringInteger(timeString)) {
                 throw new InvalidTimetableUserCommandException("Input for time is not an integer");
-                //System.out.println("Input for time is not an integer");
-                //return false;
             }
             int time = Integer.parseInt(timeString);
             if (time < 5 || time > 23) {
                 throw new InvalidTimetableUserCommandException("Input for time is outside the valid range. " +
                         "Please try again!");
-                // System.out.println("Time not within the valid range. Please try again!");
-                //return false;
             }
             if (!isStringInteger(durationString)) {
                 throw new InvalidTimetableUserCommandException("Input for duration is not an integer");
-                //System.out.println("Input for duration is not an integer");
-                //return false;
             }
             int duration = Integer.parseInt(durationString);
             if (duration < 0) {
@@ -138,13 +132,9 @@ public class TimetableParser {
             if (duration > 23 - time) {
                 throw new InvalidTimetableUserCommandException("Input for duration exceeds valid hours" +
                         " on the timetable");
-                //System.out.println("Input for duration exceeds valid hours on the timetable");
-                //return false;
             }
             if (!isDayValid(day)) {
                 throw new InvalidTimetableUserCommandException("Invalid day");
-                //System.out.println("Invalid input for day.");
-                //return false;
             }
             return true;
         }
@@ -182,12 +172,25 @@ public class TimetableParser {
         return false;
     }
 
+    /**
+     * Parses the module code by converting it to uppercase.
+     *
+     * @param supposedModuleCode The supposed module code to be parsed.
+     * @return The parsed module code in uppercase.
+     */
     public static String parseModuleCode(String supposedModuleCode) {
         supposedModuleCode = supposedModuleCode.toUpperCase();
 
         return supposedModuleCode;
     }
 
+    /**
+     * Parses the lesson type by converting it to uppercase and validating its existence in the predefined list.
+     *
+     * @param supposedLesson The supposed lesson type to be parsed.
+     * @return The parsed lesson type in uppercase.
+     * @throws InvalidTimetableUserCommandException If the lesson type is invalid.
+     */
     public static String parseLessonType(String supposedLesson) throws InvalidTimetableUserCommandException {
         supposedLesson = supposedLesson.toUpperCase();
         if (!lessonTypes.contains(supposedLesson)) {
@@ -197,6 +200,13 @@ public class TimetableParser {
         return supposedLesson;
     }
 
+    /**
+     * Parses the time by converting it to an integer.
+     *
+     * @param supposedTime The supposed time to be parsed.
+     * @return The parsed time as an integer.
+     * @throws InvalidTimetableUserCommandException If the time format is incorrect.
+     */
     public static int parseTime(String supposedTime) throws InvalidTimetableUserCommandException {
         try {
             return Integer.parseInt(supposedTime);
@@ -205,6 +215,13 @@ public class TimetableParser {
         }
     }
 
+    /**
+     * Parses the duration by converting it to an integer.
+     *
+     * @param supposedDuration The supposed duration to be parsed.
+     * @return The parsed duration as an integer.
+     * @throws InvalidTimetableUserCommandException If the duration format is incorrect.
+     */
     public static int parseDuration(String supposedDuration) throws InvalidTimetableUserCommandException {
         try {
             return Integer.parseInt(supposedDuration);
@@ -213,6 +230,13 @@ public class TimetableParser {
         }
     }
 
+    /**
+     * Parses the day by converting it to uppercase and validating its existence in the predefined list.
+     *
+     * @param supposedDay The supposed day to be parsed.
+     * @return The parsed day in uppercase.
+     * @throws InvalidTimetableUserCommandException If the day is invalid.
+     */
     public static String parseDay(String supposedDay) throws InvalidTimetableUserCommandException {
         supposedDay = supposedDay.toUpperCase();
         if (!days.contains(supposedDay)) {

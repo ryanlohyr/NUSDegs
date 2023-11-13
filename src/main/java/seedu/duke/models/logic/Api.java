@@ -26,6 +26,17 @@ import seedu.duke.views.ModuleInfoView;
 
 public class Api {
 
+    /**
+     * Sends an HTTP GET request to the specified URL and returns the response body as a String.
+     *
+     * @author rohitcube
+     * @param url The URL to which the HTTP GET request is sent.
+     * @return The response body as a String.
+     * @throws ParseException If there is an issue parsing the response.
+     * @throws IOException If an I/O error occurs during the HTTP request.
+     * @throws InterruptedException If the HTTP request is interrupted.
+     * @throws URISyntaxException If the URL is not a valid URI.
+     */
     private static String sendHttpRequestAndGetResponseBody(String url) throws ParseException,
             IOException, InterruptedException, URISyntaxException {
         HttpClient client = HttpClient.newHttpClient();
@@ -255,14 +266,12 @@ public class Api {
                     String description = Api.getDescription(moduleCode);
                     System.out.println(Api.wrapText(description, 100));
                 }
-                //UserError.emptyModuleForInfoCommand(command);
             } else if (command.equals("workload")) {
                 String moduleCode = userInput.substring(userInput.indexOf("workload") + 8).trim().toUpperCase();
                 if (!Api.getWorkload(moduleCode).isEmpty()) {
                     JSONArray workload = Api.getWorkload(moduleCode);
                     System.out.println(workload);
                 }
-                //UserError.emptyModuleForInfoCommand(command);
             } else {
                 UserError.invalidCommandforInfoCommand();
             }
