@@ -81,3 +81,20 @@ provided by user, ensuring optimal readability and good user experience.
 
 Justification: Improved abstraction, separation of concerns and made it easier for testing
 Highlights: Required an in-depth understanding of code to ensure that no features were affected.
+
+#### 2. Project Management
+
+My contribution: Created the Labels and Milestones, and a majority of Story/Task-base Issues within the Github Tracker.
+Justification: Allowed my team to be clearer on what we need to accomplish, to ensure productivity.
+
+#### 3. Documentation
+##### User Guide:
+Added documentation for the features left and required
+Updated documentation for the features timetable show, timetable modify, help, bye.
+
+##### Developer Guide:
+Added implementation details of the features left, required, timetable show.
+
+#### 4. Fixed Bugs
+
+- `Bye`: was case sensitive, needed to input twice to exit
