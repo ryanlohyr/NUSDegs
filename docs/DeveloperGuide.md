@@ -63,7 +63,7 @@ The `UI` component:
 
 ![ss_logicDiagram.jpg](screenshots%2Fss_logicDiagram.jpg)
 
-The `Logic` component:
+The `Controller` component:
 
 1. Input from the user is received through `Ui` class, is the pass into `ModulePlannerController`.
 2. When `ModulePlannerController` is called upon to execute a command, it uses the `Parser` class to parse for 
@@ -390,7 +390,7 @@ Aspect: How timetable is printed:
 
   
 ## Product scope
-### Target user profile
+### Target User Profile
 
 - Computer Engineering and Computer Science Students at NUS
 
@@ -410,7 +410,7 @@ environment, meeting their specific needs.
 
 
 
-### Value proposition
+### Value Proposition
 
 Efficiently navigate and organize a planner without 
 the typical delays associated with mouse-driven GUI 
