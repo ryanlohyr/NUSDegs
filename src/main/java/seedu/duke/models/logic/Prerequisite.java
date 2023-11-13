@@ -189,10 +189,7 @@ public class Prerequisite {
                     JSONObject moduleJSON = (JSONObject) module;
 
                     if (moduleJSON.containsKey("nOf")) {
-                        String key = "and";
-                        ArrayList<ArrayList<Objects>> initial = (ArrayList<ArrayList<Objects>>) moduleJSON.get("nOf");
-                        ArrayList<Objects> formattedInitial = initial.get(1);
-                        flattenPrereq(major, prerequisites, formattedInitial, courseRequirements, key);
+                        throw new ClassCastException();
                     } else {
                         String key = (String) moduleJSON.keySet().toArray()[0];
 
