@@ -43,8 +43,7 @@ The main logic of the application is handled by these four components
 
 ### How the architecture components interact with each other
 
-![img.png](diagrams/addModule.png)
-
+![updatedAddModule.png](diagrams%2FupdatedAddModule.png)
 
 The Sequence Diagram above shows how the components interact with each other when the user inserts a module 
 into his schedule
@@ -82,37 +81,36 @@ The component is specified in .java
 
 The `` component:
 
-- 
-
-### Controller Component
-The component is specified in .java
-
-<img src="diagrams/.jpeg" alt="Image" width="300">
-
-The `` component:
-
 -
 
 ### Storage Component
-The component is specified in .java
+The component is specified in the `storage` package and facilitated by StorageManager.java
 
-<img src="diagrams/.jpeg" alt="Image" width="300">
+![StorageDiagram.png](diagrams%2FStorageDiagram.png)
 
-The `` component:
+The `storage` component:
 
--
+- can save the student's name, major and year to `studentDetails.txt` whenever the user starts NUSDegs for the first time
+and read them back into corresponding objects.
+- can save the student's schedule and timetable whenever it is updated in NUSDegs and read them back into corresponding 
+objects.
+- uses `FileDecoder` class to read saved files in the data folder back to `Student` object.
+- uses `ResourceStorage` to store and retrieve core module details for CEG and CS.
+- depends on some classes in the `Model` component (because the `Storage` component's jon is to save/retrieve objects
+that belong to the `Model`)
 
 
-## Features: 
+## Features featured in Developer's Guide: 
 - Pace
+- Recommend
 - Left
-- Major
+- Add
+- Clear
 - Required
 - Info (description, command)
 - Search 
-- Add
-- Delete
-- Recommend
+
+
 
 # Implementation
 
@@ -260,11 +258,11 @@ The add module mechanism is facilitated by `ModuleMethodsController`. It tries t
 specified in userInput by the user, to their module schedule planner. It will print different responses based on whether
 the adding of module was successful.
 
-### Usage Examples
+### Usage Example
 
-Here are a few examples of how the add module feature behaves:
+Here is an example of how the add module feature behaves:
 
-#### Example 1:
+#### Example:
 
 **Step 1.** The user inputs the `add CS1010 1` command to insert the module CS1010 to Year 1 Semester 1 of their 
 schedule. The add UserCommand() object is created from the user input.
@@ -282,6 +280,31 @@ The following sequence diagram shows how the `add` command works:
 
 ![updatedAddModule.png](diagrams%2FupdatedAddModule.png)
 
+## Clear Schedule Feature
+
+The clear schedule mechanism is facilitated by `ModuleMethodsController`. It clears the schedule of the user and resets
+the completion data of the modules in the schedule.
+
+### Usage Examples
+
+Here is an example of how the clear schedule feature behaves:
+
+#### Example 1:
+
+**Step 1.** The user inputs the `clear` command to clear their schedule. The clear UserCommand() object is created 
+from the user input.
+
+**Step 2.** If the user inputs are valid, `processCommand` is called by the UserCommand object. The command is then
+passed to the `ModuleMethodsController` through `executeClearModuleCommand()`. The `ModuleMethodsController` would then
+call the `clearAllModuleFromSchedule()` method in `Student`, which would replace the current `Schedule` object in 
+`Student` with a new schedule and reset `completedModuleCredits` in the `Student` object to 0.
+
+**Step 3.** Upon successful execution of all of the above, `ModuleMethodsController` would then construct a message
+which would be returned to the `UI` class to be formatted to the Command Line Interface.
+
+The following sequence diagram shows how the `clear` command works:
+
+![ClearDiagram.png](diagrams%2FClearDiagram.png)
 
 ## Required Command
 
