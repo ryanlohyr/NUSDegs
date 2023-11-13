@@ -83,6 +83,11 @@ public class UserCommand implements UserCommandWord {
         if (commandWord == null) {
             return false;
         }
+
+        if (!isValid) {
+            return false;
+        }
+
         return this.commandWord.equalsIgnoreCase(UserCommandWord.EXIT_COMMAND);
     }
 

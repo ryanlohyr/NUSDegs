@@ -1,0 +1,21 @@
+@startuml
+'https://plantuml.com/component-diagram
+
+@startuml
+
+
+component Student
+component Schedule
+component Timetable
+[ModuleList] as modulesPlanned
+[ArrayList<ModuleWeekly>] as currentSemesterModulesWeekly
+
+
+Student -> Schedule
+Schedule -> modulesPlanned
+Student -> Timetable
+Timetable -> currentSemesterModulesWeekly
+
+@enduml
+
+@enduml
