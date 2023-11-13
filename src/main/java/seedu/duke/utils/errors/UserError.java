@@ -52,11 +52,11 @@ public class UserError {
 
     public static void emptyInputforInfoCommand() {
         System.out.println("Empty input detected. Please enter a valid input after the info command." +
-                " (E.g description, workload, all)");
+                " (E.g description)");
     }
 
     public static void invalidCommandforInfoCommand() {
-        System.out.println("Please enter a valid command after the info command. (E.g description, workload)");
+        System.out.println("Please enter a valid command after the info command. (E.g description)");
     }
 
     public static void emptyModuleForInfoCommand(String infoCommand) {

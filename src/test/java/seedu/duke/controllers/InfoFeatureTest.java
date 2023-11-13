@@ -106,7 +106,7 @@ public class InfoFeatureTest {
                 .replaceAll("\r\n", "\n")
                 .replaceAll("\r", "\n");
         String expectedOutput = "Empty input detected. Please enter a valid input after the " +
-                "info command. (E.g description, workload, all)\n" + "Invalid argument for command info";
+                "info command. (E.g description)\n" + "Invalid argument for command info";
         expectedOutput = expectedOutput
                 .replaceAll("\r\n", "\n")
                 .replaceAll("\r", "\n");
@@ -124,7 +124,7 @@ public class InfoFeatureTest {
         printedOutput = printedOutput
                 .replaceAll("\r\n", "\n")
                 .replaceAll("\r", "\n");
-        String expectedOutput = "Please enter a valid command after the info command. (E.g description, workload)\n" +
+        String expectedOutput = "Please enter a valid command after the info command. (E.g description)\n" +
                 "Invalid argument for command info";
         expectedOutput = expectedOutput
                 .replaceAll("\r\n", "\n")
