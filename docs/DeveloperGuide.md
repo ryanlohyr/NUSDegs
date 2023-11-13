@@ -304,6 +304,7 @@ directory.
 - `getFullModuleInfo(major)` – Returns the `filePath` for the requirements of a specified major.
 - `sendHttpRequestAndGetResponseBody(String url)` – Displays the overview of modules required.
 - `getDescription(String moduleCode)` – Returns the `longestLineLength` of the file f.
+- - `listAllModules(), `printDoubleTopLine()`, `printBottomLine()`, `printDoubleBottomLine()` – Displays lines for formatting
 - `infoCommands(String command, String userInput), `printDoubleTopLine()`, `printBottomLine()`, `printDoubleBottomLine()` – Displays lines for formatting
 
 ### Usage Examples
@@ -343,7 +344,10 @@ The following sequence diagram details the process of the 'timetable modify loop
 
 The required command is implemented to give users the ability to search for modules based on their titles.
 
-- `searchCommand(keywords)` 
+- `searchCommand(keywords)': Searches NUSModsAPI for modules containing specified keywords in the title.
+- `listAllModules()`: Returns all modules for parsing and identifying those containing a specified keyword.
+-  `printDoubleTopLine()`, `printBottomLine()`, `printDoubleBottomLine()` – Displays lines for 
+formatting
 
 ## Product scope
 ### Target user profile
