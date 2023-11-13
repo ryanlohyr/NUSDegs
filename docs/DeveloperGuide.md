@@ -31,7 +31,7 @@ The main logic of the application is handled by these four components
   - Responsible for retrieving data from the **Data Repository**
   - does not depend on any of the other three components (as the Model represents data entities of the domain, they should make sense on their own without depending on other components)
 
-
+![ModelComponent.png](diagrams%2FModelComponent.png)
 
 - **Storage**:
   - can save both schedule data and user data in .txt format, and read them back into corresponding objects.
@@ -176,32 +176,45 @@ Sem 6: CG2028 CS2113 CG2271 EE2211
 Sem 7: CG4002 CP3880 
 Sem 8: `
 
-## List Modules Left Feature
+## List Required Modules Left Feature
 
 The following sequence diagram shows how the Left Command function works.
 ![LeftFeature_Seq.png](diagrams%2FLeftFeature_Seq.png)
 
-The left mechanism is implemented to help users keep tracks of modules left for their major. It is facilitated by `modulesLeft`, `modulesMajor` and `modulesTaken`. Additionally, it implements the following operations:
+When the user's command is determined to be `left`, the program implements the following operations:
+### Function List
 
-- `student#getModulesMajor()` and `student#getModulesTaken()` – Returns moduleList modulesMajor and modulesTaken respectively.
-- `modulesMajor#showModulesDiff(modulesTaken)` – Display modules left.
-- `modulesTaken#getMainModuleList()` - Returns ArrayList<Module> of modulesTaken which is the ArrayList of modules taken.
-- `new ModuleList()` - Instantiate modulesLeft.
+- `new ArrayList<String>()`: Instantiate moduleCodesLeft
+- `student#getModuleCodesLeft()`: Returns the ArrayLis
+- `schedule#getModulesPlanned()`: Returns modulesPlanned (Module List)
+- `modulesPlanned#getCompletedModuleCodes()`: Returns completedModuleCodes (ArrayList <String>)
+- `completedModuleCodes#contains(moduleCode)`: Returns true if completedModuleCodes contain moduleCode
+- `moduleCodesLeft#add(moduleCode)`: Add moduleCode to moduleCodesLeft
+- `ModuleMethodsController#showModulesLeft(moduleCodesLeft)`: Calls methods `displayMessage("Modules Left:")` and 
+`printModuleStringArray(moduleCodesLeft)` to display the modules left to the user
 
-This operation is exposed in the `ModulePlannerController` interface as `ModulePlannerController#listModulesLeft()`.
-
+  
 ### Usage Examples
 
-Here are a few examples of how the List Modules Left Feature behaves:
+Here are a few examples of how the List Required Modules Left Feature behaves:
 
 #### Example 1: 
-`modulesMajor#getMainModuleList()` gives modules `CS1231S CS2030S CS2040S CS2100 CS2101 CS2106 CS2109S CS3230`.
-`modulesTaken#getMainModuleList()` gives modules `CS1231S MA1511`
+- Major is CEG
+- Modules CG1111A, MA1511, MA1512, CS1010, GESS1000, CFG1002 are added to schedule planner and completed
 
 Command: `left`
 
 Response:
-`CS2030S CS2040S CS2100 CS2101 CS2106 CS2109S CS3230`
+
+```
+Required Modules Left:
+1. GEC1000     2. GEN2000     3. ES2631      4. GEA1000     5. DTK1234
+6. EG1311      7. IE2141      8. EE2211      9. EG2501      10. CDE2000
+11. PF1101     12. CG4002     13. MA1508E    14. EG2401A    15. CP3880
+16. CG2111A    17. CS1231     18. CG2023     19. CG2027     20. CG2028
+21. CG2271     22. ST2334     23. CS2040C    24. CS2113     25. EE2026
+26. EE4204    
+```
 
 ## Input Major Feature
 

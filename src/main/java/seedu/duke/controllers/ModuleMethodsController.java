@@ -44,6 +44,7 @@ import static seedu.duke.views.Ui.stopLoadingAnimation;
  * @author ryanlohyr
  */
 public class ModuleMethodsController {
+    private static final String LEFT_HEADER = "Modules Left: ";
 
 
     /**
@@ -96,7 +97,7 @@ public class ModuleMethodsController {
      *                        It should not be null.
      */
     public static void showModulesLeft(ArrayList<String> moduleCodesLeft) {
-        displayMessage("Modules Left: ");
+        displayMessage(LEFT_HEADER);
         printModuleStringArray(moduleCodesLeft);
     }
 
