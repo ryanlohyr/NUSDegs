@@ -22,6 +22,11 @@ public class UserError {
 
     public static void displayInvalidInputCommand(String command){
         String response = String.format("Invalid command %s. Type help to see the available commands",command);
+
+        if(command == null){
+            response = "Empty commands are not allowed!";
+        }
+
         System.out.println(response);
     }
 
