@@ -7,7 +7,7 @@ autoactivate on
 actor Student
 
 participant ":Ui" as UI
-participant ":ModuleInfoView" as MIV
+participant ":Module\nInfoView" as MIV
 
 
 Student -> UI: getUser\nCommand() \n"left"
@@ -18,13 +18,13 @@ modules left
 to the user
 end note
 
-participant "controller:\nMainController" as MC #white
+participant "controller:\nMain\nController" as MC #white
 
 UI -> MC: handleUser\nInputTillExit\nCommand()
 
-participant "currentUserCommand:\nUserCommand" as UC #white
+participant "currentUser\nCommand:\nUserCommand" as UC #white
 
-participant ":ModuleMethodsController" as MMC
+participant ":ModuleMethods\nController" as MMC
 
 
 MC -> UC **: create
@@ -37,8 +37,8 @@ box "Model" #LightBlue
 participant "student:\nStudent" as S #white
 participant "moduleCodesLeft:\nArrayList<String>" as MCL #white
 participant "schedule:\nSchedule" as SCH #white
-participant "modulesPlanned:\nModuleList" as MP #white
-participant "completedModuleCodes:\nArrayList<String>" as CMC #white
+participant "modules\nPlanned:\nModuleList" as MP #white
+participant "completed\nModuleCodes:\nArrayList<String>" as CMC #white
 end box
 
 

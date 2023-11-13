@@ -165,7 +165,7 @@ Sem 8: `
 ## List Modules Left Feature
 
 The following sequence diagram shows how the Left Command function works.
-![img.png](diagrams/left_seq_diag.png)
+![LeftFeature_Seq.png](diagrams%2FLeftFeature_Seq.png)
 
 The left mechanism is implemented to help users keep tracks of modules left for their major. It is facilitated by `modulesLeft`, `modulesMajor` and `modulesTaken`. Additionally, it implements the following operations:
 
