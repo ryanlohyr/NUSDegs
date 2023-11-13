@@ -53,11 +53,17 @@ public class Schedule {
     }
     */
 
+    /**
+     * Constructs a Schedule object with the given planned modules and the target distribution of modules per semester.
+     * Initializes the completedModules map to store completed modules.
+     *
+     * @param modulesPlanned The list of modules that are planned for the schedule.
+     * @param modulesPerSem  An array representing the target number of modules to be taken in each semester.
+     */
     public Schedule(ModuleList modulesPlanned, int[] modulesPerSem) {
         this.modulesPerSem = modulesPerSem;
         this.modulesPlanned = modulesPlanned;
         completedModules = new HashMap<String, Module>();
-
     }
 
     /**
@@ -70,7 +76,6 @@ public class Schedule {
         this.modulesPerSem = modulesPerSem;
         modulesPlanned = new ModuleList(modules);
         completedModules = new HashMap<String, Module>();
-
     }
 
     /**
@@ -157,6 +162,7 @@ public class Schedule {
     /**
      * Adds a module to the schedule for a specified semester.
      *
+     * @author SebasFok
      * @param moduleCode The module code to be added.
      * @param targetSem The target semester (an integer from 1 to 8) in which to add the module.
      * @throws IllegalArgumentException If the provided semester is out of the valid range (1 to 8),
@@ -260,6 +266,20 @@ public class Schedule {
 
     }
 
+    /**
+     * Shifts a module within the student's planned schedule to a different semester.
+     *
+     * @author SebasFok
+     * @param module      The module code to be shifted.
+     * @param targetSem   The target semester to which the module will be shifted.
+     * @throws IllegalArgumentException    If the target semester is not within the valid range (1 to 8).
+     * @throws MissingModuleException      If the module to be shifted does not exist in the schedule.
+     * @throws IllegalArgumentException    If the module is already in the target semester.
+     * @throws FailPrereqException         If shifting the module fails due to unsatisfied prerequisites.
+     * @throws MandatoryPrereqException    If shifting the module creates a mandatory prerequisite conflict.
+     * @throws InvalidObjectException      If the module does not exist in the schedule.
+     * @throws IOException                 If an IO error occurs during module shifting.
+     */
     public void shiftModule(String module, int targetSem) throws IllegalArgumentException,
             FailPrereqException, MandatoryPrereqException, MissingModuleException, IOException {
 
@@ -294,34 +314,28 @@ public class Schedule {
         // If shifting module earlier
         if (originalSem > targetSem) {
 
-            //Sub list as we only want modules before the current target semester
-            List<String> plannedModulesArray = modulesPlanned.getModuleCodes().subList(0, (indexToAdd));
-            ModuleList plannedModules = new ModuleList(String.join(" ", plannedModulesArray));
-
-            try {
-                if (satisfiesAllPrereq(module, plannedModules)) {
-                    //module shifting will be here
-
-                    Module moduleToBeShifted = getModule(module);
-
-                    modulesPlanned.deleteModule(moduleToBeShifted);
-                    modulesPerSem[originalSem - 1] -= 1;
-
-                    modulesPlanned.addModule(indexToAdd, moduleToBeShifted);
-                    modulesPerSem[targetSem - 1] += 1;
-                    return;
-                }
-            } catch (IllegalArgumentException e) {
-                throw new IllegalArgumentException("Please select a valid module");
-            } catch (InvalidObjectException e) {
-                throw new InvalidObjectException("Module does not exist in the schedule.");
-            }
-            throw new FailPrereqException("Unable to shift module as prerequisites will not be satisfied for: "
-                    + module);
+            shiftModuleEarlier(module, targetSem, indexToAdd, originalSem);
+            return;
         }
 
         // If shifting module later
 
+        shiftModuleLater(module, targetSem, indexToAdd, originalSem);
+    }
+
+    /**
+     * Shifts a module later within the student's planned schedule to a different semester.
+     *
+     * @author SebasFok
+     * @param module         The module code to be shifted later.
+     * @param targetSem      The target semester to which the module will be shifted.
+     * @param indexToAdd     The index at which the module will be added in the schedule.
+     * @param originalSem    The original semester in which the module is currently placed.
+     * @throws IOException                 If an IO error occurs during module shifting.
+     * @throws MandatoryPrereqException    If shifting the module later creates a mandatory prerequisite conflict.
+     */
+    private void shiftModuleLater(String module, int targetSem, int indexToAdd, int originalSem) throws IOException,
+            MandatoryPrereqException {
         ArrayList<String> requirementsFulfilledFromModule = getModuleFulfilledRequirements(module);
 
         List<String> modulesAheadArray;
@@ -361,6 +375,44 @@ public class Schedule {
 
         modulesPlanned.addModule(indexToAdd - 1, moduleToBeShifted);
         modulesPerSem[targetSem - 1] += 1;
+    }
+
+    /**
+     * Shifts a module earlier within the student's planned schedule to a different semester.
+     *
+     * @author SebasFok
+     * @param module         The module code to be shifted earlier.
+     * @param targetSem      The target semester to which the module will be shifted.
+     * @param indexToAdd     The index at which the module will be added in the schedule.
+     * @param originalSem    The original semester in which the module is currently placed.
+     * @throws InvalidObjectException      If the module does not exist in the schedule.
+     * @throws FailPrereqException         If shifting the module earlier fails due to unsatisfied prerequisites.
+     */
+    private void shiftModuleEarlier(String module, int targetSem, int indexToAdd, int originalSem) throws InvalidObjectException, FailPrereqException {
+        //Sub list as we only want modules before the current target semester
+        List<String> plannedModulesArray = modulesPlanned.getModuleCodes().subList(0, indexToAdd);
+        ModuleList plannedModules = new ModuleList(String.join(" ", plannedModulesArray));
+
+        try {
+            if (satisfiesAllPrereq(module, plannedModules)) {
+                //module shifting will be here
+
+                Module moduleToBeShifted = getModule(module);
+
+                modulesPlanned.deleteModule(moduleToBeShifted);
+                modulesPerSem[originalSem - 1] -= 1;
+
+                modulesPlanned.addModule(indexToAdd, moduleToBeShifted);
+                modulesPerSem[targetSem - 1] += 1;
+                return;
+            }
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Please select a valid module");
+        } catch (InvalidObjectException e) {
+            throw new InvalidObjectException("Module does not exist in the schedule.");
+        }
+        throw new FailPrereqException("Unable to shift module as prerequisites will not be satisfied for: "
+                + module);
     }
 
     public Module getModule(String moduleCode) throws InvalidObjectException {
