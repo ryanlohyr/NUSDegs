@@ -172,12 +172,25 @@ public class TimetableParser {
         return false;
     }
 
+    /**
+     * Parses the module code by converting it to uppercase.
+     *
+     * @param supposedModuleCode The supposed module code to be parsed.
+     * @return The parsed module code in uppercase.
+     */
     public static String parseModuleCode(String supposedModuleCode) {
         supposedModuleCode = supposedModuleCode.toUpperCase();
 
         return supposedModuleCode;
     }
 
+    /**
+     * Parses the lesson type by converting it to uppercase and validating its existence in the predefined list.
+     *
+     * @param supposedLesson The supposed lesson type to be parsed.
+     * @return The parsed lesson type in uppercase.
+     * @throws InvalidTimetableUserCommandException If the lesson type is invalid.
+     */
     public static String parseLessonType(String supposedLesson) throws InvalidTimetableUserCommandException {
         supposedLesson = supposedLesson.toUpperCase();
         if (!lessonTypes.contains(supposedLesson)) {
@@ -187,6 +200,13 @@ public class TimetableParser {
         return supposedLesson;
     }
 
+    /**
+     * Parses the time by converting it to an integer.
+     *
+     * @param supposedTime The supposed time to be parsed.
+     * @return The parsed time as an integer.
+     * @throws InvalidTimetableUserCommandException If the time format is incorrect.
+     */
     public static int parseTime(String supposedTime) throws InvalidTimetableUserCommandException {
         try {
             return Integer.parseInt(supposedTime);
@@ -195,6 +215,13 @@ public class TimetableParser {
         }
     }
 
+    /**
+     * Parses the duration by converting it to an integer.
+     *
+     * @param supposedDuration The supposed duration to be parsed.
+     * @return The parsed duration as an integer.
+     * @throws InvalidTimetableUserCommandException If the duration format is incorrect.
+     */
     public static int parseDuration(String supposedDuration) throws InvalidTimetableUserCommandException {
         try {
             return Integer.parseInt(supposedDuration);
@@ -203,6 +230,13 @@ public class TimetableParser {
         }
     }
 
+    /**
+     * Parses the day by converting it to uppercase and validating its existence in the predefined list.
+     *
+     * @param supposedDay The supposed day to be parsed.
+     * @return The parsed day in uppercase.
+     * @throws InvalidTimetableUserCommandException If the day is invalid.
+     */
     public static String parseDay(String supposedDay) throws InvalidTimetableUserCommandException {
         supposedDay = supposedDay.toUpperCase();
         if (!days.contains(supposedDay)) {
