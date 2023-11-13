@@ -171,10 +171,6 @@ User input:
 +----------------------------------------------------------+
 ```
 
-<img src="screenshots/ss_required_ceg_1.png" alt="Image" width="300">
-<img src="screenshots/ss_required_ceg_2.png" alt="Image" width="300">
-
-
 ##### Example of usage 2: (user's major is CS)
 
 User input:
@@ -262,7 +258,7 @@ User input:
 
 Assuming the user is from Computer Engineering
 
-- Expected Outcome
+- Expected outcome:
 
 ```
 1. CS1010      2. MA1511      3. MA1508E
@@ -280,13 +276,14 @@ Search for module title using a keyword.
 User input:
 `search Darwinian`
 
-- Expected outcome:\
-  _________________________________________\
-  These are the modules that contain your keyword in the title:
-  
-  Title: Junior Seminar: The Darwinian Revolution
-  Module Code: UTC1102B\
-  _________________________________________\
+- Expected outcome:
+
+```
+These are the modules that contain your keyword in the title:
+
+Title: Junior Seminar: The Darwinian Revolution
+Module Code: UTC1102B
+```
 
 ### Get information about a module: `info`
 Get information about a module using the info command, followed by the command 'description'.
@@ -302,11 +299,17 @@ Get information about a module using the info command, followed by the command '
 User input:
 `info description CS2113`
 
-- Expected outcome: This course introduces the necessary skills for systematic and rigorous development of software 
-systems. It covers requirements, design, implementation, quality assurance, and project management aspects of 
-small-to-medium size multi-person software projects. The course uses the Object Oriented Programming paradigm. 
-Students of this course will receive hands-on practice of tools commonly used in the industry, such as test automation 
-tools, build automation tools, and code revisioning tools will be covered.
+- Expected outcome: 
+
+```
+This course introduces the necessary skills for systematic and rigorous development of software
+ systems. It covers requirements, design, implementation, quality assurance, and project management
+ aspects of small-to-medium size multi-person software projects. The course uses the Object
+ Oriented Programming paradigm. Students of this course will receive hands-on practice of tools
+ commonly used in the industry, such as test automation tools, build automation tools, and code
+ revisioning tools will be covered.
+```
+
 
 ### View schedule planner: `schedule`
 Shows the user their current schedule planner
@@ -406,7 +409,17 @@ User input:
 
 - Expected outcome:
 
-<img src="screenshots/ss_add_cs1010_1.png" height="300"/>
+```
+Module Successfully Added
+Sem 1:   X CS1010
+Sem 2:
+Sem 3:
+Sem 4:
+Sem 5:
+Sem 6:
+Sem 7:
+Sem 8:
+```
 
 ### Delete module from schedule planner: `delete`
 Opens the user's personalized module schedule planner and deletes the chosen module. Deleting will not be allowed if
@@ -432,7 +445,17 @@ User input:
 
 - Expected outcome:
 
-<img src="photos/delete_outcome.png" height="300"/>
+```
+Module Successfully Deleted
+Sem 1:
+Sem 2:
+Sem 3:
+Sem 4:
+Sem 5:
+Sem 6:
+Sem 7:
+Sem 8:
+```
 
 ### Shift module in schedule planner: `shift`
 Opens the user's personalized module schedule planner and shifts the chosen module to the semester specified by the 
@@ -455,7 +478,21 @@ would not be able to shift any of the two semester 1 modules. (However this is s
 ##### Example of usage:
 
 User input:
-`shift CS1010 2`
+`shift CS1010 2` (Assume CS1010 was in Semester 1)
+
+- Expected outcome:
+
+```
+Module Successfully Shifted
+Sem 1:
+Sem 2:   X CS1010
+Sem 3:
+Sem 4:
+Sem 5:
+Sem 6:
+Sem 7:
+Sem 8:
+```
 
 ### Clear all schedule planner and completion data: `clear`
 Deletes every module in the module schedule planner and their completion data. The user will be prompted to confirm this
@@ -466,11 +503,19 @@ action as this command cannot be undone.
 ##### Example of usage:
 
 User input:
-`clear`
+`clear` -> `Y`
 
 * Expected outcome:
 
-<img src="photos/clear_outcome.png" height="400"/>
+```
+Are you sure you want to clear your schedule? This action cannot be undone!
+Please input 'Y' or 'N'
+
+Invalid input, please choose Y/N
+Y
+Schedule successfully cleared
+```
+
 
 ### Complete a module: `complete`
 Completes a module (Completes a module in your schedule planner).
@@ -487,7 +532,9 @@ User input:
 
 Expected outcome:
 
-<img src="photos/complete.jpeg" height="40"/>
+```
+Module Successfully Completed
+```
 
 ### List required modules left: `left`
 Displays the required modules left, which is the remainder after subtracting the modules completed 
@@ -552,7 +599,9 @@ User input:
 
 - Expected outcome: assuming 0 modular credits were done in semester one
 
-![pace.jpg](photos%2Fpace.jpeg)
+```
+You have 160MCs for 7 semesters. Recommended Pace: 23MCs per sem until graduation
+```
 
 ### View Weekly Timetable: `timetable show`
 
