@@ -72,6 +72,7 @@ User input:
 `help`
 
 - Expected outcome:
+
 ```
 Here are all the commands currently available in NUSDegs!
 - Words in UPPER_CASE are the parameters to be supplied by the user.
@@ -257,14 +258,15 @@ out
 ##### Example of Usage:
 
 User input:
-`prereq eg1311` 
+`prereq ee2211` 
 
 Assuming the user is from Computer Engineering
 
 - Expected Outcome
 
-<img src="screenshots/ss_prereq.jpeg" alt="Image" width="300">
-
+```
+1. CS1010      2. MA1511      3. MA1508E
+```
 
 ### Searching for a module by title: `search`
 Search for module title using a keyword.
@@ -317,9 +319,18 @@ Shows the user their current schedule planner
 
 User input: `schedule`
 
-- Expected outcome(if user has not inputted any modules):
+- Expected outcome :
 
-![schedule.jpg](photos%2Fschedule.jpeg)
+```
+Sem 1:   X GESS1000     X DTK1234      X MA1512       X MA1511       X GEA1000      
+Sem 2:   X EG1311       X EG2501       X GEN2000      X CS1010       X CS1231       
+Sem 3:   X CG1111A      X IE2141       X CDE2000      X PF1101       X GEC1000      
+Sem 4:   X CG2023       X MA1508E      X ST2334       X ES2631       X EG2401A      
+Sem 5:   X EE4204       X EE2026       X CG2027       X CS2040C      X CG2111A      
+Sem 6:   X CG2028       X CS2113       X CG2271       X EE2211       
+Sem 7:   X CG4002       X CP3880       
+Sem 8: 
+```
 
 ### View recommended schedule based on course: `recommend`
 Based on the student's course, we will provide a recommended schedule that is sorted based on prerequisites.
@@ -342,12 +353,37 @@ User input:
 
 - Expected outcome:
 
-![recommendedSchedule.jpg](photos%2FrecommendSchedule.jpeg)
+```
+Hold on a sec! Generating your recommended schedule <3....
+Loading (.>_<.)
+1. GEA1000     2. MA1511      3. MA1512      4. DTK1234     5. GESS1000    
+6. CS1231      7. CS1010      8. GEN2000     9. EG2501      10. EG1311     
+11. GEC1000    12. PF1101     13. CDE2000    14. IE2141     15. CG1111A    
+16. EG2401A    17. ES2631     18. ST2334     19. MA1508E    20. CG2023     
+21. CG2111A    22. CS2040C    23. CG2027     24. EE2026     25. EE4204     
+26. EE2211     27. CG2271     28. CS2113     29. CG2028     30. CP3880     
+31. CG4002     
+Here you go!
+Taking the modules in this order will ensure a prerequisite worry free uni life!
+Do you want to add this to your schedule planner? (This will overwrite your current schedule!)
+Please input 'Y' or 'N'
+```
+
 
 - If the user enters `Y`, the recommended schedule will be added to their schedule
 
-![recommendedSchedule.jpg](screenshots%2Fadd_recommend.jpeg)
-
+```
+Here is your schedule planner!
+Sem 1:   X GESS1000     X DTK1234      X MA1512       X MA1511       X GEA1000      
+Sem 2:   X EG1311       X EG2501       X GEN2000      X CS1010       X CS1231       
+Sem 3:   X CG1111A      X IE2141       X CDE2000      X PF1101       X GEC1000      
+Sem 4:   X CG2023       X MA1508E      X ST2334       X ES2631       X EG2401A      
+Sem 5:   X EE4204       X EE2026       X CG2027       X CS2040C      X CG2111A      
+Sem 6:   X CG2028       X CS2113       X CG2271       X EE2211       
+Sem 7:   X CG4002       X CP3880       
+Sem 8:   
+Happy degree planning!
+```
 
 ### Add module to schedule planner: `add`
 Opens the user's personalized module schedule planner and adds the chosen module to the semester specified by the user.

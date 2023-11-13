@@ -201,7 +201,6 @@ public class Prerequisite {
                         flattenPrereq(major, prerequisites, initial, courseRequirements, key);
                     }
 
-
                 }
                 counter += 1;
             }
