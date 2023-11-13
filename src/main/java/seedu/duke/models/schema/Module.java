@@ -24,40 +24,12 @@ public class Module {
      * @param moduleCode The code of the module.
      */
     public Module(String moduleCode) throws RuntimeException{
-        //add wtv info u want...
         if (moduleCode.isEmpty()) {
             throw new NullPointerException();
         }
         this.moduleCode = moduleCode;
         this.moduleCredits = 4;
         this.isModularCreditsLoaded = false;
-    }
-
-
-    /**
-     * Loads module information from the NUSMods API and populates the fields of this object.
-     *
-     * This method sends a request to the NUSMods API to retrieve module information and
-     * then populates the fields of the current object with the received data. The fields
-     * include module description, module name, module credits, and completion status.
-     *
-     *
-     */
-    public void loadNUSModsAPI(){
-        try {
-            JSONObject response = getFullModuleInfo(moduleCode);
-            assert response != null: "Response from NUSMods API is null";
-            assert !response.isEmpty(): "Response Object is empty";
-
-            this.isCompleted = false;
-            this.moduleDescription = (String) response.get("description");
-            this.moduleName = (String) response.get("title");
-            this.moduleCredits = (Integer) response.get("moduleCredit");
-        }catch (ClassCastException e){
-            this.moduleCredits = 4;
-        }catch (IOException e){
-            displaySocketError();
-        }
     }
 
     /**
@@ -104,7 +76,7 @@ public class Module {
 
     /**
      * Gets the module code.
-     *
+     * @author ryanlohyr
      * @return The code of this module.
      */
     public String getModuleCode() {

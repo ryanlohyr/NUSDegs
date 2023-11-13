@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 import static seedu.duke.controllers.ModuleServiceController.chooseToAddToSchedule;
 import static seedu.duke.controllers.ModuleServiceController.isConfirmedToClearSchedule;
-import static seedu.duke.models.logic.Api.doesModuleExist;
+import static seedu.duke.models.logic.Api.isValidModule;
 import static seedu.duke.models.logic.Prerequisite.getModulePrereqBasedOnCourse;
 import static seedu.duke.models.schema.Storage.saveSchedule;
 import static seedu.duke.models.schema.Storage.saveTimetable;
@@ -92,9 +92,22 @@ public class ModuleMethodsController {
         printModuleStringArray(moduleCodesLeft);
     }
 
-    public static void addModule(String module, int targetSem, Student student) {
+
+    /**
+     * Executes the command to add a module to the target semester of the student's schedule and saves the updated
+     * schedule. This method adds the specified module to the target semester of the student's schedule and prints
+     * the updated schedule. Additionally, it attempts to save the updated schedule to storage.
+     * Exceptions related to module deletion, missing modules, mandatory prerequisites, and
+     * storage I/O errors are caught and appropriate error messages are displayed.
+     *
+     * @author SebasFok
+     * @param module     The module code of the module to be added.
+     * @param targetSem  The target semester for adding the module.
+     * @param student    The student object to which the module will be added.
+     */
+    public static void executeAddModuleCommand(String module, int targetSem, Student student) {
         try {
-            student.addModuleSchedule(module, targetSem);
+            student.addModuleToSchedule(module, targetSem);
             displaySuccessfulAddMessage();
             student.printSchedule();
             try{
@@ -110,6 +123,14 @@ public class ModuleMethodsController {
         }
     }
 
+    /**
+     * Recommends a schedule to the given student based on their major.
+     * The method generates a recommended schedule, displays a loading animation,
+     * and allows the student to choose whether to add the recommended courses to their existing schedule.
+     *
+     * @author ryanlohyr
+     * @param student The student for whom the schedule recommendation is generated.
+     */
     public static void recommendScheduleToStudent(Student student) {
         try{
             displayMessage("Hold on a sec! Generating your recommended schedule <3....");
@@ -130,9 +151,20 @@ public class ModuleMethodsController {
         }
     }
 
-    public static void deleteModule(String module, Student student) {
+    /**
+     * Deletes a module from the student's schedule and saves the updated schedule.
+     * This method removes the specified module from the student's schedule and prints
+     * the updated schedule. Additionally, it attempts to save the updated schedule to storage.
+     * Exceptions related to module deletion, missing modules, mandatory prerequisites, and
+     * storage I/O errors are caught and appropriate error messages are displayed.
+     *
+     * @author ryanlohyr
+     * @param module  The code or identifier of the module to be deleted.
+     * @param student The student object whose schedule is being updated.
+     */
+    public static void executeDeleteModuleCommand(String module, Student student) {
         try {
-            student.deleteModuleSchedule(module);
+            student.deleteModuleFromSchedule(module);
             displaySuccessfulDeleteMessage();
             student.printSchedule();
             try{
@@ -149,9 +181,21 @@ public class ModuleMethodsController {
         }
     }
 
-    public static void shiftModule(String module, int targetSem, Student student) {
+    /**
+     * Executes the command to shift a module within a student's schedule to a different semester.
+     * This method shifts the specified module to the target semester of the student's schedule and prints
+     * the updated schedule. Additionally, it attempts to save the updated schedule to storage.
+     * Exceptions related to module deletion, missing modules, mandatory prerequisites, and
+     * storage I/O errors are caught and appropriate error messages are displayed.
+     *
+     * @author SebasFok
+     * @param module     The module code of the module to be shifted.
+     * @param targetSem  The target semester for shifting the module.
+     * @param student    The student object whose schedule will be updated.
+     */
+    public static void executeShiftModuleCommand(String module, int targetSem, Student student) {
         try {
-            student.shiftModuleSchedule(module, targetSem);
+            student.shiftModuleInSchedule(module, targetSem);
             displaySuccessfulShiftMessage();
             student.printSchedule();
             try{
@@ -172,7 +216,17 @@ public class ModuleMethodsController {
         }
     }
 
-    public static void clearSchedule(Student student){
+    /**
+     * Executes the command to clear the student's schedule. This method clears the entire schedule of the student as
+     * well as the completion status of all modules. Additionally, it attempts to save the updated schedule to storage.
+     * Before clearing, the user will be prompted again to check if they truly want to clear their schedule.
+     * Exceptions related to module deletion, missing modules, mandatory prerequisites, and
+     * storage I/O errors are caught and appropriate error messages are displayed.
+     *
+     * @author SebasFok
+     * @param student    The student object whose schedule will be cleared.
+     */
+    public static void executeClearScheduleCommand(Student student){
         if(!isConfirmedToClearSchedule()){
             displayUnsuccessfulClearMessage();
             return;
@@ -202,7 +256,7 @@ public class ModuleMethodsController {
             try{
                 saveSchedule(student);
             }catch (IOException ignored){
-                //we ignore first as GitHub actions cant save schedule on the direcotry
+                //we ignore first as GitHub actions cant save schedule on the directory
             }
 
         } catch (MissingModuleException e) {
@@ -218,15 +272,12 @@ public class ModuleMethodsController {
         }
     }
 
-
-
     public static void getRequiredModulesForStudent(String major) {
         printRequiredModules(major);
     }
 
     /**
      * Determines and displays the prerequisites of a module for a given major.
-     *
      * This method determines the prerequisites of a module based on the provided module code and major.
      * It checks if the module exists, retrieves its prerequisites, and displays them if they are available.
      * If the module does not exist, or if there are any issues with retrieving prerequisites, appropriate
@@ -236,26 +287,29 @@ public class ModuleMethodsController {
      * @param major      The major for which the prerequisites are determined.
      */
     public static void determinePrereq(String moduleCode, String major) {
-        boolean exist = doesModuleExist(moduleCode);
+        boolean isValid = isValidModule(moduleCode);
+        ArrayList<String> prereq;
 
-        if (!exist) {
+        // Checks if the module is a valid module in NUS
+        if (!isValid) {
             return;
         }
-        ArrayList<String> prereq;
+
         try{
             prereq = getModulePrereqBasedOnCourse(moduleCode, major);
+
+            if (prereq == null) {
+                displayMessage("Module " + moduleCode + " has no prerequisites.");
+                return;
+            }
+
+            printModuleStringArray(prereq);
+
         } catch (InvalidPrereqException e) {
             displayMessage(e.getMessage());
-            return;
         }catch (IOException e){
+            //if there is an issue connecting to NUSMods/connecting to the internet
             displaySocketError();
-            return;
-        }
-
-        if (prereq == null || prereq.isEmpty()) {
-            displayMessage("Module " + moduleCode + " has no prerequisites.");
-        }else{
-            printModuleStringArray(prereq);
         }
     }
 }

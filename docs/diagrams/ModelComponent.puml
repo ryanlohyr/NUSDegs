@@ -4,18 +4,25 @@
 @startuml
 
 
+component ModulePlannerController
+
+package "Student Data" {
 component Student
 component Schedule
 component Timetable
 [ModuleList] as modulesPlanned
-[ArrayList<ModuleWeekly>] as currentSemesterModulesWeekly
+}
+
+component NUSModsAPI
+
+ModulePlannerController -> "1" Student
 
 
-Student -> Schedule
-Schedule -> modulesPlanned
-Student -> Timetable
-Timetable -> currentSemesterModulesWeekly
 
-@enduml
+Student *-down-> "1"  Schedule
+Schedule --> "modulesPlanned 1" modulesPlanned
+Schedule .right.> NUSModsAPI: calls
+
+Student *-right-> "1" Timetable
 
 @enduml

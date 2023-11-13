@@ -24,9 +24,15 @@ The main logic of the application is handled by these four components
   - Never handles data logic
 - **View**:
   - Responsible for printing onto the Command Line Application
-- **Model**: 
-  - Response for retrieving data from the **Data Repository** 
+- **Model**:
+  - Stores the data and data logic methods that handles and manages the data 
   - Performs REST API calls to the NUSMODS API
+  -
+  - Responsible for retrieving data from the **Data Repository**
+  - does not depend on any of the other three components (as the Model represents data entities of the domain, they should make sense on their own without depending on other components)
+
+
+
 - **Storage**:
   - can save both schedule data and user data in .txt format, and read them back into corresponding objects.
   - depends on some classes in the Model component
@@ -34,6 +40,7 @@ The main logic of the application is handled by these four components
 ### How the architecture components interact with each other
 
 ![img.png](diagrams/addModule.png)
+
 
 The Sequence Diagram above shows how the components interact with each other when the user inserts a module 
 into his schedule
@@ -204,6 +211,7 @@ Command: `major CS`
 
 Response: `Major CS selected!`
 
+
 #### Example 2:
 If "abc" is an invalid major: `Student#updateMajor("major abc")` calls `Student#setMajor("abc")`, which generates an
 IllegalArgumentException, which is caught and returns a string `invalidMajor`
@@ -218,6 +226,35 @@ If no major was specified: `Student#updateMajor("major")` returns a string `curr
 Command: `major`
 
 Response: `Current major is [current major in student object].`
+
+## Add Module Feature
+
+The add module mechanism is facilitated by `ModuleMethodsController`. It tries to add the module to a target semester, 
+specified in userInput by the user, to their module schedule planner. It will print different responses based on whether
+the adding of module was successful.
+
+### Usage Examples
+
+Here are a few examples of how the add module feature behaves:
+
+#### Example 1:
+
+**Step 1.** The user inputs the `add CS1010 1` command to insert the module CS1010 to Year 1 Semester 1 of their 
+schedule. The add UserCommand() object is created from the user input.
+
+**Step 2.** If the user inputs are valid, `processCommand` is called by the UserCommand object. The command is then
+passed to the `ModuleMethodsController` through `executeAddModuleCommand()`. The `ModuleMethodsController` would then
+call the `addModuleToSchedule()` method in `Student`, which would then continue to call the `addModule()` method in
+`Schedule` and finally the `modulesPlanned` object.
+
+**Step 3.** Upon successful execution of all of the above, `ModuleMethodsController` would then construct a message
+which also includes an updated schedule which would be returned to the `UI` class to be formatted to the Command Line
+Interface.
+
+The following sequence diagram shows how the `add` command works:
+
+![updatedAddModule.png](diagrams%2FupdatedAddModule.png)
+
 
 ## Required Command
 

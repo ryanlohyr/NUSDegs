@@ -12,12 +12,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-import static seedu.duke.models.logic.DataRepository.getRequirements;
+import static seedu.duke.models.schema.Storage.getRequirements;
 
 public class Prerequisite {
     /**
      * Recursively checks if each branch of the prereq tree is satisfied by the student.
-     *
+     * @author SebasFok
      * @param modulePrereqArray The array of prerequisite modules or conditions to be checked.
      * @param currRequisite     The type of prerequisite condition ("or" or "and").
      * @param completedModules  The list of completed modules by the student.
@@ -100,6 +100,8 @@ public class Prerequisite {
 
     /**
      * Recursively flattens and processes a list of module prerequisites.
+     * More info on the data structure being processed can be found in
+     *  the prereqTree key in an example <a href="https://api.nusmods.com/v2/2023-2024/modules/EE2211.json">...</a>
      * @author ryanlohyr
      * @param major              The major or program for which prerequisites are being flattened.
      * @param prerequisites      An ArrayList to store the flattened prerequisites.
@@ -115,8 +117,13 @@ public class Prerequisite {
             ArrayList<String> courseRequirements,
             String currRequisite) throws ClassCastException {
         try {
+
             int lengthOfModulePreReqArray = modulePrereqArray.size();
+
+            // we keep a counter as if no preclusion is a module requirement for the major
+            // we will take the last module in the list of preclusions
             int counter = 0;
+
             for (Object module : modulePrereqArray) {
                 if (module instanceof String) {
                     String formattedModule = ((String) module).split(":")[0];
@@ -127,6 +134,7 @@ public class Prerequisite {
                             return;
                         }
                     }
+
                     //if this is the last item and the module also part of the courseRequirements, we add it anw
                     if (currRequisite.equals("or") && counter == (lengthOfModulePreReqArray - 1)
                             && !courseRequirements.contains((formattedModule))) {
@@ -193,6 +201,12 @@ public class Prerequisite {
         } catch (ClassCastException e) {
             throw new InvalidPrereqException(moduleCode);
         }
+
+        //As some modules in NUSMods return empty objects, we will return null to standardize
+        if(prerequisites.isEmpty()){
+            return null;
+        }
+
         return prerequisites;
     }
 
@@ -214,6 +228,7 @@ public class Prerequisite {
         if (prereqTree == null) {
             return null;
         } else if (prereqTree instanceof String) {
+
             JSONObject jsonObject = new JSONObject();
             ArrayList<String> requirementList = new ArrayList<>();
             requirementList.add((String) prereqTree);
@@ -228,6 +243,7 @@ public class Prerequisite {
     /**
      * Checks if a given module code is exempted from certain requirements.
      *
+     * @author ryanlohyr
      * @param moduleCode The module code to check.
      * @return True if the module is exempted, false otherwise.
      */
@@ -240,7 +256,7 @@ public class Prerequisite {
 
     /**
      * Retrieves a list of exempted prerequisites for a given module code.
-     *
+     * @author ryanlohyr
      * @param moduleCode The module code to retrieve exempted prerequisites for.
      * @return An ArrayList of exempted prerequisite module codes.
      */
@@ -276,6 +292,7 @@ public class Prerequisite {
     /**
      * Checks if a student satisfies all prerequisites for a given module.
      *
+     * @author SebasFok
      * @param moduleCode       The code of the module for which prerequisites need to be checked.
      * @param completedModules The list of completed modules by the student.
      * @return `true` if the student satisfies all prerequisites for the module, `false` otherwise.
@@ -284,7 +301,7 @@ public class Prerequisite {
     public static boolean satisfiesAllPrereq(String moduleCode, ModuleList completedModules)
             throws IllegalArgumentException {
         try {
-            if (!Api.doesModuleExist(moduleCode)) {
+            if (!Api.isValidModule(moduleCode)) {
                 throw new IllegalArgumentException("Invalid module code");
             }
 

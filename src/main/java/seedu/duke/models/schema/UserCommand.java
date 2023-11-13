@@ -12,10 +12,10 @@ import static seedu.duke.controllers.ModuleMethodsController.computePace;
 import static seedu.duke.controllers.ModuleMethodsController.showModulesLeft;
 import static seedu.duke.controllers.ModuleMethodsController.determinePrereq;
 import static seedu.duke.controllers.ModuleMethodsController.recommendScheduleToStudent;
-import static seedu.duke.controllers.ModuleMethodsController.addModule;
-import static seedu.duke.controllers.ModuleMethodsController.deleteModule;
-import static seedu.duke.controllers.ModuleMethodsController.shiftModule;
-import static seedu.duke.controllers.ModuleMethodsController.clearSchedule;
+import static seedu.duke.controllers.ModuleMethodsController.executeAddModuleCommand;
+import static seedu.duke.controllers.ModuleMethodsController.executeDeleteModuleCommand;
+import static seedu.duke.controllers.ModuleMethodsController.executeShiftModuleCommand;
+import static seedu.duke.controllers.ModuleMethodsController.executeClearScheduleCommand;
 import static seedu.duke.controllers.ModuleMethodsController.completeModule;
 import static seedu.duke.controllers.ModuleMethodsController.getRequiredModulesForStudent;
 
@@ -114,19 +114,19 @@ public class UserCommand implements UserCommandWord {
             String module = arguments[0].toUpperCase();
             int targetSem = Integer.parseInt(arguments[1]);
 
-            addModule(module, targetSem, student);
+            executeAddModuleCommand(module, targetSem, student);
             break;
         }
         case UserCommandWord.DELETE_MODULE_COMMAND: {
             String module = arguments[0].toUpperCase();
 
-            deleteModule(module,student);
+            executeDeleteModuleCommand(module,student);
             break;
         }
         case UserCommandWord.SHIFT_MODULE_COMMAND: {
             String module = arguments[0].toUpperCase();
             int targetSem = Integer.parseInt(arguments[1]);
-            shiftModule(module, targetSem, student);
+            executeShiftModuleCommand(module, targetSem, student);
             break;
         }
         case UserCommandWord.VIEW_SCHEDULE_COMMAND: {
@@ -134,7 +134,7 @@ public class UserCommand implements UserCommandWord {
             break;
         }
         case UserCommandWord.CLEAR_SCHEDULE_COMMAND: {
-            clearSchedule(student);
+            executeClearScheduleCommand(student);
             break;
         }
         case UserCommandWord.COMPLETE_MODULE_COMMAND: {
