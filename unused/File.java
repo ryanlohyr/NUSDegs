@@ -176,3 +176,45 @@
 //        // Add the value to the list associated with the key
 //        map.get(key).add(value);
 //    }
+
+//        completedModules.deleteModulebyCode(module);
+//        int nextSemStartingIndex = moduleCount;
+//
+//        int lastModuleIndex = modulesPlanned.getMainModuleList().size() - 1;
+//        List<String> completedModulesArray = modulesPlanned.getModuleCodes().subList(0, nextSemStartingIndex);
+//        ModuleList completedModules = new ModuleList(String.join(" ", completedModulesArray));
+//        completedModules.deleteModulebyCode(module);
+//
+//        List<String> modulesAheadArray;
+//        try {
+//       modulesAheadArray = modulesPlanned.getModuleCodes().subList(nextSemStartingIndex, lastModuleIndex + 1);
+//        } catch (IndexOutOfBoundsException | IllegalArgumentException e) {
+//            modulesAheadArray = new ArrayList<>();
+//        }
+//
+//        try {
+//            for (String moduleAhead : modulesAheadArray){
+//                if (!satisfiesAllPrereq(moduleAhead, completedModules)) {
+//                   throw new FailPrereqException("Unable to delete module. This module is a prerequisite for "
+//                            + moduleAhead);
+//                }
+//            }
+//        } catch (IllegalArgumentException e) {
+//            // This catch should never occur as it should not be possible to add an invalid module
+//            assert false;
+//            throw new IllegalArgumentException("Invalid Module in Schedule");
+//        }
+
+//        modulesPerSem[targetSem - 1] -= 1;
+//
+    /*Sebestians version
+    private static boolean isInternetReachable() {
+        try {
+            // Try connecting to a well-known server (Google's DNS server)
+            InetAddress address = InetAddress.getByName("8.8.8.8");
+            return address.isReachable(3000); // 3 seconds timeout
+        } catch (java.io.IOException e) {
+            return false; // Unable to connect
+        }
+    }
+    */
