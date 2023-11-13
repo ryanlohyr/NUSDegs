@@ -48,62 +48,7 @@ public class Timetable {
         }
     }
 
-    /*
-    public void modifyTimetable(Student student) throws seedu.duke.exceptions.InvalidModifyArgumentException {
-        //verify accepted timetableuser command
-        System.out.println("List of modules in current semester: ");
-        if (currentSemesterModulesWeekly.isEmpty()) {
-            System.out.println("There are no modules in your current semester. " +
-                    "Please add in modules, or generate using the 'recommend' command.");
-            return;
-        }
-        for (ModuleWeekly moduleWeekly : currentSemesterModulesWeekly) {
-            System.out.println(moduleWeekly.getModuleCode());
-        }
-        System.out.println();
-        printTTModifyDetailedLessonGuide("Entered Timetable Modify Mode");
 
-        Ui ui = new Ui();
-
-        boolean inTimetableModifyMode = true;
-        while (inTimetableModifyMode) {
-            try {
-                //Scanner in = new Scanner(System.in);
-
-
-                String userInput = ui.getUserCommand("Input timetable modify command here: ");
-
-                TimetableUserCommand currentTimetableCommand = new TimetableUserCommand(student,
-                        currentSemesterModulesWeekly, userInput);
-
-
-                String[] arguments = currentTimetableCommand.getArguments();
-
-                //if exit
-                if (isExitModify(arguments)) {
-                    inTimetableModifyMode = false;
-                    System.out.println("Exited Timetable Modify Mode");
-                    continue;
-                }
-
-                currentTimetableCommand.processTimetableCommand(currentSemesterModulesWeekly);
-                if (timetable.timetableViewIsAvailable()) {
-                    TimetableView.printTimetable(currentSemesterModulesWeekly);
-                } else {
-                    printTTModifySimpleLessonGuide("Timetable view is unavailable as modules in your " +
-                            "current semester have no lessons yet.");
-                }
-                //lessonsController(lessonType, indexOfModuleWeeklyToModify, time, duration, day);
-
-            } catch (InvalidTimetableUserCommandException e) {
-                displayMessage(e.getMessage());
-            }
-        }
-
-
-    }
-
-    */
 
 
     public boolean timetableViewIsAvailable() {
@@ -117,81 +62,6 @@ public class Timetable {
 
 
 
-
-    /*
-    public void processModifyArguments(int indexOfModule, Student student)
-            throws seedu.duke.exceptions.InvalidModifyArgumentException {
-
-        Scanner in = new Scanner(System.in);
-
-        String userInput;
-        System.out.println("Example: lecture /time 12 /duration 3 /day Tuesday \n" +
-                "Time range of values are 8-20 (where 8 refers to 0800 and 20 refers to 2000)");
-        try {
-            while(true){
-                System.out.println("Enter what you would like to modify with the following arguments " +
-                        "(lecture, tutorial, lab):");
-                userInput = in.nextLine().trim().replace("\r", "");
-                String[] wordArray = userInput.split(" ");
-                String command = wordArray[0].toUpperCase();
-                if (!command.equals("LECTURE") &&
-                        !command.equals("TUTORIAL") &&
-                        !command.equals("LAB")) {
-                    System.out.println("Not a valid command. Please try again!");
-                    continue;
-                }
-                try{
-                    if (parserTimeForModify(userInput) < 8 || parserTimeForModify(userInput) > 20) {
-                        //this is triggered when its a number but not a valid one.
-                        System.out.println("Not a valid time. Please try again!");
-                        continue;
-                    }
-                    if (parserDurationForModify(userInput) < 1 ||
-                            parserDurationForModify(userInput) > 20 - parserTimeForModify(userInput)) {
-                        //this is triggered when its a number but not a valid one.
-                        System.out.println("Not a valid duration. Please try again!");
-                        continue;
-                    }
-                }catch(IndexOutOfBoundsException e){
-                    //This is triggered when empty/not a number (mentioned issues of this in PR 166)
-                    System.out.println("Invalid duration or time");
-                    continue;
-                }
-
-                switch (command) {
-                case "LECTURE": {
-
-                    //TO BE REFACTORED
-                    // parsing of day should be validated in the same as the above ^ if statements. Did not change this
-                    //for you yet, but parserDayForModify should be moved up, and only if the day is valid as well,
-                    // then you enter the switch statement.
-                    timetable.currentSemesterModulesWeekly.get(indexOfModule).addLecture(parserDayForModify(userInput),
-                            parserTimeForModify(userInput), parserDurationForModify(userInput));
-                    TimetableView.printTimetable(currentSemesterModulesWeekly);
-                    return;
-                }
-                case "TUTORIAL": {
-                    timetable.currentSemesterModulesWeekly.get(indexOfModule).addTutorial(parserDayForModify(userInput),
-                            parserTimeForModify(userInput), parserDurationForModify(userInput));
-                    TimetableView.printTimetable(currentSemesterModulesWeekly);
-                    return;
-                }
-                case "LAB": {
-                    timetable.currentSemesterModulesWeekly.get(indexOfModule).addLab(parserDayForModify(userInput),
-                            parserTimeForModify(userInput), parserDurationForModify(userInput));
-                    TimetableView.printTimetable(currentSemesterModulesWeekly);
-                    return;
-                }
-                default: {
-                    System.out.println("Invalid Command. Please try again!");
-                }
-                }
-            }
-        } catch (IndexOutOfBoundsException e) {
-            throw new seedu.duke.exceptions.InvalidModifyArgumentException();
-        }
-    }
-    */
     /**
      * Retrieves the ModuleWeekly object for a given module code.
      * @author @rohitcube

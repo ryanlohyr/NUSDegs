@@ -287,8 +287,6 @@ public class Student {
             }
             int startIndex = numberOfModulesCleared;
             int endIndex = startIndex + numberOfModulesInCurrSem;
-
-            // add the modules in current semester into ModuleList currentSemesterModules
             currentSemesterModules = new ModuleList();
             for (int i = startIndex; i < endIndex; i++) {
                 currentSemesterModules.addModule(modulesPlanned.getModuleByIndex(i));
@@ -311,8 +309,6 @@ public class Student {
      * @author @rohitcube
      */
     public void setCurrentSemesterModulesWeekly() throws TimetableUnavailableException {
-        // checks if class variable into which I added the modules in current semester is empty
-        // if empty, means the user didn't plan or add any modules into the thing
         if (currentSemesterModules == null || currentSemesterModules.getMainModuleList().isEmpty()) {
             timetable.removeAll();
             int currentSem = getCurrentSem();
@@ -320,13 +316,8 @@ public class Student {
                     addOrRecommendGuide("Timetable view is unavailable as your current semester has " +
                             "no modules yet.", currentSem));
         }
-
-        // Ok the current sem modules are back in an array list<Module>
-        // so the point of putting it in the module list was to check whether empty
         ArrayList<Module> newCurrentSemModuleList = currentSemesterModules.getMainModuleList();
-        // new arrayList<moduleweekly> is instantiated, USE THIS, USE THIS TO CHECK IF IT EXISTS THE OTHER WAY ROUND
         ArrayList<ModuleWeekly> currentSemesterModulesWeekly = timetable.getCurrentSemesterModulesWeekly();
-        // moduleweekly added with module code  into arrayList<moduleweekly>
         for (int i = 0; i < currentSemesterModulesWeekly.size(); i++) {
             ModuleWeekly currModule = currentSemesterModulesWeekly.get(i);
             String currModuleCode = currModule.getModuleCode();
@@ -360,14 +351,11 @@ public class Student {
     public void timetableShowOrModify(String argument) {
         try {
             this.updateTimetable();
-            //this.setCurrentSemesterModules();
-            //this.setCurrentSemesterModulesWeekly();
             ModuleServiceController moduleServiceController = new ModuleServiceController();
             argument = argument.trim().toUpperCase().replace("\r", "");
             switch (argument) {
             case "SHOW": {
                 moduleServiceController.showTimetable(timetable.getCurrentSemesterModulesWeekly());
-                //TimetableView.printTimetable(timetable.getCurrentSemesterModulesWeekly());
                 break;
             }
             case "MODIFY": {
