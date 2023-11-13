@@ -17,85 +17,127 @@ import static seedu.duke.models.schema.Storage.getRequirements;
 public class Prerequisite {
     /**
      * Recursively checks if each branch of the prereq tree is satisfied by the student.
+     *
      * @author SebasFok
      * @param modulePrereqArray The array of prerequisite modules or conditions to be checked.
      * @param currRequisite     The type of prerequisite condition ("or" or "and").
      * @param completedModules  The list of completed modules by the student.
      * @return `true` if the student satisfies all prerequisites, `false` otherwise.
      */
-    static boolean checkPrereq(
+    private static boolean isPrereqSatisfied(
             ArrayList<Objects> modulePrereqArray,
             String currRequisite,
             ModuleList completedModules) {
         try {
 
             if (currRequisite.equals("or")) {
-                for (Object module : modulePrereqArray) {
-                    if (module instanceof String) {
-                        String formattedModule = ((String) module).replace(":D", "");
-                        formattedModule = formattedModule.replace("%", "");
-                        try {
-                            if (completedModules.existsByCode(formattedModule)) {
-                                return true;
-                            }
-                        } catch (InvalidObjectException e) {
-                            throw new RuntimeException(e);
-                        }
-                    } else {
-                        JSONObject prereqBranch = (JSONObject) module;
-
-                        //for cs, some modules return pre req in this form {"nOf":[2,["MA1511:D","MA1512:D"]]}
-                        //have to convert first
-                        if (prereqBranch.containsKey("nOf")) {
-                            String key = "and";
-                            ArrayList<ArrayList<Objects>> initial =
-                                    (ArrayList<ArrayList<Objects>>) prereqBranch.get("nOf");
-                            ArrayList<Objects> formattedInitial = initial.get(1);
-                            JSONArray prereqBranchArray = (JSONArray) formattedInitial;
-                            if(currRequisite.equals("and")){
-                                return checkPrereq(prereqBranchArray, key, completedModules);
-                            }
-
-                        } else {
-                            String key = (String) prereqBranch.keySet().toArray()[0];
-                            JSONArray prereqBranchArray = (JSONArray) prereqBranch.get(key);
-                            return checkPrereq(prereqBranchArray, key, completedModules);
-                        }
-
-
-                    }
-                }
-                return false;
+                return isOrBranchSatisfied(modulePrereqArray, completedModules);
             } else {
-                for (Object module : modulePrereqArray) {
-                    if (module instanceof String) {
-                        String formattedModule = ((String) module).replace(":D", "");
-                        formattedModule = formattedModule.replace("%", "");
-                        try {
-                            if (!completedModules.existsByCode(formattedModule)) {
-                                return false;
-                            }
-                        } catch (InvalidObjectException e) {
-                            throw new RuntimeException(e);
-                        }
-                    } else {
-                        JSONObject prereqBranch = (JSONObject) module;
-                        String key = (String) prereqBranch.keySet().toArray()[0];
-                        JSONArray prereqBranchArray = (JSONArray) prereqBranch.get(key);
-                        if (!checkPrereq(prereqBranchArray, key, completedModules)) {
-                            return false;
-                        }
-
-
-                    }
-                }
-                return true;
+                return isAndBranchSatisfied(modulePrereqArray, completedModules);
             }
         } catch (ClassCastException e) {
             System.out.println("Error checking prereq for this module");
             return false;
         }
 
+    }
+
+    /**
+     * Checks if the AND branch of a module's prerequisites is satisfied based on completed modules.
+     * Recursively checks the branch if there are nested prerequisite structures in the AND branch
+     *
+     * @author SebasFok
+     * @param modulePrereqArray The array representing the AND branch of prerequisites.
+     * @param completedModules  The list of modules that have been completed.
+     * @return true if the AND branch is satisfied, false otherwise.
+     * @throws RuntimeException If an unexpected exception occurs during prerequisite checking.
+     */
+    private static boolean isAndBranchSatisfied(ArrayList<Objects> modulePrereqArray, ModuleList completedModules) {
+        for (Object module : modulePrereqArray) {
+            if (module instanceof String) {
+                String formattedModule = ((String) module).replace(":D", "");
+                formattedModule = formattedModule.replace("%", "");
+                try {
+                    if (!completedModules.existsByCode(formattedModule)) {
+                        return false;
+                    }
+                } catch (InvalidObjectException e) {
+                    throw new RuntimeException(e);
+                }
+            } else {
+                JSONObject prereqBranch = (JSONObject) module;
+
+                //for cs, some modules return pre req in this form {"nOf":[2,["MA1511:D","MA1512:D"]]}
+                //have to convert first
+                if (prereqBranch.containsKey("nOf")) {
+                    String key = "and";
+                    ArrayList<ArrayList<Objects>> initial =
+                            (ArrayList<ArrayList<Objects>>) prereqBranch.get("nOf");
+                    ArrayList<Objects> formattedInitial = initial.get(1);
+                    JSONArray prereqBranchArray = (JSONArray) formattedInitial;
+                    if (!isPrereqSatisfied(prereqBranchArray, key, completedModules)){
+                        return false;
+                    }
+                } else {
+                    String key = (String) prereqBranch.keySet().toArray()[0];
+                    JSONArray prereqBranchArray = (JSONArray) prereqBranch.get(key);
+                    if (!isPrereqSatisfied(prereqBranchArray, key, completedModules)) {
+                        return false;
+                    }
+                }
+
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Checks if the OR branch of a module's prerequisites is satisfied based on completed modules.
+     * Recursively checks the branch if there are nested prerequisite structures in the OR branch
+     *
+     * @author SebasFok
+     * @param modulePrereqArray The array representing the OR branch of prerequisites.
+     * @param completedModules  The list of modules that have been completed.
+     * @return true if the OR branch is satisfied, false otherwise.
+     * @throws RuntimeException If an unexpected exception occurs during prerequisite checking.
+     */
+    private static boolean isOrBranchSatisfied(ArrayList<Objects> modulePrereqArray, ModuleList completedModules) {
+        for (Object module : modulePrereqArray) {
+            if (module instanceof String) {
+                String formattedModule = ((String) module).replace(":D", "");
+                formattedModule = formattedModule.replace("%", "");
+                try {
+                    if (completedModules.existsByCode(formattedModule)) {
+                        return true;
+                    }
+                } catch (InvalidObjectException e) {
+                    throw new RuntimeException(e);
+                }
+            } else {
+                JSONObject prereqBranch = (JSONObject) module;
+
+                //for cs, some modules return pre req in this form {"nOf":[2,["MA1511:D","MA1512:D"]]}
+                //have to convert first
+                if (prereqBranch.containsKey("nOf")) {
+                    String key = "and";
+                    ArrayList<ArrayList<Objects>> initial =
+                            (ArrayList<ArrayList<Objects>>) prereqBranch.get("nOf");
+                    ArrayList<Objects> formattedInitial = initial.get(1);
+                    JSONArray prereqBranchArray = (JSONArray) formattedInitial;
+                    if (isPrereqSatisfied(prereqBranchArray, key, completedModules)){
+                        return true;
+                    }
+
+                } else {
+                    String key = (String) prereqBranch.keySet().toArray()[0];
+                    JSONArray prereqBranchArray = (JSONArray) prereqBranch.get(key);
+                    return isPrereqSatisfied(prereqBranchArray, key, completedModules);
+                }
+
+
+            }
+        }
+        return false;
     }
 
     /**
@@ -324,7 +366,7 @@ public class Prerequisite {
                 initial = (ArrayList<Objects>) exceptionPrereqTree.get(key);
             }
 
-            return checkPrereq(initial, key, completedModules);
+            return isPrereqSatisfied(initial, key, completedModules);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
