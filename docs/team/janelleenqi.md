@@ -26,35 +26,43 @@ Highlights: Lessons are displayed by time and day and does not show days that do
 
 Credits: nil
 
-#### 2. Modules Left Feature
+#### 2. Save Timetable Feature
+
+Feature: Saves the weekly timetable of the user throughout the program.
+
+What it does: Updates the save file for the weekly timetable of the user when the user uses any features that changes 
+the timetable (timetable modify, recommend, shift, delete, clear).
+
+Justification: This feature allows the user to store their timetable data, so that they can built upon the same 
+timetable across multiple sessions.
+
+Highlights: The timetable needed to be updated when modules were deleted, to remove those modules from the timetable.
+
+#### 3. Modules Left Feature
 
 Feature: Added the ability to view modules left.
 
-What it does: Allows the user to retrieve a list of modules that is in their schedule but have not been marked as
+What it does: Allows the user to retrieve a list of modules that required for their major but have not been marked as
 completed.
 
-Justification: This feature gives clarity to the user as they are able to easily view what modules they have yet to complete.
+Justification: This feature gives clarity to the user as they are able to easily view what modules they have yet to 
+complete for graduation.
 
-Highlights: nil
-
-Credits: nil
-
-#### 3. Modules Required Feature
+#### 4. Modules Required Feature
 
 Feature: Added the ability to view modules required.
 
 What it does: Provides students with easy access to the requirements of their major, and be aware of Common Curriculum 
 Requirements.
 
-Justification: 
-
-Highlights: nil
-
-Credits: nil
+Justification: Gives students an easy access to a list of modules (and their names) they are required to take to 
+graduate.
 
 ### Classes Implemented
 
 #### 1. Event (and its child classes Lecture, Tutorial, Lab)
+Purpose: Allow information on a lesson to be store concisely for convenience, as well as methods for comparison 
+between different events (for printing in order), printing and saving. 
 
 #### 2. ModuleList
 Purpose: Provides multiple methods to use an ArrayList of Module, for easy retrieval of data (eg. ArrayList of module 
@@ -72,6 +80,4 @@ provided by user, ensuring optimal readability and good user experience.
 #### 1. Refactor Code
 
 Justification: Improved abstraction, separation of concerns and made it easier for testing
-Highlights: Required an in-depth understanding of code to ensure that I am not breaking features implemented by my 
-teammates. 
-
+Highlights: Required an in-depth understanding of code to ensure that no features were affected.
