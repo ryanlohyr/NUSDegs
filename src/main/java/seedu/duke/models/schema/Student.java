@@ -415,7 +415,7 @@ public class Student {
     }
 
     /**
-     * Checks if a module with a given module code exists in the current semester modules.
+     * Checks if a module with a given module code exists in the current semester 'modules weekly' class.
      * @author @rohitcube
      * @param moduleCode                   The module code to search for.
      * @param currentSemesterModulesWeekly The list of ModuleWeekly objects for the current semester.
@@ -431,6 +431,13 @@ public class Student {
         return false;
     }
 
+    /**
+     * Checks if a module with a given module code exists in the current semester modules.
+     * @author @rohitcube
+     * @param moduleCode                   The module code to search for.
+     * @param currentSemesterModulesWeekly The list of ModuleWeekly objects for the current semester.
+     * @return true if the module exists, false otherwise.
+     */
     public static boolean isExistInCurrentSemesterModule(String moduleCode,
                                                                ArrayList<Module> currentSemesterModulesWeekly) {
         for (Module module : currentSemesterModulesWeekly) {

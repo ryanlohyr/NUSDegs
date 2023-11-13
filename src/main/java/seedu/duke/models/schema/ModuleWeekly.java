@@ -149,26 +149,7 @@ public class ModuleWeekly extends Module {
         }
     }
 
-    public void getDuration(String moduleCode) {
-        JSONArray workloadCurrModule = null;
-        try {
-            workloadCurrModule = Api.getWorkload(moduleCode);
-            if (workloadCurrModule == null) {
-                throw new InvalidModuleCodeException();
-            }
-            int[] intArray = new int[workloadCurrModule.size()];
-            System.out.println(workloadCurrModule.get(0));
-            long longLectureDuration = (long) workloadCurrModule.get(0);
-            long longTutorialDuration = (long) workloadCurrModule.get(1);
-            long longLabDuration = (long) workloadCurrModule.get(2);
-            this.lectureDuration = (int) longLectureDuration;
-            this.tutorialTime = (int) longTutorialDuration;
-            this.labDuration = (int) longLabDuration;
-        } catch (InvalidModuleCodeException e) {
-            System.out.println(" module weekly exception in get duration");
-            throw new RuntimeException(e);
-        }
-    }
+
 
     //functions to alter lessons
 

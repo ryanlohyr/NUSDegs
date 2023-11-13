@@ -26,6 +26,17 @@ import seedu.duke.views.ModuleInfoView;
 
 public class Api {
 
+    /**
+     * Sends an HTTP GET request to the specified URL and returns the response body as a String.
+     *
+     * @author rohitcube
+     * @param url The URL to which the HTTP GET request is sent.
+     * @return The response body as a String.
+     * @throws ParseException If there is an issue parsing the response.
+     * @throws IOException If an I/O error occurs during the HTTP request.
+     * @throws InterruptedException If the HTTP request is interrupted.
+     * @throws URISyntaxException If the URL is not a valid URI.
+     */
     private static String sendHttpRequestAndGetResponseBody(String url) throws ParseException,
             IOException, InterruptedException, URISyntaxException {
         HttpClient client = HttpClient.newHttpClient();
