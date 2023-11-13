@@ -259,7 +259,7 @@ The following sequence diagram shows how the `add` command works:
 ## Required Command
 
 The following sequence diagram shows how the Required Command function works.
-![img.png](diagrams/required_seq_diag.png)
+![RequiredFeature_Seq.png](diagrams%2FRequiredFeature_Seq.png)
 
 The required command is implemented to give users an overview of the modules they need to complete for 
 their major. It is facilitated by major. Additionally, it implements the following operations:

@@ -68,7 +68,7 @@ loop moduleCode
     S -> CMC: completedModuleCodes\n.contains(moduleCode)
     CMC --> S: contains:Boolean
 
-    alt !contains
+    opt !contains
         'moduleCodesLeft.add(moduleCode)
         S -> MCL: moduleCodesLeft\n.add(moduleCode)
         MCL --> S
