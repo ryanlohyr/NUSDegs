@@ -114,12 +114,16 @@ The `` component:
 
 ## Pacing and MC Calculation
 
-The "Pacing and MC Calculation" mechanism is implemented to help users track their academic progress and remaining Modular Credits (MCs) required for graduation. This feature is facilitated by the PacingManager, which stores user data and provides functions for calculating the recommended pacing and remaining MCs. The following operations are available:
+The following sequence diagram shows how the pace command function works.
 
-- PacingManager#calculateRemainingMCs() — Calculates the remaining MCs required for graduation.
-- PacingManager#calculateRecommendedPace() — Recommends the pacing for upcoming semesters.
+<img src="diagrams/pace_sequenceDiagram.jpeg" alt="Image" width="600">
 
-These operations are exposed in the Pacing interface as Pacing#calculateRemainingMCs() and Pacing#calculateRecommendedPace() respectively.
+
+The "Pacing and MC Calculation" mechanism is implemented to help users track their 
+academic progress and remaining Modular Credits (MCs) required for graduation. 
+
+This feature is facilitated by the `ModuleMethodsController`. It calculates the average amount of modular credits the user 
+has to take in each semester in order to graduate on time.
 
 ### Usage Examples
 
@@ -127,26 +131,39 @@ Here are a few examples of how the "Pacing and MC Calculation" feature behaves:
 
 #### Example 1: Calculate Remaining MCs
 
-Command: `pace Y2/S1` (assuming that the user has completed 60 MCs from Y1S1 to Y2S1)
+Command: `pace Y1/S1` (assuming 0 modular credits were done in semester one)
 
 Response:
-`You currently have 100 MCs left until graduation.`
+
+`You have 160MCs for 7 semesters. Recommended pace: 23MCs per sem until graduation`
 
 #### Example 2: Calculate Remaining MCs (No Semester Specified)
 
-Command: `pace`
+Note: If no semester is specified, we will take the initial semester that the user has inputted upon initialisation. 
+
+Command: `pace` (Assuming user is y2/s1 and has completed 40 modular credits)
 
 Response:
-`You currently have 100 MCs left until graduation.`
+
+`You have 120MCs for 6 semesters. Recommended pace: 20MCs per sem until graduation`
 
 ## Recommend Schedule Based on Course
 
-Based on the course, we will provide an recommended schedules that is sorted based on prerequisites. This feature is facilitated by the scheudle manager which stores information about the schedule and performs actions like add and remove from schedule.
+The following sequence diagrams shows how the recommend command function works.
 
-- PacingManager#recommend() — recommends a scheudle that is sorted based on pre requisites. 
-- PacingManager#addRecommendedScheduleToSchedule() — adds the recommended schedue to the user's timetable.
+Recommended a schedule based on the user's major:
 
-These operations are exposed in the Scheulde interface as Schedule#addRecommendedScheduleListToSchedule() and ScheduleGenerator#generateRecommendedSchedule() respectively.
+<img src="diagrams/recommended_one.jpeg" alt="Image" width="600">
+
+Recommended a schedule based on the user's major:
+
+
+<img src="diagrams/recommended_two.jpeg" alt="Image" width="600">
+
+
+Based on the course, we will provide a recommended schedules that is sorted based on prerequisites. 
+
+This feature is facilitated by the `ModuleMethodsController`. which stores information about the schedule and performs actions like add and remove from schedule.
 
 ### Usage Examples
 
@@ -154,27 +171,43 @@ Here are a few examples of how the "Recommend schedule" feature behaves:
 
 #### Step 1: Recommend schedule for computer engineering(CEG)
 
-Command: `recommend ceg` 
+Command: `recommend` 
 
 Response:
-`[GEA1000, MA1511, MA1512, DTK1234, GESS1000, CS1010, GEN2000, EG2501, EG1311, GEC1000, PF1101, CDE2000, IE2141, CG1111A, EG2401A, ES2631, ST2334, MA1508E, CS1231, CG2023, CG2111A, CS2040C, CG2027, EE2026, EE4204, EE2211, CG2271, CS2113, CG2028, CP3880, CG4002]
-Do you want to add this to your draft schedule?, please input 'Y' or 'N'
-`
+
+```
+1. GEA1000     2. MA1511      3. MA1512      4. DTK1234     5. GESS1000
+6. CS1231      7. CS1010      8. GEN2000     9. EG2501      10. EG1311
+11. GEC1000    12. PF1101     13. CDE2000    14. IE2141     15. CG1111A
+16. EG2401A    17. ES2631     18. ST2334     19. MA1508E    20. CG2023
+21. CG2111A    22. CS2040C    23. CG2027     24. EE2026     25. EE4204
+26. EE2211     27. CG2271     28. CS2113     29. CG2028     30. CP3880
+31. CG4002     
+Here you go!
+Taking the modules in this order will ensure a prerequisite worry free uni life!
+Do you want to add this to your schedule planner? (This will overwrite your current schedule!)
+Please input 'Y' or 'N' 
+```
+
 
 #### Step 2 (Only to be done after step 1): 
 
 Command: `Y`
 
 Response:
-`
-Sem 1: GESS1000 DTK1234 MA1512 MA1511 GEA1000 
-Sem 2: GEC1000 EG1311 EG2501 GEN2000 CS1010 
-Sem 3: EG2401A CG1111A IE2141 CDE2000 PF1101 
-Sem 4: CG2023 CS1231 MA1508E ST2334 ES2631 
-Sem 5: EE4204 EE2026 CG2027 CS2040C CG2111A 
-Sem 6: CG2028 CS2113 CG2271 EE2211 
-Sem 7: CG4002 CP3880 
-Sem 8: `
+
+```
+Here is your schedule planner!
+Sem 1:   X GESS1000     X DTK1234      X MA1512       X MA1511       X GEA1000      
+Sem 2:   X EG1311       X EG2501       X GEN2000      X CS1010       X CS1231       
+Sem 3:   X CG1111A      X IE2141       X CDE2000      X PF1101       X GEC1000      
+Sem 4:   X CG2023       X MA1508E      X ST2334       X ES2631       X EG2401A      
+Sem 5:   X EE4204       X EE2026       X CG2027       X CS2040C      X CG2111A      
+Sem 6:   X CG2028       X CS2113       X CG2271       X EE2211       
+Sem 7:   X CG4002       X CP3880       
+Sem 8:   
+Happy degree planning!
+```
 
 ## List Required Modules Left Feature
 
@@ -216,43 +249,6 @@ Required Modules Left:
 26. EE4204    
 ```
 
-## Input Major Feature
-
-The input major feature is facilitated by `Student`. It tries to store the major specified in userInput txt 
-file such that it can be used across sessions. It will print different responses based on whether the storing of the 
-Major was successful. Additionally, it implements the following operation:
-
-- `Student#setMajor(Major major)` – Saves the selected major in its memory.
-
-This operation is exposed in the `Student` interface as `Student#updateMajor(String userInput)`.
-
-### Usage Examples
-
-Here are a few examples of how the Input Major Feature behaves:
-
-#### Example 1:
-If "CS" is a valid major: `Student#updateMajor("major CS")` calls `Student#setMajor("CS")`, which sets the Major in the 
-student object as `CS` and returns a string `newMajor`
-
-Command: `major CS`
-
-Response: `Major CS selected!`
-
-
-#### Example 2:
-If "abc" is an invalid major: `Student#updateMajor("major abc")` calls `Student#setMajor("abc")`, which generates an
-IllegalArgumentException, which is caught and returns a string `invalidMajor`
-
-Command: `major abc`
-
-Response: `Please select a major from this list: [list of currently available Majors]`
-
-#### Example 3:
-If no major was specified: `Student#updateMajor("major")` returns a string `currentMajor`
-
-Command: `major`
-
-Response: `Current major is [current major in student object].`
 
 ## Add Module Feature
 

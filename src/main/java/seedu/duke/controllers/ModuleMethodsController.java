@@ -18,8 +18,8 @@ import static seedu.duke.controllers.ModuleServiceController.chooseToAddToSchedu
 import static seedu.duke.controllers.ModuleServiceController.isConfirmedToClearSchedule;
 import static seedu.duke.models.logic.Api.isValidModule;
 import static seedu.duke.models.logic.Prerequisite.getModulePrereqBasedOnCourse;
-import static seedu.duke.models.schema.Storage.saveSchedule;
-import static seedu.duke.models.schema.Storage.saveTimetable;
+import static seedu.duke.storage.StorageManager.saveSchedule;
+import static seedu.duke.storage.StorageManager.saveTimetable;
 import static seedu.duke.utils.errors.HttpError.displaySocketError;
 import static seedu.duke.views.Ui.displayMessage;
 import static seedu.duke.views.CommandLineView.displaySuccessfulAddMessage;
@@ -33,6 +33,7 @@ import static seedu.duke.views.ModuleInfoView.printModuleStringArray;
 import static seedu.duke.views.Ui.showLoadingAnimation;
 import static seedu.duke.views.Ui.stopLoadingAnimation;
 
+
 /**
  * This class houses all the methods for the Module Planner controller.
  * It provides functionality for computing the recommended pace, showing modules left,
@@ -41,20 +42,18 @@ import static seedu.duke.views.Ui.stopLoadingAnimation;
  * showing modules left, adding, deleting, completing modules,
  * and getting required modules for a student.
  *
- * @author ryanlohyr
  */
 public class ModuleMethodsController {
-    private static final String LEFT_HEADER = "Modules Left: ";
 
 
+    //@@author ryanlohyr
     /**
      * Computes and displays the recommended pace for completing remaining module credits until graduation.
      *
-     * @author ryanlohyr
      * @param arguments              An array of strings containing academic year and semester information.
      * @param completedModuleCredits The number of module credits already completed by the user.
      */
-    public static void computePace(String[] arguments, int completedModuleCredits, String currentAcademicYear) {
+    public static void executePaceCommand(String[] arguments, int completedModuleCredits, String currentAcademicYear) {
         int totalCreditsToGraduate = 160;
         int creditsLeft = totalCreditsToGraduate - completedModuleCredits;
         boolean argumentProvided = arguments.length != 0;
@@ -97,11 +96,11 @@ public class ModuleMethodsController {
      *                        It should not be null.
      */
     public static void showModulesLeft(ArrayList<String> moduleCodesLeft) {
-        displayMessage(LEFT_HEADER);
+        displayMessage("Required Modules Left: ");
         printModuleStringArray(moduleCodesLeft);
     }
 
-
+    //@@author SebasFok
     /**
      * Executes the command to add a module to the target semester of the student's schedule and saves the updated
      * schedule. This method adds the specified module to the target semester of the student's schedule and prints
@@ -109,7 +108,6 @@ public class ModuleMethodsController {
      * Exceptions related to module deletion, missing modules, mandatory prerequisites, and
      * storage I/O errors are caught and appropriate error messages are displayed.
      *
-     * @author SebasFok
      * @param module     The module code of the module to be added.
      * @param targetSem  The target semester for adding the module.
      * @param student    The student object to which the module will be added.
@@ -132,25 +130,25 @@ public class ModuleMethodsController {
         }
     }
 
+    //@@author ryanlohyr
     /**
      * Recommends a schedule to the given student based on their major.
      * The method generates a recommended schedule, displays a loading animation,
      * and allows the student to choose whether to add the recommended courses to their existing schedule.
      *
-     * @author ryanlohyr
      * @param student The student for whom the schedule recommendation is generated.
      */
-    public static void recommendScheduleToStudent(Student student) {
+    public static void executeRecommendCommand(Student student) {
         try{
             displayMessage("Hold on a sec! Generating your recommended schedule <3....");
 
             showLoadingAnimation();
 
-            ArrayList<String> recommendedSchedule = student
-                    .getSchedule()
-                    .generateRecommendedSchedule(student.getMajor());
+            ArrayList<String> recommendedSchedule = student.generateRecommendedSchedule();
 
             stopLoadingAnimation();
+
+            printModuleStringArray(recommendedSchedule);
 
             chooseToAddToSchedule(student, recommendedSchedule);
 
@@ -160,6 +158,7 @@ public class ModuleMethodsController {
         }
     }
 
+    //@@author ryanlohyr
     /**
      * Deletes a module from the student's schedule and saves the updated schedule.
      * This method removes the specified module from the student's schedule and prints
@@ -167,7 +166,6 @@ public class ModuleMethodsController {
      * Exceptions related to module deletion, missing modules, mandatory prerequisites, and
      * storage I/O errors are caught and appropriate error messages are displayed.
      *
-     * @author ryanlohyr
      * @param module  The code or identifier of the module to be deleted.
      * @param student The student object whose schedule is being updated.
      */
@@ -190,6 +188,7 @@ public class ModuleMethodsController {
         }
     }
 
+    //@@author SebasFok
     /**
      * Executes the command to shift a module within a student's schedule to a different semester.
      * This method shifts the specified module to the target semester of the student's schedule and prints
@@ -197,7 +196,6 @@ public class ModuleMethodsController {
      * Exceptions related to module deletion, missing modules, mandatory prerequisites, and
      * storage I/O errors are caught and appropriate error messages are displayed.
      *
-     * @author SebasFok
      * @param module     The module code of the module to be shifted.
      * @param targetSem  The target semester for shifting the module.
      * @param student    The student object whose schedule will be updated.
@@ -225,6 +223,7 @@ public class ModuleMethodsController {
         }
     }
 
+    //@@author SebasFok
     /**
      * Executes the command to clear the student's schedule. This method clears the entire schedule of the student as
      * well as the completion status of all modules. Additionally, it attempts to save the updated schedule to storage.
@@ -232,7 +231,6 @@ public class ModuleMethodsController {
      * Exceptions related to module deletion, missing modules, mandatory prerequisites, and
      * storage I/O errors are caught and appropriate error messages are displayed.
      *
-     * @author SebasFok
      * @param student    The student object whose schedule will be cleared.
      */
     public static void executeClearScheduleCommand(Student student){
@@ -313,13 +311,13 @@ public class ModuleMethodsController {
         printRequiredModules(major);
     }
 
+    //@@author ryanlohyr
     /**
      * Determines and displays the prerequisites of a module for a given major.
      * This method determines the prerequisites of a module based on the provided module code and major.
      * It checks if the module exists, retrieves its prerequisites, and displays them if they are available.
      * If the module does not exist, or if there are any issues with retrieving prerequisites, appropriate
      * messages are displayed.
-     * @author ryanlohyr
      * @param moduleCode The module code for which prerequisites need to be determined.
      * @param major      The major for which the prerequisites are determined.
      */

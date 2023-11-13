@@ -15,8 +15,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import static seedu.duke.models.schema.Storage.saveSchedule;
-import static seedu.duke.models.schema.Storage.saveTimetable;
+import static seedu.duke.storage.StorageManager.saveSchedule;
+import static seedu.duke.storage.StorageManager.saveTimetable;
 import static seedu.duke.utils.TimetableParser.isExitModify;
 import static seedu.duke.views.MajorRequirementsView.printRequiredModules;
 import static seedu.duke.views.SemesterPlannerView.displaySchedule;
@@ -26,7 +26,6 @@ import static seedu.duke.views.TimetableUserGuideView.printTTModifyDetailedLesso
 import static seedu.duke.views.TimetableUserGuideView.printTTModifySimpleLessonGuide;
 import static seedu.duke.views.TimetableView.printTimetable;
 import static seedu.duke.views.Ui.displayMessage;
-import static seedu.duke.views.ModuleInfoView.printModuleStringArray;
 
 public class ModuleServiceController {
 
@@ -48,23 +47,24 @@ public class ModuleServiceController {
     }
 
 
+    //@@author ryanlohyr
     /**
      * Prompts the user to choose whether to add a list of modules to their draft schedule.
      * Displays the list of modules and asks for user input. Handles user input validation.
      *
-     * @author ryanlohyr
      * @param scheduleToAdd A list of modules to be added to the schedule.
      */
     public static void chooseToAddToSchedule(Student student, ArrayList<String> scheduleToAdd) throws IOException {
 
         Scanner in = new Scanner(System.in);
-        printModuleStringArray(scheduleToAdd);
 
         displayMessage("Here you go!");
         displayMessage("Taking the modules in this order will ensure a prerequisite worry free uni life!");
         displayMessage("Do you want to add this to your schedule planner? " +
                 "(This will overwrite your current schedule!)");
         displayMessage("Please input 'Y' or 'N'");
+
+
 
         String userInput = in.nextLine().replace("\r", "").toUpperCase();
 
@@ -78,7 +78,8 @@ public class ModuleServiceController {
             return;
         }
 
-        student.getSchedule().addRecommendedScheduleListToSchedule(scheduleToAdd);
+        student.addRecommendedSchedule(scheduleToAdd);
+
         displayMessage("Here is your schedule planner!");
 
         Schedule currentSchedule = student.getSchedule();
@@ -105,11 +106,11 @@ public class ModuleServiceController {
         printRequiredModules(major);
     }
 
+    //@@author SebasFok
     /**
      * Asks the user for confirmation to clear their schedule and returns the user's choice.
      * Displays a message warning that clearing your schedule cannot be undone.
      *
-     * @author SebasFok
      * @return true if the user confirms by entering 'Y', false if 'N'.
      */
     public static boolean isConfirmedToClearSchedule() {

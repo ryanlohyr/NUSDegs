@@ -29,7 +29,7 @@ public class CompleteFeatureTest {
         student.setYear("Y3/S2");
         System.setOut(new PrintStream(outputStream));
         ArrayList<String> recommendedSchedule = student.getSchedule().generateRecommendedSchedule("CEG");
-        student.getSchedule().addRecommendedScheduleListToSchedule(recommendedSchedule);
+        student.getSchedule().addReccToSchedule(recommendedSchedule);
     }
 
     @AfterEach

@@ -89,7 +89,7 @@ delete MODULE_CODE             Deletes module from the schedule planner.
 shift MODULE_CODE SEMESTER     Shifts module in the schedule planner.
 clear                          Clears all schedule planner and completion data.
 complete MODULE_CODE           Marks a module as complete on schedule planner.
-left                           Displays a list of remaining modules.
+left                           Displays a list of remaining required modules.
 pace [CURRENT_SEMESTER]        Computes and displays your graduation pace.
 timetable COMMAND              Displays a grid containing this semester's classes
 bye                            Saves the user's schedule and timetable and exits the program.

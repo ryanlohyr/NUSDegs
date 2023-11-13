@@ -8,7 +8,6 @@ import java.io.InputStream;
  * This class provides static methods for displaying welcome messages, logos, and handling user input.
  * It is designed for use in applications related to Computer Science (CS) and Computer Engineering (CEG).
  *
- * @author ryanlohyr
  */
 public class Ui {
     private static Thread loadingThread;
@@ -35,11 +34,11 @@ public class Ui {
         System.out.println(o);
     }
 
+    //@@author ryanlohyr
     /**
      * Displays a welcome message to CS and CEG students.
      * This method prints a welcome message and a logo to the console, providing a friendly greeting
      * to Computer Science (CS) and Computer Engineering (CEG) students using the application.
-     * @author ryanlohyr
      */
     public static void displayWelcome(){
 
@@ -64,11 +63,11 @@ public class Ui {
     }
 
 
+    //@@author ryanlohyr
     /**
      * Prompts the user with a message and retrieves a command from the console.
      * This method displays a prompt message to the user, reads a command from the console,
      * and returns the entered command as a String.
-     * @author ryanlohyr
      * @param toDisplay The message to display as a prompt before reading the user's input.
      * @return A String representing the command entered by the user.
      */
@@ -78,12 +77,12 @@ public class Ui {
         return in.nextLine();
     }
 
+    //@@author ryanlohyr
     /**
      * Prints one or more messages surrounded by a divider.
      * This method prints messages to the console, each on a new line, surrounded by a divider.
      * It is a utility method for displaying information or messages in a formatted way.
      *
-     * @author ryanlohyr
      * @param messages The messages to be printed. Each message is printed on a new line.
      */
     public void printMessage(String... messages) {
@@ -96,6 +95,7 @@ public class Ui {
     }
 
 
+    //@@author ryanlohyr
     /**
      * Prints an error message related to data storage issues.
      * This method prints an error message indicating that there is an issue with retrieving data.
@@ -103,7 +103,6 @@ public class Ui {
      * Users are instructed to continue using the application to create a new save file or overwrite
      * the corrupted file.
      *
-     * @author ryanlohyr
      */
     public void printStorageError() {
         out.println();
@@ -111,10 +110,11 @@ public class Ui {
         System.out.println("Unable to retrieve any data. Your save file may be corrupted.\n" +
                 "Please continue using the application to create new save files or overwrite " +
                 "the corrupted files!");
-        out.print("Please check ./data again");
+        out.println("Please check ./data again");
         stopLoadingAnimation();
     }
 
+    //@@author ryanlohyr
     /**
      * Displays a loading animation in the console.
      * This method creates a new thread that prints a loading animation sequence to the console.
@@ -123,11 +123,10 @@ public class Ui {
      * Note: This method assumes that the console supports carriage return ("\r") for updating the loading animation.
      * Example animationChars: {"(.O_O.)", "(.o_o.)", "(.<_<.)", "(.^_^.)"}
      *
-     * @author ryanlohyr
      *
      */
     public static void showLoadingAnimation() {
-        String[] animationChars = {"(.O_O.)","(.o_o.)","(.<_<.)","(.^_^.)"};
+        String[] animationChars = {"(.O_O.)","(.o_o.)","(.<_<.)","(.>_>.)","(.>_<.)","(.^_^.)"};
         loadingThread = new Thread(() -> {
             int i = 0;
             while (!Thread.currentThread().isInterrupted()) {
@@ -144,18 +143,24 @@ public class Ui {
         loadingThread.start();
     }
 
+    //@@author ryanlohyr
     /**
      * Stops the loading animation thread if it is currently running.
      * This method checks if the loading animation thread is active and interrupts it if so.
      * It is used to halt any ongoing loading animation gracefully.
-     *
      * Note: This method assumes that the loadingThread variable is appropriately managed.
      * If the loadingThread is null or not alive, no action is taken.
-     * @author ryanlohyr
      */
     public static void stopLoadingAnimation() {
         if (loadingThread != null && loadingThread.isAlive()) {
             loadingThread.interrupt();
+            try {
+                // Wait for the loading thread to finish
+                loadingThread.join();
+            } catch (InterruptedException e) {
+                // Handle the interruption if needed
+                Thread.currentThread().interrupt();  // Restore interrupted status
+            }
         }
     }
 }

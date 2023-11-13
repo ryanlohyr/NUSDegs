@@ -1,6 +1,6 @@
 package seedu.duke.controllers;
 
-import seedu.duke.models.schema.Storage;
+import seedu.duke.storage.StorageManager;
 import seedu.duke.models.schema.Student;
 import seedu.duke.models.schema.CommandManager;
 import seedu.duke.models.schema.UserCommand;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 import static seedu.duke.controllers.ModuleServiceController.validateMajorInput;
 
-import static seedu.duke.models.schema.Storage.saveTimetable;
+import static seedu.duke.storage.StorageManager.saveTimetable;
 import static seedu.duke.utils.Utility.detectInternet;
 import static seedu.duke.utils.Utility.saveStudentData;
 import static seedu.duke.views.Ui.displayWelcome;
@@ -27,16 +27,16 @@ import static seedu.duke.views.CommandLineView.displayGetYear;
 import static seedu.duke.views.Ui.showLoadingAnimation;
 import static seedu.duke.views.Ui.stopLoadingAnimation;
 
-import static seedu.duke.models.schema.Storage.saveSchedule;
+import static seedu.duke.storage.StorageManager.saveSchedule;
 
 
 public class MainController {
     private final Parser parser;
     private final Student student;
     private final CommandManager commandManager;
-    private Storage storage;
+    private StorageManager storageManager;
 
-    private Ui ui;
+    private final Ui ui;
 
     public MainController() {
         this.commandManager = new CommandManager();
@@ -45,6 +45,7 @@ public class MainController {
         this.ui = new Ui();
     }
 
+    //@@author ryanlohyr
     /**
      * Starts the application, guiding the user through its execution.
      * This method performs the following steps:
@@ -54,7 +55,6 @@ public class MainController {
      * 4. Handle user input until an exit command is given.
      * 5. Display a goodbye message when the application is finished.\
      *
-     * @author ryanlohyr
      */
     public void start() throws IOException {
         displayWelcome();
@@ -62,37 +62,39 @@ public class MainController {
         initialiseUser();
         displayReady();
         handleUserInputTillExitCommand();
-        saveStudentData(storage,student);
+        saveStudentData(storageManager,student);
         displayGoodbye();
     }
 
+    //@@author SebasFok
     /**
      * Initializes the user by attempting to load data from save files. If successful, sets the user details,
      * schedule, and timetable. If loading fails or save files are missing, creates new save files, prompts for
      * user details, and resets the schedule and timetable.
      *
-     * @author SebasFok
      * @throws IOException If an IO error occurs during file operations.
      */
     public void initialiseUser() throws IOException {
 
-        storage = new Storage();
+        storageManager = new StorageManager();
         try {
-            System.out.println("Attempting to retrieve data from save file... Sorry this takes a while!");
+            System.out.println("Attempting to look for your data file...");
+
             showLoadingAnimation();
+
             // Load name, major and year from studentDetails.txt file
-            ArrayList<String> studentDetails = storage.loadStudentDetails();
+            ArrayList<String> studentDetails = storageManager.loadStudentDetails();
 
             // Set name, major and year from loaded data, throws exception if file is corrupted.
             setStudentDetails(studentDetails);
 
             // Load and set schedule from schedule.txt file
-            student.setSchedule(storage.loadSchedule());
+            student.setSchedule(storageManager.loadSchedule());
 
             // Load timetable from timetable.txt file
             try {
                 student.updateTimetable();
-                storage.addEventsToStudentTimetable(storage.loadTimetable(student), student);
+                storageManager.addEventsToStudentTimetable(storageManager.loadTimetable(student), student);
 
             } catch (TimetableUnavailableException e) {
                 // no modules in current sem, do nothing
@@ -110,23 +112,12 @@ public class MainController {
             return;
 
         } catch (MissingFileException e) {
-            System.out.println("New save files will be created.");
-            //storage.createUserStorageFile();
-            //System.out.println("Files successfully created!");
-            //student.setSchedule(new Schedule());
-
+            stopLoadingAnimation();
+            System.out.println("Looks like you're new, new save files will be created.");
 
         } catch (CorruptedFileException e) {
+            stopLoadingAnimation();
             ui.printStorageError();
-            //student.setSchedule(new Schedule());
-            /*
-            try {
-                student.updateTimetable();
-            } catch (TimetableUnavailableException ignoredError) {
-                //should be unavailable
-            }
-
-            */
         }
 
         resetStorageData();
@@ -135,7 +126,7 @@ public class MainController {
     }
 
     public void resetStorageData() throws IOException {
-        storage.createUserStorageFile();
+        storageManager.createUserStorageFile();
 
         String userInput;
 
@@ -158,7 +149,7 @@ public class MainController {
             userInput = ui.getUserCommand("Please enter your current academic year: ").trim();
         } while (!Parser.isValidAcademicYear(userInput.toUpperCase()));
         student.setYear(userInput.toUpperCase());
-        storage.saveStudentDetails(student);
+        storageManager.saveStudentDetails(student);
 
         //get blank schedule.txt
         student.setSchedule(new Schedule());
@@ -174,10 +165,10 @@ public class MainController {
         saveTimetable(student);
     }
 
+    //@@author SebasFok
     /**
      * Sets the student details based on the provided list of information, such as name, major, and year.
      *
-     * @author SebasFok
      * @param studentDetails The list of student information containing name, major, and year in this order.
      * @throws CorruptedFileException If the provided student information is null, has an incorrect number of elements,
      *                                or if any of the information is invalid.

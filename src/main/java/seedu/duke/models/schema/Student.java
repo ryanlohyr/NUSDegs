@@ -15,7 +15,7 @@ import java.io.InvalidObjectException;
 import java.util.ArrayList;
 
 import static seedu.duke.models.logic.Prerequisite.getModulePrereqBasedOnCourse;
-import static seedu.duke.models.schema.Storage.getRequirements;
+import static seedu.duke.storage.StorageManager.getRequirements;
 import static seedu.duke.utils.errors.HttpError.displaySocketError;
 import static seedu.duke.views.CommandLineView.displaySuccessfulCompleteMessage;
 import static seedu.duke.views.TimetableUserGuideView.addOrRecommendGuide;
@@ -145,10 +145,10 @@ public class Student {
         }
     }
 
+    //@@author SebasFok
     /**
      * Adds a module to the student's schedule for a specified semester.
      *
-     * @author SebasFok
      * @param moduleCode The code of the module to be added.
      * @param targetSem  The semester in which the module will be added.
      * @throws IllegalArgumentException If the target semester is not valid.
@@ -158,6 +158,14 @@ public class Student {
     public void addModuleToSchedule(String moduleCode, int targetSem) throws IllegalArgumentException,
             InvalidObjectException, FailPrereqException {
         this.schedule.addModule(moduleCode, targetSem);
+    }
+
+    public ArrayList<String> generateRecommendedSchedule() throws IOException {
+        return this.schedule.generateRecommendedSchedule(this.major);
+    }
+
+    public void addRecommendedSchedule(ArrayList<String> schedule){
+        this.schedule.addReccToSchedule(schedule);
     }
 
     /**
@@ -182,11 +190,11 @@ public class Student {
 
 
     }
+    //@@author ryanlohyr
     /**
      * Deletes a module with the specified module code. This method also updates the completed
      * module credits and removes the module from the planned modules list.
      *
-     * @author ryanlohyr
      * @param moduleCode The code of the module to be deleted.
      * @throws MandatoryPrereqException If deleting the module fails due to prerequisite dependencies.
      */
@@ -206,10 +214,10 @@ public class Student {
         }
     }
 
+    //@@author SebasFok
     /**
      * Shifts a module within the student's schedule to a different semester.
      *
-     * @author SebasFok
      * @param moduleCode The code of the module to be shifted.
      * @param targetSem  The target semester to which the module will be shifted.
      * @throws IllegalArgumentException   If the target semester is not valid.
@@ -223,11 +231,11 @@ public class Student {
         this.schedule.shiftModule(moduleCode, targetSem);
     }
 
+    //@@author SebasFok
     /**
      * Clears all modules from the student's schedule, resetting it to an empty schedule.
      * Also resets the completed module credits to zero.
      *
-     * @author SebasFok
      */
     public void clearAllModulesFromSchedule() {
         //Replaces current schedule with new schedule
