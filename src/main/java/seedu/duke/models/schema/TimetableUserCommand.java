@@ -14,7 +14,11 @@ import static seedu.duke.utils.TimetableParser.parseTime;
 import static seedu.duke.utils.TimetableParser.parseDuration;
 import static seedu.duke.utils.TimetableParser.parseDay;
 
-
+//@@author janelleenqi
+/**
+ * The TimetableUserCommand class represents a user command related to the timetable and provides methods to process
+ * and validate the user input.
+ */
 public class TimetableUserCommand {
 
     private static final String ERROR_INVALID_NUMBER_OF_ARGUMENTS = "Invalid Number of Arguments";
@@ -24,15 +28,20 @@ public class TimetableUserCommand {
     private static final int NUMBER_OF_ARGUMENTS_LESSON = 5;
     private static final String DELIMITER = " ";
 
-    //private final String userTimetableInput;
-    //private final String commandWord;
-
     private Student student;
     private ArrayList<ModuleWeekly> currentSemesterModulesWeekly;
     private String[] arguments;
-    //private final boolean isValid;
 
 
+    /**
+     * Constructs a TimetableUserCommand object with the specified student, current semester modules weekly,
+     * and user timetable input.
+     *
+     * @param student                       The student associated with the command.
+     * @param currentSemesterModulesWeekly The list of current semester modules weekly.
+     * @param userTimetableInput            The user input related to the timetable command.
+     * @throws InvalidTimetableUserCommandException If there is an issue with the user command.
+     */
     public TimetableUserCommand(Student student, ArrayList<ModuleWeekly> currentSemesterModulesWeekly,
                                 String userTimetableInput)
             throws InvalidTimetableUserCommandException {
@@ -91,22 +100,13 @@ public class TimetableUserCommand {
         arguments = argumentsNotNull;
     }
 
-    /*
-    private void cleanArguments() throws InvalidTimetableUserCommandException {
-    // ROHIT HERE!!
-    // check module exist in student modulesPlanned current sem
-    try {
-        student.getModulesPlanned().existsByCode(arguments[0]);
-    } catch (InvalidObjectException e) {
-        throw new InvalidTimetableUserCommandException(arguments[0] + ERROR_MODULE_DOES_NOT_EXIST);
-    }
-    //String[] cleanArguments = new String[NUMBER_OF_ARGUMENTS_LESSON];
 
-
-    }
-    */
-
-
+    /**
+     * Processes the timetable command, lessons clear and lessons modification.
+     *
+     * @param currentSemesterModulesWeekly The list of current semester modules weekly.
+     * @throws InvalidTimetableUserCommandException If there is an issue with the user command.
+     */
     public void processTimetableCommand(ArrayList<ModuleWeekly> currentSemesterModulesWeekly)
             throws InvalidTimetableUserCommandException {
 
@@ -125,6 +125,12 @@ public class TimetableUserCommand {
         processTimetableCommandLesson(currentSemesterModulesWeekly);
     }
 
+    /**
+     * Processes the timetable command related to lessons modification.
+     *
+     * @param currentSemesterModulesWeekly The list of current semester modules weekly.
+     * @throws InvalidTimetableUserCommandException If there is an issue with the user command.
+     */
     public void processTimetableCommandLesson(ArrayList<ModuleWeekly> currentSemesterModulesWeekly)
             throws InvalidTimetableUserCommandException {
 
@@ -161,7 +167,11 @@ public class TimetableUserCommand {
         }
     }
 
-
+    /**
+     * Retrieves the arguments of the timetable user command.
+     *
+     * @return The array of arguments.
+     */
     public String[] getArguments() {
         return arguments;
     }

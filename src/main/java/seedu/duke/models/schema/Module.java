@@ -43,6 +43,7 @@ public class Module {
         return isCompleted;
     }
 
+    //@@author ryanlohyr
     /**
      * Retrieves the modular credits for a module.
      * This method fetches the modular credits for a module by calling the NUSMods API.
@@ -50,7 +51,7 @@ public class Module {
      * If not, it makes an API call to get the full module information and extracts the modular credits.
      * In case of a ClassCastException (edge case when module has no credits), a default value of 4 credits is set.
      * Handles IOException by displaying a socket error message.
-     * @Author ryanlohyr
+     *
      * @return The number of modular credits for the module.
      *
      */
@@ -74,24 +75,35 @@ public class Module {
         return this.moduleCredits;
     }
 
+    //@@author ryanlohyr
     /**
      * Gets the module code.
-     * @author ryanlohyr
+     *
      * @return The code of this module.
      */
     public String getModuleCode() {
         return this.moduleCode;
     }
 
+    //@@author janelleenqi
+    /**
+     * Checks if this module is equal to another module by comparing their module codes.
+     *
+     * @param module The module to compare with.
+     * @return true if the modules have the same module code, false otherwise.
+     */
     public boolean equals(Module module) {
         return this.moduleCode.equals(module.moduleCode);
     }
 
-
+    //@@author janelleenqi
+    /**
+     * Generates a string representation of this module, which is its module code.
+     *
+     * @return The string representation of this module.
+     */
     @Override
     public String toString() {
         return this.moduleCode;
     }
-
-
 }

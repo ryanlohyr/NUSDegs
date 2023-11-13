@@ -55,6 +55,20 @@ The `UI` component:
 - displays messages to the user by printing to the CLI
 - displays results from commands executed by the ModulePlannerController class
 
+### Logic Component
+
+![ss_logicDiagram.jpg](screenshots%2Fss_logicDiagram.jpg)
+
+The `Logic` component:
+
+1. Input from the user is received through `Ui` class, is the pass into `ModulePlannerController`.
+2. When `ModulePlannerController` is called upon to execute a command, it uses the `Parser` class to parse for 
+`UserCommand`.
+2. This results in a `UserCommand` object which is executed by the `ModulePlannerController`.
+3. The `UserCommand` calls the methods specific to each `UserCommand` from `ModuleMethodsController`.
+(`ModuleServiceController` contains helper functions for `ModuleMethodsController`) 
+4. The result of the command execution is returned to the `Ui` and printed to the CLI.
+
 ### Model Component
 The component is specified in .java
 
@@ -100,12 +114,16 @@ The `` component:
 
 ## Pacing and MC Calculation
 
-The "Pacing and MC Calculation" mechanism is implemented to help users track their academic progress and remaining Modular Credits (MCs) required for graduation. This feature is facilitated by the PacingManager, which stores user data and provides functions for calculating the recommended pacing and remaining MCs. The following operations are available:
+The following sequence diagram shows how the pace command function works.
 
-- PacingManager#calculateRemainingMCs() — Calculates the remaining MCs required for graduation.
-- PacingManager#calculateRecommendedPace() — Recommends the pacing for upcoming semesters.
+<img src="diagrams/pace_sequenceDiagram.jpeg" alt="Image" width="600">
 
-These operations are exposed in the Pacing interface as Pacing#calculateRemainingMCs() and Pacing#calculateRecommendedPace() respectively.
+
+The "Pacing and MC Calculation" mechanism is implemented to help users track their 
+academic progress and remaining Modular Credits (MCs) required for graduation. 
+
+This feature is facilitated by the `ModuleMethodsController`. It calculates the average amount of modular credits the user 
+has to take in each semester in order to graduate on time.
 
 ### Usage Examples
 
@@ -113,26 +131,39 @@ Here are a few examples of how the "Pacing and MC Calculation" feature behaves:
 
 #### Example 1: Calculate Remaining MCs
 
-Command: `pace Y2/S1` (assuming that the user has completed 60 MCs from Y1S1 to Y2S1)
+Command: `pace Y1/S1` (assuming 0 modular credits were done in semester one)
 
 Response:
-`You currently have 100 MCs left until graduation.`
+
+`You have 160MCs for 7 semesters. Recommended pace: 23MCs per sem until graduation`
 
 #### Example 2: Calculate Remaining MCs (No Semester Specified)
 
-Command: `pace`
+Note: If no semester is specified, we will take the initial semester that the user has inputted upon initialisation. 
+
+Command: `pace` (Assuming user is y2/s1 and has completed 40 modular credits)
 
 Response:
-`You currently have 100 MCs left until graduation.`
+
+`You have 120MCs for 6 semesters. Recommended pace: 20MCs per sem until graduation`
 
 ## Recommend Schedule Based on Course
 
-Based on the course, we will provide an recommended schedules that is sorted based on prerequisites. This feature is facilitated by the scheudle manager which stores information about the schedule and performs actions like add and remove from schedule.
+The following sequence diagrams shows how the recommend command function works.
 
-- PacingManager#recommend() — recommends a scheudle that is sorted based on pre requisites. 
-- PacingManager#addRecommendedScheduleToSchedule() — adds the recommended schedue to the user's timetable.
+Recommended a schedule based on the user's major:
 
-These operations are exposed in the Scheulde interface as Schedule#addRecommendedScheduleListToSchedule() and ScheduleGenerator#generateRecommendedSchedule() respectively.
+<img src="diagrams/recommended_one.jpeg" alt="Image" width="600">
+
+Recommended a schedule based on the user's major:
+
+
+<img src="diagrams/recommended_two.jpeg" alt="Image" width="600">
+
+
+Based on the course, we will provide a recommended schedules that is sorted based on prerequisites. 
+
+This feature is facilitated by the `ModuleMethodsController`. which stores information about the schedule and performs actions like add and remove from schedule.
 
 ### Usage Examples
 
@@ -140,32 +171,48 @@ Here are a few examples of how the "Recommend schedule" feature behaves:
 
 #### Step 1: Recommend schedule for computer engineering(CEG)
 
-Command: `recommend ceg` 
+Command: `recommend` 
 
 Response:
-`[GEA1000, MA1511, MA1512, DTK1234, GESS1000, CS1010, GEN2000, EG2501, EG1311, GEC1000, PF1101, CDE2000, IE2141, CG1111A, EG2401A, ES2631, ST2334, MA1508E, CS1231, CG2023, CG2111A, CS2040C, CG2027, EE2026, EE4204, EE2211, CG2271, CS2113, CG2028, CP3880, CG4002]
-Do you want to add this to your draft schedule?, please input 'Y' or 'N'
-`
+
+```
+1. GEA1000     2. MA1511      3. MA1512      4. DTK1234     5. GESS1000
+6. CS1231      7. CS1010      8. GEN2000     9. EG2501      10. EG1311
+11. GEC1000    12. PF1101     13. CDE2000    14. IE2141     15. CG1111A
+16. EG2401A    17. ES2631     18. ST2334     19. MA1508E    20. CG2023
+21. CG2111A    22. CS2040C    23. CG2027     24. EE2026     25. EE4204
+26. EE2211     27. CG2271     28. CS2113     29. CG2028     30. CP3880
+31. CG4002     
+Here you go!
+Taking the modules in this order will ensure a prerequisite worry free uni life!
+Do you want to add this to your schedule planner? (This will overwrite your current schedule!)
+Please input 'Y' or 'N' 
+```
+
 
 #### Step 2 (Only to be done after step 1): 
 
 Command: `Y`
 
 Response:
-`
-Sem 1: GESS1000 DTK1234 MA1512 MA1511 GEA1000 
-Sem 2: GEC1000 EG1311 EG2501 GEN2000 CS1010 
-Sem 3: EG2401A CG1111A IE2141 CDE2000 PF1101 
-Sem 4: CG2023 CS1231 MA1508E ST2334 ES2631 
-Sem 5: EE4204 EE2026 CG2027 CS2040C CG2111A 
-Sem 6: CG2028 CS2113 CG2271 EE2211 
-Sem 7: CG4002 CP3880 
-Sem 8: `
+
+```
+Here is your schedule planner!
+Sem 1:   X GESS1000     X DTK1234      X MA1512       X MA1511       X GEA1000      
+Sem 2:   X EG1311       X EG2501       X GEN2000      X CS1010       X CS1231       
+Sem 3:   X CG1111A      X IE2141       X CDE2000      X PF1101       X GEC1000      
+Sem 4:   X CG2023       X MA1508E      X ST2334       X ES2631       X EG2401A      
+Sem 5:   X EE4204       X EE2026       X CG2027       X CS2040C      X CG2111A      
+Sem 6:   X CG2028       X CS2113       X CG2271       X EE2211       
+Sem 7:   X CG4002       X CP3880       
+Sem 8:   
+Happy degree planning!
+```
 
 ## List Modules Left Feature
 
 The following sequence diagram shows how the Left Command function works.
-![img.png](diagrams/left_seq_diag.png)
+![LeftFeature_Seq.png](diagrams%2FLeftFeature_Seq.png)
 
 The left mechanism is implemented to help users keep tracks of modules left for their major. It is facilitated by `modulesLeft`, `modulesMajor` and `modulesTaken`. Additionally, it implements the following operations:
 
@@ -259,7 +306,7 @@ The following sequence diagram shows how the `add` command works:
 ## Required Command
 
 The following sequence diagram shows how the Required Command function works.
-![img.png](diagrams/required_seq_diag.png)
+![RequiredFeature_Seq.png](diagrams%2FRequiredFeature_Seq.png)
 
 The required command is implemented to give users an overview of the modules they need to complete for 
 their major. It is facilitated by major. Additionally, it implements the following operations:
@@ -290,7 +337,6 @@ directory.
 - `getFullModuleInfo(major)` – Returns the `filePath` for the requirements of a specified major.
 - `sendHttpRequestAndGetResponseBody(String url)` – Displays the overview of modules required.
 - `getDescription(String moduleCode)` – Returns the `longestLineLength` of the file f.
-- `getWorkload(String moduleCode)` – Returns a string with a justified name according to length, appended with its description.
 - `listAllModules(), `printDoubleTopLine()`, `printBottomLine()`, `printDoubleBottomLine()` – Displays lines for formatting
 - `infoCommands(String command, String userInput), `printDoubleTopLine()`, `printBottomLine()`, `printDoubleBottomLine()` – Displays lines for formatting
 
@@ -305,6 +351,75 @@ Command: `required`
 Response:
 Module requirements for major selected by user
 
+## Modify lessons in the Weekly Timetable
+
+User Input: `timetable modify`
+
+The following sequence diagram details the process of the 'timetable modify loop'
+
+[timetableModify.puml](diagrams%2FtimetableModify.puml)
+![tt_modify_seq_diag.png](diagrams%2Ftt_modify_seq_diag.png)
+
+### Function List
+
+- `getUserCommand`: Retrieves user input for a timetable command.
+- `getArguments`: Retrieves arguments from a TimetableUserCommand.
+- `isModifyExit`: Checks if the user entered 'exit' as an argument.
+- `addLecture`: Adds a lecture to the selected module.
+- `addTutorial`: Adds a tutorial to the selected module.
+- `addLab`: Adds a lab to the selected module.
+- `isModifyClear`: Removes all lessons for the selected module.
+- `saveTimetable`: Saves the current timetable to storage.
+- `printTimetable`: Returns a formatted timetable display to the command-line interface.
+
+## Show Weekly Timetable Feature
+
+User Input: `timetable show`
+
+The following sequence diagram shows how the timetable show feature works:
+![TimetableShowFeature_Seq.png](diagrams%2FTimetableShowFeature_Seq.png)
+
+The following sequence diagram shows how the printTimetable operation works:
+![PrintTimetable_Seq.png](diagrams%2FPrintTimetable_Seq.png)
+
+When the user's command is determined to be `timetable show`, the program implements the following operations:
+### Function List (when timetableCommandWord == "SHOW")
+
+- `getCurrentSemesterModulesWeekly()`: Returns the ArrayList of ModuleWeekly for the current semester
+- `showTimetable(ArrayList<ModuleWeekly> currentSemModulesWeekly)`: Calls the printTimetable function 
+- `printTimetable(ArrayList<ModuleWeekly> currentSemModulesWeekly)`: Prints the Weekly Timetable to the console
+- `createDailyEvents(ArrayList<ModuleWeekly> \ncurrentSemesterModules)`: Converts the ArrayList<ModuleWeekly> to a 
+List of ArrayList<Events> for different days
+- `sortByTime(ArrayList<Event> currentDayEvents)`: Sorts Events in currentDayEvents by start time, duration, then 
+module code, in ascending order
+- `printTimetableHeader()`: Display timetable header
+- `printlnHorizontalLine()`: Display horizontal line
+- `printCurrentDayEvents(ArrayList<Event> currentDayEvents, day)`: Display the day's events
+
+### Design considerations
+Aspect: How timetable is printed:
+
+#### Current implementation: One row per day
+- Pros: Each table cell can be wider allowing each event to be printed in 1 line
+- Cons: The user needs to read the time for each event to understand when they are free.
+
+#### Previous implementation: One row per hour, one column per day
+- Pros: The user can see when they are free by day and hour easily
+- Cons: The console must be wide enough for it to be usable and aesthetic. Each table cell for an event was only about 
+11 characters wide.
+
+
+## Search Command
+
+The search command is implemented to give users the ability to search for modules based on their titles.
+
+- `searchCommand(keywords)': Searches NUSModsAPI for modules containing specified keywords in the title.
+- `listAllModules()`: Returns all modules for parsing and identifying those containing a specified keyword.
+- `printDoubleTopLine()`, `printBottomLine()`, `printDoubleBottomLine()` – Displays lines for 
+
+
+
+formatting
 
 ## Product scope
 ### Target user profile
@@ -317,10 +432,19 @@ Module requirements for major selected by user
 
 ## User Stories
 
-|Version| As a ... | I want to ... | So that I can ...|
-|--------|----------|---------------|------------------|
-|v1.0|new user|see usage instructions|refer to them when I forget how to use the application|
-|v2.0|user|find a to-do item by name|locate a to-do without having to go through the entire list|
+| Version | As a ... | I want to ...                                                                     | So that I can ...                                           |
+|---------|----------|-----------------------------------------------------------------------------------|-------------------------------------------------------------|
+| v1.0    | new user | see usage instructions                                                            | refer to them when I forget how to use the application      |
+| v2.0    | user     | find a to-do item by name                                                         | locate a to-do without having to go through the entire list |
+| v1.0    | user     | view my pace                                                                      | graduate on time                                            |
+| v1.0    | user     | view the required modules I am left with for my major                             | plan ahead for other semesters                              |
+| v2.0    | user     | search for specific modules based on keywords, course codes, or professors' names | quickly find the modules I need for my semesters            |
+| v2.0    | user     | alter (add, swap, delete) the modules in the schedule planner                     | update the recommended schedule to my preferences           |
+| v2.0    | user     | get the recommended schedule for my major                                         | have a starting point to use the app                        |
+| v2.0    | user     | get an overview of module requirements for my major                               | know which modules I must take to graduate                  |
+| v2.1    | user     | shift the modules in the schedule planner                                         | more easily edit my schedule and save more time             |
+| v2.1    | user     | plan my weekly timetable for my current semester                                  | keep track of my weekly lessons for my current semester     |
+| v2.1    | user     | mark modules I have added as completed                                            | keep track of my progress                                   |
 
 ## Non-Functional Requirements
 

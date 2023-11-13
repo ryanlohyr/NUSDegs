@@ -10,9 +10,9 @@ import java.util.Arrays;
 public class Parser {
     public static final String DELIMITER = " ";
 
+    //@@author ryanlohyr
     /**
      * Parses a user input string to extract and return the main command.
-     * @author ryanlohyr
      * @param userInput The user input string.
      * @return The main command from the input string.
      */
@@ -25,11 +25,10 @@ public class Parser {
         return keywords[0].toLowerCase().trim();
     }
 
-    //public static String parseTimetable
 
+    //@@author ryanlohyr
     /**
      * Excludes the command and extracts and returns an array of arguments from a user input string.
-     * @author ryanlohyr
      * @param userInput The user input string.
      * @return An array of arguments from the input string.
      */
@@ -43,13 +42,13 @@ public class Parser {
     }
 
 
+    //@@author ryanlohyr
     /**
      * Checks if the given academic year input is valid.
      * The academic year should be in the format "Yn/Sx", where 'n' represents the year
      * and 'x' represents the semester (e.g., Y1/S1, Y2/S2).
      *
      *
-     * @author @ryanlohyr
      * @param userInput The academic year input to be validated.
      * @return true if the input is a valid academic year, false otherwise.
      *
@@ -267,6 +266,14 @@ public class Parser {
         return !keywords.trim().isEmpty();
     }
 
+
+    /**
+     * Parses the year and semester from the given input string.
+     *
+     * @author rohitcube
+     * @param yearAndSem The input string containing year and semester information.
+     * @return An array containing the parsed year and semester as integers.
+     */
     public static int[] parseStudentYear(String yearAndSem) {
         char yearValue = yearAndSem.charAt(1);
         int year = Character.getNumericValue(yearValue);
@@ -275,26 +282,13 @@ public class Parser {
         return new int[]{year, sem};
     }
 
-    public static String parserDayForModify(String userInput) {
-        int startIndexOfDay = userInput.indexOf("/day");
-        String day = userInput.substring(startIndexOfDay + 4).trim();
-        return day;
-    }
-
-    public static int parserTimeForModify(String userInput) {
-        int startIndexOfTime = userInput.indexOf("/time");
-        int startIndexOfDuration = userInput.indexOf("/duration");
-        String time = userInput.substring(startIndexOfTime + 5, startIndexOfDuration).trim();
-        return Integer.parseInt(time);
-    }
-
-    public static int parserDurationForModify(String userInput) {
-        int startIndexOfDay = userInput.indexOf("/day");
-        int startIndexOfDuration = userInput.indexOf("/duration");
-        String time = userInput.substring(startIndexOfDuration + 9, startIndexOfDay).trim();
-        return Integer.parseInt(time);
-    }
-
+    /**
+     * Checks if the given user input is a valid lesson type (lecture, tutorial, or lab).
+     *
+     * @author rohitcube
+     * @param userInput The user input to be validated.
+     * @return true if the input is a valid lesson type, false otherwise.
+     */
     public static boolean isValidLessonType(String userInput) {
         String lowerCaseInput = userInput.toLowerCase();
         return lowerCaseInput.equals("lecture") ||
@@ -302,6 +296,13 @@ public class Parser {
                 lowerCaseInput.equals("lab");
     }
 
+    /**
+     * Checks if the given string can be converted to an integer.
+     *
+     * @author rohitcube
+     * @param input The string to be checked for integer conversion.
+     * @return true if the string can be converted to an integer, false otherwise.
+     */
     public static boolean isStringInteger(String input) {
         try {
             Integer.parseInt(input);
@@ -311,6 +312,13 @@ public class Parser {
         }
     }
 
+    /**
+     * Checks if the given day is a valid day of the week (case-insensitive).
+     *
+     * @author rohitcube
+     * @param day The day to be validated.
+     * @return true if the day is a valid day of the week, false otherwise.
+     */
     public static boolean isDayValid(String day) {
         String uppercaseDay = day.toUpperCase();
         return uppercaseDay.equals("MONDAY") ||
@@ -322,6 +330,13 @@ public class Parser {
                 uppercaseDay.equals("SUNDAY");
     }
 
+    /**
+     * Checks if there are no null elements in the given array.
+     *
+     * @author rohitcube
+     * @param array The array to be checked for null elements.
+     * @return true if there are no null elements, false otherwise.
+     */
     public static boolean hasNoNulls(Object[] array) {
         for (Object element : array) {
             if (element == null) {
@@ -331,6 +346,14 @@ public class Parser {
         return true;
     }
 
+
+    /**
+     * Removes null elements from the given string array and returns a new array.
+     *
+     * @author rohitcube
+     * @param inputArray The array from which null elements need to be removed.
+     * @return A new array with null elements removed.
+     */
     public static String[] removeNulls(String[] inputArray) {
         int newSize = 0;
         for (String element : inputArray) {

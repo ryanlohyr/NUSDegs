@@ -9,6 +9,7 @@ import java.util.List;
 import static seedu.duke.views.TimetableUserGuideView.printTimetableModifyGuide;
 import static seedu.duke.views.TimetableUserGuideView.printAddRecommendGuide;
 
+//@@author janelleenqi
 public class TimetableView {
     private static final int dayColumnWidth = 10;
     private static final int eventColumnWidth = 45;
