@@ -33,6 +33,7 @@ import static seedu.duke.views.ModuleInfoView.printModuleStringArray;
 import static seedu.duke.views.Ui.showLoadingAnimation;
 import static seedu.duke.views.Ui.stopLoadingAnimation;
 
+
 /**
  * This class houses all the methods for the Module Planner controller.
  * It provides functionality for computing the recommended pace, showing modules left,
@@ -41,15 +42,14 @@ import static seedu.duke.views.Ui.stopLoadingAnimation;
  * showing modules left, adding, deleting, completing modules,
  * and getting required modules for a student.
  *
- * @author ryanlohyr
  */
 public class ModuleMethodsController {
 
 
+    //@@author ryanlohyr
     /**
      * Computes and displays the recommended pace for completing remaining module credits until graduation.
      *
-     * @author ryanlohyr
      * @param arguments              An array of strings containing academic year and semester information.
      * @param completedModuleCredits The number of module credits already completed by the user.
      */
@@ -123,12 +123,12 @@ public class ModuleMethodsController {
         }
     }
 
+    //@@author ryanlohyr
     /**
      * Recommends a schedule to the given student based on their major.
      * The method generates a recommended schedule, displays a loading animation,
      * and allows the student to choose whether to add the recommended courses to their existing schedule.
      *
-     * @author ryanlohyr
      * @param student The student for whom the schedule recommendation is generated.
      */
     public static void executeRecommendCommand(Student student) {
@@ -151,6 +151,7 @@ public class ModuleMethodsController {
         }
     }
 
+    //@@author ryanlohyr
     /**
      * Deletes a module from the student's schedule and saves the updated schedule.
      * This method removes the specified module from the student's schedule and prints
@@ -158,7 +159,6 @@ public class ModuleMethodsController {
      * Exceptions related to module deletion, missing modules, mandatory prerequisites, and
      * storage I/O errors are caught and appropriate error messages are displayed.
      *
-     * @author ryanlohyr
      * @param module  The code or identifier of the module to be deleted.
      * @param student The student object whose schedule is being updated.
      */
@@ -276,13 +276,13 @@ public class ModuleMethodsController {
         printRequiredModules(major);
     }
 
+    //@@author ryanlohyr
     /**
      * Determines and displays the prerequisites of a module for a given major.
      * This method determines the prerequisites of a module based on the provided module code and major.
      * It checks if the module exists, retrieves its prerequisites, and displays them if they are available.
      * If the module does not exist, or if there are any issues with retrieving prerequisites, appropriate
      * messages are displayed.
-     * @author ryanlohyr
      * @param moduleCode The module code for which prerequisites need to be determined.
      * @param major      The major for which the prerequisites are determined.
      */

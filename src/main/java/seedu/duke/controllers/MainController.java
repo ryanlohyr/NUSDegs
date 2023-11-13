@@ -45,6 +45,7 @@ public class MainController {
         this.ui = new Ui();
     }
 
+    //@@author ryanlohyr
     /**
      * Starts the application, guiding the user through its execution.
      * This method performs the following steps:
@@ -54,7 +55,6 @@ public class MainController {
      * 4. Handle user input until an exit command is given.
      * 5. Display a goodbye message when the application is finished.\
      *
-     * @author ryanlohyr
      */
     public void start() throws IOException {
         displayWelcome();

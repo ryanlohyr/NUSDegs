@@ -140,11 +140,11 @@ public class Prerequisite {
         return false;
     }
 
+    //@@author ryanlohyr
     /**
      * Recursively flattens and processes a list of module prerequisites.
      * More info on the data structure being processed can be found in
      *  the prereqTree key in an example <a href="https://api.nusmods.com/v2/2023-2024/modules/EE2211.json">...</a>
-     * @author ryanlohyr
      * @param major              The major or program for which prerequisites are being flattened.
      * @param prerequisites      An ArrayList to store the flattened prerequisites.
      * @param modulePrereqArray  An ArrayList containing the module prerequisites to be processed.
@@ -211,10 +211,10 @@ public class Prerequisite {
         }
     }
 
+    //@@author ryanlohyr
     /**
      * Retrieves the prerequisite array for a module specified by its code and also taking into account the degree
      * requirements of the course.
-     * @author ryanlohyr
      * @param moduleCode The code of the module for which prerequisites are to be retrieved.
      * @return A JSONObject representing the prerequisite tree for the module or NULL if no prerequisites are specified.
      *
@@ -252,10 +252,10 @@ public class Prerequisite {
         return prerequisites;
     }
 
+    //@@author ryanlohyr
     /**
      * Retrieves the prerequisite tree for a module specified by its code.
      *
-     * @author ryanlohyr
      * @param moduleCode The code of the module for which prerequisites are to be retrieved.
      * @return A JSON object representing the prerequisite tree for the module. The prerequisite tree can be in one of
      *
@@ -282,10 +282,10 @@ public class Prerequisite {
         return (JSONObject) fullModuleInfo.get("prereqTree");
     }
 
+    //@@author ryanlohyr
     /**
      * Checks if a given module code is exempted from certain requirements.
      *
-     * @author ryanlohyr
      * @param moduleCode The module code to check.
      * @return True if the module is exempted, false otherwise.
      */
@@ -296,9 +296,9 @@ public class Prerequisite {
         return exemptedModules.contains(moduleCode);
     }
 
+    //@@author ryanlohyr
     /**
      * Retrieves a list of exempted prerequisites for a given module code.
-     * @author ryanlohyr
      * @param moduleCode The module code to retrieve exempted prerequisites for.
      * @return An ArrayList of exempted prerequisite module codes.
      */

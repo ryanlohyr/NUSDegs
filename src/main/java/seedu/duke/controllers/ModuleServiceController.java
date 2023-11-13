@@ -47,11 +47,11 @@ public class ModuleServiceController {
     }
 
 
+    //@@author ryanlohyr
     /**
      * Prompts the user to choose whether to add a list of modules to their draft schedule.
      * Displays the list of modules and asks for user input. Handles user input validation.
      *
-     * @author ryanlohyr
      * @param scheduleToAdd A list of modules to be added to the schedule.
      */
     public static void chooseToAddToSchedule(Student student, ArrayList<String> scheduleToAdd) throws IOException {

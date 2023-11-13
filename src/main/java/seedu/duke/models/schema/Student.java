@@ -193,11 +193,11 @@ public class Student {
 
 
     }
+    //@@author ryanlohyr
     /**
      * Deletes a module with the specified module code. This method also updates the completed
      * module credits and removes the module from the planned modules list.
      *
-     * @author ryanlohyr
      * @param moduleCode The code of the module to be deleted.
      * @throws MandatoryPrereqException If deleting the module fails due to prerequisite dependencies.
      */
