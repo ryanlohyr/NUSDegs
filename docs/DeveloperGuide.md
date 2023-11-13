@@ -327,16 +327,23 @@ The following sequence diagram details the process of the 'timetable modify loop
 ![timetablemodify_seq_diag.png](diagrams%2Ftimetablemodify_seq_diag.png)
 
 ### Function List
-- **getUserCommand**: Retrieves user input for a timetable command.
-- **getArguments**: Retrieves arguments from a TimetableUserCommand.
-- **isModifyExit**: Checks if the user entered 'exit' as an argument.
-- **addLecture**: Adds a lecture to the selected module.
-- **addTutorial**: Adds a tutorial to the selected module.
-- **addLab**: Adds a lab to the selected module.
-- **isModifyClear**: Removes all lessons for the selected module.
-- **saveTimetable**: Saves the current timetable to storage.
-- **printTimetable**: Returns a formatted timetable display to the command-line interface.
 
+- `getUserCommand`: Retrieves user input for a timetable command.
+- `getArguments`: Retrieves arguments from a TimetableUserCommand.
+- `isModifyExit`: Checks if the user entered 'exit' as an argument.
+- `addLecture`: Adds a lecture to the selected module.
+- `addTutorial`: Adds a tutorial to the selected module.
+- `addLab`: Adds a lab to the selected module.
+- `isModifyClear`: Removes all lessons for the selected module.
+- `saveTimetable`: Saves the current timetable to storage.
+- `printTimetable`: Returns a formatted timetable display to the command-line interface.
+
+
+## Search Command
+
+The required command is implemented to give users the ability to search for modules based on their titles.
+
+- `searchCommand(keywords)` 
 
 ## Product scope
 ### Target user profile
