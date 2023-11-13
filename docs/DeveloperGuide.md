@@ -59,7 +59,7 @@ The `UI` component:
 - displays messages to the user by printing to the CLI
 - displays results from commands executed by the ModulePlannerController class
 
-### Logic Component
+### Controller Component
 
 ![ss_logicDiagram.jpg](screenshots%2Fss_logicDiagram.jpg)
 
@@ -388,27 +388,40 @@ Aspect: How timetable is printed:
 - Cons: The console must be wide enough for it to be usable and aesthetic. Each table cell for an event was only about 
 11 characters wide.
 
-
-## Search Command
-
-The search command is implemented to give users the ability to search for modules based on their titles.
-
-- `searchCommand(keywords)': Searches NUSModsAPI for modules containing specified keywords in the title.
-- `listAllModules()`: Returns all modules for parsing and identifying those containing a specified keyword.
-- `printDoubleTopLine()`, `printBottomLine()`, `printDoubleBottomLine()` – Displays lines for 
-
-
-
-formatting
-
+  
 ## Product scope
 ### Target user profile
 
-{Describe the target user profile}
+- Computer Engineering and Computer Science Students at NUS
+
+- **Desktop CLI Preference:** Students in Computer Engineering 
+and Computer Science at NUS show a preference for desktop 
+Command Line Interface (CLI) apps over other planners.
+
+- **Typing-Centric Interaction:** This group favors 
+typing for efficiency, valuing keyboard-based operations
+over mouse interactions.
+
+- **Minimization of NUSMods Website Reliance:** These
+students seek to reduce dependence on frequent 
+NUSMods website visits. Instead, they prefer 
+a comprehensive planner in a desktop CLI
+environment, meeting their specific needs.
+
+
 
 ### Value proposition
 
-{Describe the value proposition: what problem does it solve?}
+Efficiently navigate and organize a planner without 
+the typical delays associated with mouse-driven GUI 
+applications. Recognizing the substantial module load
+and hectic schedules faced by NUS engineering students 
+throughout their four-year program, this application is
+designed to streamline the module planning process. By
+eliminating the need for frequent reference to various 
+websites and GUIs, such as NUSMods and scheduling sites,
+the app aims to enhance the efficiency of module 
+planning for these students.
 
 ## User Stories
 
