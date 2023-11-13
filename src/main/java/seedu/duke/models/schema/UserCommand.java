@@ -8,10 +8,10 @@ import static seedu.duke.utils.Parser.parseArguments;
 import static seedu.duke.utils.Parser.parseCommand;
 import static seedu.duke.views.CommandLineView.displayCommands;
 
-import static seedu.duke.controllers.ModuleMethodsController.computePace;
+import static seedu.duke.controllers.ModuleMethodsController.executePaceCommand;
 import static seedu.duke.controllers.ModuleMethodsController.showModulesLeft;
 import static seedu.duke.controllers.ModuleMethodsController.determinePrereq;
-import static seedu.duke.controllers.ModuleMethodsController.recommendScheduleToStudent;
+import static seedu.duke.controllers.ModuleMethodsController.executeRecommendCommand;
 import static seedu.duke.controllers.ModuleMethodsController.executeAddModuleCommand;
 import static seedu.duke.controllers.ModuleMethodsController.executeDeleteModuleCommand;
 import static seedu.duke.controllers.ModuleMethodsController.executeShiftModuleCommand;
@@ -125,7 +125,7 @@ public class UserCommand implements UserCommandWord {
             break;
         }
         case UserCommandWord.PACE_COMMAND: {
-            computePace(arguments, student.getCurrentModuleCredits(), student.getYear());
+            executePaceCommand(arguments, student.getCurrentModuleCredits(), student.getYear());
             break;
         }
         case UserCommandWord.PREREQUISITE_COMMAND: {
@@ -134,7 +134,7 @@ public class UserCommand implements UserCommandWord {
             break;
         }
         case UserCommandWord.RECOMMEND_COMMAND: {
-            recommendScheduleToStudent(student);
+            executeRecommendCommand(student);
             break;
         }
         case UserCommandWord.ADD_MODULE_COMMAND: {

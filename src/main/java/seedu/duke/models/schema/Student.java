@@ -160,6 +160,14 @@ public class Student {
         this.schedule.addModule(moduleCode, targetSem);
     }
 
+    public ArrayList<String> generateRecommendedSchedule() throws IOException {
+        return this.schedule.generateRecommendedSchedule(this.major);
+    }
+
+    public void addRecommendedSchedule(ArrayList<String> schedule){
+        this.schedule.addReccToSchedule(schedule);
+    }
+
     /**
      * Completes a module with the specified module code.
      *
@@ -182,11 +190,11 @@ public class Student {
 
 
     }
+    //@@author ryanlohyr
     /**
      * Deletes a module with the specified module code. This method also updates the completed
      * module credits and removes the module from the planned modules list.
      *
-     * @author ryanlohyr
      * @param moduleCode The code of the module to be deleted.
      * @throws MandatoryPrereqException If deleting the module fails due to prerequisite dependencies.
      */

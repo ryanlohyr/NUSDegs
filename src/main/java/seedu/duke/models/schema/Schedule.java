@@ -91,6 +91,7 @@ public class Schedule {
         return modulesPerSem;
     };
 
+    //@@author ryanlohyr
     /**
      * Adds a recommended schedule list to the current schedule, updating completion statuses if needed.
      * This method adds a list of recommended schedule modules to the current schedule. You can choose to
@@ -98,10 +99,10 @@ public class Schedule {
      * to the schedule, taking into account prerequisites and distributing them across semesters based on
      * fulfillment of prerequisites.
      *
-     * @author ryanlohyr
+     *
      * @param scheduleToAdd The list of recommended schedule modules to add.
      */
-    public void addRecommendedScheduleListToSchedule(ArrayList<String> scheduleToAdd) {
+    public void addReccToSchedule(ArrayList<String> scheduleToAdd) {
 
         final int modsToAddPerSem = 5;
         int currentIndexOfMod = 0;
@@ -202,11 +203,10 @@ public class Schedule {
         throw new FailPrereqException("Unable to add module as prerequisites not satisfied for: " + moduleCode);
     }
 
-
+    //@@author ryanlohyr
     /**
      * Deletes a module from the schedule by its module code.
      *
-     * @author ryanlohyr
      * @param module The module code to be deleted from the schedule.
      * @throws MandatoryPrereqException If the module to be deleted is a prerequisite for other modules in the schedule.
      * @throws MissingModuleException If the provided module code is not valid, the module is not in the schedule
@@ -415,11 +415,9 @@ public class Schedule {
         return modulesPlanned.getModule(moduleCode);
     }
 
-    //@@author
-
+    //@@author ryanlohyr
     /**
      * Completes the given module, checking prerequisites if applicable.
-     * @author ryanlohyr
      * @param module        The module to be completed.
      * @param modulePrereq The list of prerequisites for the module.
      * @throws FailPrereqException   If prerequisites are not met.
@@ -507,10 +505,10 @@ public class Schedule {
         printSemesterPlanner(modulesPerSem, modulesPlanned);
     }
 
+    //@@author ryanlohyr
     /**
      * Generates a recommended schedule for a given course based on its requirements and prerequisites.
      *
-     * @author ryanlohyr
      * @param course The course for which to generate a recommended schedule.
      * @return An ArrayList of strings representing the recommended schedule in order of completion.
      */

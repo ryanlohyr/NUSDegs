@@ -30,9 +30,9 @@ public class ModuleInfoView {
         print("");
     }
 
+    //@@author ryanlohyr
     /**
      * Print a list of modules in columns with a specified maximum height.
-     * @author ryanlohyr
      * @param modules       An ArrayList of module names to be printed.
      */
     public static void printModuleStringArray(ArrayList<String> modules){
@@ -47,9 +47,9 @@ public class ModuleInfoView {
         }
     }
 
+    //@@author ryanlohyr
     /**
      * Print a list of modules in columns with a specified maximum height.
-     * @author ryanlohyr
      * @param modules       An ArrayList of module names to be printed.
      */
     public static void printModuleArray(ArrayList<Module> modules){
