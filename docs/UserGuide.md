@@ -38,8 +38,31 @@ schedule and may cause the schedule to not work as intended (e.g show the incorr
 3. Users are strongly **recommended to not modify the data/schedule.txt** as well as the schedule is supposed to be sorted
 based on prerequisites. Hence, a manual modification of an invalid module into the schedule.txt file may cause your schedule info 
 to be corrupted and therefore lost!
-4. The prerequisites are calculated using NUSMods API, any inaccuracies may be due to the NUSMods API provider.
-5. Users are recommended to have 500pixels
+4. The prerequisites are calculated using NUSMods API, and there are some modules that we were not able to process and a error as such will be returned.
+```
+___________________________________________________________
+Input command here: prereq cs3282
+Sorry but we could not get the prerequisite for CS3282 as NUSMods API provided it in a invalid format :<
+___________________________________________________________
+```
+
+Unfortunately for such modules, you would not be able to add them to your schedule as well! (This is something we would require more time and hopefully be able to work out in the future!)
+
+5. NUSMods has an issue where some modules are not being able to be added despite being a prerequisite
+
+For example 
+
+```
+Input command here: prereq cs3230R
+1. CS2020      2. CS1231      
+___________________________________________________________
+Input command here: prereq cs2020
+Invalid Module Name
+___________________________________________________________
+Input command here: 
+```
+
+6. Any inconsistencies in data could be due to the NUSMods api.
 
 
 ## Features
@@ -73,6 +96,7 @@ User input:
 `help`
 
 - Expected outcome:
+
 ```
 Here are all the commands currently available in NUSDegs!
 - Words in UPPER_CASE are the parameters to be supplied by the user.
@@ -254,14 +278,15 @@ out
 ##### Example of Usage:
 
 User input:
-`prereq eg1311` 
+`prereq ee2211` 
 
 Assuming the user is from Computer Engineering
 
-- Expected Outcome
+- Expected outcome:
 
-<img src="screenshots/ss_prereq.jpeg" alt="Image" width="300">
-
+```
+1. CS1010      2. MA1511      3. MA1508E
+```
 
 ### Searching for a module by title: `search`
 Search for module title using a keyword.
@@ -275,33 +300,40 @@ Search for module title using a keyword.
 User input:
 `search Darwinian`
 
-- Expected outcome:\
-  _________________________________________\
-  These are the modules that contain your keyword in the title:
-  
-  Title: Junior Seminar: The Darwinian Revolution
-  Module Code: UTC1102B\
-  _________________________________________\
+- Expected outcome:
 
-### Get information about a module: `info`
+```
+These are the modules that contain your keyword in the title:
+
+Title: Junior Seminar: The Darwinian Revolution
+Module Code: UTC1102B
+```
+
+### Get information about a module: `info description`
 Get information about a module using the info command, followed by the command 'description'.
 
-##### Format: `info COMMAND MODULE_CODE`
+##### Format: `info description MODULE_CODE`
 
-
-* The `COMMAND` cannot be empty.
 * The `MODULE_CODE` cannot be empty.
+
+
 
 ##### Examples of usage:
 
 User input:
 `info description CS2113`
 
-- Expected outcome: This course introduces the necessary skills for systematic and rigorous development of software 
-systems. It covers requirements, design, implementation, quality assurance, and project management aspects of 
-small-to-medium size multi-person software projects. The course uses the Object Oriented Programming paradigm. 
-Students of this course will receive hands-on practice of tools commonly used in the industry, such as test automation 
-tools, build automation tools, and code revisioning tools will be covered.
+- Expected outcome: 
+
+```
+This course introduces the necessary skills for systematic and rigorous development of software
+ systems. It covers requirements, design, implementation, quality assurance, and project management
+ aspects of small-to-medium size multi-person software projects. The course uses the Object
+ Oriented Programming paradigm. Students of this course will receive hands-on practice of tools
+ commonly used in the industry, such as test automation tools, build automation tools, and code
+ revisioning tools will be covered.
+```
+
 
 ### View schedule planner: `schedule`
 Shows the user their current schedule planner
@@ -314,9 +346,18 @@ Shows the user their current schedule planner
 
 User input: `schedule`
 
-- Expected outcome(if user has not inputted any modules):
+- Expected outcome :
 
-![schedule.jpg](photos%2Fschedule.jpeg)
+```
+Sem 1:   X GESS1000     X DTK1234      X MA1512       X MA1511       X GEA1000      
+Sem 2:   X EG1311       X EG2501       X GEN2000      X CS1010       X CS1231       
+Sem 3:   X CG1111A      X IE2141       X CDE2000      X PF1101       X GEC1000      
+Sem 4:   X CG2023       X MA1508E      X ST2334       X ES2631       X EG2401A      
+Sem 5:   X EE4204       X EE2026       X CG2027       X CS2040C      X CG2111A      
+Sem 6:   X CG2028       X CS2113       X CG2271       X EE2211       
+Sem 7:   X CG4002       X CP3880       
+Sem 8: 
+```
 
 ### View recommended schedule based on course: `recommend`
 Based on the student's course, we will provide a recommended schedule that is sorted based on prerequisites.
@@ -339,12 +380,37 @@ User input:
 
 - Expected outcome:
 
-![recommendedSchedule.jpg](photos%2FrecommendSchedule.jpeg)
+```
+Hold on a sec! Generating your recommended schedule <3....
+Loading (.>_<.)
+1. GEA1000     2. MA1511      3. MA1512      4. DTK1234     5. GESS1000    
+6. CS1231      7. CS1010      8. GEN2000     9. EG2501      10. EG1311     
+11. GEC1000    12. PF1101     13. CDE2000    14. IE2141     15. CG1111A    
+16. EG2401A    17. ES2631     18. ST2334     19. MA1508E    20. CG2023     
+21. CG2111A    22. CS2040C    23. CG2027     24. EE2026     25. EE4204     
+26. EE2211     27. CG2271     28. CS2113     29. CG2028     30. CP3880     
+31. CG4002     
+Here you go!
+Taking the modules in this order will ensure a prerequisite worry free uni life!
+Do you want to add this to your schedule planner? (This will overwrite your current schedule!)
+Please input 'Y' or 'N'
+```
+
 
 - If the user enters `Y`, the recommended schedule will be added to their schedule
 
-![recommendedSchedule.jpg](screenshots%2Fadd_recommend.jpeg)
-
+```
+Here is your schedule planner!
+Sem 1:   X GESS1000     X DTK1234      X MA1512       X MA1511       X GEA1000      
+Sem 2:   X EG1311       X EG2501       X GEN2000      X CS1010       X CS1231       
+Sem 3:   X CG1111A      X IE2141       X CDE2000      X PF1101       X GEC1000      
+Sem 4:   X CG2023       X MA1508E      X ST2334       X ES2631       X EG2401A      
+Sem 5:   X EE4204       X EE2026       X CG2027       X CS2040C      X CG2111A      
+Sem 6:   X CG2028       X CS2113       X CG2271       X EE2211       
+Sem 7:   X CG4002       X CP3880       
+Sem 8:   
+Happy degree planning!
+```
 
 ### Add module to schedule planner: `add`
 Opens the user's personalized module schedule planner and adds the chosen module to the semester specified by the user.
@@ -367,7 +433,17 @@ User input:
 
 - Expected outcome:
 
-<img src="screenshots/ss_add_cs1010_1.png" height="300"/>
+```
+Module Successfully Added
+Sem 1:   X CS1010
+Sem 2:
+Sem 3:
+Sem 4:
+Sem 5:
+Sem 6:
+Sem 7:
+Sem 8:
+```
 
 ### Delete module from schedule planner: `delete`
 Opens the user's personalized module schedule planner and deletes the chosen module. Deleting will not be allowed if
@@ -393,7 +469,17 @@ User input:
 
 - Expected outcome:
 
-<img src="photos/delete_outcome.png" height="300"/>
+```
+Module Successfully Deleted
+Sem 1:
+Sem 2:
+Sem 3:
+Sem 4:
+Sem 5:
+Sem 6:
+Sem 7:
+Sem 8:
+```
 
 ### Shift module in schedule planner: `shift`
 Opens the user's personalized module schedule planner and shifts the chosen module to the semester specified by the 
@@ -416,7 +502,21 @@ would not be able to shift any of the two semester 1 modules. (However this is s
 ##### Example of usage:
 
 User input:
-`shift CS1010 2`
+`shift CS1010 2` (Assume CS1010 was in Semester 1)
+
+- Expected outcome:
+
+```
+Module Successfully Shifted
+Sem 1:
+Sem 2:   X CS1010
+Sem 3:
+Sem 4:
+Sem 5:
+Sem 6:
+Sem 7:
+Sem 8:
+```
 
 ### Clear all schedule planner and completion data: `clear`
 Deletes every module in the module schedule planner and their completion data. The user will be prompted to confirm this
@@ -427,11 +527,19 @@ action as this command cannot be undone.
 ##### Example of usage:
 
 User input:
-`clear`
+`clear` -> `Y`
 
 * Expected outcome:
 
-<img src="photos/clear_outcome.png" height="400"/>
+```
+Are you sure you want to clear your schedule? This action cannot be undone!
+Please input 'Y' or 'N'
+
+Invalid input, please choose Y/N
+Y
+Schedule successfully cleared
+```
+
 
 ### Complete a module: `complete`
 Completes a module (Completes a module in your schedule planner).
@@ -448,7 +556,9 @@ User input:
 
 Expected outcome:
 
-<img src="photos/complete.jpeg" height="40"/>
+```
+Module Successfully Completed
+```
 
 ### List required modules left: `left`
 Displays the required modules left, which is the remainder after subtracting the modules completed 
@@ -513,7 +623,9 @@ User input:
 
 - Expected outcome: assuming 0 modular credits were done in semester one
 
-![pace.jpg](photos%2Fpace.jpeg)
+```
+You have 160MCs for 7 semesters. Recommended Pace: 23MCs per sem until graduation
+```
 
 ### View Weekly Timetable: `timetable show`
 
