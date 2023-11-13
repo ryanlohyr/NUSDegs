@@ -1,0 +1,31 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Student {
+String name
+String major
+String year
+}
+
+Student --> "1" Schedule
+
+class Schedule {
+int[] modulesPerSem;
+ModuleList modulesPlanned;
+}
+
+Schedule --> "modulesPlanned" ModuleList
+
+class ModuleList {
+ArrayList<Module>
+}
+
+Student --> "1" Timetable
+
+class Timetable {
+Timetable timetable
+ArrayList <ModuleWeekly> currentSemesterModulesWeekly
+}
+
+
+@enduml

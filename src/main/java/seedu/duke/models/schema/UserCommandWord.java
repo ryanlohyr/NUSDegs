@@ -18,5 +18,6 @@ public interface UserCommandWord {
     String SEARCH_MODULE_COMMAND = "search";
     String HELP_COMMAND = "help";
     String TIMETABLE_COMMAND = "timetable";
+    String BYE_COMMAND = "bye";
 }
 

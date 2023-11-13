@@ -178,7 +178,9 @@ public class Parser {
             break;
         }
         case UserCommandWord.LEFT_COMMAND:
-        case UserCommandWord.REQUIRED_MODULES_COMMAND: {
+        case UserCommandWord.REQUIRED_MODULES_COMMAND:
+        case UserCommandWord.HELP_COMMAND:
+        case UserCommandWord.BYE_COMMAND:{
             if (argumentsCounter == 0) {
                 return true;
             }
