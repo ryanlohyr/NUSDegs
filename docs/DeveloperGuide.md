@@ -30,13 +30,7 @@ The main logic of the application is handled by these four components
   - Responsible for printing onto the Command Line Application
 - **Model**:
   - Stores the data and data logic methods that handles and manages the data 
-  - Performs REST API calls to the NUSMODS API
-  -
-  - Responsible for retrieving data from the **Data Repository**
-  - does not depend on any of the other three components (as the Model represents data entities of the domain, they should make sense on their own without depending on other components)
-
-![ModelComponent.png](diagrams%2FModelComponent.png)
-
+  - Performs REST API calls to the NUSModsAPI
 - **Storage**:
   - can save both schedule data and user data in .txt format, and read them back into corresponding objects.
   - depends on some classes in the Model component
@@ -74,15 +68,16 @@ The `Logic` component:
 4. The result of the command execution is returned to the `Ui` and printed to the CLI.
 
 ### Model Component
-The component is specified in .java
 
-<img src="diagrams/.jpeg" alt="Image" width="300">
+![ModelComponent.png](diagrams%2FModelComponent.png)
 
-
-
-The `` component:
-
-- 
+The `Model` component:
+- Stores the student data
+  - Stores Student student that has student details (name, major, year), Schedule schedule, Timetable timetable and other data (completedModuleCredits, majorModuleCodes, currentSemesterModules)
+  - Stores Schedule schedule that has ModuleList modulesPlanned, modulesPerSem, completedModules
+  - Stores ModuleList modulesPlanned
+  - Stores Timetable timetable that has currentSemesterModulesWeekly
+- Makes REST API calls to NUSModsAPI 
 
 ### Controller Component
 The component is specified in .java
@@ -222,7 +217,7 @@ When the user's command is determined to be `left`, the program implements the f
 ### Function List
 
 - `new ArrayList<String>()`: Instantiate moduleCodesLeft
-- `student#getModuleCodesLeft()`: Returns the ArrayLis
+- `student#getModuleCodesLeft()`: Calls the functions below to get the module codes left
 - `schedule#getModulesPlanned()`: Returns modulesPlanned (Module List)
 - `modulesPlanned#getCompletedModuleCodes()`: Returns completedModuleCodes (ArrayList <String>)
 - `completedModuleCodes#contains(moduleCode)`: Returns true if completedModuleCodes contain moduleCode
@@ -291,20 +286,150 @@ The following sequence diagram shows how the Required Command function works.
 The required command is implemented to give users an overview of the modules they need to complete for 
 their major. It is facilitated by major. Additionally, it implements the following operations:
 
-- `Student#getMajor()` – Returns the `major` of the student.
-- `ModuleServiceController#getRequiredModules(major)` and `ModuleServiceController#printRequiredModules(major)` – 
-Displays the modules required.
+### Function List
+- `student#getMajor()` – Returns the `major` of the student.
+- `ModuleMethodsController#executeGetRequiredModulesForStudent(major)` - Calls functions below to print required modules for the user's major
+- `ModuleRequirementsView#printRequiredModules(major)` - Calls the specific printing function depending on the user's major
+- `ModuleRequirementsView#printRequiredModulesCEG()` - Specific printing function for CEG required modules
+- `ModuleRequirementsView#printRequiredModulesCS()` - Specific printing function for CS required modules
+
 
 ### Usage Examples
 
 Here are a few examples of how the Show Required Modules Feature behaves:
 
-#### Example 1:
+#### Example of usage 1: (user's major is CEG)
 
-Command: `required`
+User input:
+`required`
 
-Response:
-Module requirements for major selected by user
+- Expected outcome:
+
+```
+#==========================================================#
+║   Modular Requirements for CEG                    Units  ║
+#==========================================================#
++----------------------------------------------------------+
+│   Common Curriculum Requirements                  60     │
++----------------------------------------------------------+
+    GES1000 (Singapore Studies)                     4
+    GEC1000 (Cultures and Connections)              4
+    GEN2000 (Communities and Engagement)            4
+    ES2631 Critique & Communication of Thinking
+    & Design (Critique & Expression)                4
+    CS1010 Programming Methodology (Digital 
+    Literacy)                                       4
+    GEA1000 Quantitative Reasoning with Data (Data 
+    Literacy)                                       4
+    DTK1234 Design Thinking (Design Thinking)       4
+    EG1311 Design and Make (Maker Space)            4
+    IE2141 Systems Thinking and Dynamics (Systems 
+    Thinking)                                       4
+    EE2211 Introduction to Machine Learning 
+    (Artificial Intelligence)                       4
+    CDE2501 Liveable Cities (Sustainable Futures)   4
+    CDE2000 (Creating Narratives)                   4
+    PF1101 Fundamentals of Project Management 
+    (Project Management)                            4
+    CG4002 Computer Engineering Capstone Project 1 
+    (Integrated Project)                            8
+
++----------------------------------------------------------+
+│   Programme Requirements                          60     │
++----------------------------------------------------------+
+ ~~ Engineering Core                                20  ~~
+
+    MA1511 Engineering Calculus                     2
+    MA1512 Differential Equations for Engineering   2
+    MA1508E Linear Algebra for Engineering          4
+    EG2401A Engineering Professionalism             2
+    CP3880 Advanced Technology Attachment Programme 12
+
+ ~~ CEG Major                                       40  ~~
+
+    CG1111A Engineering Principles and Practice I   4
+    CG2111A Engineering Principles and Practice II  4
+    CS1231 Discrete Structures                      4
+    CG2023 Signals & Systems                        4
+    CG2027 Transistor-level Digital Circuit         2
+    CG2028 Computer Organization                    2
+    CG2271 Real-time Operating System               4
+    CS2040C Data Structures and Algorithms          4
+    CS2113 Software Engineering & Object-Oriented 
+    Programming                                     4
+    EE2026 Digital Design                           4
+    EE4204 Computer Networks                        4
+
++----------------------------------------------------------+
+│   Unrestricted Electives                          40     │
++----------------------------------------------------------+
+```
+
+
+#### Example of usage 2: (user's major is CS)
+
+User input:
+`required`
+
+- Expected outcome:
+
+```
+#==========================================================#
+║   Modular Requirements for CS                     Units  ║
+#==========================================================#
++----------------------------------------------------------+
+│   Common Curriculum Requirements                  40     │
++----------------------------------------------------------+
+ ~~ University Requirements: 6 University Pillars   24  ~~
+
+    CS1101S Programming Methodology (Digital 
+    Literacy)                                       4
+    ES2660 Communicating in the Information Age 
+    (Critique and Expression)                       4
+    GEC1% (Cultures and Connections)                4
+    GEA1000 / BT1101 / ST1131 / DSA1101 (Data 
+    Literacy)                                       4
+    GES1% (Singapore Studies)                       4
+    GEN2% (Communities and Engagement)              4
+
+ ~~ Computing Ethics                                4  ~~
+
+    IS1108 Digital Ethics and Data Privacy          4
+
+ ~~   Inter & Cross-Disciplinary Education          12 ~~
+
+    Interdisciplinary (ID) Courses (at least 2)
+    Cross-disciplinary (CD) Courses (no more than 1)
+
++----------------------------------------------------------+
+│   Programme Requirements                          80     │
++----------------------------------------------------------+
+ ~~ Computer Science Foundation                     36  ~~
+
+    CS1231S Discrete Structures                     4
+    CS2030S Programming Methodology II              4
+    CS2040S Data Structures and Algorithms          4
+    CS2100 Computer Organisation                    4
+    CS2101 Effective Communication for Computing 
+    Professionals                                   4
+    CS2103T Software Engineering                    4
+    CS2106 Introduction to Operating Systems        4
+    CS2109S Introduction to AI and Machine Learning 4
+    CS3230 Design and Analysis of Algorithms        4
+
+ ~~ Computer Science Breadth and Depth              32  ~~
+
+
+ ~~ Mathematics and Sciences                        12  ~~
+
+    MA1521 Calculus for Computing                   4
+    MA1522 Linear Algebra for Computing             4
+    ST2334 Probability and Statistics               4
+
++----------------------------------------------------------+
+│   Unrestricted Electives                          40     │
++----------------------------------------------------------+
+```
 
 ## Get information about modules (from the NUSMods API)
 
