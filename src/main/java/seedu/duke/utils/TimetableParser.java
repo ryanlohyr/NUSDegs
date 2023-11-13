@@ -32,7 +32,14 @@ public class TimetableParser {
 
     private static final String DELIMITER = " ";
 
-    // returns true when exit is called
+
+    /**
+     * Checks if the provided array of arguments indicates an "EXIT" command for modifying the timetable.
+     *
+     * @author @rohitcube
+     * @param arguments An array of strings representing user input arguments.
+     * @return true if the command is to exit the modify mode, false otherwise.
+     */
     public static boolean isExitModify(String[] arguments) {
         String[] argumentsNoNulls = removeNulls(arguments);
         if ((argumentsNoNulls.length == 1) && argumentsNoNulls[0].strip().equalsIgnoreCase("EXIT")) {
@@ -41,6 +48,14 @@ public class TimetableParser {
         return false;
     }
 
+
+    /**
+     * Checks if the provided array of arguments indicates a "clear" command for modifying the timetable.
+     *
+     * @author @rohitcube
+     * @param arguments An array of strings representing user input arguments.
+     * @return true if the command is to clear a modification, false otherwise.
+     */
     public static boolean isModifyClear(String[] arguments) {
         try {
             if (arguments[2] != null || !arguments[2].isEmpty()) {
@@ -56,6 +71,15 @@ public class TimetableParser {
         return false;
     }
 
+    /**
+     * Checks if the provided array of arguments is valid for modifying the timetable and throws exceptions if not.
+     *
+     * @author @rohitcube
+     * @param arguments               An array of strings representing user input arguments.
+     * @param currentSemesterModulesWeekly A list of ModuleWeekly objects representing modules in the current semester.
+     * @return true if the modification is valid, false otherwise.
+     * @throws InvalidTimetableUserCommandException If the arguments are invalid.
+     */
     public static boolean isModifyValid(String[] arguments, ArrayList <ModuleWeekly> currentSemesterModulesWeekly)
             throws InvalidTimetableUserCommandException {
         String[] argumentsNoNulls = removeNulls(arguments);
@@ -86,30 +110,20 @@ public class TimetableParser {
             String day = arguments[4].toUpperCase();
             if (!isExistInCurrentSemesterModules(moduleCode, currentSemesterModulesWeekly)) {
                 throw new InvalidTimetableUserCommandException("Module does not exist in current semester");
-                //System.out.println("Module does not exist in current semester.");
-                //return false;
             }
             if (!isValidLessonType(lessonType)) {
                 throw new InvalidTimetableUserCommandException("Invalid lesson type");
-                //System.out.println("Invalid lesson type");
-                //return false;
             }
             if (!isStringInteger(timeString)) {
                 throw new InvalidTimetableUserCommandException("Input for time is not an integer");
-                //System.out.println("Input for time is not an integer");
-                //return false;
             }
             int time = Integer.parseInt(timeString);
             if (time < 5 || time > 23) {
                 throw new InvalidTimetableUserCommandException("Input for time is outside the valid range. " +
                         "Please try again!");
-                // System.out.println("Time not within the valid range. Please try again!");
-                //return false;
             }
             if (!isStringInteger(durationString)) {
                 throw new InvalidTimetableUserCommandException("Input for duration is not an integer");
-                //System.out.println("Input for duration is not an integer");
-                //return false;
             }
             int duration = Integer.parseInt(durationString);
             if (duration < 0) {
@@ -118,13 +132,9 @@ public class TimetableParser {
             if (duration > 23 - time) {
                 throw new InvalidTimetableUserCommandException("Input for duration exceeds valid hours" +
                         " on the timetable");
-                //System.out.println("Input for duration exceeds valid hours on the timetable");
-                //return false;
             }
             if (!isDayValid(day)) {
                 throw new InvalidTimetableUserCommandException("Invalid day");
-                //System.out.println("Invalid input for day.");
-                //return false;
             }
             return true;
         }
