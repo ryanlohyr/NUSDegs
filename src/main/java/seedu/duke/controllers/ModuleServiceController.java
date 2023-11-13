@@ -26,7 +26,6 @@ import static seedu.duke.views.TimetableUserGuideView.printTTModifyDetailedLesso
 import static seedu.duke.views.TimetableUserGuideView.printTTModifySimpleLessonGuide;
 import static seedu.duke.views.TimetableView.printTimetable;
 import static seedu.duke.views.Ui.displayMessage;
-import static seedu.duke.views.ModuleInfoView.printModuleStringArray;
 
 public class ModuleServiceController {
 
