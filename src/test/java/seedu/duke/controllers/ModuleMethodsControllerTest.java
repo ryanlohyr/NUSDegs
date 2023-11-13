@@ -50,9 +50,9 @@ class ModuleMethodsControllerTest {
 
     @Test
     void completeModule_prereqNotCompleted() {
-        ModuleMethodsController.addModule("CS1010",1,student);
-        ModuleMethodsController.addModule("CS2040C",2,student);
-        ModuleMethodsController.addModule("CS2113T",3,student);
+        ModuleMethodsController.executeAddModuleCommand("CS1010",1,student);
+        ModuleMethodsController.executeAddModuleCommand("CS2040C",2,student);
+        ModuleMethodsController.executeAddModuleCommand("CS2113T",3,student);
         completeModule(student,"CS2113T");
         String printedOutput = outputStream.toString().trim();
         String expectedOutput = "Prerequisites not completed for CS2113T\n" +
@@ -81,9 +81,9 @@ class ModuleMethodsControllerTest {
 
     @Test
     void completeModule_prereqSatisfied() {
-        ModuleMethodsController.addModule("CS1010",1,student);
-        ModuleMethodsController.addModule("CS2040C",2,student);
-        ModuleMethodsController.addModule("CS2113T",3,student);
+        ModuleMethodsController.executeAddModuleCommand("CS1010",1,student);
+        ModuleMethodsController.executeAddModuleCommand("CS2040C",2,student);
+        ModuleMethodsController.executeAddModuleCommand("CS2113T",3,student);
         completeModule(student,"CS1010");
         String printedOutput = outputStream.toString().trim();
         String expectedOutput = "Module Successfully Completed";
@@ -140,7 +140,7 @@ class ModuleMethodsControllerTest {
         int targetSem = 1;
         boolean doesModuleExist = false;
         try {
-            student.addModuleSchedule(moduleCode, targetSem);
+            student.addModuleToSchedule(moduleCode, targetSem);
             displaySuccessfulAddMessage();
             student.printSchedule();
             Schedule currentSchedule = student.getSchedule();
@@ -179,7 +179,7 @@ class ModuleMethodsControllerTest {
         int targetSem = 1;
         boolean doesModuleExist = false;
         try {
-            student.addModuleSchedule(moduleCode, targetSem);
+            student.addModuleToSchedule(moduleCode, targetSem);
             displaySuccessfulAddMessage();
             student.printSchedule();
             Schedule currentSchedule = student.getSchedule();
@@ -212,7 +212,7 @@ class ModuleMethodsControllerTest {
         int targetSem = 1;
         boolean doesModuleExist = false;
         try {
-            student.addModuleSchedule(moduleCode, targetSem);
+            student.addModuleToSchedule(moduleCode, targetSem);
             displaySuccessfulAddMessage();
             student.printSchedule();
             Schedule currentSchedule = student.getSchedule();

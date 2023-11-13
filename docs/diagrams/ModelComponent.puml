@@ -1,0 +1,44 @@
+@startuml
+'https://plantuml.com/component-diagram
+
+@startuml
+
+
+component ModulePlannerController
+
+package "Student Data" {
+component Student
+[Schedule Planner]
+[Weekly Timetable]
+}
+
+ModulePlannerController -> Student
+
+
+package "Schedule Planner" {
+component Schedule
+[Modules Planned]
+'[ModuleList] as modulesPlanned
+[HashMap<String, Module>] as completedModules
+}
+
+node "Modules Planned" {
+[ModuleList] as modulesPlanned
+[ArrayList<Module>] as mainModuleList
+}
+
+Student *-right-> "1"  Schedule: has a
+Schedule -> modulesPlanned
+Schedule -down-> completedModules
+modulesPlanned -down-> mainModuleList
+
+
+package "Weekly Timetable" {
+component Timetable
+[ArrayList<ModuleWeekly>] as currentSemesterModulesWeekly
+}
+
+Student *-down-> "1" Timetable
+Timetable *-down-> currentSemesterModulesWeekly
+
+@enduml
