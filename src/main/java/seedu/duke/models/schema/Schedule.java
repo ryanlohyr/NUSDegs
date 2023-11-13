@@ -388,7 +388,8 @@ public class Schedule {
      * @throws InvalidObjectException      If the module does not exist in the schedule.
      * @throws FailPrereqException         If shifting the module earlier fails due to unsatisfied prerequisites.
      */
-    private void shiftModuleEarlier(String module, int targetSem, int indexToAdd, int originalSem) throws InvalidObjectException, FailPrereqException {
+    private void shiftModuleEarlier(String module, int targetSem, int indexToAdd, int originalSem)
+            throws InvalidObjectException, FailPrereqException {
         //Sub list as we only want modules before the current target semester
         List<String> plannedModulesArray = modulesPlanned.getModuleCodes().subList(0, indexToAdd);
         ModuleList plannedModules = new ModuleList(String.join(" ", plannedModulesArray));
