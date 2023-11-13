@@ -145,10 +145,10 @@ public class Student {
         }
     }
 
+    //@@author SebasFok
     /**
      * Adds a module to the student's schedule for a specified semester.
      *
-     * @author SebasFok
      * @param moduleCode The code of the module to be added.
      * @param targetSem  The semester in which the module will be added.
      * @throws IllegalArgumentException If the target semester is not valid.
@@ -214,10 +214,10 @@ public class Student {
         }
     }
 
+    //@@author SebasFok
     /**
      * Shifts a module within the student's schedule to a different semester.
      *
-     * @author SebasFok
      * @param moduleCode The code of the module to be shifted.
      * @param targetSem  The target semester to which the module will be shifted.
      * @throws IllegalArgumentException   If the target semester is not valid.
@@ -231,11 +231,11 @@ public class Student {
         this.schedule.shiftModule(moduleCode, targetSem);
     }
 
+    //@@author SebasFok
     /**
      * Clears all modules from the student's schedule, resetting it to an empty schedule.
      * Also resets the completed module credits to zero.
      *
-     * @author SebasFok
      */
     public void clearAllModulesFromSchedule() {
         //Replaces current schedule with new schedule
