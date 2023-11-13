@@ -81,15 +81,6 @@ The component is specified in .java
 
 The `` component:
 
-- 
-
-### Controller Component
-The component is specified in .java
-
-<img src="diagrams/.jpeg" alt="Image" width="300">
-
-The `` component:
-
 -
 
 ### Storage Component
@@ -313,7 +304,7 @@ which would be returned to the `UI` class to be formatted to the Command Line In
 
 The following sequence diagram shows how the `clear` command works:
 
-![clearDiagram.png](diagrams%2FclearDiagram.png)
+![ClearDiagram.png](diagrams%2FClearDiagram.png)
 
 ## Required Command
 
