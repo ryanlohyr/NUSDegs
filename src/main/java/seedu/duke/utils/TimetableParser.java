@@ -14,7 +14,6 @@ import static seedu.duke.utils.Parser.isValidLessonType;
 import static seedu.duke.utils.Parser.isDayValid;
 
 public class TimetableParser {
-    private static final String ERROR_MODULE_DOES_NOT_EXIST = " does not exist in your schedule.";
     private static final String ERROR_INVALID_LESSON_TYPE = "Invalid Lesson Type. Lesson Types available: Lecture, " +
             "Tutorial, Lab. ";
 
@@ -141,6 +140,7 @@ public class TimetableParser {
         return false;
     }
 
+    //@@author janelleenqi
     /**
      * Checks if a module with a given module code exists in the current semester modules.
      * @author @rohitcube
