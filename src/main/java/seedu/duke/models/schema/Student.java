@@ -15,7 +15,7 @@ import java.io.InvalidObjectException;
 import java.util.ArrayList;
 
 import static seedu.duke.models.logic.Prerequisite.getModulePrereqBasedOnCourse;
-import static seedu.duke.models.logic.DataRepository.getRequirements;
+import static seedu.duke.models.schema.Storage.getRequirements;
 import static seedu.duke.utils.errors.HttpError.displaySocketError;
 import static seedu.duke.views.CommandLineView.displaySuccessfulCompleteMessage;
 import static seedu.duke.views.TimetableUserGuideView.addOrRecommendGuide;
