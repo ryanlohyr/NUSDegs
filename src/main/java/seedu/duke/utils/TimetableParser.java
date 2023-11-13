@@ -114,7 +114,7 @@ public class TimetableParser {
                 throw new InvalidTimetableUserCommandException("Invalid lesson type");
             }
             if (!isStringInteger(timeString)) {
-                throw new InvalidTimetableUserCommandException("Input for time is not an integer");
+                throw new InvalidTimetableUserCommandException("Input for time is not a valid integer");
             }
             int time = Integer.parseInt(timeString);
             if (time < 5 || time > 23) {
@@ -122,7 +122,7 @@ public class TimetableParser {
                         "Please try again!");
             }
             if (!isStringInteger(durationString)) {
-                throw new InvalidTimetableUserCommandException("Input for duration is not an integer");
+                throw new InvalidTimetableUserCommandException("Input for duration is not a valid integer");
             }
             int duration = Integer.parseInt(durationString);
             if (duration < 0) {

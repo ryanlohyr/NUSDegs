@@ -7,7 +7,7 @@ background-image: linear-gradient(to right, #370505, #5b2829, #814c4c, #a97171, 
 <span style="background-image: linear-gradient(to right, #14499b, #0065b7, #0081d1, #009ee9, #00bcff);
 -webkit-background-clip: text; color: transparent;">N</span>US 
 <span style="background-image: linear-gradient(to right, #e50000, #e84034, #e6615a, #de7e7b, #d19999);
--webkit-background-clip: text; color: transparent;">D</span>EGS
+-webkit-background-clip: text; color: transparent;">D</span>EGs
 <span style="background-image: linear-gradient(to right, #959b14, #00a754, #00a9a9, #00a0f0, #0085ff);
 -webkit-background-clip: text; color: transparent;">User Guide</span>
 </h1>
@@ -21,11 +21,10 @@ It's a comprehensive tool for efficient and successful degree completion.
 ## Quick Start
 
 1. Ensure that you have Java 11 or above installed.
-2. Download the latest version of `NUSDegs` from [here](https://github.com/AY2324S1-CS2113-T17-4/tp/releases/tag/vbeta) (
-   (Real one to be updated for PE)
-3. Download the NUSDegs.jar to the folder you want to use as the home folder for NUSDegs.
+2. Download the latest version of `NUSDegs` from [here](https://github.com/AY2324S1-CS2113-T17-4/tp/releases/download/v2.1/CS2113-T17-4.NUSDegs.jar) 
+3. Download the CS2113-T17-4.NUSDegs.jar to the folder you want to use as the home folder for NUSDegs.
 4. Open a command terminal, cd into the folder you put the .jar file in, and run the command
-   java -jar "NUSDegs.jar" to run the application.
+   java -jar CS2113-T17-4.NUSDegs.jar to run the application.
 
 ## Note
 1. Year 4 Semester 2 students aren't able to use the app! (As we specifically cater the app to only students who have at
@@ -70,7 +69,7 @@ Input command here:
 - [View modules required for major: `required`](#getting-a-list-of-required-modulesrequired)
 - [Check prerequisite for a module: `prereq`](#view-module-prerequisitesprereq)
 - [Search for modules based on keywords: `search`](#searching-for-a-module-by-title-search)
-- [View info about a module: `info`](#get-information-about-a-module-info)
+- [View info about a module: `info`](#get-information-about-a-module-info-description)
 - [View schedule planner: `schedule`](#view-schedule-planner-schedule)
 - [Recommend a schedule based on major: `recommend`](#view-recommended-schedule-based-on-course-recommend)
 - [Add module to schedule planner: `add`](#add-module-to-schedule-planner-add)
@@ -82,7 +81,7 @@ Input command here:
 - [Check current pace to graduate: `pace`](#check-current-pace-to-graduate-pace)
 - [View weekly timetable: `timetable show`](#view-weekly-timetable-timetable-show)
 - [Modify weekly timetable: `timetable modify`](#modify-weekly-timetable-timetable-modify)
-- [Saves the user's schedule and exits the program: `bye`](#save-schedule-and-timetable-and-exit-the-program-bye)
+- [Saves user's schedule and exits program: `bye`](#save-schedule-and-timetable-and-exit-the-program-bye)
 
 Note: Between arguments, spaces are required. Arguments need to be passed in the correct order.
 
@@ -117,7 +116,7 @@ complete MODULE_CODE           Marks a module as complete on schedule planner.
 left                           Displays a list of remaining required modules.
 pace [CURRENT_SEMESTER]        Computes and displays your graduation pace.
 timetable COMMAND              Displays a grid containing this semester's classes
-bye                            Saves the user's schedule and timetable and exits the program.
+bye                            Saves user's schedule and timetable and exits program.
 
 For more information, please read our User Guide at this link:
 https://ay2324s1-cs2113-t17-4.github.io/tp/UserGuide.html
@@ -195,6 +194,7 @@ User input:
 +----------------------------------------------------------+
 ```
 
+
 ##### Example of usage 2: (user's major is CS)
 
 User input:
@@ -259,7 +259,6 @@ User input:
 │   Unrestricted Electives                          40     │
 +----------------------------------------------------------+
 ```
-
 
 ### View module prerequisites:`prereq`
 Based on the module selected, we will show what prerequisites the course has.
@@ -815,5 +814,5 @@ Note: if an argument is wrapped with `[]` it means that it is optional.
 | Check current pace to graduate                 | `pace [CURRENT_SEMESTER]`         | 
 | Modify weekly timetable                        | `timetable modify`                |
 | Show weekly timetable                          | `timetable show`                  |
-| Save schedule and exit the program             | `bye`                             |
+| Save schedule and timetable and exit the program             | `bye`                             |
 
