@@ -56,7 +56,6 @@ developing dedicated functions. @janelleenqi wrote the display and print functio
 The process involved incorporating external dependencies to handle JSON files, necessitating the conversion of
 data into a readable format for user display. Also learnt how to establish connections and send requests to APIs.
 
-
 #### 2. ModuleWeekly Class
 
 - **Purpose:** The ModuleWeekly class serves the crucial purpose of storing information related to modules 
@@ -65,7 +64,6 @@ data into a readable format for user display. Also learnt how to establish conne
 - **Highlights:** This class organizes and manages data relevant to the ongoing 
 semester's modules. The implementation of the ModuleWeekly class enhances the program's ability to manage and display
 module-specific details within the context of the current semester.
-
 
 #### 3. Timetable Parser and Associated Functions
 
@@ -96,7 +94,6 @@ However, after careful consideration, it was deemed irrelevant for user interact
 Originally, the `moduleWeekly` class included a `getDuration()` function meant to automatically update
 the `ModuleWeekly` elements. This concept was abandoned in favor of a more user-friendly approach, requiring
 users to input module durations as arguments when creating a class.
-
 
 ### Contributions beyond the project team:
 
