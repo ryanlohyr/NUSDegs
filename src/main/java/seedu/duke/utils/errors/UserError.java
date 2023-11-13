@@ -47,7 +47,7 @@ public class UserError {
 
     public static void emptyInputforInfoCommand() {
         System.out.println("Empty input detected. Please enter a valid input after the info command." +
-                " (E.g description, workload, all)");
+                " (E.g description)");
     }
 
     public static void invalidCommandforInfoCommand() {
