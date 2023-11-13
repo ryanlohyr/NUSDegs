@@ -15,7 +15,7 @@ import java.util.LinkedList;
 import static seedu.duke.models.logic.Prerequisite.getModulePrereqBasedOnCourse;
 import static seedu.duke.models.logic.Api.getModuleFulfilledRequirements;
 import static seedu.duke.models.logic.Prerequisite.satisfiesAllPrereq;
-import static seedu.duke.models.schema.Storage.getRequirements;
+import static seedu.duke.storage.StorageManager.getRequirements;
 import static seedu.duke.views.SemesterPlannerView.printSemesterPlanner;
 
 /**
