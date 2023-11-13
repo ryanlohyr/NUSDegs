@@ -1,5 +1,6 @@
 package seedu.duke.views;
 
+//@@author janelleenqi
 /**
  * The MajorRequirementsView class provides methods to print the required modules for specific majors.
  */

@@ -36,7 +36,7 @@ public class MainController {
     private final CommandManager commandManager;
     private StorageManager storageManager;
 
-    private Ui ui;
+    private final Ui ui;
 
     public MainController() {
         this.commandManager = new CommandManager();
@@ -45,6 +45,7 @@ public class MainController {
         this.ui = new Ui();
     }
 
+    //@@author ryanlohyr
     /**
      * Starts the application, guiding the user through its execution.
      * This method performs the following steps:
@@ -54,7 +55,6 @@ public class MainController {
      * 4. Handle user input until an exit command is given.
      * 5. Display a goodbye message when the application is finished.\
      *
-     * @author ryanlohyr
      */
     public void start() throws IOException {
         displayWelcome();
@@ -65,13 +65,12 @@ public class MainController {
         saveStudentData(storageManager,student);
         displayGoodbye();
     }
-
+    //@@author SebasFok
     /**
      * Initializes the user by attempting to load data from save files. If successful, sets the user details,
      * schedule, and timetable. If loading fails or save files are missing, creates new save files, prompts for
      * user details, and resets the schedule and timetable.
      *
-     * @author SebasFok
      * @throws IOException If an IO error occurs during file operations.
      */
     public void initialiseUser() throws IOException {
@@ -110,6 +109,7 @@ public class MainController {
             return;
 
         } catch (MissingFileException e) {
+            stopLoadingAnimation();
             System.out.println("New save files will be created.");
             //storage.createUserStorageFile();
             //System.out.println("Files successfully created!");
@@ -174,10 +174,10 @@ public class MainController {
         saveTimetable(student);
     }
 
+    //@@author SebasFok
     /**
      * Sets the student details based on the provided list of information, such as name, major, and year.
      *
-     * @author SebasFok
      * @param studentDetails The list of student information containing name, major, and year in this order.
      * @throws CorruptedFileException If the provided student information is null, has an incorrect number of elements,
      *                                or if any of the information is invalid.
@@ -218,8 +218,6 @@ public class MainController {
             }
         }
     }
-
-
 
 
 

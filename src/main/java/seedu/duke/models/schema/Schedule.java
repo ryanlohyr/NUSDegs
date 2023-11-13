@@ -78,6 +78,11 @@ public class Schedule {
         return MAXIMUM_SEMESTERS;
     }
 
+    /**
+     * Retrieves the ModuleList for modules planned in the schedule.
+     *
+     * @return The ModuleList containing the planned modules.
+     */
     public ModuleList getModulesPlanned() {
         return modulesPlanned;
     }
@@ -86,6 +91,7 @@ public class Schedule {
         return modulesPerSem;
     };
 
+    //@@author ryanlohyr
     /**
      * Adds a recommended schedule list to the current schedule, updating completion statuses if needed.
      * This method adds a list of recommended schedule modules to the current schedule. You can choose to
@@ -93,10 +99,10 @@ public class Schedule {
      * to the schedule, taking into account prerequisites and distributing them across semesters based on
      * fulfillment of prerequisites.
      *
-     * @author ryanlohyr
+     *
      * @param scheduleToAdd The list of recommended schedule modules to add.
      */
-    public void addRecommendedScheduleListToSchedule(ArrayList<String> scheduleToAdd) {
+    public void addReccToSchedule(ArrayList<String> scheduleToAdd) {
 
         final int modsToAddPerSem = 5;
         int currentIndexOfMod = 0;
@@ -141,10 +147,10 @@ public class Schedule {
         }
     }
 
+    //@@author SebasFok
     /**
      * Adds a module to the schedule for a specified semester.
      *
-     * @author SebasFok
      * @param moduleCode The module code to be added.
      * @param targetSem The target semester (an integer from 1 to 8) in which to add the module.
      * @throws IllegalArgumentException If the provided semester is out of the valid range (1 to 8),
@@ -197,11 +203,10 @@ public class Schedule {
         throw new FailPrereqException("Unable to add module as prerequisites not satisfied for: " + moduleCode);
     }
 
-
+    //@@author ryanlohyr
     /**
      * Deletes a module from the schedule by its module code.
      *
-     * @author ryanlohyr
      * @param module The module code to be deleted from the schedule.
      * @throws MandatoryPrereqException If the module to be deleted is a prerequisite for other modules in the schedule.
      * @throws MissingModuleException If the provided module code is not valid, the module is not in the schedule
@@ -248,10 +253,10 @@ public class Schedule {
 
     }
 
+    //@@author SebasFok
     /**
      * Shifts a module within the student's planned schedule to a different semester.
      *
-     * @author SebasFok
      * @param module      The module code to be shifted.
      * @param targetSem   The target semester to which the module will be shifted.
      * @throws IllegalArgumentException    If the target semester is not within the valid range (1 to 8).
@@ -305,10 +310,10 @@ public class Schedule {
         shiftModuleLater(module, targetSem, indexToAdd, originalSem);
     }
 
+    //@@author SebasFok
     /**
      * Shifts a module later within the student's planned schedule to a different semester.
      *
-     * @author SebasFok
      * @param module         The module code to be shifted later.
      * @param targetSem      The target semester to which the module will be shifted.
      * @param indexToAdd     The index at which the module will be added in the schedule.
@@ -359,10 +364,10 @@ public class Schedule {
         modulesPerSem[targetSem - 1] += 1;
     }
 
+    //@@author SebasFok
     /**
      * Shifts a module earlier within the student's planned schedule to a different semester.
      *
-     * @author SebasFok
      * @param module         The module code to be shifted earlier.
      * @param targetSem      The target semester to which the module will be shifted.
      * @param indexToAdd     The index at which the module will be added in the schedule.
@@ -398,13 +403,21 @@ public class Schedule {
                 + module);
     }
 
+    //@@author janelleenqi
+    /**
+     * Retrieves a specific module from the planned modules based on its module code.
+     *
+     * @param moduleCode The module code of the module to retrieve.
+     * @return The Module object with the specified module code.
+     * @throws InvalidObjectException If the module with the given code is not found.
+     */
     public Module getModule(String moduleCode) throws InvalidObjectException {
         return modulesPlanned.getModule(moduleCode);
     }
 
+    //@@author ryanlohyr
     /**
      * Completes the given module, checking prerequisites if applicable.
-     * @author ryanlohyr
      * @param module        The module to be completed.
      * @param modulePrereq The list of prerequisites for the module.
      * @throws FailPrereqException   If prerequisites are not met.
@@ -492,10 +505,10 @@ public class Schedule {
         printSemesterPlanner(modulesPerSem, modulesPlanned);
     }
 
+    //@@author ryanlohyr
     /**
      * Generates a recommended schedule for a given course based on its requirements and prerequisites.
      *
-     * @author ryanlohyr
      * @param course The course for which to generate a recommended schedule.
      * @return An ArrayList of strings representing the recommended schedule in order of completion.
      */

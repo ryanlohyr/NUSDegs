@@ -5,6 +5,10 @@ import seedu.duke.utils.exceptions.TimetableUnavailableException;
 
 import java.util.ArrayList;
 
+//@@author janelleenqi
+/**
+ * The TimetableUserGuideView class provides methods to display user guides for the timetable-related commands.
+ */
 public class TimetableUserGuideView {
     private static final int justifyLength = 12;
 
@@ -38,7 +42,12 @@ public class TimetableUserGuideView {
         print(String.format("%-" + number + "s", string));
     }
 
-
+    /**
+     * Prints the list of modules in the current semester.
+     *
+     * @param currentSemModulesWeekly The list of modules in the current semester.
+     * @throws TimetableUnavailableException If there are no modules in the current semester.
+     */
     public static void printCurrentSemModules(ArrayList<ModuleWeekly> currentSemModulesWeekly)
             throws TimetableUnavailableException {
         println("List of modules in current semester: ");
@@ -65,22 +74,44 @@ public class TimetableUserGuideView {
         return "Modify your lectures/tutorials/labs in timetable using this format: timetable modify";
     }
 
+    /**
+     * Generates a guide for adding or recommending modules.
+     *
+     * @param specificContext The specific context for the guide.
+     * @param semester The semester for which to add modules.
+     * @return The guide for adding or recommending modules.
+     */
     public static String addOrRecommendGuide(String specificContext, int semester) {
         return (specificContext + "\n" +
                 "Add modules using this format: add [module code] " + semester + "\n" +
                 "Alternatively, get the recommended schedule for your major: recommend");
     }
 
+    /**
+     * Prints the guide for adding or recommending modules.
+     *
+     * @param specificContext The specific context for the guide.
+     */
     public static void printAddRecommendGuide(String specificContext) {
         print(specificContext);
         println("Add modules to your current semester or get the recommended schedule for your major first.");
     }
 
+    /**
+     * Prints the guide for modifying the timetable.
+     *
+     * @param specificContext The specific context for the guide.
+     */
     public static void printTimetableModifyGuide(String specificContext) {
         println(specificContext);
         println("Enter Timetable Modify Mode to add lessons: timetable modify");
     }
 
+    /**
+     * Prints a simple guide for modifying lessons in the timetable.
+     *
+     * @param specificContext The specific context for the guide.
+     */
     public static void printTTModifySimpleLessonGuide(String specificContext) {
         println(specificContext);
         println("To add a lesson for a module, enter: [moduleCode] [lessonType] [startTime] [duration] [day]\n" +
@@ -88,6 +119,11 @@ public class TimetableUserGuideView {
                 "To exit Timetable Modify Mode, enter: EXIT");
     }
 
+    /**
+     * Prints a detailed guide for modifying lessons in the timetable.
+     *
+     * @param specificContext The specific context for the guide.
+     */
     public static void printTTModifyDetailedLessonGuide(String specificContext) {
         println(specificContext);
         println("To add a lesson to a module: [moduleCode] [lessonType] [startTime] [duration] [day]");
@@ -112,16 +148,4 @@ public class TimetableUserGuideView {
         println("To exit timetable modify: exit");
     }
 
-
-    public static void timetableModifySuccessful() {
-        println("Your timetable has been successfully modified!");
-        println("Continue to " + getTimetableShowGuide().toLowerCase());
-        println("Continue to " + getTimetableModifyGuide().toLowerCase());
-    }
-
-    public static void timetableModeIncorrectUserInput() {
-        println("Invalid user input in Timetable-Modify-Mode.");
-        println("Continue to " + getTimetableShowGuide().toLowerCase());
-        println("Continue to " + getTimetableModifyGuide().toLowerCase());
-    }
 }

@@ -10,9 +10,9 @@ import java.util.Arrays;
 public class Parser {
     public static final String DELIMITER = " ";
 
+    //@@author ryanlohyr
     /**
      * Parses a user input string to extract and return the main command.
-     * @author ryanlohyr
      * @param userInput The user input string.
      * @return The main command from the input string.
      */
@@ -25,11 +25,10 @@ public class Parser {
         return keywords[0].toLowerCase().trim();
     }
 
-    //public static String parseTimetable
 
+    //@@author ryanlohyr
     /**
      * Excludes the command and extracts and returns an array of arguments from a user input string.
-     * @author ryanlohyr
      * @param userInput The user input string.
      * @return An array of arguments from the input string.
      */
@@ -43,13 +42,13 @@ public class Parser {
     }
 
 
+    //@@author ryanlohyr
     /**
      * Checks if the given academic year input is valid.
      * The academic year should be in the format "Yn/Sx", where 'n' represents the year
      * and 'x' represents the semester (e.g., Y1/S1, Y2/S2).
      *
      *
-     * @author @ryanlohyr
      * @param userInput The academic year input to be validated.
      * @return true if the input is a valid academic year, false otherwise.
      *
