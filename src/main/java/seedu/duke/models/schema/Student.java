@@ -322,7 +322,7 @@ public class Student {
      *
      * @author @rohitcube
      */
-    public void setCurrentSemesterModules() {
+    private void setCurrentSemesterModules() {
         try {
             int currSem = getCurrentSem();
 
@@ -357,7 +357,7 @@ public class Student {
      *
      * @author @rohitcube
      */
-    public void setCurrentSemesterModulesWeekly() throws TimetableUnavailableException {
+    private void setCurrentSemesterModulesWeekly() throws TimetableUnavailableException {
         if (currentSemesterModules == null || currentSemesterModules.getMainModuleList().isEmpty()) {
             timetable.removeAll();
             int currentSem = getCurrentSem();
