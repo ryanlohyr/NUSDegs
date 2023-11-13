@@ -33,25 +33,7 @@ public class Schedule {
     //DO NOT USE PREREQ MAP, ONLY USED FOR OPTIMISING RECOMMENDED SCHEDULE FUNCTION
     private HashMap<String, ArrayList<String>> prereqMap;
 
-    /*
-    public ArrayList<Module> getCurrentSemesterModules() {
-        int[] yearAndSem = Parser.parseStudentYear(year);
-        int currSem = ((yearAndSem[0] - 1) * 2) + yearAndSem[1];
-        int numberOfModulesInCurrSem = modulesPerSem[currSem - 1];
-        int numberOfModulesCleared = 0;
-        for (int i = 0; i < currSem - 1; i++) {
-            numberOfModulesCleared += modulesPerSem[i];
-        }
-        int startIndex = currSem - 1;
-        int endIndex = startIndex + numberOfModulesCleared;
-        ArrayList<Module> modulesInSchedule = modulesPlanned.getMainModuleList();
-        ArrayList<Module> currentSemesterModules = null;
-        for (int i = startIndex; i < endIndex; i++) {
-            currentSemesterModules.add(modulesInSchedule.get(i));
-        }
-        return currentSemesterModules;
-    }
-    */
+
 
     public Schedule(ModuleList modulesPlanned, int[] modulesPerSem) {
         this.modulesPerSem = modulesPerSem;
