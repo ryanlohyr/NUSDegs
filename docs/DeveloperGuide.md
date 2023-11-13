@@ -4,6 +4,10 @@ background-image: linear-gradient(to right, #370505, #5b2829, #814c4c, #a97171, 
 </h1>
 
 <h1>
+<span style="background-image: linear-gradient(to right, #14499b, #0065b7, #0081d1, #009ee9, #00bcff);
+-webkit-background-clip: text; color: transparent;">N</span>US 
+<span style="background-image: linear-gradient(to right, #e50000, #e84034, #e6615a, #de7e7b, #d19999);
+-webkit-background-clip: text; color: transparent;">D</span>EGs
 <span style="background-image: linear-gradient(to right, #9b2614, #b70036, #c3006b, #ac00b2, #002cff);
 -webkit-background-clip: text; color: transparent;">Developer Guide</span>
 </h1>
@@ -410,8 +414,7 @@ formatting
 
 | Version | As a ... | I want to ...                                                                     | So that I can ...                                           |
 |---------|----------|-----------------------------------------------------------------------------------|-------------------------------------------------------------|
-| v1.0    | new user | see usage instructions                                                            | refer to them when I forget how to use the application      |
-| v2.0    | user     | find a to-do item by name                                                         | locate a to-do without having to go through the entire list |
+| v1.0    | new user | view help                                                                         | refer to them when I forget how to use the application      |
 | v1.0    | user     | view my pace                                                                      | graduate on time                                            |
 | v1.0    | user     | view the required modules I am left with for my major                             | plan ahead for other semesters                              |
 | v2.0    | user     | search for specific modules based on keywords, course codes, or professors' names | quickly find the modules I need for my semesters            |

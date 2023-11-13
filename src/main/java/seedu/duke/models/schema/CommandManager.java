@@ -48,7 +48,7 @@ public class CommandManager {
 
                 new Command("timetable", "COMMAND", "Displays a grid containing this semester's classes"),
 
-                new Command("bye", "Saves the user's schedule and timetable and exits the program.")));
+                new Command("bye", "Saves user's schedule and timetable and exits program.")));
     }
 
 
