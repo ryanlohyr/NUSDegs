@@ -77,10 +77,10 @@ public class Storage {
         return courseArray;
     }
 
+    //@@author SebasFok
     /**
      * Creates a "schedule.txt" file in the data directory.
      *
-     * @author SebasFok
      */
     public void createUserStorageFile() {
         String dataDirectory = userDirectory + "/data";
@@ -167,10 +167,10 @@ public class Storage {
 
     }
 
+    //@@author SebasFok
     /**
      * Loads the student's details (name, major, and year) from the "studentDetails.txt" file.
      *
-     * @author SebasFok
      * @return An ArrayList containing the loaded student details in the order [Name, Major, Year].
      * @throws MissingFileException    If the "studentDetails.txt" file is missing.
      * @throws CorruptedFileException  If the file is corrupted or has unexpected content.
@@ -355,10 +355,10 @@ public class Storage {
         }
     }
 
+    //@@author SebasFok
     /**
      * Saves the student's details (name, major, and year) to the "studentDetails.txt" file.
      *
-     * @author SebasFok
      * @param student The Student object containing the details to be saved.
      * @throws IOException If an I/O error occurs while writing to the file.
      */
@@ -420,10 +420,10 @@ public class Storage {
 
     // Below this comment are standard file methods
 
+    //@@author SebasFok
     /**
      * Takes in the location of the file in question and returns whether the file exist
      *
-     * @author SebasFok
      * @param filePath
      * @return return true if the file exist,return false otherwise
      */
@@ -432,11 +432,11 @@ public class Storage {
         return Files.exists(path);
     }
 
+    //@@author SebasFok
     /**
      * This method takes in a path and creates a directory at that location. Should the
      * directory already exist, no new directory will be created.
      *
-     * @author SebasFok
      * @param folderPath the location of where the directory should be created
      */
     public static void createDirectory(String folderPath) {
@@ -449,11 +449,11 @@ public class Storage {
         }
     }
 
+    //@@author SebasFok
     /**
      * This method takes in the path of a directory and creates a file 'fileName' in
      * the directory. Should the file already exist, no new file will be created.
      *
-     * @author SebasFok
      * @param directoryPath the location of the directory where the file should be created
      * @param fileName the name of the file to be created
      */
@@ -476,11 +476,11 @@ public class Storage {
         }
     }
 
+    //@@author SebasFok
     /**
      * This method takes in the path of a txt file and adds 'textToAdd' to the last line
      * of the file
      *
-     * @author SebasFok
      * @param filePath location of the file to be edited
      * @param textToAdd String to be added to the end of the txt file
      */

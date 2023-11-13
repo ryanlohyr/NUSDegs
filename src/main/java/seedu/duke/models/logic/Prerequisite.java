@@ -15,10 +15,11 @@ import java.util.Objects;
 import static seedu.duke.models.schema.Storage.getRequirements;
 
 public class Prerequisite {
+
+    //@@author SebasFok
     /**
      * Recursively checks if each branch of the prereq tree is satisfied by the student.
      *
-     * @author SebasFok
      * @param modulePrereqArray The array of prerequisite modules or conditions to be checked.
      * @param currRequisite     The type of prerequisite condition ("or" or "and").
      * @param completedModules  The list of completed modules by the student.
@@ -42,11 +43,11 @@ public class Prerequisite {
 
     }
 
+    //@@author SebasFok
     /**
      * Checks if the AND branch of a module's prerequisites is satisfied based on completed modules.
      * Recursively checks the branch if there are nested prerequisite structures in the AND branch
      *
-     * @author SebasFok
      * @param modulePrereqArray The array representing the AND branch of prerequisites.
      * @param completedModules  The list of modules that have been completed.
      * @return true if the AND branch is satisfied, false otherwise.
@@ -91,11 +92,11 @@ public class Prerequisite {
         return true;
     }
 
+    //@@author SebasFok
     /**
      * Checks if the OR branch of a module's prerequisites is satisfied based on completed modules.
      * Recursively checks the branch if there are nested prerequisite structures in the OR branch
      *
-     * @author SebasFok
      * @param modulePrereqArray The array representing the OR branch of prerequisites.
      * @param completedModules  The list of modules that have been completed.
      * @return true if the OR branch is satisfied, false otherwise.
@@ -331,10 +332,10 @@ public class Prerequisite {
         return map.get(moduleCode);
     }
 
+    //@@author SebasFok
     /**
      * Checks if a student satisfies all prerequisites for a given module.
      *
-     * @author SebasFok
      * @param moduleCode       The code of the module for which prerequisites need to be checked.
      * @param completedModules The list of completed modules by the student.
      * @return `true` if the student satisfies all prerequisites for the module, `false` otherwise.
