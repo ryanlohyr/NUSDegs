@@ -4,18 +4,41 @@
 @startuml
 
 
+component ModulePlannerController
+
+package "Student Data" {
 component Student
+[Schedule Planner]
+[Weekly Timetable]
+}
+
+ModulePlannerController -> Student
+
+
+package "Schedule Planner" {
 component Schedule
-component Timetable
+[Modules Planned]
+'[ModuleList] as modulesPlanned
+[HashMap<String, Module>] as completedModules
+}
+
+node "Modules Planned" {
 [ModuleList] as modulesPlanned
-[ArrayList<ModuleWeekly>] as currentSemesterModulesWeekly
+[ArrayList<Module>] as mainModuleList
+}
 
-
-Student -> Schedule
+Student *-right-> "1"  Schedule: has a
 Schedule -> modulesPlanned
-Student -> Timetable
-Timetable -> currentSemesterModulesWeekly
+Schedule -down-> completedModules
+modulesPlanned -down-> mainModuleList
 
-@enduml
+
+package "Weekly Timetable" {
+component Timetable
+[ArrayList<ModuleWeekly>] as currentSemesterModulesWeekly
+}
+
+Student *-down-> "1" Timetable
+Timetable *-down-> currentSemesterModulesWeekly
 
 @enduml
