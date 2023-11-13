@@ -1,7 +1,7 @@
 @startuml
 'https://plantuml.com/sequence-diagram
 
-autonumber
+'autonumber
 autoactivate on
 
 actor Student
@@ -78,17 +78,17 @@ end
 
 destroy MCL
 
-S --> UC: "moduleCodesLeft:\nArrayList<String>"
+S --> UC: "moduleCodesLeft:ArrayList<String>"
 
 
-UC -> MMC: showModulesLeft(ArrayList<String> moduleCodesLeft)
+UC -> MMC: showModulesLeft\n(ArrayList<String> \nmoduleCodesLeft)
 
 MMC -> UI: displayMessage("Modules Left: ")
 UI --> Student
 UI --> MMC
 
 
-MMC -> MIV: printModuleStringArray(moduleCodesLeft)
+MMC -> MIV: printModuleStringArray\n(moduleCodesLeft)
 activate MIV
 MIV --> Student
 MIV --> MMC
