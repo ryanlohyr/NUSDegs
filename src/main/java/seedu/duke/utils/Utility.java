@@ -1,6 +1,6 @@
 package seedu.duke.utils;
 
-import seedu.duke.models.schema.Storage;
+import seedu.duke.storage.StorageManager;
 import seedu.duke.models.schema.Student;
 
 import java.io.IOException;
@@ -38,11 +38,11 @@ public class Utility {
         }
     }
 
-    public static void saveStudentData(Storage storage, Student student) {
+    public static void saveStudentData(StorageManager storage, Student student) {
         try {
             storage.saveStudentDetails(student);
-            Storage.saveSchedule(student);
-            Storage.saveTimetable(student);
+            StorageManager.saveSchedule(student);
+            StorageManager.saveTimetable(student);
             System.out.println("Data successfully saved in save files");
         } catch (IOException e) {
             System.out.println("Unable to save data.");

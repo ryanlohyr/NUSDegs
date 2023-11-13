@@ -18,8 +18,8 @@ import static seedu.duke.controllers.ModuleServiceController.chooseToAddToSchedu
 import static seedu.duke.controllers.ModuleServiceController.isConfirmedToClearSchedule;
 import static seedu.duke.models.logic.Api.isValidModule;
 import static seedu.duke.models.logic.Prerequisite.getModulePrereqBasedOnCourse;
-import static seedu.duke.models.schema.Storage.saveSchedule;
-import static seedu.duke.models.schema.Storage.saveTimetable;
+import static seedu.duke.storage.StorageManager.saveSchedule;
+import static seedu.duke.storage.StorageManager.saveTimetable;
 import static seedu.duke.utils.errors.HttpError.displaySocketError;
 import static seedu.duke.views.Ui.displayMessage;
 import static seedu.duke.views.CommandLineView.displaySuccessfulAddMessage;
