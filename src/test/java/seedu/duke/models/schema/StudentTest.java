@@ -33,7 +33,7 @@ public class StudentTest {
         //expected:
         ArrayList<String> expected = new ArrayList<>();
         ArrayList<String> majorModuleCodes = student.getMajorModuleCodes();
-        ArrayList<String> modulesInPlanner = student.getModulesPlanned().getModulesCompleted();
+        ArrayList<String> modulesInPlanner = student.getModulesPlanned().getCompletedModuleCodes();
         for (String moduleCode : majorModuleCodes) {
             if (!modulesInPlanner.contains(moduleCode)) {
                 expected.add(moduleCode);

@@ -72,7 +72,7 @@ public class ModuleList {
      *
      * @return The ArrayList containing module codes of completed modules.
      */
-    public ArrayList<String> getModulesCompleted(){
+    public ArrayList<String> getCompletedModuleCodes(){
         ArrayList<String> completedModuleCodes = new ArrayList<>();
         for (Module module: mainModuleList){
             if (module.getCompletionStatus()) {

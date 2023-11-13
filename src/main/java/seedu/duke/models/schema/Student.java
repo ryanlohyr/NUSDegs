@@ -148,6 +148,16 @@ public class Student {
         }
     }
 
+    /**
+     * Adds a module to the student's schedule for a specified semester.
+     *
+     * @author SebasFok
+     * @param moduleCode The code of the module to be added.
+     * @param targetSem  The semester in which the module will be added.
+     * @throws IllegalArgumentException If the target semester is not valid.
+     * @throws InvalidObjectException   If the module code is invalid or does not exist.
+     * @throws FailPrereqException      If the module cannot be added due to unsatisfied prerequisites.
+     */
     public void addModuleToSchedule(String moduleCode, int targetSem) throws IllegalArgumentException,
             InvalidObjectException, FailPrereqException {
         this.schedule.addModule(moduleCode, targetSem);
@@ -199,11 +209,29 @@ public class Student {
         }
     }
 
+    /**
+     * Shifts a module within the student's schedule to a different semester.
+     *
+     * @author SebasFok
+     * @param moduleCode The code of the module to be shifted.
+     * @param targetSem  The target semester to which the module will be shifted.
+     * @throws IllegalArgumentException   If the target semester is not valid.
+     * @throws FailPrereqException          If shifting the module fails due to unsatisfied prerequisites.
+     * @throws MissingModuleException      If the module to be shifted is missing from the schedule.
+     * @throws IOException                 If an I/O error occurs during the shift operation.
+     * @throws MandatoryPrereqException    If shifting the module violates mandatory prerequisites.
+     */
     public void shiftModuleInSchedule(String moduleCode, int targetSem) throws IllegalArgumentException,
             FailPrereqException, MissingModuleException, IOException, MandatoryPrereqException {
         this.schedule.shiftModule(moduleCode, targetSem);
     }
 
+    /**
+     * Clears all modules from the student's schedule, resetting it to an empty schedule.
+     * Also resets the completed module credits to zero.
+     *
+     * @author SebasFok
+     */
     public void clearAllModulesFromSchedule() {
         //Replaces current schedule with new schedule
         this.schedule = new Schedule();
@@ -246,7 +274,7 @@ public class Student {
      */
     public ArrayList<String> getModuleCodesLeft() {
         ArrayList<String> moduleCodesLeft = new ArrayList<String>();
-        ArrayList<String> completedModuleCodes = schedule.getModulesPlanned().getModulesCompleted();
+        ArrayList<String> completedModuleCodes = schedule.getModulesPlanned().getCompletedModuleCodes();
 
         for (String moduleCode : majorModuleCodes) {
             if (!completedModuleCodes.contains(moduleCode)) {
@@ -287,8 +315,6 @@ public class Student {
             }
             int startIndex = numberOfModulesCleared;
             int endIndex = startIndex + numberOfModulesInCurrSem;
-
-            // add the modules in current semester into ModuleList currentSemesterModules
             currentSemesterModules = new ModuleList();
             for (int i = startIndex; i < endIndex; i++) {
                 currentSemesterModules.addModule(modulesPlanned.getModuleByIndex(i));
@@ -311,8 +337,6 @@ public class Student {
      * @author @rohitcube
      */
     public void setCurrentSemesterModulesWeekly() throws TimetableUnavailableException {
-        // checks if class variable into which I added the modules in current semester is empty
-        // if empty, means the user didn't plan or add any modules into the thing
         if (currentSemesterModules == null || currentSemesterModules.getMainModuleList().isEmpty()) {
             timetable.removeAll();
             int currentSem = getCurrentSem();
@@ -320,13 +344,8 @@ public class Student {
                     addOrRecommendGuide("Timetable view is unavailable as your current semester has " +
                             "no modules yet.", currentSem));
         }
-
-        // Ok the current sem modules are back in an array list<Module>
-        // so the point of putting it in the module list was to check whether empty
         ArrayList<Module> newCurrentSemModuleList = currentSemesterModules.getMainModuleList();
-        // new arrayList<moduleweekly> is instantiated, USE THIS, USE THIS TO CHECK IF IT EXISTS THE OTHER WAY ROUND
         ArrayList<ModuleWeekly> currentSemesterModulesWeekly = timetable.getCurrentSemesterModulesWeekly();
-        // moduleweekly added with module code  into arrayList<moduleweekly>
         for (int i = 0; i < currentSemesterModulesWeekly.size(); i++) {
             ModuleWeekly currModule = currentSemesterModulesWeekly.get(i);
             String currModuleCode = currModule.getModuleCode();
@@ -360,14 +379,11 @@ public class Student {
     public void timetableShowOrModify(String argument) {
         try {
             this.updateTimetable();
-            //this.setCurrentSemesterModules();
-            //this.setCurrentSemesterModulesWeekly();
             ModuleServiceController moduleServiceController = new ModuleServiceController();
             argument = argument.trim().toUpperCase().replace("\r", "");
             switch (argument) {
             case "SHOW": {
                 moduleServiceController.showTimetable(timetable.getCurrentSemesterModulesWeekly());
-                //TimetableView.printTimetable(timetable.getCurrentSemesterModulesWeekly());
                 break;
             }
             case "MODIFY": {
@@ -427,7 +443,7 @@ public class Student {
     }
 
     /**
-     * Checks if a module with a given module code exists in the current semester modules.
+     * Checks if a module with a given module code exists in the current semester 'modules weekly' class.
      * @author @rohitcube
      * @param moduleCode                   The module code to search for.
      * @param currentSemesterModulesWeekly The list of ModuleWeekly objects for the current semester.
@@ -443,6 +459,13 @@ public class Student {
         return false;
     }
 
+    /**
+     * Checks if a module with a given module code exists in the current semester modules.
+     * @author @rohitcube
+     * @param moduleCode                   The module code to search for.
+     * @param currentSemesterModulesWeekly The list of ModuleWeekly objects for the current semester.
+     * @return true if the module exists, false otherwise.
+     */
     public static boolean isExistInCurrentSemesterModule(String moduleCode,
                                                                ArrayList<Module> currentSemesterModulesWeekly) {
         for (Module module : currentSemesterModulesWeekly) {

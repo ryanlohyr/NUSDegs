@@ -91,20 +91,6 @@ public class TimetableUserCommand {
         arguments = argumentsNotNull;
     }
 
-    /*
-    private void cleanArguments() throws InvalidTimetableUserCommandException {
-    // ROHIT HERE!!
-    // check module exist in student modulesPlanned current sem
-    try {
-        student.getModulesPlanned().existsByCode(arguments[0]);
-    } catch (InvalidObjectException e) {
-        throw new InvalidTimetableUserCommandException(arguments[0] + ERROR_MODULE_DOES_NOT_EXIST);
-    }
-    //String[] cleanArguments = new String[NUMBER_OF_ARGUMENTS_LESSON];
-
-
-    }
-    */
 
 
     public void processTimetableCommand(ArrayList<ModuleWeekly> currentSemesterModulesWeekly)

@@ -55,6 +55,20 @@ The `UI` component:
 - displays messages to the user by printing to the CLI
 - displays results from commands executed by the ModulePlannerController class
 
+### Logic Component
+
+![ss_logicDiagram.jpg](screenshots%2Fss_logicDiagram.jpg)
+
+The `Logic` component:
+
+1. Input from the user is received through `Ui` class, is the pass into `ModulePlannerController`.
+2. When `ModulePlannerController` is called upon to execute a command, it uses the `Parser` class to parse for 
+`UserCommand`.
+2. This results in a `UserCommand` object which is executed by the `ModulePlannerController`.
+3. The `UserCommand` calls the methods specific to each `UserCommand` from `ModuleMethodsController`.
+(`ModuleServiceController` contains helper functions for `ModuleMethodsController`) 
+4. The result of the command execution is returned to the `Ui` and printed to the CLI.
+
 ### Model Component
 The component is specified in .java
 
@@ -165,7 +179,7 @@ Sem 8: `
 ## List Modules Left Feature
 
 The following sequence diagram shows how the Left Command function works.
-![img.png](diagrams/left_seq_diag.png)
+![LeftFeature_Seq.png](diagrams%2FLeftFeature_Seq.png)
 
 The left mechanism is implemented to help users keep tracks of modules left for their major. It is facilitated by `modulesLeft`, `modulesMajor` and `modulesTaken`. Additionally, it implements the following operations:
 
@@ -259,7 +273,7 @@ The following sequence diagram shows how the `add` command works:
 ## Required Command
 
 The following sequence diagram shows how the Required Command function works.
-![img.png](diagrams/required_seq_diag.png)
+![RequiredFeature_Seq.png](diagrams%2FRequiredFeature_Seq.png)
 
 The required command is implemented to give users an overview of the modules they need to complete for 
 their major. It is facilitated by major. Additionally, it implements the following operations:
@@ -290,7 +304,6 @@ directory.
 - `getFullModuleInfo(major)` – Returns the `filePath` for the requirements of a specified major.
 - `sendHttpRequestAndGetResponseBody(String url)` – Displays the overview of modules required.
 - `getDescription(String moduleCode)` – Returns the `longestLineLength` of the file f.
-- `getWorkload(String moduleCode)` – Returns a string with a justified name according to length, appended with its description.
 - `listAllModules(), `printDoubleTopLine()`, `printBottomLine()`, `printDoubleBottomLine()` – Displays lines for formatting
 - `infoCommands(String command, String userInput), `printDoubleTopLine()`, `printBottomLine()`, `printDoubleBottomLine()` – Displays lines for formatting
 
@@ -305,6 +318,39 @@ Command: `required`
 Response:
 Module requirements for major selected by user
 
+## Add lessons in the Weekly Timetable
+
+User Input: `timetable modify`
+
+The following sequence diagram details the process of the 'timetable modify loop'
+
+[timetableModify.puml](diagrams%2FtimetableModify.puml)
+![tt_modify_seq_diag.png](diagrams%2Ftt_modify_seq_diag.png)
+
+### Function List
+
+- `getUserCommand`: Retrieves user input for a timetable command.
+- `getArguments`: Retrieves arguments from a TimetableUserCommand.
+- `isModifyExit`: Checks if the user entered 'exit' as an argument.
+- `addLecture`: Adds a lecture to the selected module.
+- `addTutorial`: Adds a tutorial to the selected module.
+- `addLab`: Adds a lab to the selected module.
+- `isModifyClear`: Removes all lessons for the selected module.
+- `saveTimetable`: Saves the current timetable to storage.
+- `printTimetable`: Returns a formatted timetable display to the command-line interface.
+
+
+## Search Command
+
+The required command is implemented to give users the ability to search for modules based on their titles.
+
+- `searchCommand(keywords)': Searches NUSModsAPI for modules containing specified keywords in the title.
+- `listAllModules()`: Returns all modules for parsing and identifying those containing a specified keyword.
+- `printDoubleTopLine()`, `printBottomLine()`, `printDoubleBottomLine()` – Displays lines for 
+
+
+
+formatting
 
 ## Product scope
 ### Target user profile
@@ -317,10 +363,19 @@ Module requirements for major selected by user
 
 ## User Stories
 
-|Version| As a ... | I want to ... | So that I can ...|
-|--------|----------|---------------|------------------|
-|v1.0|new user|see usage instructions|refer to them when I forget how to use the application|
-|v2.0|user|find a to-do item by name|locate a to-do without having to go through the entire list|
+| Version | As a ... | I want to ...                                                                     | So that I can ...                                           |
+|---------|----------|-----------------------------------------------------------------------------------|-------------------------------------------------------------|
+| v1.0    | new user | see usage instructions                                                            | refer to them when I forget how to use the application      |
+| v2.0    | user     | find a to-do item by name                                                         | locate a to-do without having to go through the entire list |
+| v1.0    | user     | view my pace                                                                      | graduate on time                                            |
+| v1.0    | user     | view the required modules I am left with for my major                             | plan ahead for other semesters                              |
+| v2.0    | user     | search for specific modules based on keywords, course codes, or professors' names | quickly find the modules I need for my semesters            |
+| v2.0    | user     | alter (add, swap, delete) the modules in the schedule planner                     | update the recommended schedule to my preferences           |
+| v2.0    | user     | get the recommended schedule for my major                                         | have a starting point to use the app                        |
+| v2.0    | user     | get an overview of module requirements for my major                               | know which modules I must take to graduate                  |
+| v2.1    | user     | shift the modules in the schedule planner                                         | more easily edit my schedule and save more time             |
+| v2.1    | user     | plan my weekly timetable for my current semester                                  | keep track of my weekly lessons for my current semester     |
+| v2.1    | user     | mark modules I have added as completed                                            | keep track of my progress                                   |
 
 ## Non-Functional Requirements
 
