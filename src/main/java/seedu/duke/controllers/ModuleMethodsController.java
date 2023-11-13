@@ -85,9 +85,17 @@ public class ModuleMethodsController {
                 + "Recommended Pace: " + creditsPerSem + "MCs per sem until graduation");
     }
 
+    //@@author janelleenqi
+    /**
+     * Displays the list of remaining module codes.
+     *
+     * This method takes an ArrayList of module codes and prints them to the console
+     * after displaying a header message.
+     *
+     * @param moduleCodesLeft An ArrayList of Strings representing the remaining module codes.
+     *                        It should not be null.
+     */
     public static void showModulesLeft(ArrayList<String> moduleCodesLeft) {
-        //add parser.IsInputVal
-        //boolean validInput = Parser.isValidInputForCommand(commandWord, arguments);
         displayMessage("Modules Left: ");
         printModuleStringArray(moduleCodesLeft);
     }
@@ -243,28 +251,48 @@ public class ModuleMethodsController {
 
     }
 
+    /**
+     * Completes the specified module for the given student.
+     *
+     * This method attempts to mark the specified module as completed for the given student.
+     * It checks if the module is already completed, and if so, displays an error message
+     * and exits the method. If the module is not found in the student's schedule planner,
+     * a message is displayed. If the prerequisites for the module are not met, an error
+     * message is displayed, and the prerequisites are shown.
+     *
+     * @param student The student for whom the module is to be completed. Must not be null.
+     * @param moduleCode The code of the module to be completed. Must not be null.
+     * @throws MissingModuleException If the module does not exist in the student's schedule planner.
+     * @throws FailPrereqException If the prerequisites for the module are not met.
+     *                            Displays an error message and shows the prerequisites.
+     * @throws RuntimeException If an unexpected InvalidPrereqException occurs (should not happen).
+     */
     public static void completeModule(Student student, String moduleCode) {
         try {
             Module module = student.getModuleFromSchedule(moduleCode);
-            //if module is already completed, exit
+
+            // if module is already completed, exit
             if (module.getCompletionStatus()) {
                 UserError.displayModuleAlreadyCompleted(module.getModuleCode());
                 return;
             }
 
             student.completeModuleSchedule(moduleCode);
-            try{
+            // update save file
+            try {
                 saveSchedule(student);
-            }catch (IOException ignored){
-                //we ignore first as GitHub actions cant save schedule on the directory
+            } catch (IOException ignored){
+                // GitHub actions cannot save schedule on the directory
             }
 
         } catch (MissingModuleException e) {
+            // module not does exist in schedule planner
             displayMessage(e.getMessage());
 
         } catch (InvalidObjectException e) {
             assert false;
         } catch (FailPrereqException e) {
+            // prerequisites are not met
             displayMessage("Prerequisites not completed for " + moduleCode);
             showPrereq(moduleCode, student.getMajor());
         } catch (InvalidPrereqException e) {
@@ -272,6 +300,14 @@ public class ModuleMethodsController {
         }
     }
 
+    /**
+     * Prints the required modules for a student based on their major.
+     *
+     * This method calls the printRequiredModules function in MajorRequirementsView to print required modules for
+     * the specified major.
+     *
+     * @param major The major of the student that will be used to print the required modules.
+     */
     public static void getRequiredModulesForStudent(String major) {
         printRequiredModules(major);
     }

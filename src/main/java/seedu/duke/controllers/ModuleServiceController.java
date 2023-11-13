@@ -122,11 +122,19 @@ public class ModuleServiceController {
         return userInput.equals("Y");
     }
 
+    //@@author janelleenqi
     /**
-     * Modifies the timetable for the specified student based on user input.
+     * Modifies the timetable for the given student based on user commands.
      *
-     * @param student The student object.
-     * @throws InvalidModifyArgumentException If an invalid argument is provided.
+     * This method allows the user to modify the timetable for the current semester
+     * by processing user commands. It enters a loop to continuously accept commands
+     * until the user decides to exit. The modified timetable is saved after each
+     * successful modification. If the timetable view is available, it is printed.
+     * If the timetable view is unavailable, a simple guide is printed to inform the user.
+     *
+     * @param student The student for whom the timetable is to be modified.
+     *                Must not be null.
+     * @throws InvalidModifyArgumentException If an invalid argument is provided during modification.
      */
     public void modifyTimetable(Student student) throws InvalidModifyArgumentException {
         Timetable timetable = student.getTimetable();
@@ -165,7 +173,7 @@ public class ModuleServiceController {
                 try {
                     saveTimetable(student);
                 } catch (IOException ignored){
-                    //we ignore first as GitHub actions cant save timetable on the directory
+                    // GitHub actions cannott save timetable on the directory
                 }
                 if (timetable.timetableViewIsAvailable()) {
                     printTimetable(currentSemModulesWeekly);
@@ -180,7 +188,16 @@ public class ModuleServiceController {
         }
     }
 
-
+    //@@author janelleenqi
+    /**
+     * Displays the timetable for the current semester based on the provided module weekly data.
+     *
+     * This method displays the timetable for the current semester using the ArrayList of ModuleWeekly objects to the
+     * user.
+     *
+     * @param currentSemesterModuleWeekly The list of ModuleWeekly objects with information about
+     *                                     the timetable for the current semester
+     */
     public void showTimetable(ArrayList<ModuleWeekly> currentSemesterModuleWeekly) {
         printTimetable(currentSemesterModuleWeekly);
     }
