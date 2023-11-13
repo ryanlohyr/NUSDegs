@@ -147,14 +147,14 @@ User input:
   Module Code: UTC1102B\
   _________________________________________\
 
-### Get information about a module: `info`
+### Get information about a module: `info description`
 Get information about a module using the info command, followed by the command 'description'.
 
-##### Format: `info COMMAND MODULE_CODE`
+##### Format: `info description MODULE_CODE`
 
-
-* The `COMMAND` cannot be empty.
 * The `MODULE_CODE` cannot be empty.
+
+
 
 ##### Examples of usage:
 
