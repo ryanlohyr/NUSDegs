@@ -48,6 +48,20 @@ The `UI` component:
 - displays messages to the user by printing to the CLI
 - displays results from commands executed by the ModulePlannerController class
 
+### Logic Component
+
+![ss_logicDiagram.jpg](screenshots%2Fss_logicDiagram.jpg)
+
+The `Logic` component:
+
+1. Input from the user is received through `Ui` class, is the pass into `ModulePlannerController`.
+2. When `ModulePlannerController` is called upon to execute a command, it uses the `Parser` class to parse for 
+`UserCommand`.
+2. This results in a `UserCommand` object which is executed by the `ModulePlannerController`.
+3. The `UserCommand` calls the methods specific to each `UserCommand` from `ModuleMethodsController`.
+(`ModuleServiceController` contains helper functions for `ModuleMethodsController`) 
+4. The result of the command execution is returned to the `Ui` and printed to the CLI.
+
 ### Model Component
 The component is specified in .java
 
