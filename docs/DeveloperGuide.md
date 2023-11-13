@@ -317,10 +317,19 @@ Module requirements for major selected by user
 
 ## User Stories
 
-|Version| As a ... | I want to ... | So that I can ...|
-|--------|----------|---------------|------------------|
-|v1.0|new user|see usage instructions|refer to them when I forget how to use the application|
-|v2.0|user|find a to-do item by name|locate a to-do without having to go through the entire list|
+| Version | As a ... | I want to ...                                                                     | So that I can ...                                           |
+|---------|----------|-----------------------------------------------------------------------------------|-------------------------------------------------------------|
+| v1.0    | new user | see usage instructions                                                            | refer to them when I forget how to use the application      |
+| v2.0    | user     | find a to-do item by name                                                         | locate a to-do without having to go through the entire list |
+| v1.0    | user     | view my pace                                                                      | graduate on time                                            |
+| v1.0    | user     | view the required modules I am left with for my major                             | plan ahead for other semesters                              |
+| v2.0    | user     | search for specific modules based on keywords, course codes, or professors' names | quickly find the modules I need for my semesters            |
+| v2.0    | user     | alter (add, swap, delete) the modules in the schedule planner                     | update the recommended schedule to my preferences           |
+| v2.0    | user     | get the recommended schedule for my major                                         | have a starting point to use the app                        |
+| v2.0    | user     | get an overview of module requirements for my major                               | know which modules I must take to graduate                  |
+| v2.1    | user     | shift the modules in the schedule planner                                         | more easily edit my schedule and save more time             |
+| v2.1    | user     | plan my weekly timetable for my current semester                                  | keep track of my weekly lessons for my current semester     |
+| v2.1    | user     | mark modules I have added as completed                                            | keep track of my progress                                   |
 
 ## Non-Functional Requirements
 
