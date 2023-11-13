@@ -106,11 +106,11 @@ public class ModuleServiceController {
         printRequiredModules(major);
     }
 
+    //@@author SebasFok
     /**
      * Asks the user for confirmation to clear their schedule and returns the user's choice.
      * Displays a message warning that clearing your schedule cannot be undone.
      *
-     * @author SebasFok
      * @return true if the user confirms by entering 'Y', false if 'N'.
      */
     public static boolean isConfirmedToClearSchedule() {

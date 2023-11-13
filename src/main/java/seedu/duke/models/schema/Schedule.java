@@ -147,10 +147,10 @@ public class Schedule {
         }
     }
 
+    //@@author SebasFok
     /**
      * Adds a module to the schedule for a specified semester.
      *
-     * @author SebasFok
      * @param moduleCode The module code to be added.
      * @param targetSem The target semester (an integer from 1 to 8) in which to add the module.
      * @throws IllegalArgumentException If the provided semester is out of the valid range (1 to 8),
@@ -253,10 +253,10 @@ public class Schedule {
 
     }
 
+    //@@author SebasFok
     /**
      * Shifts a module within the student's planned schedule to a different semester.
      *
-     * @author SebasFok
      * @param module      The module code to be shifted.
      * @param targetSem   The target semester to which the module will be shifted.
      * @throws IllegalArgumentException    If the target semester is not within the valid range (1 to 8).
@@ -310,10 +310,10 @@ public class Schedule {
         shiftModuleLater(module, targetSem, indexToAdd, originalSem);
     }
 
+    //@@author SebasFok
     /**
      * Shifts a module later within the student's planned schedule to a different semester.
      *
-     * @author SebasFok
      * @param module         The module code to be shifted later.
      * @param targetSem      The target semester to which the module will be shifted.
      * @param indexToAdd     The index at which the module will be added in the schedule.
@@ -364,10 +364,10 @@ public class Schedule {
         modulesPerSem[targetSem - 1] += 1;
     }
 
+    //@@author SebasFok
     /**
      * Shifts a module earlier within the student's planned schedule to a different semester.
      *
-     * @author SebasFok
      * @param module         The module code to be shifted earlier.
      * @param targetSem      The target semester to which the module will be shifted.
      * @param indexToAdd     The index at which the module will be added in the schedule.

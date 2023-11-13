@@ -100,7 +100,7 @@ public class ModuleMethodsController {
         printModuleStringArray(moduleCodesLeft);
     }
 
-
+    //@@author SebasFok
     /**
      * Executes the command to add a module to the target semester of the student's schedule and saves the updated
      * schedule. This method adds the specified module to the target semester of the student's schedule and prints
@@ -108,7 +108,6 @@ public class ModuleMethodsController {
      * Exceptions related to module deletion, missing modules, mandatory prerequisites, and
      * storage I/O errors are caught and appropriate error messages are displayed.
      *
-     * @author SebasFok
      * @param module     The module code of the module to be added.
      * @param targetSem  The target semester for adding the module.
      * @param student    The student object to which the module will be added.
@@ -189,6 +188,7 @@ public class ModuleMethodsController {
         }
     }
 
+    //@@author SebasFok
     /**
      * Executes the command to shift a module within a student's schedule to a different semester.
      * This method shifts the specified module to the target semester of the student's schedule and prints
@@ -196,7 +196,6 @@ public class ModuleMethodsController {
      * Exceptions related to module deletion, missing modules, mandatory prerequisites, and
      * storage I/O errors are caught and appropriate error messages are displayed.
      *
-     * @author SebasFok
      * @param module     The module code of the module to be shifted.
      * @param targetSem  The target semester for shifting the module.
      * @param student    The student object whose schedule will be updated.
@@ -224,6 +223,7 @@ public class ModuleMethodsController {
         }
     }
 
+    //@@author SebasFok
     /**
      * Executes the command to clear the student's schedule. This method clears the entire schedule of the student as
      * well as the completion status of all modules. Additionally, it attempts to save the updated schedule to storage.
@@ -231,7 +231,6 @@ public class ModuleMethodsController {
      * Exceptions related to module deletion, missing modules, mandatory prerequisites, and
      * storage I/O errors are caught and appropriate error messages are displayed.
      *
-     * @author SebasFok
      * @param student    The student object whose schedule will be cleared.
      */
     public static void executeClearScheduleCommand(Student student){

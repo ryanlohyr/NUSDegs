@@ -65,13 +65,12 @@ public class MainController {
         saveStudentData(storage,student);
         displayGoodbye();
     }
-
+    //@@author SebasFok
     /**
      * Initializes the user by attempting to load data from save files. If successful, sets the user details,
      * schedule, and timetable. If loading fails or save files are missing, creates new save files, prompts for
      * user details, and resets the schedule and timetable.
      *
-     * @author SebasFok
      * @throws IOException If an IO error occurs during file operations.
      */
     public void initialiseUser() throws IOException {
@@ -175,10 +174,10 @@ public class MainController {
         saveTimetable(student);
     }
 
+    //@@author SebasFok
     /**
      * Sets the student details based on the provided list of information, such as name, major, and year.
      *
-     * @author SebasFok
      * @param studentDetails The list of student information containing name, major, and year in this order.
      * @throws CorruptedFileException If the provided student information is null, has an incorrect number of elements,
      *                                or if any of the information is invalid.
