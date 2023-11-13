@@ -59,7 +59,7 @@ The `UI` component:
 - displays messages to the user by printing to the CLI
 - displays results from commands executed by the ModulePlannerController class
 
-### Logic Component
+### Controller Component
 
 ![ss_logicDiagram.jpg](screenshots%2Fss_logicDiagram.jpg)
 
@@ -388,19 +388,7 @@ Aspect: How timetable is printed:
 - Cons: The console must be wide enough for it to be usable and aesthetic. Each table cell for an event was only about 
 11 characters wide.
 
-
-## Search Command
-
-The search command is implemented to give users the ability to search for modules based on their titles.
-
-- `searchCommand(keywords)': Searches NUSModsAPI for modules containing specified keywords in the title.
-- `listAllModules()`: Returns all modules for parsing and identifying those containing a specified keyword.
-- `printDoubleTopLine()`, `printBottomLine()`, `printDoubleBottomLine()` – Displays lines for 
-
-
-
-formatting
-
+  
 ## Product scope
 ### Target user profile
 
