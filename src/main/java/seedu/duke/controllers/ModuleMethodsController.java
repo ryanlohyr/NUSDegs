@@ -53,7 +53,7 @@ public class ModuleMethodsController {
      * @param arguments              An array of strings containing academic year and semester information.
      * @param completedModuleCredits The number of module credits already completed by the user.
      */
-    public static void computePace(String[] arguments, int completedModuleCredits, String currentAcademicYear) {
+    public static void executePaceCommand(String[] arguments, int completedModuleCredits, String currentAcademicYear) {
         int totalCreditsToGraduate = 160;
         int creditsLeft = totalCreditsToGraduate - completedModuleCredits;
         boolean argumentProvided = arguments.length != 0;
@@ -131,17 +131,17 @@ public class ModuleMethodsController {
      * @author ryanlohyr
      * @param student The student for whom the schedule recommendation is generated.
      */
-    public static void recommendScheduleToStudent(Student student) {
+    public static void executeRecommendCommand(Student student) {
         try{
             displayMessage("Hold on a sec! Generating your recommended schedule <3....");
 
             showLoadingAnimation();
 
-            ArrayList<String> recommendedSchedule = student
-                    .getSchedule()
-                    .generateRecommendedSchedule(student.getMajor());
+            ArrayList<String> recommendedSchedule = student.generateRecommendedSchedule();
 
             stopLoadingAnimation();
+
+            printModuleStringArray(recommendedSchedule);
 
             chooseToAddToSchedule(student, recommendedSchedule);
 

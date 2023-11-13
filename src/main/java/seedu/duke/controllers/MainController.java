@@ -36,7 +36,7 @@ public class MainController {
     private final CommandManager commandManager;
     private Storage storage;
 
-    private Ui ui;
+    private final Ui ui;
 
     public MainController() {
         this.commandManager = new CommandManager();
@@ -110,6 +110,7 @@ public class MainController {
             return;
 
         } catch (MissingFileException e) {
+            stopLoadingAnimation();
             System.out.println("New save files will be created.");
             //storage.createUserStorageFile();
             //System.out.println("Files successfully created!");

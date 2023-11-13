@@ -96,7 +96,7 @@ public class Schedule {
      * @author ryanlohyr
      * @param scheduleToAdd The list of recommended schedule modules to add.
      */
-    public void addRecommendedScheduleListToSchedule(ArrayList<String> scheduleToAdd) {
+    public void addReccToSchedule(ArrayList<String> scheduleToAdd) {
 
         final int modsToAddPerSem = 5;
         int currentIndexOfMod = 0;

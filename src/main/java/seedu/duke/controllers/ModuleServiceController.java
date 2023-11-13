@@ -58,13 +58,14 @@ public class ModuleServiceController {
     public static void chooseToAddToSchedule(Student student, ArrayList<String> scheduleToAdd) throws IOException {
 
         Scanner in = new Scanner(System.in);
-        printModuleStringArray(scheduleToAdd);
 
         displayMessage("Here you go!");
         displayMessage("Taking the modules in this order will ensure a prerequisite worry free uni life!");
         displayMessage("Do you want to add this to your schedule planner? " +
                 "(This will overwrite your current schedule!)");
         displayMessage("Please input 'Y' or 'N'");
+
+
 
         String userInput = in.nextLine().replace("\r", "").toUpperCase();
 
@@ -78,7 +79,8 @@ public class ModuleServiceController {
             return;
         }
 
-        student.getSchedule().addRecommendedScheduleListToSchedule(scheduleToAdd);
+        student.addRecommendedSchedule(scheduleToAdd);
+
         displayMessage("Here is your schedule planner!");
 
         Schedule currentSchedule = student.getSchedule();

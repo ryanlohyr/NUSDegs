@@ -163,6 +163,14 @@ public class Student {
         this.schedule.addModule(moduleCode, targetSem);
     }
 
+    public ArrayList<String> generateRecommendedSchedule() throws IOException {
+        return this.schedule.generateRecommendedSchedule(this.major);
+    }
+
+    public void addRecommendedSchedule(ArrayList<String> schedule){
+        this.schedule.addReccToSchedule(schedule);
+    }
+
     /**
      * Completes a module with the specified module code.
      *
