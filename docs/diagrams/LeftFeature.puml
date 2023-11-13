@@ -7,67 +7,103 @@ autoactivate on
 actor Student
 
 participant ":Ui" as UI
-participant "controller:ModulePlannerController" as A #white
-
-participant "currentUserCommand:UserCommand" as UC
-participant "student:Student" as S #white
-participant "modulesMajor:ModuleList" as M #white
-participant "modulesTaken:ModuleList" as T #white
-participant "modulesLeft:ModuleList" as L #white
+participant ":ModuleInfoView" as MIV
 
 
-'A -> A: handleUserInputTillExitCommand
+Student -> UI: getUser\nCommand() \n"left"
+note bottom
+This command
+returns the
+modules left
+to the user
+end note
 
-'Student -> UI:
+participant "controller:\nMainController" as MC #white
 
-A -> UI: getUserCommand()
-UI -> Student: getUserCommand()
-Student --> UI: "left"
-UI --> A: userInput "left"
+UI -> MC: handleUser\nInputTillExit\nCommand()
 
-A -> UC **: create
+participant "currentUserCommand:\nUserCommand" as UC #white
+
+participant ":ModuleMethodsController" as MMC
+
+
+MC -> UC **: create
 activate UC
-UC --> A: currentUserCommand "left"
+UC --> MC: currentUser\nCommand "left"
 
-A -> UC: processCommand()
+MC -> UC: processCommand()
+
+box "Model" #LightBlue
+participant "student:\nStudent" as S #white
+participant "moduleCodesLeft:\nArrayList<String>" as MCL #white
+participant "schedule:\nSchedule" as SCH #white
+participant "modulesPlanned:\nModuleList" as MP #white
+participant "completedModuleCodes:\nArrayList<String>" as CMC #white
+end box
+
+
 
 UC -> S: getModuleCodesLeft()
 
 
+'create moduleCodesLeft
+S -> MCL **: create
+activate MCL
+MCL --> S
 
 
 
-
-A -> S: getModulesMajor()
-
-S --> A: Return modulesMajor:ModuleList
-
-
-A -> S: getModulesTaken()
-
-S --> A: Return modulesTaken:ModuleList
+'schedule.getModulesPlanned().getCompletedModuleCodes()
+S -> SCH: getModulesPlanned()
+SCH --> S: modulesPlanned:ModuleList
 
 
-A -> M: modulesMajor.showModulesDiff(modulesTaken)
-
-
-M -> T: getMainModuleList()
-
-T --> M: Return Modules Taken
+S -> MP: modulesPlanned\n.getCompletedModuleCodes()
+MP --> S: completedModuleCodes:\nArrayList<String>
 
 
 
+loop moduleCode
 
-M -> L **: ModuleList()
-L --> M: Return Modules Left
+    S -> CMC: completedModuleCodes\n.contains(moduleCode)
+    CMC --> S: contains:Boolean
+
+    alt !contains
+        'moduleCodesLeft.add(moduleCode)
+        S -> MCL: moduleCodesLeft\n.add(moduleCode)
+        MCL --> S
+    end
+
+end
+
+destroy MCL
+
+S --> UC: "moduleCodesLeft:\nArrayList<String>"
 
 
-A <-- M: Display Modules Left
+UC -> MMC: showModulesLeft(ArrayList<String> moduleCodesLeft)
 
-
-Student <-- A: Display Modules Left
-
-UC --> A
-
+MMC -> UI: displayMessage("Modules Left: ")
 UI --> Student
+UI --> MMC
+
+
+MMC -> MIV: printModuleStringArray(moduleCodesLeft)
+activate MIV
+MIV --> Student
+MIV --> MMC
+deactivate MIV
+
+
+MMC --> UC
+
+UC --> MC
+destroy UC
+
+
+MC --> UI
+UI --> Student
+
+
+
 @enduml
