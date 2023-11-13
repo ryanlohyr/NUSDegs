@@ -9,7 +9,6 @@ import seedu.duke.utils.exceptions.MissingModuleException;
 import seedu.duke.utils.exceptions.TimetableUnavailableException;
 
 import seedu.duke.utils.Parser;
-import seedu.duke.views.TimetableView;
 
 import java.io.IOException;
 import java.io.InvalidObjectException;
@@ -363,14 +362,16 @@ public class Student {
             this.updateTimetable();
             //this.setCurrentSemesterModules();
             //this.setCurrentSemesterModulesWeekly();
+            ModuleServiceController moduleServiceController = new ModuleServiceController();
             argument = argument.trim().toUpperCase().replace("\r", "");
             switch (argument) {
             case "SHOW": {
-                TimetableView.printTimetable(timetable.getCurrentSemesterModulesWeekly());
+                moduleServiceController.showTimetable(timetable.getCurrentSemesterModulesWeekly());
+                //TimetableView.printTimetable(timetable.getCurrentSemesterModulesWeekly());
                 break;
             }
             case "MODIFY": {
-                ModuleServiceController moduleServiceController = new ModuleServiceController();
+
                 moduleServiceController.modifyTimetable(this);
                 break;
             }

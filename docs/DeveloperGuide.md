@@ -24,9 +24,17 @@ The main logic of the application is handled by these four components
   - Never handles data logic
 - **View**:
   - Responsible for printing onto the Command Line Application
-- **Model**: 
-  - Response for retrieving data from the **Data Repository** 
+- **Model**:
+  - Everything data related, Request data from external source, Data logic for retrieving data & algo on data, handles and manages data
+  - Responsible for retrieving data from the **Data Repository** 
   - Performs REST API calls to the NUSMODS API
+  - stores the data and methods to use the date i.e., all Module objects (which are contained in a UniquePersonList object). 
+  - stores the currently ‘selected’ Person objects (e.g., results of a search query) as a separate filtered list which is exposed to outsiders as an unmodifiable ObservableList<Person> that can be ‘observed’ e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change. 
+  - stores a UserPref object that represents the user’s preferences. This is exposed to the outside as a ReadOnlyUserPref objects. 
+  - does not depend on any of the other three components (as the Model represents data entities of the domain, they should make sense on their own without depending on other components)
+
+
+
 - **Storage**:
   - can save both schedule data and user data in .txt format, and read them back into corresponding objects.
   - depends on some classes in the Model component
@@ -34,6 +42,7 @@ The main logic of the application is handled by these four components
 ### How the architecture components interact with each other
 
 ![img.png](diagrams/addModule.png)
+
 
 The Sequence Diagram above shows how the components interact with each other when the user inserts a module 
 into his schedule
