@@ -7,7 +7,7 @@ background-image: linear-gradient(to right, #370505, #5b2829, #814c4c, #a97171, 
 <span style="background-image: linear-gradient(to right, #14499b, #0065b7, #0081d1, #009ee9, #00bcff);
 -webkit-background-clip: text; color: transparent;">N</span>US 
 <span style="background-image: linear-gradient(to right, #e50000, #e84034, #e6615a, #de7e7b, #d19999);
--webkit-background-clip: text; color: transparent;">D</span>EGS
+-webkit-background-clip: text; color: transparent;">D</span>EGs
 <span style="background-image: linear-gradient(to right, #959b14, #00a754, #00a9a9, #00a0f0, #0085ff);
 -webkit-background-clip: text; color: transparent;">User Guide</span>
 </h1>
@@ -82,7 +82,7 @@ Input command here:
 - [Check current pace to graduate: `pace`](#check-current-pace-to-graduate-pace)
 - [View weekly timetable: `timetable show`](#view-weekly-timetable-timetable-show)
 - [Modify weekly timetable: `timetable modify`](#modify-weekly-timetable-timetable-modify)
-- [Saves the user's schedule and exits the program: `bye`](#save-schedule-and-timetable-and-exit-the-program-bye)
+- [Saves user's schedule and exits program: `bye`](#save-schedule-and-timetable-and-exit-the-program-bye)
 
 Note: Between arguments, spaces are required. Arguments need to be passed in the correct order.
 
@@ -117,7 +117,7 @@ complete MODULE_CODE           Marks a module as complete on schedule planner.
 left                           Displays a list of remaining required modules.
 pace [CURRENT_SEMESTER]        Computes and displays your graduation pace.
 timetable COMMAND              Displays a grid containing this semester's classes
-bye                            Saves the user's schedule and timetable and exits the program.
+bye                            Saves user's schedule and timetable and exits program.
 
 For more information, please read our User Guide at this link:
 https://ay2324s1-cs2113-t17-4.github.io/tp/UserGuide.html
@@ -195,6 +195,7 @@ User input:
 +----------------------------------------------------------+
 ```
 
+
 ##### Example of usage 2: (user's major is CS)
 
 User input:
@@ -259,7 +260,6 @@ User input:
 │   Unrestricted Electives                          40     │
 +----------------------------------------------------------+
 ```
-
 
 ### View module prerequisites:`prereq`
 Based on the module selected, we will show what prerequisites the course has.
