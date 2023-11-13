@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-import static seedu.duke.models.schema.Storage.getRequirements;
+import static seedu.duke.storage.StorageManager.getRequirements;
 
 public class Prerequisite {
     /**

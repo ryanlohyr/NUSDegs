@@ -14,7 +14,7 @@ import seedu.duke.utils.exceptions.TimetableUnavailableException;
 import seedu.duke.views.TimetableView;
 import seedu.duke.views.Ui;
 
-import static seedu.duke.models.schema.Storage.saveTimetable;
+import static seedu.duke.storage.StorageManager.saveTimetable;
 import static seedu.duke.utils.TimetableParser.isExitModify;
 import static seedu.duke.views.TimetableUserGuideView.println;
 import static seedu.duke.views.TimetableUserGuideView.printCurrentSemModules;

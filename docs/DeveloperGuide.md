@@ -203,43 +203,6 @@ Command: `left`
 Response:
 `CS2030S CS2040S CS2100 CS2101 CS2106 CS2109S CS3230`
 
-## Input Major Feature
-
-The input major feature is facilitated by `Student`. It tries to store the major specified in userInput txt 
-file such that it can be used across sessions. It will print different responses based on whether the storing of the 
-Major was successful. Additionally, it implements the following operation:
-
-- `Student#setMajor(Major major)` – Saves the selected major in its memory.
-
-This operation is exposed in the `Student` interface as `Student#updateMajor(String userInput)`.
-
-### Usage Examples
-
-Here are a few examples of how the Input Major Feature behaves:
-
-#### Example 1:
-If "CS" is a valid major: `Student#updateMajor("major CS")` calls `Student#setMajor("CS")`, which sets the Major in the 
-student object as `CS` and returns a string `newMajor`
-
-Command: `major CS`
-
-Response: `Major CS selected!`
-
-
-#### Example 2:
-If "abc" is an invalid major: `Student#updateMajor("major abc")` calls `Student#setMajor("abc")`, which generates an
-IllegalArgumentException, which is caught and returns a string `invalidMajor`
-
-Command: `major abc`
-
-Response: `Please select a major from this list: [list of currently available Majors]`
-
-#### Example 3:
-If no major was specified: `Student#updateMajor("major")` returns a string `currentMajor`
-
-Command: `major`
-
-Response: `Current major is [current major in student object].`
 
 ## Add Module Feature
 

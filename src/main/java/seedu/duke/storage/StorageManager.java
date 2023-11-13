@@ -1,6 +1,7 @@
-package seedu.duke.models.schema;
+package seedu.duke.storage;
 
 
+import seedu.duke.models.schema.*;
 import seedu.duke.utils.Parser;
 import seedu.duke.utils.exceptions.CorruptedFileException;
 import seedu.duke.utils.exceptions.InvalidTimetableUserCommandException;
@@ -21,14 +22,15 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 
-public class Storage {
+public class StorageManager {
 
     private String userDirectory = System.getProperty("user.dir");
+
 
     /**
      * Constructs a new Storage instance with the specified file path.
      */
-    public Storage() {
+    public StorageManager() {
 
     }
 
@@ -404,7 +406,7 @@ public class Storage {
      * Takes in the location of the file in question and returns whether the file exist
      *
      * @author SebasFok
-     * @param filePath
+     * @param filePath location of the file in question
      * @return return true if the file exist,return false otherwise
      */
     public static boolean isFileExist(String filePath) {

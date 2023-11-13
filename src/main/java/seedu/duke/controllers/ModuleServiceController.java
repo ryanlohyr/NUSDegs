@@ -15,8 +15,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import static seedu.duke.models.schema.Storage.saveSchedule;
-import static seedu.duke.models.schema.Storage.saveTimetable;
+import static seedu.duke.storage.StorageManager.saveSchedule;
+import static seedu.duke.storage.StorageManager.saveTimetable;
 import static seedu.duke.utils.TimetableParser.isExitModify;
 import static seedu.duke.views.MajorRequirementsView.printRequiredModules;
 import static seedu.duke.views.SemesterPlannerView.displaySchedule;
