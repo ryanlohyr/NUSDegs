@@ -392,11 +392,36 @@ Aspect: How timetable is printed:
 ## Product scope
 ### Target user profile
 
-{Describe the target user profile}
+- Computer Engineering and Computer Science Students at NUS
+
+- **Desktop CLI Preference:** Students in Computer Engineering 
+and Computer Science at NUS show a preference for desktop 
+Command Line Interface (CLI) apps over other planners.
+
+- **Typing-Centric Interaction:** This group favors 
+typing for efficiency, valuing keyboard-based operations
+over mouse interactions.
+
+- **Minimization of NUSMods Website Reliance:** These
+students seek to reduce dependence on frequent 
+NUSMods website visits. Instead, they prefer 
+a comprehensive planner in a desktop CLI
+environment, meeting their specific needs.
+
+
 
 ### Value proposition
 
-{Describe the value proposition: what problem does it solve?}
+Efficiently navigate and organize a planner without 
+the typical delays associated with mouse-driven GUI 
+applications. Recognizing the substantial module load
+and hectic schedules faced by NUS engineering students 
+throughout their four-year program, this application is
+designed to streamline the module planning process. By
+eliminating the need for frequent reference to various 
+websites and GUIs, such as NUSMods and scheduling sites,
+the app aims to enhance the efficiency of module 
+planning for these students.
 
 ## User Stories
 
