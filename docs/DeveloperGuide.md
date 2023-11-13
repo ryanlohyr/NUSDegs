@@ -104,7 +104,7 @@ The `` component:
 - Left
 - Major
 - Required
-- Info (description, workload, command)
+- Info (description, command)
 - Search 
 - Add
 - Delete
