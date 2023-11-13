@@ -40,7 +40,7 @@ public class UserCommand implements UserCommandWord {
      */
     public UserCommand(String userInput) {
         this.userInput = userInput.trim();
-        commandWord = parseCommand(userInput);
+        commandWord = parseCommand(this.userInput);
         arguments = parseArguments(userInput);
         this.commandManager = new CommandManager();
 
