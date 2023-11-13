@@ -24,7 +24,8 @@ The main logic of the application is handled by these four components
   - Never handles data logic
 - **View**:
   - Responsible for printing onto the Command Line Application
-- **Model**: 
+- **Model**:
+  - Everything data related, Request data from external source, Data logic for retrieving data & algo on data, handles and manages data
   - Responsible for retrieving data from the **Data Repository** 
   - Performs REST API calls to the NUSMODS API
   - stores the data and methods to use the date i.e., all Module objects (which are contained in a UniquePersonList object). 

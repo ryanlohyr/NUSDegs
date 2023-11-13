@@ -8,7 +8,6 @@ import seedu.duke.models.schema.TimetableUserCommand;
 import seedu.duke.utils.exceptions.InvalidModifyArgumentException;
 import seedu.duke.utils.exceptions.InvalidTimetableUserCommandException;
 import seedu.duke.utils.exceptions.TimetableUnavailableException;
-import seedu.duke.views.TimetableView;
 import seedu.duke.views.Ui;
 
 import java.io.IOException;
@@ -23,6 +22,7 @@ import static seedu.duke.views.TimetableUserGuideView.printCurrentSemModules;
 import static seedu.duke.views.TimetableUserGuideView.println;
 import static seedu.duke.views.TimetableUserGuideView.printTTModifyDetailedLessonGuide;
 import static seedu.duke.views.TimetableUserGuideView.printTTModifySimpleLessonGuide;
+import static seedu.duke.views.TimetableView.printTimetable;
 import static seedu.duke.views.Ui.displayMessage;
 import static seedu.duke.views.ModuleInfoView.printModuleStringArray;
 
@@ -161,7 +161,7 @@ public class ModuleServiceController {
                     //we ignore first as GitHub actions cant save timetable on the directory
                 }
                 if (timetable.timetableViewIsAvailable()) {
-                    TimetableView.printTimetable(currentSemModulesWeekly);
+                    printTimetable(currentSemModulesWeekly);
                 } else {
                     printTTModifySimpleLessonGuide("Timetable view is unavailable as modules in your " +
                             "current semester have no lessons yet.");
@@ -171,5 +171,10 @@ public class ModuleServiceController {
                 println(e.getMessage());
             }
         }
+    }
+
+
+    public void showTimetable(ArrayList<ModuleWeekly> currentSemesterModuleWeekly) {
+        printTimetable(currentSemesterModuleWeekly);
     }
 }
