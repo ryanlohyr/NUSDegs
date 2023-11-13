@@ -109,8 +109,8 @@ public class Ui {
         out.println();
         out.println(DIVIDER);
         System.out.println("Unable to retrieve any data. Your save file may be corrupted.\n" +
-                "Please continue using the application to create a new save file or overwrite " +
-                "the corrupted file!");
+                "Please continue using the application to create new save files or overwrite " +
+                "the corrupted files!");
         out.print("Please check ./data again");
         stopLoadingAnimation();
     }

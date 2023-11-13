@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import static seedu.duke.controllers.ModuleServiceController.validateMajorInput;
 
+import static seedu.duke.models.schema.Storage.saveTimetable;
 import static seedu.duke.utils.Utility.detectInternet;
 import static seedu.duke.utils.Utility.saveStudentData;
 import static seedu.duke.views.Ui.displayWelcome;
@@ -25,6 +26,9 @@ import static seedu.duke.views.CommandLineView.displayGetMajor;
 import static seedu.duke.views.CommandLineView.displayGetYear;
 import static seedu.duke.views.Ui.showLoadingAnimation;
 import static seedu.duke.views.Ui.stopLoadingAnimation;
+
+import static seedu.duke.models.schema.Storage.saveSchedule;
+
 
 public class MainController {
     private final Parser parser;
@@ -63,7 +67,6 @@ public class MainController {
     }
 
     public void initialiseUser() throws IOException {
-        String userInput;
 
         // Try to load storage file for name, major, year and schedule. If successful, will not prompt anymore
         // If load fails, will create storage file based on userName and prompt for major and year
@@ -101,21 +104,34 @@ public class MainController {
             return;
 
         } catch (MissingFileException e) {
-            System.out.println("Save files do not exist, creating new save files...");
-            storage.createUserStorageFile();
-            System.out.println("Files successfully created!");
-            student.setSchedule(new Schedule());
+            System.out.println("New save files will be created.");
+            //storage.createUserStorageFile();
+            //System.out.println("Files successfully created!");
+            //student.setSchedule(new Schedule());
 
 
         } catch (CorruptedFileException e) {
             ui.printStorageError();
-            student.setSchedule(new Schedule());
+            //student.setSchedule(new Schedule());
+            /*
             try {
                 student.updateTimetable();
             } catch (TimetableUnavailableException ignoredError) {
                 //should be unavailable
             }
+
+            */
         }
+
+        resetStorageData();
+
+        System.out.println("New save files successfully created!");
+    }
+
+    public void resetStorageData() throws IOException {
+        storage.createUserStorageFile();
+
+        String userInput;
 
         do {
             stopLoadingAnimation();
@@ -137,6 +153,19 @@ public class MainController {
         } while (!Parser.isValidAcademicYear(userInput.toUpperCase()));
         student.setYear(userInput.toUpperCase());
         storage.saveStudentDetails(student);
+
+        //get blank schedule.txt
+        student.setSchedule(new Schedule());
+        saveSchedule(student);
+
+        //get blank timetable.txt
+        //requires student details
+        try {
+            student.updateTimetable();
+        } catch (TimetableUnavailableException ignoredError) {
+            //should be unavailable
+        }
+        saveTimetable(student);
     }
 
     private void setStudentDetails(ArrayList<String> studentDetails) throws CorruptedFileException {
@@ -174,7 +203,6 @@ public class MainController {
                 currentUserCommand.processCommand(student);
             }
         }
-        //in.close();
     }
 
 
