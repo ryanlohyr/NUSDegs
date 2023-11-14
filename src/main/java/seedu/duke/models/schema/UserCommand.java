@@ -17,7 +17,7 @@ import static seedu.duke.controllers.ModuleMethodsController.executeDeleteModule
 import static seedu.duke.controllers.ModuleMethodsController.executeShiftModuleCommand;
 import static seedu.duke.controllers.ModuleMethodsController.executeClearScheduleCommand;
 import static seedu.duke.controllers.ModuleMethodsController.completeModule;
-import static seedu.duke.controllers.ModuleMethodsController.getRequiredModulesForStudent;
+import static seedu.duke.controllers.ModuleMethodsController.executeGetRequiredModulesForStudent;
 
 /**
  * The UserCommand class represents a command entered by the user and provides methods to process and execute the
@@ -174,7 +174,7 @@ public class UserCommand implements UserCommandWord {
             break;
         }
         case UserCommandWord.REQUIRED_MODULES_COMMAND: {
-            getRequiredModulesForStudent(student.getMajor());
+            executeGetRequiredModulesForStudent(student.getMajor());
             break;
         }
         case UserCommandWord.INFO_COMMAND: {

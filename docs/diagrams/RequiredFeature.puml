@@ -42,8 +42,8 @@ end box
 UC -> S: getMajor()
 S --> UC: major:String
 
-UC -> MMC: getRequired\nModulesFor\nStudent()
-MMC -> MRV: printRequired\nModules\n(major:String)
+UC -> MMC: Execute\nGetRequired\nModulesFor\nStudent(major)
+MMC -> MRV: printRequired\nModules\n(major)
 alt major == "CEG"
     MRV -> MRV: printRequired\nModulesCEG()
     MRV --> MRV: display
