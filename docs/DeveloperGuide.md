@@ -93,8 +93,17 @@ and read them back into corresponding objects.
 objects.
 - uses `FileDecoder` class to read saved files in the data folder back to `Student` object.
 - uses `ResourceStorage` to store and retrieve core module details for CEG and CS.
-- depends on some classes in the `Model` component (because the `Storage` component's jon is to save/retrieve objects
+- depends on some classes in the `Model` component (because the `Storage` component's job is to save/retrieve objects
 that belong to the `Model`)
+
+Design Considerations: **When to save data**
+
+- Alternative 1 (current choice): Save data after every change the user makes when NUSDegs is running
+  - Pros: Less chance of losing data due to crash
+  - Cons: More processing power and time needed
+- Alternative 2: Save data after the user types the exit command
+  - Pros: Easier to implement, requires less processing power
+  - Cons: NUSDegs require constant internet connection, losing connection might lead to potential issues when saving data
 
 
 ## Features featured in Developer's Guide: 

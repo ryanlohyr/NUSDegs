@@ -15,17 +15,14 @@ for students. This is a comprehensive tool for efficient and successful degree c
 #### 1. Timetable Show Feature
 - Displays the weekly timetable of the user. Using the lessons added by the user through Timetable Modify Feature, this feature displays the user's 
 lessons sorted by time and day.
-
 - Justification: This feature gives users a clear idea on how their current semester will look like on a weekly basis. 
 This will enable them to view their timetable easily.
-
 - Highlights: Lessons are displayed by time and day and does not show days that do not have lessons.
 
 
 #### 2. Save Timetable Feature
 - Saves the weekly timetable of the user throughout the program. Updates the save file for the weekly timetable of the user when the user uses any features that changes 
 the timetable (timetable modify, recommend, shift, delete, clear).
-
 - Justification: This feature allows the user to store their timetable data, so that they can built upon the same 
 timetable across multiple sessions. 
 - Highlights: The timetable needed to be updated when modules were deleted, to remove those modules from the timetable.
@@ -33,14 +30,12 @@ timetable across multiple sessions.
 #### 3. Modules Left Feature
 - Added the ability to view modules left. Allows the user to retrieve a list of modules that required for their major but have not been marked as
 completed.
-
 - Justification: This feature gives clarity to the user as they are able to easily view what modules they have yet to 
 complete for graduation.
 
 #### 4. Modules Required Feature
 - Added the ability to view modules required. Provides students with easy access to the requirements of their major, and be aware of Common Curriculum 
 Requirements.
-
 - Justification: Gives students an easy access to a list of modules (and their names) they are required to take to 
 graduate.
 
