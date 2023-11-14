@@ -96,6 +96,15 @@ objects.
 - depends on some classes in the `Model` component (because the `Storage` component's job is to save/retrieve objects
 that belong to the `Model`)
 
+Design Considerations: **When to save data**
+
+- Alternative 1 (current choice): Save data after every change the user makes when NUSDegs is running
+  - Pros: Less chance of losing data due to crash
+  - Cons: More processing power and time needed
+- Alternative 2: Save data after the user types the exit command
+  - Pros: Easier to implement, requires less processing power
+  - Cons: NUSDegs require constant internet connection, losing connection might lead to potential issues when saving data
+
 
 ## Features featured in Developer's Guide: 
 - Required
