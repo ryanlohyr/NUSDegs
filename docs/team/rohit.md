@@ -106,6 +106,6 @@ users to input module durations as arguments when creating a class.
 
 - Added Target user profile and value proposition
 
-![tt_modify_seq_diag.png](..%2Fdiagrams%2Ftt_modify_seq_diag.png)
+![tt_seq_diag.png](..%2Fdiagrams%2Ftt_seq_diag.png)![tt_modify_seq_diag.png](..%2Fdiagrams%2Ftt_modify_seq_diag.png)
 
-![ss_logicDiagram.jpg](screenshots%2Fss_logicDiagram.jpg)
+![controller_diag.png](..%2Fdiagrams%2Fcontroller_diag.png)![ss_logicDiagram.jpg](screenshots%2Fss_logicDiagram.jpg)
