@@ -67,10 +67,13 @@ loop inTimetableModifyMode
         Ui --> Student
         deactivate Ui
     ModuleServiceController -> Storage: saveTimetable
-    Timetable -> TimetableView: printTimetable
-    TimetableView --> Timetable
-    Timetable --> Student
 
+    Timetable -> TimetableView: printTimetable
+
+    TimetableView --> Timetable
+
+    Timetable --> Student
+    deactivate ModuleServiceController
     deactivate Timetable
 end
 
