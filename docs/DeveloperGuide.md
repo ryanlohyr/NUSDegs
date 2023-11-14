@@ -96,7 +96,7 @@ and read them back into corresponding objects.
 objects.
 - uses `FileDecoder` class to read saved files in the data folder back to `Student` object.
 - uses `ResourceStorage` to store and retrieve core module details for CEG and CS.
-- depends on some classes in the `Model` component (because the `Storage` component's jon is to save/retrieve objects
+- depends on some classes in the `Model` component (because the `Storage` component's job is to save/retrieve objects
 that belong to the `Model`)
 
 
