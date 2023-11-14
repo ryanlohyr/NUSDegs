@@ -47,6 +47,7 @@ prerequisite verification logic and allows for quick shifting between semesters.
 - `Highlights:` This feature required combining the logic from both add and delete, and separating the shifting action
 to two cases, shifting earlier and shifting later. Each case requires a different logic to implement, and
 requires clear understanding on what are the checks that each case needs to be executed.
+
 #### 5. Clear Feature
 
 - `What it does:` Allows the user to clear their entire schedule
@@ -109,12 +110,12 @@ to quickly glance through and look for what they need.
 
 **Storage object diagram:**
 
-![StorageDiagram.png](..%2Fdiagrams%2FStorageDiagram.png)
+<img src="../diagrams/StorageDiagram.png" alt="Storage" width = 300>
 
 **Add module sequence diagram**
 
-![updatedAddModule.png](..%2Fdiagrams%2FupdatedAddModule.png)
+<img src="../diagrams/updatedAddModule.png" alt="AddModule" width = 300>
 
 **Clear schedule sequence diagram**
 
-![ClearDiagram.png](..%2Fdiagrams%2FClearDiagram.png)
+<img src="../diagrams/ClearDiagram.png" alt="Clear" width = 300>
