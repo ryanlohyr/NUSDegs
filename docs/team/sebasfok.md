@@ -86,7 +86,7 @@ to quickly glance through and look for what they need.
 - Reformatted font size and effects to standardise across all the features
 - Added some info in quick start
 - Replaced some of the screenshots with code for a cleaner guide
-- 
+
 ### Contributions to DG:
 
 - Added implementation details for add and clear features
