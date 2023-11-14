@@ -90,7 +90,7 @@ end
 destroy MCL
 
 S --> UC: moduleCodesLeft\n:ArrayList<String>
-
+deactivate S
 
 UC -> MMC: showModulesLeft\n(moduleCodesLeft)
 
@@ -113,7 +113,9 @@ destroy UC
 
 
 MC --> UI
+deactivate MC
 UI --> Student
+deactivate UI
 
 
 

@@ -307,7 +307,7 @@ public class ModuleMethodsController {
      *
      * @param major The major of the student that will be used to print the required modules.
      */
-    public static void getRequiredModulesForStudent(String major) {
+    public static void executeGetRequiredModulesForStudent(String major) {
         printRequiredModules(major);
     }
 

@@ -35,7 +35,7 @@ opt timetableCommandWord == "SHOW"
     activate TV
 
     'createDailyEvents(currentSemesterModules)
-    TV -> TV: createDailyEvents(ArrayList<ModuleWeekly> \ncurrentSemesterModules)
+    TV -> TV: createDailyEvents(currentSemesterModules)
     activate TV
     note left
     createDailyEvents converts
@@ -43,12 +43,12 @@ opt timetableCommandWord == "SHOW"
     to a List of ArrayList<Events>
     for different days
     end note
-    TV --> TV: List<ArrayList<Event>> weeklyTimetableByDay
+    TV --> TV: weeklyTimetableByDay:List<ArrayList<Event>>
     deactivate TV
 
 
     loop currentDayEvents
-        TV -> TV: sortByTime(ArrayList<Event> currentDayEvents)
+        TV -> TV: sortByTime(currentDayEvents)
         activate TV
         note left
         sortByTime sorts Events
@@ -57,7 +57,7 @@ opt timetableCommandWord == "SHOW"
         then module code, in
         ascending order
         end note
-        TV --> TV: ArrayList<Event> currentDayEvents (sorted)
+        TV --> TV: currentDayEvents:ArrayList<Event> (sorted)
         deactivate TV
     end
 
@@ -75,11 +75,24 @@ opt timetableCommandWord == "SHOW"
     deactivate TV
 
     TV -> CDE: weeklyTimetableByDay.get(day)
-    CDE --> TV: ArrayList<Event> currentDayEvents
+    CDE --> TV: currentDayEvents:ArrayList<Event>
 
-    TV -> TV: printCurrentDayEvents(ArrayList<Event> \ncurrentDayEvents, day)
+    TV -> TV: printCurrentDayEvents(currentDayEvents, day)
     activate TV
-    TV --> Student: display the day's events
+    loop !currentDayEvents.isEmpty()
+    TV -> TV: printCurrentDayOneEvent(currentEvent, day, isFirstLine)
+    activate TV
+    note left
+        printCurrentDayOneEvent displays
+        one event with table formatting.
+        isFirstLine is a boolean variable
+        to determine if the Day header
+        needs to be printed out
+    end note
+    TV --> Student: display one event of one \nday with table formatting
+    TV --> TV:
+    deactivate TV
+    end
     TV --> TV:
     deactivate TV
     end

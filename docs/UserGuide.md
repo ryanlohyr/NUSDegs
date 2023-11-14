@@ -693,7 +693,7 @@ lessons in a module:
 
 `[MODULE CODE] [LECTURE / TUTORIAL / LAB] [TIME] [DURATION] [DAY]` -  Add a lesson
 and specify its details (time, duration, day)
-- lessonType: lecture, tutorial, lab
+- lessonType: lecture, tutorial, lab 
 - startTime: integer from 5 to 23 (representing 5am to 11pm)
 - duration: time in hours
 - day: monday, tuesday, wednesday, thursday, friday, saturday, sunday
