@@ -80,6 +80,8 @@ provided by user, ensuring optimal readability and good user experience.
 
 ##### Developer Guide:
 - Added implementation details of the features left, required, timetable show.
+- Sections: Non-Functional Requirements, Glossary, Instructions for manual testing (Launch & Modify lessons in the Weekly Timetable Feature)
+- Diagrams (refer to extracts)
 
 #### 4. Fixed Bugs
 
@@ -96,7 +98,7 @@ provided by user, ensuring optimal readability and good user experience.
 - PRs reviewed: [#38](https://github.com/AY2324S1-CS2113-T17-4/tp/pull/38#pullrequestreview-1721555155), [#152](https://github.com/AY2324S1-CS2113-T17-4/tp/pull/152), [#155](https://github.com/AY2324S1-CS2113-T17-4/tp/pull/155#pullrequestreview-1721581031), [#157](https://github.com/AY2324S1-CS2113-T17-4/tp/pull/157#pullrequestreview-1719360399) 
 - Made `timetable modify` less bug prone
 
-### Contributions to the Developer Guide (Extracts)
+### Diagram Contributions to the Developer Guide (Extracts)
 
 Model Component: Component Diagram
 ![ModelComponent.png](..%2Fdiagrams%2FModelComponent.png)

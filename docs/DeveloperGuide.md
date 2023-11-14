@@ -13,6 +13,7 @@ background-image: linear-gradient(to right, #370505, #5b2829, #814c4c, #a97171, 
 </h1>
 ## Acknowledgements
 
+
 {list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
 
 ## Design & implementation, Architecture
@@ -72,10 +73,10 @@ The `Controller` component:
 
 The `Model` component:
 - Stores the student data
-  - Stores Student student that has student details (name, major, year), Schedule schedule, Timetable timetable and other data (completedModuleCredits, majorModuleCodes, currentSemesterModules)
-  - Stores Schedule schedule that has ModuleList modulesPlanned, modulesPerSem, completedModules
-  - Stores ModuleList modulesPlanned
-  - Stores Timetable timetable that has currentSemesterModulesWeekly
+  - Stores `Student` student that has student details (name, major, year), `Schedule` schedule, `Timetable` timetable and other student data (completedModuleCredits, majorModuleCodes, currentSemesterModules)
+  - Stores `Schedule` schedule that has `ModuleList` modulesPlanned, and other schedule data like modulesPerSem, completedModules
+  - Stores `ModuleList` modulesPlanned
+  - Stores `Timetable` timetable that has currentSemesterModulesWeekly
 - Makes REST API calls to NUSModsAPI 
 
 
@@ -97,217 +98,26 @@ that belong to the `Model`)
 
 
 ## Features featured in Developer's Guide: 
-- Pace
-- Recommend
-- Left
-- Add
-- Clear
 - Required
+- Add
+- Recommend
+- Clear
 - Info (description, command)
-- Search 
+- Pace
+- Left
+
+
 
 
 
 # Implementation
-
-## Pacing and MC Calculation
-
-The following sequence diagram shows how the pace command function works.
-
-<img src="diagrams/pace_sequenceDiagram.jpeg" alt="Image" width="600">
-
-
-The "Pacing and MC Calculation" mechanism is implemented to help users track their 
-academic progress and remaining Modular Credits (MCs) required for graduation. 
-
-This feature is facilitated by the `ModuleMethodsController`. It calculates the average amount of modular credits the user 
-has to take in each semester in order to graduate on time.
-
-### Usage Examples
-
-Here are a few examples of how the "Pacing and MC Calculation" feature behaves:
-
-#### Example 1: Calculate Remaining MCs
-
-Command: `pace Y1/S1` (assuming 0 modular credits were done in semester one)
-
-Response:
-
-`You have 160MCs for 7 semesters. Recommended pace: 23MCs per sem until graduation`
-
-#### Example 2: Calculate Remaining MCs (No Semester Specified)
-
-Note: If no semester is specified, we will take the initial semester that the user has inputted upon initialisation. 
-
-Command: `pace` (Assuming user is y2/s1 and has completed 40 modular credits)
-
-Response:
-
-`You have 120MCs for 6 semesters. Recommended pace: 20MCs per sem until graduation`
-
-## Recommend Schedule Based on Course
-
-The following sequence diagrams shows how the recommend command function works.
-
-Recommended a schedule based on the user's major:
-
-<img src="diagrams/recommended_one.jpeg" alt="Image" width="600">
-
-Recommended a schedule based on the user's major:
-
-
-<img src="diagrams/recommended_two.jpeg" alt="Image" width="600">
-
-
-Based on the course, we will provide a recommended schedules that is sorted based on prerequisites. 
-
-This feature is facilitated by the `ModuleMethodsController`. which stores information about the schedule and performs actions like add and remove from schedule.
-
-### Usage Examples
-
-Here are a few examples of how the "Recommend schedule" feature behaves:
-
-#### Step 1: Recommend schedule for computer engineering(CEG)
-
-Command: `recommend` 
-
-Response:
-
-```
-1. GEA1000     2. MA1511      3. MA1512      4. DTK1234     5. GESS1000
-6. CS1231      7. CS1010      8. GEN2000     9. EG2501      10. EG1311
-11. GEC1000    12. PF1101     13. CDE2000    14. IE2141     15. CG1111A
-16. EG2401A    17. ES2631     18. ST2334     19. MA1508E    20. CG2023
-21. CG2111A    22. CS2040C    23. CG2027     24. EE2026     25. EE4204
-26. EE2211     27. CG2271     28. CS2113     29. CG2028     30. CP3880
-31. CG4002     
-Here you go!
-Taking the modules in this order will ensure a prerequisite worry free uni life!
-Do you want to add this to your schedule planner? (This will overwrite your current schedule!)
-Please input 'Y' or 'N' 
-```
-
-
-#### Step 2 (Only to be done after step 1): 
-
-Command: `Y`
-
-Response:
-
-```
-Here is your schedule planner!
-Sem 1:   X GESS1000     X DTK1234      X MA1512       X MA1511       X GEA1000      
-Sem 2:   X EG1311       X EG2501       X GEN2000      X CS1010       X CS1231       
-Sem 3:   X CG1111A      X IE2141       X CDE2000      X PF1101       X GEC1000      
-Sem 4:   X CG2023       X MA1508E      X ST2334       X ES2631       X EG2401A      
-Sem 5:   X EE4204       X EE2026       X CG2027       X CS2040C      X CG2111A      
-Sem 6:   X CG2028       X CS2113       X CG2271       X EE2211       
-Sem 7:   X CG4002       X CP3880       
-Sem 8:   
-Happy degree planning!
-```
-
-## List Required Modules Left Feature
-
-The following sequence diagram shows how the Left Command function works.
-![LeftFeature_Seq.png](diagrams%2FLeftFeature_Seq.png)
-
-When the user's command is determined to be `left`, the program implements the following operations:
-### Function List
-
-- `new ArrayList<String>()`: Instantiate moduleCodesLeft
-- `student#getModuleCodesLeft()`: Calls the functions below to get the module codes left
-- `schedule#getModulesPlanned()`: Returns modulesPlanned (Module List)
-- `modulesPlanned#getCompletedModuleCodes()`: Returns completedModuleCodes (ArrayList <String>)
-- `completedModuleCodes#contains(moduleCode)`: Returns true if completedModuleCodes contain moduleCode
-- `moduleCodesLeft#add(moduleCode)`: Add moduleCode to moduleCodesLeft
-- `ModuleMethodsController#showModulesLeft(moduleCodesLeft)`: Calls methods `displayMessage("Modules Left:")` and 
-`printModuleStringArray(moduleCodesLeft)` to display the modules left to the user
-
-  
-### Usage Examples
-
-Here are a few examples of how the List Required Modules Left Feature behaves:
-
-#### Example 1: 
-- Major is CEG
-- Modules CG1111A, MA1511, MA1512, CS1010, GESS1000, CFG1002 are added to schedule planner and completed
-
-Command: `left`
-
-Response:
-
-```
-Required Modules Left:
-1. GEC1000     2. GEN2000     3. ES2631      4. GEA1000     5. DTK1234
-6. EG1311      7. IE2141      8. EE2211      9. EG2501      10. CDE2000
-11. PF1101     12. CG4002     13. MA1508E    14. EG2401A    15. CP3880
-16. CG2111A    17. CS1231     18. CG2023     19. CG2027     20. CG2028
-21. CG2271     22. ST2334     23. CS2040C    24. CS2113     25. EE2026
-26. EE4204    
-```
-
-
-## Add Module Feature
-
-The add module mechanism is facilitated by `ModuleMethodsController`. It tries to add the module to a target semester, 
-specified in userInput by the user, to their module schedule planner. It will print different responses based on whether
-the adding of module was successful.
-
-### Usage Example
-
-Here is an example of how the add module feature behaves:
-
-#### Example:
-
-**Step 1.** The user inputs the `add CS1010 1` command to insert the module CS1010 to Year 1 Semester 1 of their 
-schedule. The add UserCommand() object is created from the user input.
-
-**Step 2.** If the user inputs are valid, `processCommand` is called by the UserCommand object. The command is then
-passed to the `ModuleMethodsController` through `executeAddModuleCommand()`. The `ModuleMethodsController` would then
-call the `addModuleToSchedule()` method in `Student`, which would then continue to call the `addModule()` method in
-`Schedule` and finally the `modulesPlanned` object.
-
-**Step 3.** Upon successful execution of all of the above, `ModuleMethodsController` would then construct a message
-which also includes an updated schedule which would be returned to the `UI` class to be formatted to the Command Line
-Interface.
-
-The following sequence diagram shows how the `add` command works:
-
-![updatedAddModule.png](diagrams%2FupdatedAddModule.png)
-
-## Clear Schedule Feature
-
-The clear schedule mechanism is facilitated by `ModuleMethodsController`. It clears the schedule of the user and resets
-the completion data of the modules in the schedule.
-
-### Usage Examples
-
-Here is an example of how the clear schedule feature behaves:
-
-#### Example 1:
-
-**Step 1.** The user inputs the `clear` command to clear their schedule. The clear UserCommand() object is created 
-from the user input.
-
-**Step 2.** If the user inputs are valid, `processCommand` is called by the UserCommand object. The command is then
-passed to the `ModuleMethodsController` through `executeClearModuleCommand()`. The `ModuleMethodsController` would then
-call the `clearAllModuleFromSchedule()` method in `Student`, which would replace the current `Schedule` object in 
-`Student` with a new schedule and reset `completedModuleCredits` in the `Student` object to 0.
-
-**Step 3.** Upon successful execution of all of the above, `ModuleMethodsController` would then construct a message
-which would be returned to the `UI` class to be formatted to the Command Line Interface.
-
-The following sequence diagram shows how the `clear` command works:
-
-![ClearDiagram.png](diagrams%2FClearDiagram.png)
 
 ## Required Feature
 
 The following sequence diagram shows how the Required Command function works.
 ![RequiredFeature_Seq.png](diagrams%2FRequiredFeature_Seq.png)
 
-The required command is implemented to give users an overview of the modules they need to complete for 
+The required command is implemented to give users an overview of the modules they need to complete for
 their major. It is facilitated by major. Additionally, it implements the following operations:
 
 ### Function List
@@ -455,6 +265,125 @@ User input:
 +----------------------------------------------------------+
 ```
 
+## Add Module Feature
+
+The add module mechanism is facilitated by `ModuleMethodsController`. It tries to add the module to a target semester,
+specified in userInput by the user, to their module schedule planner. It will print different responses based on whether
+the adding of module was successful.
+
+### Usage Example
+
+Here is an example of how the add module feature behaves:
+
+#### Example:
+
+**Step 1.** The user inputs the `add CS1010 1` command to insert the module CS1010 to Year 1 Semester 1 of their
+schedule. The add UserCommand() object is created from the user input.
+
+**Step 2.** If the user inputs are valid, `processCommand` is called by the UserCommand object. The command is then
+passed to the `ModuleMethodsController` through `executeAddModuleCommand()`. The `ModuleMethodsController` would then
+call the `addModuleToSchedule()` method in `Student`, which would then continue to call the `addModule()` method in
+`Schedule` and finally the `modulesPlanned` object.
+
+**Step 3.** Upon successful execution of all of the above, `ModuleMethodsController` would then construct a message
+which also includes an updated schedule which would be returned to the `UI` class to be formatted to the Command Line
+Interface.
+
+The following sequence diagram shows how the `add` command works:
+
+![updatedAddModule.png](diagrams%2FupdatedAddModule.png)
+
+
+## Recommend Schedule Based on Course Feature
+
+The following sequence diagrams shows how the recommend command function works.
+
+Recommended a schedule based on the user's major:
+
+<img src="diagrams/recommended_one.jpeg" alt="Image" width="600">
+
+Recommended a schedule based on the user's major:
+
+
+<img src="diagrams/recommended_two.jpeg" alt="Image" width="600">
+
+
+Based on the course, we will provide a recommended schedules that is sorted based on prerequisites. 
+
+This feature is facilitated by the `ModuleMethodsController`. which stores information about the schedule and performs actions like add and remove from schedule.
+
+### Usage Examples
+
+Here are a few examples of how the "Recommend schedule" feature behaves:
+
+#### Step 1: Recommend schedule for computer engineering(CEG)
+
+Command: `recommend` 
+
+Response:
+
+```
+1. GEA1000     2. MA1511      3. MA1512      4. DTK1234     5. GESS1000
+6. CS1231      7. CS1010      8. GEN2000     9. EG2501      10. EG1311
+11. GEC1000    12. PF1101     13. CDE2000    14. IE2141     15. CG1111A
+16. EG2401A    17. ES2631     18. ST2334     19. MA1508E    20. CG2023
+21. CG2111A    22. CS2040C    23. CG2027     24. EE2026     25. EE4204
+26. EE2211     27. CG2271     28. CS2113     29. CG2028     30. CP3880
+31. CG4002     
+Here you go!
+Taking the modules in this order will ensure a prerequisite worry free uni life!
+Do you want to add this to your schedule planner? (This will overwrite your current schedule!)
+Please input 'Y' or 'N' 
+```
+
+
+#### Step 2 (Only to be done after step 1): 
+
+Command: `Y`
+
+Response:
+
+```
+Here is your schedule planner!
+Sem 1:   X GESS1000     X DTK1234      X MA1512       X MA1511       X GEA1000      
+Sem 2:   X EG1311       X EG2501       X GEN2000      X CS1010       X CS1231       
+Sem 3:   X CG1111A      X IE2141       X CDE2000      X PF1101       X GEC1000      
+Sem 4:   X CG2023       X MA1508E      X ST2334       X ES2631       X EG2401A      
+Sem 5:   X EE4204       X EE2026       X CG2027       X CS2040C      X CG2111A      
+Sem 6:   X CG2028       X CS2113       X CG2271       X EE2211       
+Sem 7:   X CG4002       X CP3880       
+Sem 8:   
+Happy degree planning!
+```
+
+
+## Clear Schedule Feature
+
+The clear schedule mechanism is facilitated by `ModuleMethodsController`. It clears the schedule of the user and resets
+the completion data of the modules in the schedule.
+
+### Usage Examples
+
+Here is an example of how the clear schedule feature behaves:
+
+#### Example 1:
+
+**Step 1.** The user inputs the `clear` command to clear their schedule. The clear UserCommand() object is created 
+from the user input.
+
+**Step 2.** If the user inputs are valid, `processCommand` is called by the UserCommand object. The command is then
+passed to the `ModuleMethodsController` through `executeClearModuleCommand()`. The `ModuleMethodsController` would then
+call the `clearAllModuleFromSchedule()` method in `Student`, which would replace the current `Schedule` object in 
+`Student` with a new schedule and reset `completedModuleCredits` in the `Student` object to 0.
+
+**Step 3.** Upon successful execution of all of the above, `ModuleMethodsController` would then construct a message
+which would be returned to the `UI` class to be formatted to the Command Line Interface.
+
+The following sequence diagram shows how the `clear` command works:
+
+![ClearDiagram.png](diagrams%2FClearDiagram.png)
+
+
 ## Get information about modules (from the NUSMods API)
 
 
@@ -480,14 +409,91 @@ Command: `required`
 Response:
 Module requirements for major selected by user
 
-## Modify lessons in the Weekly Timetable
+
+## List Required Modules Left Feature
+
+The following sequence diagram shows how the Left Command function works.
+![LeftFeature_Seq.png](diagrams%2FLeftFeature_Seq.png)
+
+When the user's command is determined to be `left`, the program implements the following operations:
+### Function List
+
+- `new ArrayList<String>()`: Instantiate moduleCodesLeft
+- `student#getModuleCodesLeft()`: Calls the functions below to get the module codes left
+- `schedule#getModulesPlanned()`: Returns modulesPlanned (Module List)
+- `modulesPlanned#getCompletedModuleCodes()`: Returns completedModuleCodes (ArrayList <String>)
+- `completedModuleCodes#contains(moduleCode)`: Returns true if completedModuleCodes contain moduleCode
+- `moduleCodesLeft#add(moduleCode)`: Add moduleCode to moduleCodesLeft
+- `ModuleMethodsController#showModulesLeft(moduleCodesLeft)`: Calls methods `displayMessage("Modules Left:")` and
+  `printModuleStringArray(moduleCodesLeft)` to display the modules left to the user
+
+
+### Usage Examples
+
+Here are a few examples of how the List Required Modules Left Feature behaves:
+
+#### Example 1:
+- Major is CEG
+- Modules CG1111A, MA1511, MA1512, CS1010, GESS1000, CFG1002 are added to schedule planner and completed
+
+Command: `left`
+
+Response:
+
+```
+Required Modules Left:
+1. GEC1000     2. GEN2000     3. ES2631      4. GEA1000     5. DTK1234
+6. EG1311      7. IE2141      8. EE2211      9. EG2501      10. CDE2000
+11. PF1101     12. CG4002     13. MA1508E    14. EG2401A    15. CP3880
+16. CG2111A    17. CS1231     18. CG2023     19. CG2027     20. CG2028
+21. CG2271     22. ST2334     23. CS2040C    24. CS2113     25. EE2026
+26. EE4204    
+```
+
+## Pacing and MC Calculation Feature
+
+The following sequence diagram shows how the pace command function works.
+
+<img src="diagrams/pace_sequenceDiagram.jpeg" alt="Image" width="600">
+
+
+The "Pacing and MC Calculation" mechanism is implemented to help users track their
+academic progress and remaining Modular Credits (MCs) required for graduation.
+
+This feature is facilitated by the `ModuleMethodsController`. It calculates the average amount of modular credits the user
+has to take in each semester in order to graduate on time.
+
+### Usage Examples
+
+Here are a few examples of how the "Pacing and MC Calculation" feature behaves:
+
+#### Example 1: Calculate Remaining MCs
+
+Command: `pace Y1/S1` (assuming 0 modular credits were done in semester one)
+
+Response:
+
+`You have 160MCs for 7 semesters. Recommended pace: 23MCs per sem until graduation`
+
+#### Example 2: Calculate Remaining MCs (No Semester Specified)
+
+Note: If no semester is specified, we will take the initial semester that the user has inputted upon initialisation.
+
+Command: `pace` (Assuming user is y2/s1 and has completed 40 modular credits)
+
+Response:
+
+`You have 120MCs for 6 semesters. Recommended pace: 20MCs per sem until graduation`
+
+
+
+## Modify lessons in the Weekly Timetable Feature
 
 User Input: `timetable modify`
 
 The following sequence diagram details the process of the 'timetable modify loop'
 
-[timetableModify.puml](diagrams%2FtimetableModify.puml)
-![tt_seq_diag.png](diagrams%2Ftt_seq_diag.png)
+![tt_modify_seq_diag.png](diagrams%2Ftt_modify_seq_diag.png)
 
 ### Function List
 
@@ -614,12 +620,214 @@ planning for these students.
 
 ## Non-Functional Requirements
 
-{Give non-functional requirements}
+### General Requirements
+- NUSDegs should work on any mainstream OS that has Java 11 or above installed.
+- NUSDegs requires a stable internet connection to be able to use its maximal functionalities as NUSMods API is used.
+
+### Specific Requirements
+- Year 4 Semester 2 students aren't able to use the app! (As we specifically cater the app to only students who have at
+  least one semester left!)
+- Due to the requirements of the CS2113, users are allowed to edit the txt files created. However, the course
+should not be modified from "CEG" to "CS" and vice versa
+in the txt file as it will break the prerequisite constraints in your
+schedule and may cause the schedule to not work as intended (e.g show the incorrect preclusion).
+  - This is due to the prerequisite algorithm that takes into account your course. Hope you understand!
+- Users are strongly **recommended to not modify the data/schedule.txt** as well as the schedule is supposed to be sorted
+based on prerequisites. Hence, a manual modification of an invalid module into the schedule.txt file may cause your schedule info
+to be corrupted and therefore lost!
+- The prerequisites are calculated based on module data available on NUSMods API, where some modules had complicated prerequisites. Thus, we were unable to process it so an error message will be returned. Unfortunately for such modules, you would not be able to add them to your schedule as well! (This is something we would require more time and hopefully be able to work out in the future!)
+
+```
+___________________________________________________________
+Input command here: prereq cs3282
+Sorry but we could not get the prerequisite for CS3282 as NUSMods API provided it in a invalid format :<
+___________________________________________________________
+```
+- Module data is limited to what is available on NUSMods API, where some modules are outdated. NUSDegs will be able to include them into your schedule planner, even though their prerequisites cannot be calculated.
+```
+Input command here: prereq cs3230R
+1. CS2020      2. CS1231      
+___________________________________________________________
+Input command here: prereq cs2020
+Invalid Module Name
+___________________________________________________________
+Input command here: 
+```
 
 ## Glossary
 
-* *glossary item* - Definition
+- Mainstream OS - Windows, Linux, Unix, OS-X
+- CLI - Command Line Interface
+- API - Application Programming Interface
 
 ## Instructions for manual testing
 
-{Give instructions on how to do a manual product testing e.g., how to load sample data to be used for testing}
+### Launch
+
+1. Ensure that you have Java 11 or above installed.
+2. Download the latest version of `NUSDegs` from [here](https://github.com/AY2324S1-CS2113-T17-4/tp/releases/download/v2.1/CS2113-T17-4.NUSDegs.jar)
+3. Download the CS2113-T17-4.NUSDegs.jar to the folder you want to use as the home folder for NUSDegs.
+4. Open a command terminal, cd into the folder you put the .jar file in, and run the command
+   java -jar CS2113-T17-4.NUSDegs.jar to run the application.
+
+
+Starting point:
+```
+Hey there CS and CEG Students! Welcome to 
+  _   _ _   _ ____  ____                 
+ | \ | | | | / ___||  _ \  ___  __ _ ___ 
+ |  \| | | | \___ \| | | |/ _ \/ _` / __|
+ | |\  | |_| |___) | |_| |  __/ (_| \__ \
+ |_| \_|\___/|____/|____/ \___|\__, |___/
+                               |___/     
+Attempting to look for your data file...
+Loading (.O_O.)
+Looks like you're new, new save files will be created.
+```
+
+Input your study details (Prompts Provided)
+Prompt for name:
+```
+___________________________________________________________
+Please enter your name:
+```
+Example Input for name: `Janelle`
+
+Prompt for major:
+
+```
+Welcome Janelle! What major are you? (Only two available: CEG or CS)
+___________________________________________________________
+Please enter major:
+```
+
+Example Input for major: `CEG`
+
+Prompt for current academic year:
+```
+What Year and Semester are you? Ex: Y1/S2 for year 1 semester 2
+___________________________________________________________
+Please enter your current academic year: 
+```
+Example Input for current academic year: `y2/s1`
+
+Student details have been created
+```
+New save files successfully created!
+Now you're all set to use NUSDegs to kick start your degree planning!
+Type 'help' to see the available commands
+```
+
+Prompt for command: 
+```
+___________________________________________________________
+Input command here: 
+```
+
+### Modify lessons in the Weekly Timetable Feature
+
+#### Set-up:
+- Add a module to your current semester: `add cs1010 3`
+```
+- Module Successfully Added
+  Sem 1:   
+  Sem 2:   
+  Sem 3:   X CS1010       
+  Sem 4:   
+  Sem 5:   
+  Sem 6:   
+  Sem 7:   
+  Sem 8:
+___________________________________________________________
+Input command here: 
+```
+
+- Enter timetable modify: `timetable modify`
+```
+List of modules in current semester: 
+CS1010
+
+Entered Timetable Modify Mode
+To add a lesson to a module: [moduleCode] [lessonType] [startTime] [duration] [day]
+     lessonType   lecture, tutorial, lab
+     startTime    integer from 5 to 23 (representing 5am to 11pm)
+     duration     time in hours
+     day          eg. monday, tuesday, wednesday
+To clear all lessons for a module: [moduleCode] clear
+To exit timetable modify: exit
+___________________________________________________________
+Input timetable modify command here: 
+```
+#### Test Cases:
+
+
+Success test case 1: `cs1010 lecture 9 2 monday`
+
+Expected output: 
+```
+------------------------------------------------------------
+| DAY       | TIMETABLE                                    |
+------------------------------------------------------------
+| Monday    | CS1010 Lecture (9am-11am)                    |
+------------------------------------------------------------
+```
+
+Success test case 2: `cs1010 lab 20 0 friday`
+
+Expected output:
+```
+------------------------------------------------------------
+| DAY       | TIMETABLE                                    |
+------------------------------------------------------------
+| Monday    | CS1010 Lecture (9am-11am)                    |
+------------------------------------------------------------
+| Friday    | CS1010 Lab (8pm)                             |
+------------------------------------------------------------
+```
+
+Success test case 3: `cs1010 clear`
+
+Expected output:
+```
+All lessons for selected module are cleared.
+Timetable view is unavailable as modules in your current semester have no lessons yet.
+To add a lesson for a module, enter: [moduleCode] [lessonType] [startTime] [duration] [day]
+To clear lessons for a module, enter: [moduleCode] clear
+To exit Timetable Modify Mode, enter: EXIT
+```
+
+Failure test case 1: `cs1010 lect 10 1 saturday`
+(valid lesson types are only lecture, tutorial, lab)
+
+Expected output:
+```
+Invalid lesson type
+Please enter in the format: [moduleCode] [lessonType] [startTime] [duration] [day]
+ If you wish to clear lessons for a module, enter: [moduleCode] clear
+ If you with to exit modify, enter: exit 
+```
+
+Failure test case 2: `cs1010 lect 10 2`
+(valid lesson types are only lecture, tutorial, lab)
+
+Expected output:
+```
+Invalid Number of Arguments
+Please enter in the format: [moduleCode] [lessonType] [startTime] [duration] [day]
+ If you wish to clear lessons for a module, enter: [moduleCode] clear
+ If you with to exit modify, enter: exit 
+```
+ 
+Other incorrect timetable commands to try:
+`cs101 lecture 10 2 monday` 
+`lecture 10 2 monday`
+
+Expected output: Error message specific to number of arguments (clearing lessons and exiting needs 2 and 1 arguments respectively) then validity of arguments
+
+
+- Exit timetable modify: `exit`
+
+```
+Exited Timetable Modify Mode
+```
+
