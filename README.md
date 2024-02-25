@@ -16,6 +16,3 @@ NUS Degs is a powerful application designed to assist NUS Computing students in 
 
 ## Highlight: Module Recommender System
 The Module Recommender System is a standout feature of NUS Degs, designed to guide students in selecting the most appropriate modules for their schedule. By utilizing a topological sort algorithm, the system intelligently sorts modules based on prerequisites, offering a clear and logical sequence of study. This advanced algorithmic approach not only ensures compliance with degree requirements but also optimizes the academic journey for each student.
-
-## Conclusion
-NUS Degs is more than just a scheduling tool; it's a strategic partner in your academic journey. By leveraging cutting-edge algorithms and a user-centered design, it provides a seamless and stress-free planning experience, allowing students to focus on what truly matters - their education.
